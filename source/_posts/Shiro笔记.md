@@ -1,9 +1,8 @@
+---
 title: Shiro笔记
-date: 2015-05-12 10:03:26
+date: 2018-09-22 10:03:26
 tags: Shiro
-categories:
-- Java
-- Shiro
+categories: Shiro
 description: Shiro; Java安全框架; 认证、授权、加密和会话管理
 ---
 
