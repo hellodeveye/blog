@@ -5,9 +5,7 @@ tags: Shiro
 categories: Shiro
 description: Shiro; Java安全框架; 认证、授权、加密和会话管理
 ---
-
-## 简介
-
+### 简介
 Apache Shiro是一个强大易用的Java安全框架，可以帮助我们完成：认证、授权、加密、会话管理、与Web集成、缓存等。
 
 ![Shiro基本功能](http://fh-1.qiniudn.com/shiro/shiro-func.png)
@@ -22,8 +20,6 @@ Apache Shiro是一个强大易用的Java安全框架，可以帮助我们完成�
 * Testing：提供测试支持；
 * Run As：允许一个用户假装为另一个用户（如果他们允许）的身份进行访问；
 * Remember Me：记住我，这个是非常常见的功能，即一次登录后，下次再来的话不用登录了。
-
-<!-- more -->
 
 **记住一点，Shiro不会去维护用户、维护权限；这些需要我们自己去设计/提供；然后通过相应的接口注入给Shiro即可。**
 
