@@ -11,7 +11,7 @@ categories: java
 
 **BIO 通信模型如下所示：**
 
-![](/img/bio.PNG)
+![](/img/bio.png)
 
 **同步阻塞式I/O创建的Server源码：**   
 ```
