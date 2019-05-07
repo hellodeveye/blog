@@ -1,0 +1,35 @@
+<% if (post.prev || post.next){ %>
+<nav class="post-nav" role="navigation">
+	<div class="padd-box-sm brd-btm">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="row">
+			<% if (post.prev){ %>
+			<div class="col-sm-5 col-xs-6" style="float: left">
+				<div class="post-nav-prev">
+					<a href="<%- url_for(post.prev.path) %>" rel="prev">
+						<span class="text-left text-muted"><%= __('newer') %></span>
+						<figure><img src="/images/pre.jpg" alt=""> </figure>
+						<% if (post.prev.title){ %>
+						<strong class="text-center"><%= post.prev.title %></strong>
+						<% } else { %>
+						<strong class="text-center">(no title)</strong>
+						<% } %>
+					</a>
+				</div>
+			</div>
+			<% } %>
+			<% if (post.next){ %>
+			<div class="col-sm-5 col-xs-6" style="float: right">
+				<div class="post-nav-next">
+					<a href="<%- url_for(post.next.path) %>" rel="next">
+						<span class="text-right text-muted"><%= __('older') %></span>
+						<figure><img src="/images/next.jpg" alt=""></figure>
+						<strong class="text-center">	<%= post.next.title %></strong>
+					</a>
+				</div>
+			</div>
+			<% } %>
+		</div>
+	</div>
+</nav>
+<% } %>
