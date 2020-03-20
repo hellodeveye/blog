@@ -1,8 +1,8 @@
 ---
-title: Mysql 数据库设计规范
+title: MySQL 数据库设计规范
 date: 2018-08-28 09:37:18
-tags: mysql
-categories: mysql
+tags: MySQL
+categories: MySQL
 ---
 ### 一、事务的基本要素（ACID）
 

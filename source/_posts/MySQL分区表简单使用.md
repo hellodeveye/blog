@@ -1,8 +1,8 @@
 ---
-title: Mysql 分区表简单使用
+title: MySQL 分区表简单使用
 date: 2018-08-28 09:37:18
-tags: mysql
-categories: mysql
+tags: MySQL
+categories: MySQL
 ---
 ## Mysql分区表
 
