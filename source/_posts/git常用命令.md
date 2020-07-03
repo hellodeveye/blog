@@ -1,5 +1,5 @@
 ---
-title: git常用命令
+title: Git常用命令
 date: 2019-02-18 21:40:02
 tags: git
 categories: git
