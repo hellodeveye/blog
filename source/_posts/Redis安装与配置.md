@@ -8,7 +8,7 @@ categories: Redis
 
 ### 下载
 
-1. 从[Redis官网](www.redis.io)下载redis 最新稳定版本
+1. 从[Redis官网](http://www.redis.io)下载redis 最新稳定版本
 2. 解压到 /usr/local/ 目录下
 
 ### 安装
