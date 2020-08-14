@@ -1,8 +1,8 @@
 ---
 title: Git常用命令
 date: 2019-02-18 21:40:02
-tags: git
-categories: git
+tags: Git
+categories: Git
 ---
 ![](/img/bg2015120901.png)
 ### 一、新建代码库
