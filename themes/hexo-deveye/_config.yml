@@ -26,9 +26,8 @@ social_platforms:
     crt_icon: crt-icon-pinterest
 # 顶部导航
 menu:
-#  Home: /
-# Archives: /archives
-#  Github: https://gitee.com/theferryman
+  Home: /
+  About: /about
 rss: /atom.xml
 
 # footer
