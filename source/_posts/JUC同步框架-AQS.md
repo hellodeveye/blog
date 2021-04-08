@@ -5,7 +5,7 @@ tags: ["Java", "juc", "翻译"]
 categories: Java
 ---
 
-本文转载自：[https://www.cnblogs.com/dennyzhangdd/p/7218510.html](https://www.cnblogs.com/dennyzhangdd/p/7218510.html)
+> 转载自：[https://www.cnblogs.com/dennyzhangdd/p/7218510.html](https://www.cnblogs.com/dennyzhangdd/p/7218510.html)
 
 # 一、论文简介
 
