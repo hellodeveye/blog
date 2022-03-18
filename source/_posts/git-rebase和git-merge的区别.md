@@ -29,7 +29,7 @@ look like this：
 
 ![http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png](http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png)
 
-**marge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit
+**merge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit
 **优点：**记录了真实的commit情况，包括每个分支的详情
 **缺点：**因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。
 
