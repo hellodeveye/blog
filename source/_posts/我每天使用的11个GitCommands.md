@@ -8,39 +8,61 @@ categories: Git
 > https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb
 
 ### 1. git fetch origin
-Pulls all the branches/tags from the repository specified. Here the repository is “origin”. More info
-The command to start the day with, as it brings the local and the remote repository in the same state to start development.
+从特定的仓库拉取所有的branchs/tags, 这里的仓库是“origin”, 我每天从这个命令开始, 它可以让本地和远程仓库状态保持一致.
 ### 2. git status
-Displays the current branch, the files changed since the previous commit also specifies how far the branch is from its source branch. More info
-Before switching the branches/creating a new branch/making new changes/or pulling changes, this command comes in handy to check if any files need to be stashed.
+显示当前分支自上次提交到现在的文件改动列表,在切换分支、创建新分支、进行新更改或拉取更改之前, 此命令可以检查是否有文件需要被stash.
 ### 3. git checkout
-git checkout -b <new branch name> origin/<source branch name>
-To create a new branch from a particular source branch. Here “origin” is the default repository. More info
-git checkout — — <name of the file>
-When there are local changes made to a file, this command will help discard the current changes thus restoring the original state for the file.
-git checkout <branch name>
-Check out the particular branch in the local project.
+```git checkout -b <new branch name> origin/<source branch name>```
+从特定源分支创建一个新分支,这块的“origin”代表默认仓库.
+```git checkout — — <name of the file>```
+当本地有文件变动时,可以使用这个命令丢弃当前改变,恢复文件到之前状态.
+```git checkout <branch name>```
+切换本地到指定分支.
 ### 4. git pull origin <branch name>
-Pulls the changes from the remote branch to the local branch and calls git merge, if the changes are compatible. More info
-The difference here between git pull & git fetch is, that git pull will internally call git fetch and also merge the changes with the local if they are compatible.
+将更改从远程分支拉到本地分支，并在更改兼容的情况下调用```git merge```。
+```git pull 和 git fetch```的不同之处是:``` git pull = git fetch + git merge```
 ### 5. git add <name of the file>
-Once the changes to a few files are done, the git add command can be used to add the files to a particular commit you want to make. More info
-Now, the git status command can be used very conveniently to get the names of the files to add to the commit
+文件修改完成后,就可以使用```git add```命令将文件添加到特定提交中,使用``git status``命令可以很方便的获取到要添加指定提交的文件名.
 ### 6. git commit
-git commit -m “<message relevant to the commit>”
-To add the local changes to a commit with a meaningful message specifying the contents of the commit. More info
+```git commit -m "<提交内容的描述>"```
+提交本地改变,并指定和提交内容相关的描述.
 ### 7. git push origin <branch name>
-Publish the local commits to the remote repository. Here the repository is “origin”. More info
+将本地提交推送到远程存储库,这里的仓库是“origin”.
 ### 8. git cherry-pick
-To cherry-pick individual commits/merge commits. More info
-git cherry-pick <commit_id>
-To cherry-pick a commit using the commit hash
+```
+a - b - c - d   Master
+         \
+           e - f - g Feature
+```
+现在将提交f应用到master分支。
+```
+
+# 切换到 master 分支
+$ git checkout master
+ 
+# Cherry pick 操作
+$ git cherry-pick f
+```
+上面的操作完成以后，代码库就变成了下面的样子。
+```
+ a - b - c - d - f   Master
+         \
+           e - f - g Feature
+```
+```
 git cherry-pick -m 1 <commit_id>
-To cherry-pick a merge commit, the -m option is to specify the parent of the mainline, starting from 1.
+```
+
+如果原始提交是一个合并节点，来自于两个分支的合并，那么 Cherry pick 默认将失败，因为它不知道应该采用哪个分支的代码变动。
+
+```-m```配置项告诉 Git，应该采用哪个分支的变动。它的参数parent-number是一个从1开始的整数，代表原始提交的父分支编号。
+
+上面命令表示，Cherry pick 采用提交commitHash来自编号1的父分支的变动。
+一般来说，1号父分支是接受变动的分支（the branch being merged into），2号父分支是作为变动来源的分支（the branch being merged from）。
 ### 9. git revert <commit id>
-Introduce a new commit to revert a pushed commit with the specified commit hash. More info
+引入一个新的提交来撤回已经push的提交.
 ### 10. git reset — soft HEAD~1
-Undo 1 local commit without losing the changes in the files. More info
+撤消一次本地提交而不会丢失文件中的变更.
 ### 11. git reset — hard HEAD~1
-Undo a local commit and discard the changes in the files. More info
-Hope this helps. Thank you for reading😁
+撤销一次本地提交并且丢弃文件中的变更.
+希望对你有帮助. 感谢阅读😁
