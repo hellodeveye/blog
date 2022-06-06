@@ -1,13 +1,11 @@
 ---
-title: MySQL45讲
+title: 基础架构：一条SQL语句是如何执行的?
 date: 2022-06-05 21:26:33
 tags: MySQL
 categories: MySQL
 ---
 
-## 基础架构
-
-### 一条SQL语句是如何执行的?
+## 一条SQL语句是如何执行的?
 
 ```
 mysql> select * from T where ID=10；
