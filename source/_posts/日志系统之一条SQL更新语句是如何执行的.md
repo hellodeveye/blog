@@ -2,7 +2,7 @@
 title: 日志系统：一条SQL更新语句是如何执行的?
 date: 2022-06-06 09:41:17
 tags: MySQL
-categories: MySQL
+categories: MySQL实战45讲
 ---
 ### redo log（重做日志）
 
@@ -56,3 +56,6 @@ mysql> update T set c=c+1 where ID=2;
 建议```innodb_flush_log_at_trx_commit``` 这个参数设置成 1 的时候，表示每次事务的 redo log 都直接持久化到磁盘，这样可以保证 MySQL 异常重启之后数据不丢失。
 
 建议```sync_binlog ```这个参数设置成 1 ，表示每次事务的 binlog 都持久化到磁盘，这样可以保证 MySQL 异常重启之后 binlog 不丢失。
+
+<iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715px; height:245px;" src="https://www.processon.com/embed/629f14fd07912907215003f8"></iframe>
+

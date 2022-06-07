@@ -2,7 +2,7 @@
 title: 基础架构：一条SQL语句是如何执行的?
 date: 2022-06-05 21:26:33
 tags: MySQL
-categories: MySQL
+categories: MySQL实战45讲
 ---
 
 ## 一条SQL语句是如何执行的?
