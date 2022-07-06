@@ -32,6 +32,7 @@ rss: /atom.xml
 
 # footer
 footer: Deveye @ All Rights Reserved 2022
+beian: <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a>
 # 内容
 excerpt_link: read more
 fancybox: true
