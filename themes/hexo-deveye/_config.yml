@@ -26,8 +26,8 @@ social_platforms:
     crt_icon: crt-icon-pinterest
 # 顶部导航
 menu:
-  Home: /
-  About: /about
+  首页: /
+  关于: /about
 rss: /atom.xml
 
 # footer
