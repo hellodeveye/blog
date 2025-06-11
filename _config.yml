@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Deveye
+title: 无常是常
 subtitle:
 description:
 keywords:
@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://www.deveye.cn
+url: https://www.buzhidao.cc
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -79,5 +79,52 @@ theme: hexo-deveye
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://gitee.com/theferryman/theferryman.git
+  repo: https://github.com/hellodeveye/blog.git
   branch: master
+
+
+mermaid:
+  enable: true
+  version: "7.1.2"
+  options:
+    theme: default  # 可选值: default, forest, dark, neutral, null
+    startOnLoad: true
+    securityLevel: 'loose'
+    flowchart:
+      htmlLabels: true
+      curve: linear
+    sequence:
+      diagramMarginX: 50
+      diagramMarginY: 10
+      actorMargin: 50
+      width: 150
+      height: 65
+      boxMargin: 10
+      boxTextMargin: 5
+      noteMargin: 10
+      messageMargin: 35
+      mirrorActors: true
+      bottomMarginAdj: 1
+      useMaxWidth: true
+
+# Markdown-it config
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: '""'''
+  plugins:
+    - markdown-it-abbr
+    - markdown-it-footnote
+    - markdown-it-ins
+    - markdown-it-sub
+    - markdown-it-sup
+  anchors:
+    level: 2
+    collisionSuffix: 'v'
+    permalink: true
+    permalinkClass: header-anchor
+    permalinkSymbol: ¶ # anchors 符号

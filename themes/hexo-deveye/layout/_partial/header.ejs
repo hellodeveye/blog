@@ -3,8 +3,11 @@
 		<div class="crt-container-sm">
 			<div class="crt-head-row">
 				<div id="crt-head-col1" class="crt-head-col text-left">
-					<a id="crt-logo" class="crt-logo" href="<%- config.root %>">
-						<img src="<%= theme.logo_image_source %>" alt="certy resume"><span><%= config.title%></span>
+					<a id="crt-logo" class="crt-logo" href="<%- config.root %>">						
+						<% if (theme.logo_image_source) { %>
+						<img src="<%= theme.logo_image_source %>" alt="<%= config.title%>">
+						<% } %>
+						<span><%= config.title%></span>
 					</a>
 				</div>
 				<div id="crt-head-col2" class="crt-head-col text-right">
@@ -25,9 +28,9 @@
 				</div>
 
 				<div id="crt-head-col3" class="crt-head-col text-right">
-					<button id="crt-sidebar-btn" class="btn btn-icon btn-shade">
-                                 <span class="crt-icon crt-icon-side-bar-icon"></span>
-                             </button>
+					<div id="crt-sidebar-btn" class="btn btn-icon btn-shade">
+						<span class="crt-icon crt-icon-side-bar-icon"></span>
+					</div>
 				</div>
 			</div>
 		</div>
