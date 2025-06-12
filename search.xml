@@ -179,40 +179,6 @@ class CartItem:    def __init__(self, name, price, quantity):        self.name =
       </tags>
   </entry>
   <entry>
-    <title>2025摘抄</title>
-    <url>/2025/01/01/2025%E6%91%98%E6%8A%84/</url>
-    <content><![CDATA[2025/02/08
-一念放下，天地皆宽。那些强求不放的事，都会成为自己的深渊
-
-蒲松龄写过一个执迷象棋的书生。书生途经扬州时，见一位梁将军在林子里喝酒下棋，便徘徊棋桌旁，不愿离去。
-梁将军邀请他下一盘，一连三局，书生都败下阵来。书生不服气，一直下到夜幕降临。
-就在这时，忽然一阵阴风扫过，书生竟跪地痛哭，拉着梁将军的衣角，求他救救自己。
-原来，书生早已做鬼。他生前执迷于下棋，荒废了学业。家里打也打了，骂也骂了，可书生就是割舍不下。
-他把父亲活活气死，因“大不孝”的罪名被阎王索了性命，打入饿鬼狱。
-因他颇有才华，阎王又派他给东岳大帝的凤楼写碑文，如果写好了，可放他还阳。
-结果在前往凤楼的路上，书生巧遇梁将军的棋局，执念再起，耽误了行程。阎王知道后，任是谁来求情，都不再宽恕他。
-这两个故事告诉我们，无论是对物质的贪恋，还是对成就的追求，一旦成为执念，就会变成心灵的枷锁。
-
-2025/02/21
-不纠结过河的筏子
-不迷恋肉身。既不迷恋自己的肉身，也不迷恋身边人的肉
-身。无论如何青春的肉体终会消逝，可以珍惜的时候就要好好珍惜，
-能够展现的时候就要尽情展现，不要等到肉身衰老，禽兽无能，眼前
-花盛开，鸟却飞不起来，才后悔莫及。  — 冯唐
-2025/04/25
-人生没有意义，它才自由，没意义不等于摆烂，什么都不做。
-一朵花开在山里无人问津，另外一朵花被搬进奢华的房间，他们都还是花，一个活成了别人想要的样子，另一个无拘无束，活成了自己想要的样子 ——— 致人生的意义
-空白才有无限可能！回归内心的空白，结果不是自我价值的终身判决。当你不需要意义证明自己时，反而变得更有力量，激发出更纯粹的创造力，不要沉迷于别人定义好的路，
-每个人有自己的路，不需要你去拯救或者批判，做好自己就好
-]]></content>
-      <categories>
-        <category>摘抄</category>
-      </categories>
-      <tags>
-        <tag>摘抄</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker安装软件集合</title>
     <url>/2021/03/16/Docker%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E9%9B%86%E5%90%88/</url>
     <content><![CDATA[¶Docker安装Nginx
@@ -635,6 +601,40 @@ Zhang, H., S. Liang, and L. Bak. Monitor Conversion in a Multithreaded Computer 
       </tags>
   </entry>
   <entry>
+    <title>2025摘抄</title>
+    <url>/2025/01/01/2025%E6%91%98%E6%8A%84/</url>
+    <content><![CDATA[2025/02/08
+一念放下，天地皆宽。那些强求不放的事，都会成为自己的深渊
+
+蒲松龄写过一个执迷象棋的书生。书生途经扬州时，见一位梁将军在林子里喝酒下棋，便徘徊棋桌旁，不愿离去。
+梁将军邀请他下一盘，一连三局，书生都败下阵来。书生不服气，一直下到夜幕降临。
+就在这时，忽然一阵阴风扫过，书生竟跪地痛哭，拉着梁将军的衣角，求他救救自己。
+原来，书生早已做鬼。他生前执迷于下棋，荒废了学业。家里打也打了，骂也骂了，可书生就是割舍不下。
+他把父亲活活气死，因“大不孝”的罪名被阎王索了性命，打入饿鬼狱。
+因他颇有才华，阎王又派他给东岳大帝的凤楼写碑文，如果写好了，可放他还阳。
+结果在前往凤楼的路上，书生巧遇梁将军的棋局，执念再起，耽误了行程。阎王知道后，任是谁来求情，都不再宽恕他。
+这两个故事告诉我们，无论是对物质的贪恋，还是对成就的追求，一旦成为执念，就会变成心灵的枷锁。
+
+2025/02/21
+不纠结过河的筏子
+不迷恋肉身。既不迷恋自己的肉身，也不迷恋身边人的肉
+身。无论如何青春的肉体终会消逝，可以珍惜的时候就要好好珍惜，
+能够展现的时候就要尽情展现，不要等到肉身衰老，禽兽无能，眼前
+花盛开，鸟却飞不起来，才后悔莫及。  — 冯唐
+2025/04/25
+人生没有意义，它才自由，没意义不等于摆烂，什么都不做。
+一朵花开在山里无人问津，另外一朵花被搬进奢华的房间，他们都还是花，一个活成了别人想要的样子，另一个无拘无束，活成了自己想要的样子 ——— 致人生的意义
+空白才有无限可能！回归内心的空白，结果不是自我价值的终身判决。当你不需要意义证明自己时，反而变得更有力量，激发出更纯粹的创造力，不要沉迷于别人定义好的路，
+每个人有自己的路，不需要你去拯救或者批判，做好自己就好
+]]></content>
+      <categories>
+        <category>摘抄</category>
+      </categories>
+      <tags>
+        <tag>摘抄</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java将HTML转为图片</title>
     <url>/2021/03/25/Java-HTML-%E8%BD%AC%E5%9B%BE%E7%89%87/</url>
     <content><![CDATA[记录一个使用Java转图片的第三方工具
@@ -648,6 +648,25 @@ ImageRenderer render = new ImageRenderer();ByteArrayOutputStream os = new ByteAr
       </categories>
       <tags>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux常用命令</title>
+    <url>/2020/09/27/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[
+查看配置文件只匹配不是以“#”开头的行
+
+cat .zshrc | grep -v &quot;^#&quot; &gt; profile.txt
+
+使用tail查看指定行以后的N行日志
+
+tail -n +358653 catalina.2021-01-12.out|head -n 20
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -680,25 +699,6 @@ ImageRenderer render = new ImageRenderer();ByteArrayOutputStream os = new ByteAr
         <tag>Java</tag>
         <tag>String</tag>
         <tag>转载</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux常用命令</title>
-    <url>/2020/09/27/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[
-查看配置文件只匹配不是以“#”开头的行
-
-cat .zshrc | grep -v &quot;^#&quot; &gt; profile.txt
-
-使用tail查看指定行以后的N行日志
-
-tail -n +358653 catalina.2021-01-12.out|head -n 20
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -764,6 +764,116 @@ proxy_pass结尾没有/， rewrite重写了url。
       </categories>
       <tags>
         <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Prometheus快速入门</title>
+    <url>/2022/02/28/Prometheus%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[Prometheus快速入门
+¶一、背景
+我们日常开发和运维中，需要监控一些数据，根据这些数据进行分析或者应对策略，例如以下几个维度：
+
+
+
+场景                          
+描述
+
+
+
+
+硬件系统
+温度，硬件故障
+
+
+系统监控
+CPU，内存，磁盘，网卡流量，TCP状态，进程数
+
+
+应用监控
+Nginx，Tomcat，PHP，MySQL，Redis 等
+
+
+日志监控
+系统日志，服务日志，访问日志，错误日志
+
+
+安全监控
+WAF，敏感文件监控
+
+
+API监控
+可用性，接口请求，响应时间
+
+
+业务监控
+例如电商网站，每分钟产生多少订单，注册多少用户，多少活跃用户，推广活动效果
+
+
+流量分析
+根据流量获取用户相关信息，例如用户地理位置，某页面访问状况，页面停留时间等
+
+
+
+¶二、Prometheus是什么?
+
+Prometheus 是由 SoundCloud 开发的开源监控报警系统和时序列数据库(TSDB)。
+Prometheus由Go语言编写而成，采用Pull方式获取监控信息，并提供了多维度的数据模型和灵活的查询接口。
+Prometheus不仅可以通过静态文件配置监控对象，还支持自动发现机制，能通过Kubernetes、Consl、DNS等多种方式动态获取监控对象。
+在数据采集方面，借助Go语言的高并发特性，单机Prometheus可以采取数百个节点的监控数据；在数据存储方面，随着本地时序数据库的不断优化，单机Prometheus每秒可以采集一千万个指标，如果需要存储大量的历史监控数据，则还支持远程存储。
+¶三、为什么需要Prometheus?
+
+对于运维人员来说，他们需要监控机器的 CPU、内存、硬盘的使用情况，以此来保证运行在机器上的应用的稳定性。
+对于研发人员来说，他们关注某个异常指标的变化情况，从而来保证业务的稳定运行。
+对于产品或运营来说，他们更关心产品层面的事情，例如：某个活动参加人数的增长情况，活动积分的发放情况。
+
+例如：运维希望在 CPU 达到 80% 的时候给值班的运维人员发送邮件，产品希望活动积分发放数量超过 10 万的时候发送告警邮件。这些都可以通过 Prometheus 实现。
+对于流量不是很大的系统来说，出现几分钟的故障可能造成不了多少损失。但是对于像淘宝、美团、字节跳动这样的巨无霸来说，宕机 1 分钟损失的金额可能就是几百万！
+所以弄清楚此时此刻系统的运行是否正常？各项业务指标是否超过阈值？这些问题是每个经验丰富的研发人员所需要关注的事情！
+那么如何监控你的系统？如何得知系统目前是正常还是异常？甚至如何预知未来一段时间系统可能出问题？Prometheus 正是这么一套数据监控解决方案。它能让你随时掌控系统的运行状态，快速定位出现问题的位置，快速排除故障。
+只要按照 Prometheus 的方式来做，按部就班地学习和部署，我们就可以监控机器的 CPU、内存等资源的使用情况、Java 应用的运行情况以及业务各项指标的实时数据。
+而通过 Prometheus 则可以直接部署使用，并且其与 Grafana 配套使用可以呈现出非常多样化的图表配置。对于中小规模的团队来说，可以极大地减少成本，加快研发速度。
+而对于个人来讲，掌握 Prometheus 可以增加你当 leader 的竞争力。 毕竟如果一个研发对自己的系统运行状况都不了解，那么他怎么做 leader，怎么带领一个团队往前冲呢？
+¶四、Prometheus Quickly Start
+¶1、实现目标
+实现一个Web服务接口请求速率状况的监控功能，当接口请求增长速率超出设定的阈值时，发送钉钉消息通知给研发运维人员。
+¶2、服务搭建
+这里使用Docker 搭建 prometheus、alertmanager和dingtalk.
+① 创建对应文件目录：
+mkdir -p ~/prometheus/ &amp;&amp; cd ~/prometheus/ &amp;&amp; touch prometheus.ymlmkdir -p ~/prometheus/groups/nodegroups/ &amp;&amp; cd ~/prometheus/groups/nodegroups/ &amp;&amp; touch node.jsonmkdir -p ~/prometheus/rules/ &amp;&amp; cd ~/prometheus/rules/ &amp;&amp; touch http-rate.rulesmkdir -p ~/prometheus/alertmanager &amp;&amp; /prometheus/alertmanager &amp;&amp; touch alertmanager.yml
+② 配置对应文件
+prometheus.yml
+global:  scrape_interval:     15s # By default, scrape targets every 15 seconds.  # Attach these labels to any time series or alerts when communicating with  # external systems (federation, remote storage, Alertmanager).  external_labels:    monitor: &#x27;codelab-monitor&#x27;# A scrape configuration containing exactly one endpoint to scrape:# Here it&#x27;s Prometheus itself.scrape_configs:  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.  - job_name: &#x27;prometheus&#x27;    # Override the global default and scrape targets from this job every 5 seconds.    scrape_interval: 5s    static_configs:      - targets: [&#x27;localhost:9090&#x27;]  - job_name: &#x27;prometheus-sample&#x27;		# 可以在不用重启的情况下热加载配置文件    file_sd_configs:       - files: [&#x27;/usr/local/prometheus/groups/nodegroups/*.json&#x27;]# Alertmanager configurationalerting:  alertmanagers:  - static_configs:    - targets:      - 192.168.220.121:9093rule_files:  - &quot;/usr/local/prometheus/rules/*.rules&quot;
+node.json
+[    &#123;        &quot;targets&quot;: [&quot;192.168.220.121:8080&quot;,&quot;192.168.220.121:8081&quot;],        &quot;labels&quot;: &#123;            &quot;instance&quot;: &quot;vm-192.168.220.121&quot;,            &quot;service&quot;: &quot;node-service&quot;        &#125;    &#125;]
+http-rate.rules
+groups:  - name: http-rate    rules:      - alert: http-rate        expr: rate(prometheus_sample_hello_world_count[1m]) &gt; 100        for: 15s        labels:          severity: 1        annotations:          summary: &quot;&#123;&#123; $labels.instance &#125;&#125; HTTP 1min请求增长率超过100%&quot;
+alertmanager.yml
+# 全局配置项global:  resolve_timeout: 5m # 处理超时时间，默认为5min# 定义路由树信息route:  group_by: [alertname]  # 报警分组依据  receiver: ops_notify   # 设置默认接收人  group_wait: 30s        # 最初即第一次等待多久时间发送一组警报的通知  group_interval: 60s    # 在发送新警报前的等待时间  repeat_interval: 1h    # 重复发送告警时间。默认1h  routes:  - receiver: ops_notify  # 基础告警通知    group_wait: 10s    match_re:      alertname: 实例存活告警|磁盘使用率告警   # 匹配告警规则中的名称发送# 定义基础告警接收者receivers:- name: ops_notify  webhook_configs:  - url: http://192.168.220.121:8060/dingtalk/webhook/send    send_resolved: true  # 警报被解决之后是否通知# 一个inhibition规则是在与另一组匹配器匹配的警报存在的条件下，使匹配一组匹配器的警报失效的规则。两个警报必须具有一组相同的标签。inhibit_rules:  - source_match:      severity: &#x27;critical&#x27;    target_match:      severity: &#x27;warning&#x27;    equal: [&#x27;alertname&#x27;, &#x27;dev&#x27;, &#x27;instance&#x27;]
+config.yml
+targets:  webhook:    url: https://oapi.dingtalk.com/robot/send?access_token=xxx    # secret for signature    secret: SECxxx
+docker 创建服务
+docker run --name prometheus -d -p 9090:9090 \        -v ~/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \        -v ~/prometheus/groups/:/usr/local/prometheus/groups/ \        -v ~/prometheus/rules/:/usr/local/prometheus/rules/ \        prom/prometheus:latestdocker run --name alertmanager -d -p 9093:9093 \        -v ~/prometheus/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml \        prom/alertmanager:latestdocker run --name dingtalk -d -p 8060:8060 \        -v ~/prometheus/dingtalk/config.yml:/etc/prometheus-webhook-dingtalk/config.yml \        timonwong/prometheus-webhook-dingtalk
+¶3、客户端代码
+这里使用Go语言编写的一个简易的Web服务，代码如下：
+package mainimport (	&quot;flag&quot;	&quot;fmt&quot;	&quot;github.com/prometheus/client_golang/prometheus&quot;	&quot;github.com/prometheus/client_golang/prometheus/promhttp&quot;	&quot;log&quot;	&quot;net/http&quot;)var port = flag.Int(&quot;p&quot;, 8080, &quot;-port 8080&quot;)func main() &#123;	flag.Parse()	prometheus.Register(httpCount)	http.Handle(&quot;/metrics&quot;, promhttp.Handler())	http.HandleFunc(&quot;/hello&quot;, HelloWorld)	log.Fatalln(http.ListenAndServe(fmt.Sprintf(&quot;:%d&quot;, *port), nil))&#125;var httpCount = prometheus.NewCounter(	prometheus.CounterOpts&#123;		Name: &quot;prometheus_sample_hello_world_count&quot;,		Help: &quot;hello world count!&quot;,	&#125;,)func HelloWorld(w http.ResponseWriter, r *http.Request) &#123;	httpCount.Inc()	w.Write([]byte(&quot;Hello World!&quot;))&#125;
+这里我们启动两个节点：
+go run main -p 8080go run main -p 8081
+¶4、Prometheus Dashboard
+打开仪表盘：http://localhost:9090/targets，我们可以看到我们的两个节点已经是up状态了。
+
+下面我们使用ab 工具模拟接口访问，使请求速度超过我们设定的阈值，此时alertmanages会给我们钉钉进行通知。
+ab -n 1000  -c 5  http://localhost:8080/hello
+我可以查看Prometheus控制台，查看消息警告发送情况，此时，我们的钉钉已经收到通知警告：
+
+
+¶5、总结
+我们通过一个简单的实验，实现了一个接口请求速率监控的例子，实际业务中我们还可以做更多服务监控的功能。也可以结合Grafana进行Dashbords数据报表展示等功能。同时可以监控服务器、JVM、k8s等等，当服务按照我们设置的规则达到阈值时通知到我们，我们可以在第一时间做应对处理，避免造成不必要的损失。
+]]></content>
+      <categories>
+        <category>prometheus</category>
+      </categories>
+      <tags>
+        <tag>prometheus</tag>
       </tags>
   </entry>
   <entry>
@@ -902,116 +1012,6 @@ fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_f
       </categories>
       <tags>
         <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Prometheus快速入门</title>
-    <url>/2022/02/28/Prometheus%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[Prometheus快速入门
-¶一、背景
-我们日常开发和运维中，需要监控一些数据，根据这些数据进行分析或者应对策略，例如以下几个维度：
-
-
-
-场景                          
-描述
-
-
-
-
-硬件系统
-温度，硬件故障
-
-
-系统监控
-CPU，内存，磁盘，网卡流量，TCP状态，进程数
-
-
-应用监控
-Nginx，Tomcat，PHP，MySQL，Redis 等
-
-
-日志监控
-系统日志，服务日志，访问日志，错误日志
-
-
-安全监控
-WAF，敏感文件监控
-
-
-API监控
-可用性，接口请求，响应时间
-
-
-业务监控
-例如电商网站，每分钟产生多少订单，注册多少用户，多少活跃用户，推广活动效果
-
-
-流量分析
-根据流量获取用户相关信息，例如用户地理位置，某页面访问状况，页面停留时间等
-
-
-
-¶二、Prometheus是什么?
-
-Prometheus 是由 SoundCloud 开发的开源监控报警系统和时序列数据库(TSDB)。
-Prometheus由Go语言编写而成，采用Pull方式获取监控信息，并提供了多维度的数据模型和灵活的查询接口。
-Prometheus不仅可以通过静态文件配置监控对象，还支持自动发现机制，能通过Kubernetes、Consl、DNS等多种方式动态获取监控对象。
-在数据采集方面，借助Go语言的高并发特性，单机Prometheus可以采取数百个节点的监控数据；在数据存储方面，随着本地时序数据库的不断优化，单机Prometheus每秒可以采集一千万个指标，如果需要存储大量的历史监控数据，则还支持远程存储。
-¶三、为什么需要Prometheus?
-
-对于运维人员来说，他们需要监控机器的 CPU、内存、硬盘的使用情况，以此来保证运行在机器上的应用的稳定性。
-对于研发人员来说，他们关注某个异常指标的变化情况，从而来保证业务的稳定运行。
-对于产品或运营来说，他们更关心产品层面的事情，例如：某个活动参加人数的增长情况，活动积分的发放情况。
-
-例如：运维希望在 CPU 达到 80% 的时候给值班的运维人员发送邮件，产品希望活动积分发放数量超过 10 万的时候发送告警邮件。这些都可以通过 Prometheus 实现。
-对于流量不是很大的系统来说，出现几分钟的故障可能造成不了多少损失。但是对于像淘宝、美团、字节跳动这样的巨无霸来说，宕机 1 分钟损失的金额可能就是几百万！
-所以弄清楚此时此刻系统的运行是否正常？各项业务指标是否超过阈值？这些问题是每个经验丰富的研发人员所需要关注的事情！
-那么如何监控你的系统？如何得知系统目前是正常还是异常？甚至如何预知未来一段时间系统可能出问题？Prometheus 正是这么一套数据监控解决方案。它能让你随时掌控系统的运行状态，快速定位出现问题的位置，快速排除故障。
-只要按照 Prometheus 的方式来做，按部就班地学习和部署，我们就可以监控机器的 CPU、内存等资源的使用情况、Java 应用的运行情况以及业务各项指标的实时数据。
-而通过 Prometheus 则可以直接部署使用，并且其与 Grafana 配套使用可以呈现出非常多样化的图表配置。对于中小规模的团队来说，可以极大地减少成本，加快研发速度。
-而对于个人来讲，掌握 Prometheus 可以增加你当 leader 的竞争力。 毕竟如果一个研发对自己的系统运行状况都不了解，那么他怎么做 leader，怎么带领一个团队往前冲呢？
-¶四、Prometheus Quickly Start
-¶1、实现目标
-实现一个Web服务接口请求速率状况的监控功能，当接口请求增长速率超出设定的阈值时，发送钉钉消息通知给研发运维人员。
-¶2、服务搭建
-这里使用Docker 搭建 prometheus、alertmanager和dingtalk.
-① 创建对应文件目录：
-mkdir -p ~/prometheus/ &amp;&amp; cd ~/prometheus/ &amp;&amp; touch prometheus.ymlmkdir -p ~/prometheus/groups/nodegroups/ &amp;&amp; cd ~/prometheus/groups/nodegroups/ &amp;&amp; touch node.jsonmkdir -p ~/prometheus/rules/ &amp;&amp; cd ~/prometheus/rules/ &amp;&amp; touch http-rate.rulesmkdir -p ~/prometheus/alertmanager &amp;&amp; /prometheus/alertmanager &amp;&amp; touch alertmanager.yml
-② 配置对应文件
-prometheus.yml
-global:  scrape_interval:     15s # By default, scrape targets every 15 seconds.  # Attach these labels to any time series or alerts when communicating with  # external systems (federation, remote storage, Alertmanager).  external_labels:    monitor: &#x27;codelab-monitor&#x27;# A scrape configuration containing exactly one endpoint to scrape:# Here it&#x27;s Prometheus itself.scrape_configs:  # The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.  - job_name: &#x27;prometheus&#x27;    # Override the global default and scrape targets from this job every 5 seconds.    scrape_interval: 5s    static_configs:      - targets: [&#x27;localhost:9090&#x27;]  - job_name: &#x27;prometheus-sample&#x27;		# 可以在不用重启的情况下热加载配置文件    file_sd_configs:       - files: [&#x27;/usr/local/prometheus/groups/nodegroups/*.json&#x27;]# Alertmanager configurationalerting:  alertmanagers:  - static_configs:    - targets:      - 192.168.220.121:9093rule_files:  - &quot;/usr/local/prometheus/rules/*.rules&quot;
-node.json
-[    &#123;        &quot;targets&quot;: [&quot;192.168.220.121:8080&quot;,&quot;192.168.220.121:8081&quot;],        &quot;labels&quot;: &#123;            &quot;instance&quot;: &quot;vm-192.168.220.121&quot;,            &quot;service&quot;: &quot;node-service&quot;        &#125;    &#125;]
-http-rate.rules
-groups:  - name: http-rate    rules:      - alert: http-rate        expr: rate(prometheus_sample_hello_world_count[1m]) &gt; 100        for: 15s        labels:          severity: 1        annotations:          summary: &quot;&#123;&#123; $labels.instance &#125;&#125; HTTP 1min请求增长率超过100%&quot;
-alertmanager.yml
-# 全局配置项global:  resolve_timeout: 5m # 处理超时时间，默认为5min# 定义路由树信息route:  group_by: [alertname]  # 报警分组依据  receiver: ops_notify   # 设置默认接收人  group_wait: 30s        # 最初即第一次等待多久时间发送一组警报的通知  group_interval: 60s    # 在发送新警报前的等待时间  repeat_interval: 1h    # 重复发送告警时间。默认1h  routes:  - receiver: ops_notify  # 基础告警通知    group_wait: 10s    match_re:      alertname: 实例存活告警|磁盘使用率告警   # 匹配告警规则中的名称发送# 定义基础告警接收者receivers:- name: ops_notify  webhook_configs:  - url: http://192.168.220.121:8060/dingtalk/webhook/send    send_resolved: true  # 警报被解决之后是否通知# 一个inhibition规则是在与另一组匹配器匹配的警报存在的条件下，使匹配一组匹配器的警报失效的规则。两个警报必须具有一组相同的标签。inhibit_rules:  - source_match:      severity: &#x27;critical&#x27;    target_match:      severity: &#x27;warning&#x27;    equal: [&#x27;alertname&#x27;, &#x27;dev&#x27;, &#x27;instance&#x27;]
-config.yml
-targets:  webhook:    url: https://oapi.dingtalk.com/robot/send?access_token=xxx    # secret for signature    secret: SECxxx
-docker 创建服务
-docker run --name prometheus -d -p 9090:9090 \        -v ~/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \        -v ~/prometheus/groups/:/usr/local/prometheus/groups/ \        -v ~/prometheus/rules/:/usr/local/prometheus/rules/ \        prom/prometheus:latestdocker run --name alertmanager -d -p 9093:9093 \        -v ~/prometheus/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml \        prom/alertmanager:latestdocker run --name dingtalk -d -p 8060:8060 \        -v ~/prometheus/dingtalk/config.yml:/etc/prometheus-webhook-dingtalk/config.yml \        timonwong/prometheus-webhook-dingtalk
-¶3、客户端代码
-这里使用Go语言编写的一个简易的Web服务，代码如下：
-package mainimport (	&quot;flag&quot;	&quot;fmt&quot;	&quot;github.com/prometheus/client_golang/prometheus&quot;	&quot;github.com/prometheus/client_golang/prometheus/promhttp&quot;	&quot;log&quot;	&quot;net/http&quot;)var port = flag.Int(&quot;p&quot;, 8080, &quot;-port 8080&quot;)func main() &#123;	flag.Parse()	prometheus.Register(httpCount)	http.Handle(&quot;/metrics&quot;, promhttp.Handler())	http.HandleFunc(&quot;/hello&quot;, HelloWorld)	log.Fatalln(http.ListenAndServe(fmt.Sprintf(&quot;:%d&quot;, *port), nil))&#125;var httpCount = prometheus.NewCounter(	prometheus.CounterOpts&#123;		Name: &quot;prometheus_sample_hello_world_count&quot;,		Help: &quot;hello world count!&quot;,	&#125;,)func HelloWorld(w http.ResponseWriter, r *http.Request) &#123;	httpCount.Inc()	w.Write([]byte(&quot;Hello World!&quot;))&#125;
-这里我们启动两个节点：
-go run main -p 8080go run main -p 8081
-¶4、Prometheus Dashboard
-打开仪表盘：http://localhost:9090/targets，我们可以看到我们的两个节点已经是up状态了。
-
-下面我们使用ab 工具模拟接口访问，使请求速度超过我们设定的阈值，此时alertmanages会给我们钉钉进行通知。
-ab -n 1000  -c 5  http://localhost:8080/hello
-我可以查看Prometheus控制台，查看消息警告发送情况，此时，我们的钉钉已经收到通知警告：
-
-
-¶5、总结
-我们通过一个简单的实验，实现了一个接口请求速率监控的例子，实际业务中我们还可以做更多服务监控的功能。也可以结合Grafana进行Dashbords数据报表展示等功能。同时可以监控服务器、JVM、k8s等等，当服务按照我们设置的规则达到阈值时通知到我们，我们可以在第一时间做应对处理，避免造成不必要的损失。
-]]></content>
-      <categories>
-        <category>prometheus</category>
-      </categories>
-      <tags>
-        <tag>prometheus</tag>
       </tags>
   </entry>
   <entry>
@@ -1472,6 +1472,55 @@ Redis 启动加载配置
       </tags>
   </entry>
   <entry>
+    <title>Tomcat运维脚本</title>
+    <url>/2021/03/16/Tomcat%E8%BF%90%E7%BB%B4%E8%84%9A%E6%9C%AC/</url>
+    <content><![CDATA[#!/bin/shBASE_HOME=/deveye/dspSERVER_PORT=8960# set customer varibalesulimit -n 65535export JAVA_HOME=$BASE_HOME/opt/jdkexport JAVA_OPTS=&quot;-server -Xms16000m -Xmx16000m -XX:PermSize=128m -XX:MaxPermSize=256m -Djava.security.egd=file:/dev/./urandom&quot;log () &#123;    echo &quot;========&gt;&gt; $1 &lt;&lt;========&quot;&#125;get_pid_by_port () &#123;    PID=$(netstat -anp | grep $1 | grep LISTEN | awk &#x27;&#123;printf $7&#125;&#x27; | cut -d/ -f1)    if [[ &quot;$PID&quot; != &quot;&quot; &amp;&amp; &quot;$&#123;PID:0:1&#125;&quot; != &quot;-&quot; ]] ; then        echo $PID    else        echo -1    fi&#125;kill_by_port () &#123;    PID=$(get_pid_by_port $1)    echo &quot;[$1] pid: [$PID]&quot;    if [ &quot;$PID&quot; != &quot;-1&quot; ] ; then        kill -9 $PID    fi&#125;case &quot;$1&quot; in    &#x27;start&#x27; )        log &quot;cdi start ...&quot;        /deveye/opt/rsync-client/bin/rsync-dsp        $BASE_HOME/opt/tomcat/bin/startup.sh        log &quot;cdi start ok.&quot;        ;;    &#x27;stop&#x27; )        log &quot;cdi stop ...&quot;        kill_by_port $SERVER_PORT        sleep 1s        log &quot;cdi stop ok.&quot;        ;;    &#x27;restart&#x27; )        $0 stop        sleep 1s        $0 start        ;;    &#x27;cc&#x27; )        &gt; $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    &#x27;tc&#x27; )        tail -f $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    &#x27;vc&#x27; )        vim $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    * )        echo &quot;Usage: $0 [ start | stop | restart | cc | tc | vc ]&quot;        exit 1        ;;esac
+]]></content>
+      <categories>
+        <category>Tomcat</category>
+      </categories>
+      <tags>
+        <tag>Tomcat</tag>
+        <tag>运维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git commit之后，撤销commit</title>
+    <url>/2020/08/21/git-commit%E4%B9%8B%E5%90%8E-%E6%92%A4%E9%94%80commit/</url>
+    <content><![CDATA[¶场景
+一般情况下，我们写完代码后会执行:
+git add .git commit -m &quot;xxx&quot;
+但是执行完后，想撤回怎么办？可以执行以下命令:
+git reset --soft HEAD^
+这样就可以撤回你的提交，并且不会丢失提交前修改的内容.
+¶理解
+HEAD^ 代表上一个版本，同等于HEAD1，如果进行了两次提交，可以写成HEAD2
+参数
+
+--mixed
+
+默认参数，不删除工作空间改动的代码，只撤回提交，并且撤回git add .操作
+
+--soft
+
+不删除工作空间改动的代码，撤销提交，但是不撤回git add . 操作
+
+--hard
+
+删除工作空间改动的代码，撤销commit，撤销git add .，直接回退到上次commit
+¶最后
+如果commit注释写错了，只是想改一下注释，只需要：
+git commit --amend
+此时会进入默认vim编辑器，修改注释完毕后保存就好了。
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Thread详解</title>
     <url>/2021/03/27/Thread%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[
@@ -1591,55 +1640,6 @@ public static boolean interrupted() &#123;  return currentThread().isInterrupted
       <tags>
         <tag>Java</tag>
         <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Tomcat运维脚本</title>
-    <url>/2021/03/16/Tomcat%E8%BF%90%E7%BB%B4%E8%84%9A%E6%9C%AC/</url>
-    <content><![CDATA[#!/bin/shBASE_HOME=/deveye/dspSERVER_PORT=8960# set customer varibalesulimit -n 65535export JAVA_HOME=$BASE_HOME/opt/jdkexport JAVA_OPTS=&quot;-server -Xms16000m -Xmx16000m -XX:PermSize=128m -XX:MaxPermSize=256m -Djava.security.egd=file:/dev/./urandom&quot;log () &#123;    echo &quot;========&gt;&gt; $1 &lt;&lt;========&quot;&#125;get_pid_by_port () &#123;    PID=$(netstat -anp | grep $1 | grep LISTEN | awk &#x27;&#123;printf $7&#125;&#x27; | cut -d/ -f1)    if [[ &quot;$PID&quot; != &quot;&quot; &amp;&amp; &quot;$&#123;PID:0:1&#125;&quot; != &quot;-&quot; ]] ; then        echo $PID    else        echo -1    fi&#125;kill_by_port () &#123;    PID=$(get_pid_by_port $1)    echo &quot;[$1] pid: [$PID]&quot;    if [ &quot;$PID&quot; != &quot;-1&quot; ] ; then        kill -9 $PID    fi&#125;case &quot;$1&quot; in    &#x27;start&#x27; )        log &quot;cdi start ...&quot;        /deveye/opt/rsync-client/bin/rsync-dsp        $BASE_HOME/opt/tomcat/bin/startup.sh        log &quot;cdi start ok.&quot;        ;;    &#x27;stop&#x27; )        log &quot;cdi stop ...&quot;        kill_by_port $SERVER_PORT        sleep 1s        log &quot;cdi stop ok.&quot;        ;;    &#x27;restart&#x27; )        $0 stop        sleep 1s        $0 start        ;;    &#x27;cc&#x27; )        &gt; $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    &#x27;tc&#x27; )        tail -f $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    &#x27;vc&#x27; )        vim $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    * )        echo &quot;Usage: $0 [ start | stop | restart | cc | tc | vc ]&quot;        exit 1        ;;esac
-]]></content>
-      <categories>
-        <category>Tomcat</category>
-      </categories>
-      <tags>
-        <tag>Tomcat</tag>
-        <tag>运维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git commit之后，撤销commit</title>
-    <url>/2020/08/21/git-commit%E4%B9%8B%E5%90%8E-%E6%92%A4%E9%94%80commit/</url>
-    <content><![CDATA[¶场景
-一般情况下，我们写完代码后会执行:
-git add .git commit -m &quot;xxx&quot;
-但是执行完后，想撤回怎么办？可以执行以下命令:
-git reset --soft HEAD^
-这样就可以撤回你的提交，并且不会丢失提交前修改的内容.
-¶理解
-HEAD^ 代表上一个版本，同等于HEAD1，如果进行了两次提交，可以写成HEAD2
-参数
-
---mixed
-
-默认参数，不删除工作空间改动的代码，只撤回提交，并且撤回git add .操作
-
---soft
-
-不删除工作空间改动的代码，撤销提交，但是不撤回git add . 操作
-
---hard
-
-删除工作空间改动的代码，撤销commit，撤销git add .，直接回退到上次commit
-¶最后
-如果commit注释写错了，只是想改一下注释，只需要：
-git commit --amend
-此时会进入默认vim编辑器，修改注释完毕后保存就好了。
-]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -2571,61 +2571,6 @@ mysql&gt; update T set c=c+1 where ID=2;
       </tags>
   </entry>
   <entry>
-    <title>深入浅出索引（上）</title>
-    <url>/2022/06/07/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E7%B4%A2%E5%BC%95%EF%BC%88%E4%B8%8A%EF%BC%89/</url>
-    <content><![CDATA[索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。
-¶索引常见模型
-¶哈希表
-
-哈希表是一种以键值对存储的数据结构，只要输入key，就可以根据key找到对应的vaule。不可避免的是会存在hash冲突，处理这种情况方法是拉出一个链表。（类比Java中HashMap结构）。
-优点：
-
-查找速度快，新增速度也快。
-
-缺点：
-
-因为不是有序的，如果需要范围查询，速度是很慢的。
-
-哈希表这种结构适用于只有等值查询的场景，比如 Memcached 及其他一些 NoSQL 引擎。
-¶有序数组
-
-有序数组查询时，可以使用二分法进行搜索，时间复杂度是O(log(N))，并且有序数据还支持范围查询。但是需要插入的时候，就需要进行数据挪动（因为要保证顺序），成本是非常高的。
-因此，有序数组索引只适用于静态存储引擎。
-¶搜索树
-
-二叉树的特点是：每个节点的左儿子小于父节点，父节点又小于右儿子。这样如果你要查 ID_card_n2 的话，按照图中的搜索顺序就是按照 UserA -&gt; UserC -&gt; UserF -&gt; User2 这个路径得到。这个时间复杂度是 O(log(N))。
-当然为了维持 O(log(N)) 的查询复杂度，你就需要保持这棵树是平衡二叉树。为了做这个保证，更新的时间复杂度也是 O(log(N))。
-二叉树的主要缺点是：当数据量很大的时候，树高会非常高，假如树高为20。一次查询可能需要访问 20 个数据块。在机械硬盘时代，从磁盘随机读一个数据块需要 10 ms 左右的寻址时间。也就是说，对于一个 100 万行的表，如果使用二叉树来存储，单独访问一个行可能需要 20 个 10 ms 的时间，这个查询可真够慢的。
-¶InnoDB 的索引模型
-在InnoDB中，表都是根据主键顺序以索引的形式存放的，这种存储方式的表称为索引组织表。InnoDB使用的是B+树索引模型，所以数据都是存储在B+树中的。
-每一个索引在InnoDB中对应一颗B+树。
-
-从上图来看，索引类型分为：主键索引和非主键索引。
-主键索引在InnoDB中也成为聚簇索引（clustered index），非主键索引在InnoDB中成为二级索引（secondary index）。
-¶基于主键索引和非主键索引搜索的区别：
-
-
-基于主键索引查询只需要搜索对应的这颗B+树。
-
-
-基于非主键索引首先先查到对应值的ID（假设ID为主键），再到ID索引树中搜索一次，这个过程称为回表。
-
-
-¶索引的维护
-¶页分裂
-B+ 树为了维护索引的有序性，在插入新值的时候需要做必要的维护，如果插入的数据需要在页的中间，那么就需要进行数据的挪动，空出位置，如果插入的页刚好满了，就会触发页分裂，页分裂除了会影响性能，而且会使整体空间利用率降低50%（因为之前一个页，分裂成了两个）。
-当然有分裂就有合并。当相邻两个页由于删除了数据，利用率很低之后，会将数据页做合并。合并的过程，可以认为是分裂过程的逆过程。
-基于业务字段做主键，往往不能保证插入的有序性，更容易造成页分裂，基于自增ID做主键，每插入一条记录都是追加操作，一般不会触发叶子结点分裂。由于每个非主键索引叶子结点都是主键的值，如果用整型做主键，只需要4个字节，如果是长整型，则是8个字节。
-显然，主键长度越小，普通索引的叶子节点就越小，普通索引占用的空间也就越小。
-]]></content>
-      <categories>
-        <category>MySQL实战45讲</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>消息中间件选型</title>
     <url>/2020/05/14/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E9%80%89%E5%9E%8B/</url>
     <content><![CDATA[本文主要对比常用的三种中间件优劣势，包含RocketMQ、Kafka、RabbitMQ。
@@ -2682,6 +2627,61 @@ RocketMQ相对来说比较完美的一个消息中间件，在支撑高吞吐量
       </categories>
       <tags>
         <tag>RocketMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入浅出索引（上）</title>
+    <url>/2022/06/07/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E7%B4%A2%E5%BC%95%EF%BC%88%E4%B8%8A%EF%BC%89/</url>
+    <content><![CDATA[索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。
+¶索引常见模型
+¶哈希表
+
+哈希表是一种以键值对存储的数据结构，只要输入key，就可以根据key找到对应的vaule。不可避免的是会存在hash冲突，处理这种情况方法是拉出一个链表。（类比Java中HashMap结构）。
+优点：
+
+查找速度快，新增速度也快。
+
+缺点：
+
+因为不是有序的，如果需要范围查询，速度是很慢的。
+
+哈希表这种结构适用于只有等值查询的场景，比如 Memcached 及其他一些 NoSQL 引擎。
+¶有序数组
+
+有序数组查询时，可以使用二分法进行搜索，时间复杂度是O(log(N))，并且有序数据还支持范围查询。但是需要插入的时候，就需要进行数据挪动（因为要保证顺序），成本是非常高的。
+因此，有序数组索引只适用于静态存储引擎。
+¶搜索树
+
+二叉树的特点是：每个节点的左儿子小于父节点，父节点又小于右儿子。这样如果你要查 ID_card_n2 的话，按照图中的搜索顺序就是按照 UserA -&gt; UserC -&gt; UserF -&gt; User2 这个路径得到。这个时间复杂度是 O(log(N))。
+当然为了维持 O(log(N)) 的查询复杂度，你就需要保持这棵树是平衡二叉树。为了做这个保证，更新的时间复杂度也是 O(log(N))。
+二叉树的主要缺点是：当数据量很大的时候，树高会非常高，假如树高为20。一次查询可能需要访问 20 个数据块。在机械硬盘时代，从磁盘随机读一个数据块需要 10 ms 左右的寻址时间。也就是说，对于一个 100 万行的表，如果使用二叉树来存储，单独访问一个行可能需要 20 个 10 ms 的时间，这个查询可真够慢的。
+¶InnoDB 的索引模型
+在InnoDB中，表都是根据主键顺序以索引的形式存放的，这种存储方式的表称为索引组织表。InnoDB使用的是B+树索引模型，所以数据都是存储在B+树中的。
+每一个索引在InnoDB中对应一颗B+树。
+
+从上图来看，索引类型分为：主键索引和非主键索引。
+主键索引在InnoDB中也成为聚簇索引（clustered index），非主键索引在InnoDB中成为二级索引（secondary index）。
+¶基于主键索引和非主键索引搜索的区别：
+
+
+基于主键索引查询只需要搜索对应的这颗B+树。
+
+
+基于非主键索引首先先查到对应值的ID（假设ID为主键），再到ID索引树中搜索一次，这个过程称为回表。
+
+
+¶索引的维护
+¶页分裂
+B+ 树为了维护索引的有序性，在插入新值的时候需要做必要的维护，如果插入的数据需要在页的中间，那么就需要进行数据的挪动，空出位置，如果插入的页刚好满了，就会触发页分裂，页分裂除了会影响性能，而且会使整体空间利用率降低50%（因为之前一个页，分裂成了两个）。
+当然有分裂就有合并。当相邻两个页由于删除了数据，利用率很低之后，会将数据页做合并。合并的过程，可以认为是分裂过程的逆过程。
+基于业务字段做主键，往往不能保证插入的有序性，更容易造成页分裂，基于自增ID做主键，每插入一条记录都是追加操作，一般不会触发叶子结点分裂。由于每个非主键索引叶子结点都是主键的值，如果用整型做主键，只需要4个字节，如果是长整型，则是8个字节。
+显然，主键长度越小，普通索引的叶子节点就越小，普通索引占用的空间也就越小。
+]]></content>
+      <categories>
+        <category>MySQL实战45讲</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
