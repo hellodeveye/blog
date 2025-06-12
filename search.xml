@@ -54,6 +54,165 @@
       </tags>
   </entry>
   <entry>
+    <title>10x程序员总结</title>
+    <url>/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[¶以终为始
+遇到问题不妨倒着去思考
+¶任务分解
+
+埃隆马斯克SpaceX 的计划，本质上就是把一件很困难实现的事情去做任务分解，使每件任务可执行化。
+
+如何降低火箭发射成本1. 造一个能容纳100人的火箭2. 实现火箭回收3. ....
+
+
+大师程序员都是懂的去做任务分解，分解的力度是可执行
+
+
+多写单元测试，代码小步提交
+
+
+
+]]></content>
+      <categories>
+        <category>读书</category>
+      </categories>
+      <tags>
+        <tag>读书</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2024摘抄</title>
+    <url>/2024/12/31/2024%E6%91%98%E6%8A%84/</url>
+    <content><![CDATA[采访当今最伟大的数学家对AI的看法 陶哲轩：我们正踏入数学的全新领域 – XiaoHu.AI学院
+
+我对重复人类已经擅长的事情并不感兴趣。这看起来效率低下。我认为在前沿领域，人类和AI将始终是必需的。它们有互补的优势。AI擅长将数十亿条数据转化为一个好的答案。人类擅长通过10次观察作出非常有创意的猜测。
+
+2024/10/22
+这是我们之间的故事，它代表的是一种特殊的意义（致不完美）
+2024/10/25
+王阳明曾说：“吾辈用功，只求日减，不求日增。减得一分人欲，便是复得一分天理，何等轻快洒脱，何等简易。”
+我们应该定期清理卫生，只留下必需品，久而久之你就会发现，原来很多东西只是一个摆设，并非我们所需。
+
+我们应该定期审视人生，这样才会发现，原来那些占据自己精力的东西，实际上毫无价值。
+
+**都说人生从来不是加法，而是减法。**只有不断地抛弃一些不必要的东西，内心才不会被遮蔽，光照进来，才能看清自己内心真正需要的是什么。
+懂得知足，才能常乐
+欲望越膨胀，人类越得不到满足，这便是痛苦的根源。只有懂得知足，才能真正获得财富。
+着相了
+**着相是一个‌佛教术语，意思是执着于外相、虚相或个体意识而偏离了本质。**
+2024/10/29
+事上练
+只有日常中多注意在事上的磨练，在各种事情上锻炼自己的应变能力，让自己心境逐渐处在一种十分稳定的状态下，只有这样才能锻炼出遇事不慌不乱的素质。
+“熟能生巧，巧能生化”。在社会浮躁风气渐盛的今天，笃行恰恰是我们最应该学习的。
+笃行
+王阳明有句话：“辨即明矣，思既慎矣，问既审矣，学既能矣，又从而不息其功焉，斯之谓笃行。”意思是，当我们已经分辨清楚，思考缜密，问得详细，已经学会了，还是持续不断地用功，这就叫笃行，这是获得成功的必要前提。
+2024/10/30
+君子得失淡然，所以有终身之乐；小人患得患失，所以无一日之乐。
+2024/11/7
+淡定看人生，宁静做自我。
+所谓定力，实为定心，心静了，生活自然也就安稳了，人生自然也就安定了。
+反之，无法保持内心的宁静，则容易被情绪所控制，稍不注意就可能误入歧途、贻误终生。
+忍一时风平浪静，退一步海阔天空。想开了，自然微笑；看透了，肯定放下。这样才能在“风雨人生路上，逍遥任我行。”
+2024/11/12
+第一性原理（First Principles Thinking）是一种思维方法，指的是把问题分解到最基本的真理上，从最基本的层面去思考问题，而不是基于类比或现有经验。
+让我用一个简单的编程例子来说明：假设我们需要计算一个购物车的总价格。
+传统思维方式
+：直接参考其他电商网站的实现方式，复制他们的解决方案。
+第一性原理思维
+：
+
+首先分析问题的本质：
+购物车是什么？ → 商品的集合
+总价格是什么？ → 所有商品价格的总和
+每个商品的价格如何计算？ → 单价 × 数量
+
+
+基于这些基本事实来设计解决方案：
+
+class CartItem:    def __init__(self, name, price, quantity):        self.name = name        self.price = price        self.quantity = quantity        def get_total(self):        return self.price * self.quantityclass ShoppingCart:    def __init__(self):        self.items = []        def add_item(self, item):        self.items.append(item)        def calculate_total(self):        return sum(item.get_total() for item in self.items)
+通过第一性原理思维，我们：
+
+没有直接抄袭现有解决方案
+从最基本的概念出发（商品、数量、价格）
+构建出了清晰、可维护的解决方案
+
+这种思维方式让我们能够：
+
+更深入地理解问题
+创造出更优的解决方案
+避免被既有思维定式限制
+
+马斯克就经常使用第一性原理思维。比如在设计特斯拉电池时，他没有直接采用现有的电池方案，而是从最基本的材料成本和物理原理出发，重新思考了电池的设计，最终降低了成本并提高了性能。
+2024/11/17
+非淡泊无以明志，非宁静无以致远 —诸葛亮《诫子书》
+2024/12/10
+立志、勤学、改过、责善
+为什么立志如此重要？王阳明举例说，一个人如果没有志向，那么就好像船没有舵木、马没有衔环，于是只能随波逐流，人生就如一盘散沙。
+非学无以广才，非志无以成学
+如果不通过学习，就无法增长才干；如果没有志向，就无法成就学问。
+2024/12/26
+如何才能做到在工作和生活中诚意满满？
+第一，搞清楚你的工作性质：这份工作到底是在做什么？它能给别人带来什么益处？
+第二，紧盯着那个“益处”，并且专心致志地放大它。
+第三，把工作和生活紧密结合，真心实意地对待你的工作和生活。
+2024/12/27
+每天前进三十公里 ——南极探险的故事
+2024/12/29
+人生在世，不是每日往复，应该想想来到这个世间的道理？ 寻求自己的答案
+《穷爸爸也富爸爸》普通人只能被日复一日推着走
+被金钱支配的恐惧和欲望
+金钱的本质是流动
+不要为钱打工，要让钱为你打工
+首先要思考上班的意思是什么？上班是为了赚钱？那赚钱的方式只有上班吗？上班时最优解吗？还是说上班只是当下临时方案？
+2024/12/31
+人活一世，到底为了什么？是为了功名利禄、权势尊位，还是传宗接代、子孙满堂？
+王阳明说，是为了心安。而心安的唯一来源便是人与生俱来的良知。除却良知，一切都是梦幻泡影。
+一个杯子，里面有半杯水。有人描述这杯中还有半杯水，而有人会说这里只有半杯水了。前者是乐观主义者，后者是悲观主义者。
+有句话叫“悲观者往往正确，乐观者往往成功”。大意是说，悲观者意识到一件事的成功率不高时，就会拒绝行动，从概率角度来看，这是正确的。但乐观者往往会关注事物积极的一方面，即使意识到一件事的成功率不高，只要回报足够，也倾向于迎难而上；不管多难的事，只要有所实践，离成功便更近一步，再加上点儿运气及坚持到底的乐观心态，往往就成功了
+此心安处是吾乡，心安才是良知！
+]]></content>
+      <categories>
+        <category>摘抄</category>
+      </categories>
+      <tags>
+        <tag>摘抄</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2025摘抄</title>
+    <url>/2025/01/01/2025%E6%91%98%E6%8A%84/</url>
+    <content><![CDATA[2025/02/08
+一念放下，天地皆宽。那些强求不放的事，都会成为自己的深渊
+
+蒲松龄写过一个执迷象棋的书生。书生途经扬州时，见一位梁将军在林子里喝酒下棋，便徘徊棋桌旁，不愿离去。
+梁将军邀请他下一盘，一连三局，书生都败下阵来。书生不服气，一直下到夜幕降临。
+就在这时，忽然一阵阴风扫过，书生竟跪地痛哭，拉着梁将军的衣角，求他救救自己。
+原来，书生早已做鬼。他生前执迷于下棋，荒废了学业。家里打也打了，骂也骂了，可书生就是割舍不下。
+他把父亲活活气死，因“大不孝”的罪名被阎王索了性命，打入饿鬼狱。
+因他颇有才华，阎王又派他给东岳大帝的凤楼写碑文，如果写好了，可放他还阳。
+结果在前往凤楼的路上，书生巧遇梁将军的棋局，执念再起，耽误了行程。阎王知道后，任是谁来求情，都不再宽恕他。
+这两个故事告诉我们，无论是对物质的贪恋，还是对成就的追求，一旦成为执念，就会变成心灵的枷锁。
+
+2025/02/21
+不纠结过河的筏子
+不迷恋肉身。既不迷恋自己的肉身，也不迷恋身边人的肉
+身。无论如何青春的肉体终会消逝，可以珍惜的时候就要好好珍惜，
+能够展现的时候就要尽情展现，不要等到肉身衰老，禽兽无能，眼前
+花盛开，鸟却飞不起来，才后悔莫及。  — 冯唐
+2025/04/25
+人生没有意义，它才自由，没意义不等于摆烂，什么都不做。
+一朵花开在山里无人问津，另外一朵花被搬进奢华的房间，他们都还是花，一个活成了别人想要的样子，另一个无拘无束，活成了自己想要的样子 ——— 致人生的意义
+空白才有无限可能！回归内心的空白，结果不是自我价值的终身判决。当你不需要意义证明自己时，反而变得更有力量，激发出更纯粹的创造力，不要沉迷于别人定义好的路，
+每个人有自己的路，不需要你去拯救或者批判，做好自己就好
+]]></content>
+      <categories>
+        <category>摘抄</category>
+      </categories>
+      <tags>
+        <tag>摘抄</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker安装软件集合</title>
     <url>/2021/03/16/Docker%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E9%9B%86%E5%90%88/</url>
     <content><![CDATA[¶Docker安装Nginx
@@ -84,33 +243,6 @@ sudo mkdir -p /etc/docker sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x
       </categories>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>10x程序员总结</title>
-    <url>/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[¶以终为始
-遇到问题不妨倒着去思考
-¶任务分解
-
-埃隆马斯克SpaceX 的计划，本质上就是把一件很困难实现的事情去做任务分解，使每件任务可执行化。
-
-如何降低火箭发射成本1. 造一个能容纳100人的火箭2. 实现火箭回收3. ....
-
-
-大师程序员都是懂的去做任务分解，分解的力度是可执行
-
-
-多写单元测试，代码小步提交
-
-
-
-]]></content>
-      <categories>
-        <category>读书</category>
-      </categories>
-      <tags>
-        <tag>读书</tag>
       </tags>
   </entry>
   <entry>
@@ -163,54 +295,6 @@ chore (更新grunt任务等; 不包括生产代码变动)
       </categories>
       <tags>
         <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java将HTML转为图片</title>
-    <url>/2021/03/25/Java-HTML-%E8%BD%AC%E5%9B%BE%E7%89%87/</url>
-    <content><![CDATA[记录一个使用Java转图片的第三方工具
-&lt;!-- https://mvnrepository.com/artifact/net.sf.cssbox/cssbox --&gt;&lt;dependency&gt;  &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt;  &lt;artifactId&gt;cssbox&lt;/artifactId&gt;  &lt;version&gt;5.0.0&lt;/version&gt;&lt;/dependency&gt;
-使用方法很简单，伪代码如下:
-ImageRenderer render = new ImageRenderer();ByteArrayOutputStream os = new ByteArrayOutputStream();//创建一个临时的HTML文件Path tempFile = Files.createTempFile(IdWorker.getMillisecond(), &quot;.html&quot;);//将HTML字节流写入到临时文件中Files.write(tempFile,createHtml());render.renderURL(tempFile.toUri().toString(), os);String fileName = &quot;test.png&quot;;//将图片上传到OSSAliyunOSSUtil.upload(AliyunOSSUtil.toOSSFilePath(fileName, sysUser.tenantId()), new  ByteArrayInputStream(os.toByteArray()));//删除临时文件Files.deleteIfExists(tempFile);
-我的方案是使用freemarker模板引擎先将数据渲染到成html文件，然后通过html文件生成一个图片，将图片上传到OSS中，最后删除临时生成的html文件。
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java的字符串常量池位于哪里，堆或堆栈？</title>
-    <url>/2021/03/24/Java%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E4%BD%8D%E4%BA%8E%E5%93%AA%E9%87%8C%EF%BC%8C%E5%A0%86%E6%88%96%E5%A0%86%E6%A0%88%EF%BC%9F/</url>
-    <content><![CDATA[
-转载自: https://www.baeldung.com/java-string-constant-pool-heap-stack
-
-¶1.简介
-每当我们声明一个变量或创建一个对象时，它就会存储在内存中。在较高的级别上，Java将内存分为两个块：stack和heap。两种存储器均存储特定类型的数据，并且具有不同的存储和访问模式。
-¶2.字符串常量池
-该字符串常量池是一个特殊的存储区。**当我们声明String时，JVM在池中创建对象并将其引用存储在堆栈中。**在内存中创建每个String对象之前，JVM执行一些步骤来减少内存开销。
-字符串常量池在其实现中使用HashMap。HashMap的每个存储桶均包含具有相同哈希码的String列表。在Java的早期版本中，池的存储区域是固定大小的，并且通常会导致*“无法为对象堆保留足够的空间”* 错误。
-**当系统加载类时，所有类的*String*文字都将进入应用程序级池。**这是因为不同类的相等String文字必须是相同的Object。在这些情况下，池中的数据应可用于每个类而没有任何依赖关系。
-通常，堆栈存储短期的数据。它包括局部基本变量，堆对象的引用以及执行中的方法。堆允许动态分配内存，在运行时存储Java对象和JRE类。
-堆允许全局访问，并且在应用程序的生存期内，堆中的数据存储可用于所有线程，而堆栈上的数据存储具有私有作用域，只有所有者线程可以访问它们。
-堆栈将数据存储在连续的存储块中，并允许随机访问。如果类需要池中的随机String，则由于堆栈的LIFO（后进先出）规则，该类可能不可用。相反，堆会动态分配内存，并允许我们以任何方式访问数据。
-假设我们有一个由不同类型的变量组成的代码段。堆栈将存储int文字的值以及String和Demo对象的引用*。任何对象的值都将存储在堆中，所有String*文字都放入堆中的池中：
-
-线程完成执行后，将立即释放在堆栈上创建的变量。相反，垃圾收集器回收堆中的资源。同样，垃圾收集器从池中收集未引用的项目。
-**池的默认大小在不同平台上可能会有所不同。**无论如何，它仍然比可用堆栈大小大得多。在JDK 7之前，该池是permgen空间的一部分，从JDK 7到现在，它是主堆内存的一部分。
-¶3.结论
-在这篇简短的文章中，我们了解了String常量池的存储区域。堆栈和堆具有不同的特性来存储和访问数据。从内存分配到其访问和可用性，堆是最适合存储String常量池的区域。
-实际上，池从未成为堆栈内存的一部分。
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>String</tag>
-        <tag>转载</tag>
       </tags>
   </entry>
   <entry>
@@ -551,16 +635,51 @@ Zhang, H., S. Liang, and L. Bak. Monitor Conversion in a Multithreaded Computer 
       </tags>
   </entry>
   <entry>
-    <title>MySQL常用命令</title>
-    <url>/2021/03/16/MySQL%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[¶创建表空间
-./mysql -uroot -p -hlocalhost -P3306mysql&gt; CREATE DATABASE cicro DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;mysql&gt; CREATE USER &#x27;cicrouser&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;cicropassword&#x27;;mysql&gt; GRANT ALL PRIVILEGES ON cicro.* TO &#x27;cicrouser&#x27;@&#x27;%&#x27;;mysql&gt; flush privileges;
+    <title>Java将HTML转为图片</title>
+    <url>/2021/03/25/Java-HTML-%E8%BD%AC%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[记录一个使用Java转图片的第三方工具
+&lt;!-- https://mvnrepository.com/artifact/net.sf.cssbox/cssbox --&gt;&lt;dependency&gt;  &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt;  &lt;artifactId&gt;cssbox&lt;/artifactId&gt;  &lt;version&gt;5.0.0&lt;/version&gt;&lt;/dependency&gt;
+使用方法很简单，伪代码如下:
+ImageRenderer render = new ImageRenderer();ByteArrayOutputStream os = new ByteArrayOutputStream();//创建一个临时的HTML文件Path tempFile = Files.createTempFile(IdWorker.getMillisecond(), &quot;.html&quot;);//将HTML字节流写入到临时文件中Files.write(tempFile,createHtml());render.renderURL(tempFile.toUri().toString(), os);String fileName = &quot;test.png&quot;;//将图片上传到OSSAliyunOSSUtil.upload(AliyunOSSUtil.toOSSFilePath(fileName, sysUser.tenantId()), new  ByteArrayInputStream(os.toByteArray()));//删除临时文件Files.deleteIfExists(tempFile);
+我的方案是使用freemarker模板引擎先将数据渲染到成html文件，然后通过html文件生成一个图片，将图片上传到OSS中，最后删除临时生成的html文件。
 ]]></content>
       <categories>
-        <category>MySQL</category>
+        <category>Java</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java的字符串常量池位于哪里，堆或堆栈？</title>
+    <url>/2021/03/24/Java%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E4%BD%8D%E4%BA%8E%E5%93%AA%E9%87%8C%EF%BC%8C%E5%A0%86%E6%88%96%E5%A0%86%E6%A0%88%EF%BC%9F/</url>
+    <content><![CDATA[
+转载自: https://www.baeldung.com/java-string-constant-pool-heap-stack
+
+¶1.简介
+每当我们声明一个变量或创建一个对象时，它就会存储在内存中。在较高的级别上，Java将内存分为两个块：stack和heap。两种存储器均存储特定类型的数据，并且具有不同的存储和访问模式。
+¶2.字符串常量池
+该字符串常量池是一个特殊的存储区。**当我们声明String时，JVM在池中创建对象并将其引用存储在堆栈中。**在内存中创建每个String对象之前，JVM执行一些步骤来减少内存开销。
+字符串常量池在其实现中使用HashMap。HashMap的每个存储桶均包含具有相同哈希码的String列表。在Java的早期版本中，池的存储区域是固定大小的，并且通常会导致*“无法为对象堆保留足够的空间”* 错误。
+**当系统加载类时，所有类的*String*文字都将进入应用程序级池。**这是因为不同类的相等String文字必须是相同的Object。在这些情况下，池中的数据应可用于每个类而没有任何依赖关系。
+通常，堆栈存储短期的数据。它包括局部基本变量，堆对象的引用以及执行中的方法。堆允许动态分配内存，在运行时存储Java对象和JRE类。
+堆允许全局访问，并且在应用程序的生存期内，堆中的数据存储可用于所有线程，而堆栈上的数据存储具有私有作用域，只有所有者线程可以访问它们。
+堆栈将数据存储在连续的存储块中，并允许随机访问。如果类需要池中的随机String，则由于堆栈的LIFO（后进先出）规则，该类可能不可用。相反，堆会动态分配内存，并允许我们以任何方式访问数据。
+假设我们有一个由不同类型的变量组成的代码段。堆栈将存储int文字的值以及String和Demo对象的引用*。任何对象的值都将存储在堆中，所有String*文字都放入堆中的池中：
+
+线程完成执行后，将立即释放在堆栈上创建的变量。相反，垃圾收集器回收堆中的资源。同样，垃圾收集器从池中收集未引用的项目。
+**池的默认大小在不同平台上可能会有所不同。**无论如何，它仍然比可用堆栈大小大得多。在JDK 7之前，该池是permgen空间的一部分，从JDK 7到现在，它是主堆内存的一部分。
+¶3.结论
+在这篇简短的文章中，我们了解了String常量池的存储区域。堆栈和堆具有不同的特性来存储和访问数据。从内存分配到其访问和可用性，堆是最适合存储String常量池的区域。
+实际上，池从未成为堆栈内存的一部分。
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>String</tag>
+        <tag>转载</tag>
       </tags>
   </entry>
   <entry>
@@ -580,6 +699,19 @@ tail -n +358653 catalina.2021-01-12.out|head -n 20
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL常用命令</title>
+    <url>/2021/03/16/MySQL%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[¶创建表空间
+./mysql -uroot -p -hlocalhost -P3306mysql&gt; CREATE DATABASE cicro DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;mysql&gt; CREATE USER &#x27;cicrouser&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;cicropassword&#x27;;mysql&gt; GRANT ALL PRIVILEGES ON cicro.* TO &#x27;cicrouser&#x27;@&#x27;%&#x27;;mysql&gt; flush privileges;
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -883,61 +1015,6 @@ ab -n 1000  -c 5  http://localhost:8080/hello
       </tags>
   </entry>
   <entry>
-    <title>Redis哨兵</title>
-    <url>/2020/07/07/Redis%E5%93%A8%E5%85%B5/</url>
-    <content><![CDATA[¶Sentinel的分布式特征
-Redis Sentinel是一个分布式系统：
-Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运行。
-
-当多个哨兵就给定的主机不再可用的事实达成共识时，将执行故障检测，降低了误报的可能性。
-即使不是所有的Sentinel进程都在工作，Sentinel仍可正常工作，从而使系统能够应对故障。毕竟，拥有故障转移系统本身就是一个单点故障，
-
-¶运行哨兵
-redis-sentinel /path/to/sentinel.conf
-redis-sentinel是redis-server的一个软链接，所以也可以使用以下方法：
-redis-server /path/to/sentinel.conf --sentinel
-两种方法的工作原理相同。
-但是，再运行Sentinel时必须指定配置文件，因为系统将使用此文件来保存当前状态，以便在重新启动时重新加载。如果未指定文件，则会启动失败。
-Sentinels默认情况下会监听TCP端口26379连接，因此必须打开26379端口。
-¶Sentinel的基础知识
-
-一个健壮的集群至少需要三个Sentinel实例
-应该将三个Sentinel实例部署在不同的机器上
-因为Redis使用的是异步复制，所以不能保证在故障转移期间保证数据的写入。
-
-¶配置哨兵
-Redis的源码包包含一个sentinel.conf文件可用于配置Sentinel，典型的最小配置如下所示：
-sentinel monitor mymaster 127.0.0.1 6379 2sentinel down-after-milliseconds mymaster 60000sentinel failover-timeout mymaster 180000sentinel parallel-syncs mymaster 1
-sentinel monitor含义如下：
-sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;
-&lt;master-group-name&gt; 指主节点名称，&lt;ip&gt; IP地址 &lt;port&gt;端口号，重点说一下&lt;quorum&gt;：
-假如有5个Sentinel进程，并且给定主服务器的quorum置为2，则将发生以下情况：
-
-如果有两个哨兵同时发现主节点不可访问，则其中一个哨兵将尝试启动故障转移。
-如果有三个哨兵同时发现主节点不可访问，则将启动故障转移。
-
-sentinel down-after-milliseconds
-down-after-milliseconds是指Sentinel在指定的时间内没有获得实例的响应，则认为实例已关闭。
-sentinel parallel-syncs
-parallel-syncs 设置每次可以对几个副本进行同步数据
-¶Redis 哨兵部署示例
-¶经典三节点最小部署
-        +----+        | M1 |        | S1 |        +----+           | +----+    |    +----+ | R2 |----+----| R3 | | S2 |         | S3 | +----+         +----+Configuration: quorum = 2
-如果主M1发生故障，则S2和S3将达成协议，并能够开启故障转移，从而使客户端能够继续使用。
-¶模拟发生网络分区
-         +----+         | M1 |         | S1 | &lt;- C1 (writes will be lost)         +----+            |            /            /+------+    |    +----+| [M2] |----+----| R3 || S2   |         | S3 |+------+         +----+
-在这种情况下，网络分区隔离了旧的主数据库M1，因此副本R2被提升为主数据库。但是，与旧主服务器位于同一分区中的客户端（例如C1）可能会继续向旧主服务器写入数据。该数据将永远丢失，因为当分区恢复正常时，主服务器将被重新配置为新主服务器的副本，从而造成数据丢失。
-使用以下Redis复制功能可以缓解此问题，如果主服务器检测到副本数量没有达到指定的副本数据，则停止接受数据写入。
-# 最小副本数量min-replicas-to-write 1# 发送异步确认的最大时间min-replicas-max-lag 10
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis分布式锁</title>
     <url>/2020/07/09/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
     <content><![CDATA[¶简介
@@ -1043,6 +1120,61 @@ RedLock分析      [http://martin.kleppmann.com/2016/02/08/how-to-do-distributed
       <tags>
         <tag>Redis</tag>
         <tag>分布式锁</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis哨兵</title>
+    <url>/2020/07/07/Redis%E5%93%A8%E5%85%B5/</url>
+    <content><![CDATA[¶Sentinel的分布式特征
+Redis Sentinel是一个分布式系统：
+Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运行。
+
+当多个哨兵就给定的主机不再可用的事实达成共识时，将执行故障检测，降低了误报的可能性。
+即使不是所有的Sentinel进程都在工作，Sentinel仍可正常工作，从而使系统能够应对故障。毕竟，拥有故障转移系统本身就是一个单点故障，
+
+¶运行哨兵
+redis-sentinel /path/to/sentinel.conf
+redis-sentinel是redis-server的一个软链接，所以也可以使用以下方法：
+redis-server /path/to/sentinel.conf --sentinel
+两种方法的工作原理相同。
+但是，再运行Sentinel时必须指定配置文件，因为系统将使用此文件来保存当前状态，以便在重新启动时重新加载。如果未指定文件，则会启动失败。
+Sentinels默认情况下会监听TCP端口26379连接，因此必须打开26379端口。
+¶Sentinel的基础知识
+
+一个健壮的集群至少需要三个Sentinel实例
+应该将三个Sentinel实例部署在不同的机器上
+因为Redis使用的是异步复制，所以不能保证在故障转移期间保证数据的写入。
+
+¶配置哨兵
+Redis的源码包包含一个sentinel.conf文件可用于配置Sentinel，典型的最小配置如下所示：
+sentinel monitor mymaster 127.0.0.1 6379 2sentinel down-after-milliseconds mymaster 60000sentinel failover-timeout mymaster 180000sentinel parallel-syncs mymaster 1
+sentinel monitor含义如下：
+sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;
+&lt;master-group-name&gt; 指主节点名称，&lt;ip&gt; IP地址 &lt;port&gt;端口号，重点说一下&lt;quorum&gt;：
+假如有5个Sentinel进程，并且给定主服务器的quorum置为2，则将发生以下情况：
+
+如果有两个哨兵同时发现主节点不可访问，则其中一个哨兵将尝试启动故障转移。
+如果有三个哨兵同时发现主节点不可访问，则将启动故障转移。
+
+sentinel down-after-milliseconds
+down-after-milliseconds是指Sentinel在指定的时间内没有获得实例的响应，则认为实例已关闭。
+sentinel parallel-syncs
+parallel-syncs 设置每次可以对几个副本进行同步数据
+¶Redis 哨兵部署示例
+¶经典三节点最小部署
+        +----+        | M1 |        | S1 |        +----+           | +----+    |    +----+ | R2 |----+----| R3 | | S2 |         | S3 | +----+         +----+Configuration: quorum = 2
+如果主M1发生故障，则S2和S3将达成协议，并能够开启故障转移，从而使客户端能够继续使用。
+¶模拟发生网络分区
+         +----+         | M1 |         | S1 | &lt;- C1 (writes will be lost)         +----+            |            /            /+------+    |    +----+| [M2] |----+----| R3 || S2   |         | S3 |+------+         +----+
+在这种情况下，网络分区隔离了旧的主数据库M1，因此副本R2被提升为主数据库。但是，与旧主服务器位于同一分区中的客户端（例如C1）可能会继续向旧主服务器写入数据。该数据将永远丢失，因为当分区恢复正常时，主服务器将被重新配置为新主服务器的副本，从而造成数据丢失。
+使用以下Redis复制功能可以缓解此问题，如果主服务器检测到副本数量没有达到指定的副本数据，则停止接受数据写入。
+# 最小副本数量min-replicas-to-write 1# 发送异步确认的最大时间min-replicas-max-lag 10
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
       </tags>
   </entry>
   <entry>
@@ -2439,6 +2571,61 @@ mysql&gt; update T set c=c+1 where ID=2;
       </tags>
   </entry>
   <entry>
+    <title>深入浅出索引（上）</title>
+    <url>/2022/06/07/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E7%B4%A2%E5%BC%95%EF%BC%88%E4%B8%8A%EF%BC%89/</url>
+    <content><![CDATA[索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。
+¶索引常见模型
+¶哈希表
+
+哈希表是一种以键值对存储的数据结构，只要输入key，就可以根据key找到对应的vaule。不可避免的是会存在hash冲突，处理这种情况方法是拉出一个链表。（类比Java中HashMap结构）。
+优点：
+
+查找速度快，新增速度也快。
+
+缺点：
+
+因为不是有序的，如果需要范围查询，速度是很慢的。
+
+哈希表这种结构适用于只有等值查询的场景，比如 Memcached 及其他一些 NoSQL 引擎。
+¶有序数组
+
+有序数组查询时，可以使用二分法进行搜索，时间复杂度是O(log(N))，并且有序数据还支持范围查询。但是需要插入的时候，就需要进行数据挪动（因为要保证顺序），成本是非常高的。
+因此，有序数组索引只适用于静态存储引擎。
+¶搜索树
+
+二叉树的特点是：每个节点的左儿子小于父节点，父节点又小于右儿子。这样如果你要查 ID_card_n2 的话，按照图中的搜索顺序就是按照 UserA -&gt; UserC -&gt; UserF -&gt; User2 这个路径得到。这个时间复杂度是 O(log(N))。
+当然为了维持 O(log(N)) 的查询复杂度，你就需要保持这棵树是平衡二叉树。为了做这个保证，更新的时间复杂度也是 O(log(N))。
+二叉树的主要缺点是：当数据量很大的时候，树高会非常高，假如树高为20。一次查询可能需要访问 20 个数据块。在机械硬盘时代，从磁盘随机读一个数据块需要 10 ms 左右的寻址时间。也就是说，对于一个 100 万行的表，如果使用二叉树来存储，单独访问一个行可能需要 20 个 10 ms 的时间，这个查询可真够慢的。
+¶InnoDB 的索引模型
+在InnoDB中，表都是根据主键顺序以索引的形式存放的，这种存储方式的表称为索引组织表。InnoDB使用的是B+树索引模型，所以数据都是存储在B+树中的。
+每一个索引在InnoDB中对应一颗B+树。
+
+从上图来看，索引类型分为：主键索引和非主键索引。
+主键索引在InnoDB中也成为聚簇索引（clustered index），非主键索引在InnoDB中成为二级索引（secondary index）。
+¶基于主键索引和非主键索引搜索的区别：
+
+
+基于主键索引查询只需要搜索对应的这颗B+树。
+
+
+基于非主键索引首先先查到对应值的ID（假设ID为主键），再到ID索引树中搜索一次，这个过程称为回表。
+
+
+¶索引的维护
+¶页分裂
+B+ 树为了维护索引的有序性，在插入新值的时候需要做必要的维护，如果插入的数据需要在页的中间，那么就需要进行数据的挪动，空出位置，如果插入的页刚好满了，就会触发页分裂，页分裂除了会影响性能，而且会使整体空间利用率降低50%（因为之前一个页，分裂成了两个）。
+当然有分裂就有合并。当相邻两个页由于删除了数据，利用率很低之后，会将数据页做合并。合并的过程，可以认为是分裂过程的逆过程。
+基于业务字段做主键，往往不能保证插入的有序性，更容易造成页分裂，基于自增ID做主键，每插入一条记录都是追加操作，一般不会触发叶子结点分裂。由于每个非主键索引叶子结点都是主键的值，如果用整型做主键，只需要4个字节，如果是长整型，则是8个字节。
+显然，主键长度越小，普通索引的叶子节点就越小，普通索引占用的空间也就越小。
+]]></content>
+      <categories>
+        <category>MySQL实战45讲</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>消息中间件选型</title>
     <url>/2020/05/14/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E9%80%89%E5%9E%8B/</url>
     <content><![CDATA[本文主要对比常用的三种中间件优劣势，包含RocketMQ、Kafka、RabbitMQ。
@@ -2495,61 +2682,6 @@ RocketMQ相对来说比较完美的一个消息中间件，在支撑高吞吐量
       </categories>
       <tags>
         <tag>RocketMQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入浅出索引（上）</title>
-    <url>/2022/06/07/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%E7%B4%A2%E5%BC%95%EF%BC%88%E4%B8%8A%EF%BC%89/</url>
-    <content><![CDATA[索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。
-¶索引常见模型
-¶哈希表
-
-哈希表是一种以键值对存储的数据结构，只要输入key，就可以根据key找到对应的vaule。不可避免的是会存在hash冲突，处理这种情况方法是拉出一个链表。（类比Java中HashMap结构）。
-优点：
-
-查找速度快，新增速度也快。
-
-缺点：
-
-因为不是有序的，如果需要范围查询，速度是很慢的。
-
-哈希表这种结构适用于只有等值查询的场景，比如 Memcached 及其他一些 NoSQL 引擎。
-¶有序数组
-
-有序数组查询时，可以使用二分法进行搜索，时间复杂度是O(log(N))，并且有序数据还支持范围查询。但是需要插入的时候，就需要进行数据挪动（因为要保证顺序），成本是非常高的。
-因此，有序数组索引只适用于静态存储引擎。
-¶搜索树
-
-二叉树的特点是：每个节点的左儿子小于父节点，父节点又小于右儿子。这样如果你要查 ID_card_n2 的话，按照图中的搜索顺序就是按照 UserA -&gt; UserC -&gt; UserF -&gt; User2 这个路径得到。这个时间复杂度是 O(log(N))。
-当然为了维持 O(log(N)) 的查询复杂度，你就需要保持这棵树是平衡二叉树。为了做这个保证，更新的时间复杂度也是 O(log(N))。
-二叉树的主要缺点是：当数据量很大的时候，树高会非常高，假如树高为20。一次查询可能需要访问 20 个数据块。在机械硬盘时代，从磁盘随机读一个数据块需要 10 ms 左右的寻址时间。也就是说，对于一个 100 万行的表，如果使用二叉树来存储，单独访问一个行可能需要 20 个 10 ms 的时间，这个查询可真够慢的。
-¶InnoDB 的索引模型
-在InnoDB中，表都是根据主键顺序以索引的形式存放的，这种存储方式的表称为索引组织表。InnoDB使用的是B+树索引模型，所以数据都是存储在B+树中的。
-每一个索引在InnoDB中对应一颗B+树。
-
-从上图来看，索引类型分为：主键索引和非主键索引。
-主键索引在InnoDB中也成为聚簇索引（clustered index），非主键索引在InnoDB中成为二级索引（secondary index）。
-¶基于主键索引和非主键索引搜索的区别：
-
-
-基于主键索引查询只需要搜索对应的这颗B+树。
-
-
-基于非主键索引首先先查到对应值的ID（假设ID为主键），再到ID索引树中搜索一次，这个过程称为回表。
-
-
-¶索引的维护
-¶页分裂
-B+ 树为了维护索引的有序性，在插入新值的时候需要做必要的维护，如果插入的数据需要在页的中间，那么就需要进行数据的挪动，空出位置，如果插入的页刚好满了，就会触发页分裂，页分裂除了会影响性能，而且会使整体空间利用率降低50%（因为之前一个页，分裂成了两个）。
-当然有分裂就有合并。当相邻两个页由于删除了数据，利用率很低之后，会将数据页做合并。合并的过程，可以认为是分裂过程的逆过程。
-基于业务字段做主键，往往不能保证插入的有序性，更容易造成页分裂，基于自增ID做主键，每插入一条记录都是追加操作，一般不会触发叶子结点分裂。由于每个非主键索引叶子结点都是主键的值，如果用整型做主键，只需要4个字节，如果是长整型，则是8个字节。
-显然，主键长度越小，普通索引的叶子节点就越小，普通索引占用的空间也就越小。
-]]></content>
-      <categories>
-        <category>MySQL实战45讲</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
