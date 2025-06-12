@@ -3,34 +3,54 @@
     <div class="col-sm-12">
       <h2 class="title-lg text-upper">搜索</h2>
       <div class="text-box">
-        <div class="row" style="margin-bottom: 40px;">
-          <div class="col-sm-9 col-xs-12" style="margin-bottom: 10px;">
-            <input type="text" id="search-input" class="form-item" placeholder="输入关键词搜索...">
+        <div class="row" >
+          <div class="search-form" style="margin-bottom: 30px;">
+            <label>
+              <span class="screen-reader-text">Search for:</span>
+              <input type="search" id="search-input" class="search-field" placeholder="Search" value="" name="s">
+            </label>
+            <button type="button" id="search-btn" class="search-submit">
+              <span class="screen-reader-text">Search</span>
+              <span class="crt-icon crt-icon-search"></span>
+            </button>
           </div>
-          <div class="col-sm-3 col-xs-12">
-            <button id="search-btn" class="btn btn-primary btn-block">搜索</button>
+          <div id="search-summary"></div>
+          <div id="search-results" class="search-results">
+            <!-- 搜索结果将显示在这里 -->
           </div>
-        </div>
-        <div id="search-summary"></div>
-        <div id="search-results" class="search-results">
-          <!-- 搜索结果将显示在这里 -->
         </div>
       </div>
     </div>
-  </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script>
+<script src="/js/lunr.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.getElementById('search-input');
   const searchBtn = document.getElementById('search-btn');
   const searchResults = document.getElementById('search-results');
-  let searchData = [];
+  let dataMap = new Map();
   let idx;
 
+  // Helper function to debounce search input
+  function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  }
+
+  // Helper function to escape regex special characters for highlighting
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
   // 加载搜索数据
+  // For a significant performance improvement, consider pre-building the Lunr.js index
+  // during your Hexo build process and loading the serialized index here.
   fetch('<%- config.root %>search.json')
     .then(response => {
       if (!response.ok) {
@@ -39,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return response.json();
     })
     .then(data => {
-      searchData = data;
+      dataMap = new Map(data.map(item => [item.url, item]));
       // 初始化Lunr索引
       idx = lunr(function () {
         this.field('title', { boost: 10 });
@@ -75,14 +95,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     try {
       const results = idx.search(query);
-      renderResults(results);
+      renderResults(results, query);
     } catch (e) {
       console.error(e);
       searchResults.innerHTML = '<div class="text-center"><p>搜索时遇到错误。</p></div>';
     }
   }
 
-  function renderResults(results) {
+  function renderResults(results, query) {
     const summaryEl = document.getElementById('search-summary');
     const searchResults = document.getElementById('search-results');
 
@@ -95,14 +115,21 @@ document.addEventListener('DOMContentLoaded', function() {
     summaryEl.innerHTML = `<div style="margin-bottom: 30px;">找到 ${results.length} 个结果</div>`;
     summaryEl.style.display = 'block';
 
+    const queryTerms = query.split(/\s+/).filter(term => term.length > 0);
     let html = '';
     results.forEach(result => {
-      const post = searchData.find(item => item.url === result.ref);
+      const post = dataMap.get(result.ref);
+      console.log(post)
       if (post) {
         const postUrl = ('<%- config.root %>' + post.url).replace(/^\/\//, '/');
-        const cleanExcerptText = cleanContent(post.content);
-        const postExcerpt = truncate(cleanExcerptText, 150);
+        let postExcerpt = truncate(post.content, 150);
         const postTitle = post.title || '';
+
+        // Highlight search terms
+        queryTerms.forEach(term => {
+          const regex = new RegExp(escapeRegExp(term), 'gi');
+          postExcerpt = postExcerpt.replace(regex, (match) => `<mark>${match}</mark>`);
+        });
 
         html += `
           <article class="post brd-btm">
@@ -128,17 +155,8 @@ document.addEventListener('DOMContentLoaded', function() {
       return text.substring(0, length) + '...';
   }
 
-  function cleanContent(content) {
-    // Implement the logic to clean the content if needed
-    return content || '';
-  }
-
   searchBtn.addEventListener('click', performSearch);
-  searchInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      performSearch();
-    }
-  });
+  searchInput.addEventListener('input', debounce(performSearch, 300));
 
   // 初始时禁用输入框和按钮
   searchInput.disabled = true;
