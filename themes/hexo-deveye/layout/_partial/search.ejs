@@ -1,0 +1,148 @@
+<section class="section padd-box">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="title-lg text-upper">搜索</h2>
+      <div class="text-box">
+        <div class="row" style="margin-bottom: 40px;">
+          <div class="col-sm-9 col-xs-12" style="margin-bottom: 10px;">
+            <input type="text" id="search-input" class="form-item" placeholder="输入关键词搜索...">
+          </div>
+          <div class="col-sm-3 col-xs-12">
+            <button id="search-btn" class="btn btn-primary btn-block">搜索</button>
+          </div>
+        </div>
+        <div id="search-summary"></div>
+        <div id="search-results" class="search-results">
+          <!-- 搜索结果将显示在这里 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.getElementById('search-btn');
+  const searchResults = document.getElementById('search-results');
+  let searchData = [];
+  let idx;
+
+  // 加载搜索数据
+  fetch('<%- config.root %>search.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      searchData = data;
+      // 初始化Lunr索引
+      idx = lunr(function () {
+        this.field('title', { boost: 10 });
+        this.field('text');
+        this.ref('url');
+        
+        data.forEach(item => {
+            this.add({
+                title: item.title,
+                text: item.text,
+                url: item.url
+            });
+        });
+      });
+      searchInput.disabled = false;
+      searchBtn.disabled = false;
+      searchInput.placeholder = "输入关键词搜索...";
+    })
+    .catch(error => {
+        console.error('Failed to load search data:', error);
+        searchResults.innerHTML = '<div class="text-center"><p>抱歉，搜索功能加载失败，请稍后重试。</p></div>';
+        searchInput.disabled = true;
+        searchBtn.disabled = true;
+    });
+
+  function performSearch() {
+    const query = searchInput.value.trim();
+    if (!query) {
+      searchResults.innerHTML = '';
+      document.getElementById('search-summary').style.display = 'none';
+      return;
+    }
+
+    try {
+      const results = idx.search(query);
+      renderResults(results);
+    } catch (e) {
+      console.error(e);
+      searchResults.innerHTML = '<div class="text-center"><p>搜索时遇到错误。</p></div>';
+    }
+  }
+
+  function renderResults(results) {
+    const summaryEl = document.getElementById('search-summary');
+    const searchResults = document.getElementById('search-results');
+
+    if (results.length === 0) {
+      summaryEl.style.display = 'none';
+      searchResults.innerHTML = '<div class="text-center"><p>没有找到相关结果</p></div>';
+      return;
+    }
+
+    summaryEl.innerHTML = `<div style="margin-bottom: 30px;">找到 ${results.length} 个结果</div>`;
+    summaryEl.style.display = 'block';
+
+    let html = '';
+    results.forEach(result => {
+      const post = searchData.find(item => item.url === result.ref);
+      if (post) {
+        const postUrl = ('<%- config.root %>' + post.url).replace(/^\/\//, '/');
+        const cleanExcerptText = cleanContent(post.content);
+        const postExcerpt = truncate(cleanExcerptText, 150);
+        const postTitle = post.title || '';
+
+        html += `
+          <article class="post brd-btm">
+              <header class="post-header">
+                  <h3 class="post-title">
+                      <a href="${postUrl}">${postTitle}</a>
+                  </h3>
+              </header>
+              <div class="post-content">
+                  <p>${postExcerpt}</p>
+              </div>
+          </article>
+        `;
+      }
+    });
+    searchResults.innerHTML = html;
+  }
+  
+  function truncate(text, length) {
+      if (!text || text.length <= length) {
+          return text || '';
+      }
+      return text.substring(0, length) + '...';
+  }
+
+  function cleanContent(content) {
+    // Implement the logic to clean the content if needed
+    return content || '';
+  }
+
+  searchBtn.addEventListener('click', performSearch);
+  searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  });
+
+  // 初始时禁用输入框和按钮
+  searchInput.disabled = true;
+  searchInput.placeholder = "正在加载搜索索引...";
+  searchBtn.disabled = true;
+});
+</script> 

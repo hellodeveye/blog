@@ -27,6 +27,7 @@ social_platforms:
 # 顶部导航
 menu:
   文章: /
+  搜索: /search
   关于: /about
 rss: /atom.xml
 

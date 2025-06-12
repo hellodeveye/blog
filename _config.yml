@@ -128,3 +128,9 @@ feed:
   type: atom
   path: atom.xml
   limit: false
+
+search:
+  path: search.json
+  field: post
+  content: true
+  format: raw
