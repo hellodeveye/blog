@@ -25,80 +25,12 @@
 <script src="/js/theme.min.js"></script>
 <script src="/js/mermaid.min.js"></script>
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="无常是常" type="application/atom+xml">
+</head>
 
 	
 	<body class="single">
 		<div class="crt-wrapper">
-		<!--	<div class="nb-switcher nb-switcher-left" style="height: 148px;">
-    <a class="nb-switcher-toggle" title="switcher">
-        <svg class="nb-switcher-icon" width="25px" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 76.68 65.82"><title>switcher</title>
-            <path d="M83.95,70.92H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,72.72,86.44,70.92,83.95,70.92Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,47.58H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,49.38,86.44,47.58,83.95,47.58Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,24.23H16a4.17,4.17,0,0,0-4.39,4,4.17,4.17,0,0,0,4.39,4h67.9a4.17,4.17,0,0,0,4.39-4C88.44,26,86.44,24.23,83.95,24.23Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <rect x="12.45" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="52.98" y="23.15" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="32.71" y="47.21" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-        </svg>
-    </a>
-    <div class="nb-switcher-content">
-        <div class="nb-switcher-header">
-            <h2 class="nb-switcher-title">Choose Demo</h2>
-        </div>
-        <ul class="nb-switcher-items">
-            <li>
-                <a href="#" class="nb-switcher-demo1">
-                    <span>Designer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo2">
-                    <span>Florist </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo3">
-                    <span>Architect </span>
-                </a>
-            </li>
-            <li class="current">
-                <a href="#" class="nb-switcher-demo4">
-                    <span>Attorney </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo5">
-                    <span>Developer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo6">
-                    <span>Dj </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo7">
-                    <span>Teacher </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo8">
-                    <span>Doctor </span>
-                </a>
-            </li>
-        </ul>
-        <div class="nb-switcher-text">
-        </div>
-        <div class="nb-switcher-btn-wrap">
-            <a target="_blank" href="#"
-               class="nb-switcher-btn">Buy now</a>
-        </div>
-    </div>
-</div> -->
 			<header id="crt-header">
 	<div class="crt-head-inner crt-container">
 		<div class="crt-container-sm">
@@ -143,7 +75,6 @@
 	</div>
 </header>
 			<div id="crt-container" class="crt-container">
-				
 				<div class="crt-container-sm">
 					<div class="crt-paper-layers">
 						<div class="crt-paper clearfix">
@@ -173,9 +104,9 @@ Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运�
 <li>即使不是所有的Sentinel进程都在工作，Sentinel仍可正常工作，从而使系统能够应对故障。毕竟，拥有故障转移系统本身就是一个单点故障，</li>
 </ul>
 <h3 id="运行哨兵"><a class="header-anchor" href="#运行哨兵">¶</a>运行哨兵</h3>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel /<span class="selector-tag">path</span>/<span class="selector-tag">to</span>/sentinel<span class="selector-class">.conf</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel /path/to/sentinel.conf</span><br></pre></td></tr></table></figure>
 <p><code>redis-sentinel</code>是<code>redis-server</code>的一个软链接，所以也可以使用以下方法：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-<span class="keyword">server</span> /<span class="type">path</span>/<span class="keyword">to</span>/sentinel.conf <span class="comment">--sentinel</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /path/to/sentinel.conf --sentinel</span><br></pre></td></tr></table></figure>
 <p>两种方法的工作原理相同。</p>
 <p>但是，再运行<code>Sentinel</code>时<strong>必须</strong>指定配置文件，因为系统将使用此文件来保存当前状态，以便在重新启动时重新加载。如果未指定文件，则会启动失败。</p>
 <p>Sentinels默认情况下会<strong>监听TCP端口26379连接</strong>，因此必须打开26379端口。</p>
@@ -187,28 +118,28 @@ Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运�
 </ol>
 <h3 id="配置哨兵"><a class="header-anchor" href="#配置哨兵">¶</a>配置哨兵</h3>
 <p>Redis的源码包包含一个sentinel.conf文件可用于配置Sentinel，典型的最小配置如下所示：</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sentinel<span class="built_in"> monitor </span>mymaster 127.0.0.1 6379 2</span><br><span class="line">sentinel down-after-milliseconds mymaster 60000</span><br><span class="line">sentinel failover-timeout mymaster 180000</span><br><span class="line">sentinel parallel-syncs mymaster 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor mymaster 127.0.0.1 6379 2</span><br><span class="line">sentinel down-after-milliseconds mymaster 60000</span><br><span class="line">sentinel failover-timeout mymaster 180000</span><br><span class="line">sentinel parallel-syncs mymaster 1</span><br></pre></td></tr></table></figure>
 <p>sentinel monitor含义如下：</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel<span class="built_in"> monitor </span>&lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;</span><br></pre></td></tr></table></figure>
 <p><code>&lt;master-group-name&gt;</code> 指主节点名称，<code>&lt;ip&gt;</code> IP地址 <code>&lt;port&gt;</code>端口号，重点说一下<code>&lt;quorum&gt;</code>：<br>
 假如有5个Sentinel进程，并且给定主服务器的quorum置为2，则将发生以下情况：</p>
 <ul>
 <li>如果有两个哨兵同时发现主节点不可访问，则其中一个哨兵将尝试启动故障转移。</li>
 <li>如果有三个哨兵同时发现主节点不可访问，则将启动故障转移。</li>
 </ul>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel down-<span class="keyword">after</span>-<span class="built_in">milliseconds</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel down-after-milliseconds</span><br></pre></td></tr></table></figure>
 <p><code>down-after-milliseconds</code>是指Sentinel在指定的时间内没有获得实例的响应，则认为实例已关闭。</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sentinel parallel-syncs</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel parallel-syncs</span><br></pre></td></tr></table></figure>
 <p><code>parallel-syncs</code> 设置每次可以对几个副本进行同步数据</p>
 <h3 id="Redis-哨兵部署示例"><a class="header-anchor" href="#Redis-哨兵部署示例">¶</a>Redis 哨兵部署示例</h3>
 <h4 id="经典三节点最小部署"><a class="header-anchor" href="#经典三节点最小部署">¶</a>经典三节点最小部署</h4>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        +----+</span><br><span class="line">        |<span class="string"> M1 </span>|</span><br><span class="line">        |<span class="string"> S1 </span>|</span><br><span class="line">        +----+</span><br><span class="line">           |<span class="string"></span></span><br><span class="line"><span class="string"> +----+    </span>|<span class="string">    +----+</span></span><br><span class="line"><span class="string"> </span>|<span class="string"> R2 </span>|<span class="string">----+----</span>|<span class="string"> R3 </span>|</span><br><span class="line"> |<span class="string"> S2 </span>|<span class="string">         </span>|<span class="string"> S3 </span>|</span><br><span class="line"> +----+         +----+</span><br><span class="line"></span><br><span class="line">Configuration: quorum = 2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        +----+</span><br><span class="line">        | M1 |</span><br><span class="line">        | S1 |</span><br><span class="line">        +----+</span><br><span class="line">           |</span><br><span class="line"> +----+    |    +----+</span><br><span class="line"> | R2 |----+----| R3 |</span><br><span class="line"> | S2 |         | S3 |</span><br><span class="line"> +----+         +----+</span><br><span class="line"></span><br><span class="line">Configuration: quorum = 2</span><br></pre></td></tr></table></figure>
 <p>如果主M1发生故障，则S2和S3将达成协议，并能够开启故障转移，从而使客户端能够继续使用。</p>
 <h4 id="模拟发生网络分区"><a class="header-anchor" href="#模拟发生网络分区">¶</a>模拟发生网络分区</h4>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">         +----+</span><br><span class="line">         |<span class="string"> M1 </span>|</span><br><span class="line">         |<span class="string"> S1 </span>|<span class="string"> &lt;- C1 (writes will be lost)</span></span><br><span class="line"><span class="string">         +----+</span></span><br><span class="line"><span class="string">            </span>|</span><br><span class="line">            /</span><br><span class="line">            /</span><br><span class="line">+------+    |<span class="string">    +----+</span></span><br><span class="line"><span class="string"></span>|<span class="string"> [M2] </span>|<span class="string">----+----</span>|<span class="string"> R3 </span>|</span><br><span class="line">|<span class="string"> S2   </span>|<span class="string">         </span>|<span class="string"> S3 </span>|</span><br><span class="line">+------+         +----+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">         +----+</span><br><span class="line">         | M1 |</span><br><span class="line">         | S1 | &lt;- C1 (writes will be lost)</span><br><span class="line">         +----+</span><br><span class="line">            |</span><br><span class="line">            /</span><br><span class="line">            /</span><br><span class="line">+------+    |    +----+</span><br><span class="line">| [M2] |----+----| R3 |</span><br><span class="line">| S2   |         | S3 |</span><br><span class="line">+------+         +----+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>在这种情况下，网络分区隔离了旧的主数据库M1，因此副本R2被提升为主数据库。但是，与旧主服务器位于同一分区中的客户端（例如C1）可能会继续向旧主服务器写入数据。该数据将永远丢失，因为当分区恢复正常时，主服务器将被重新配置为新主服务器的副本，从而造成数据丢失。</p>
 <p>使用以下Redis复制功能可以缓解此问题，如果主服务器检测到副本数量没有达到指定的副本数据，则停止接受数据写入。</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最小副本数量</span></span><br><span class="line"><span class="built_in">min</span>-replicas-<span class="built_in">to</span>-<span class="built_in">write</span> <span class="number">1</span></span><br><span class="line"><span class="comment"># 发送异步确认的最大时间</span></span><br><span class="line"><span class="built_in">min</span>-replicas-<span class="built_in">max</span>-lag <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 最小副本数量</span><br><span class="line">min-replicas-to-write 1</span><br><span class="line"># 发送异步确认的最大时间</span><br><span class="line">min-replicas-max-lag 10</span><br></pre></td></tr></table></figure>
 
 </div>
 		<!--post footer-->
@@ -478,7 +409,7 @@ Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运�
 				<footer id="crt-footer" class="crt-container-lg">
         <div class="crt-container">
             <div class="crt-container-sm clear-mrg text-center">
-                <p>Deveye @ All Rights Reserved 2022</p>
+                <p>Deveye @ All Rights Reserved 2025</p>
 		<p><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
             </div>
         </div>

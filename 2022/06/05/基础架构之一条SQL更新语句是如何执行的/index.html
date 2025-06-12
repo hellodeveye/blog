@@ -25,80 +25,12 @@
 <script src="/js/theme.min.js"></script>
 <script src="/js/mermaid.min.js"></script>
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="无常是常" type="application/atom+xml">
+</head>
 
 	
 	<body class="single">
 		<div class="crt-wrapper">
-		<!--	<div class="nb-switcher nb-switcher-left" style="height: 148px;">
-    <a class="nb-switcher-toggle" title="switcher">
-        <svg class="nb-switcher-icon" width="25px" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 76.68 65.82"><title>switcher</title>
-            <path d="M83.95,70.92H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,72.72,86.44,70.92,83.95,70.92Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,47.58H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,49.38,86.44,47.58,83.95,47.58Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,24.23H16a4.17,4.17,0,0,0-4.39,4,4.17,4.17,0,0,0,4.39,4h67.9a4.17,4.17,0,0,0,4.39-4C88.44,26,86.44,24.23,83.95,24.23Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <rect x="12.45" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="52.98" y="23.15" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="32.71" y="47.21" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-        </svg>
-    </a>
-    <div class="nb-switcher-content">
-        <div class="nb-switcher-header">
-            <h2 class="nb-switcher-title">Choose Demo</h2>
-        </div>
-        <ul class="nb-switcher-items">
-            <li>
-                <a href="#" class="nb-switcher-demo1">
-                    <span>Designer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo2">
-                    <span>Florist </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo3">
-                    <span>Architect </span>
-                </a>
-            </li>
-            <li class="current">
-                <a href="#" class="nb-switcher-demo4">
-                    <span>Attorney </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo5">
-                    <span>Developer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo6">
-                    <span>Dj </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo7">
-                    <span>Teacher </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo8">
-                    <span>Doctor </span>
-                </a>
-            </li>
-        </ul>
-        <div class="nb-switcher-text">
-        </div>
-        <div class="nb-switcher-btn-wrap">
-            <a target="_blank" href="#"
-               class="nb-switcher-btn">Buy now</a>
-        </div>
-    </div>
-</div> -->
 			<header id="crt-header">
 	<div class="crt-head-inner crt-container">
 		<div class="crt-container-sm">
@@ -143,7 +75,6 @@
 	</div>
 </header>
 			<div id="crt-container" class="crt-container">
-				
 				<div class="crt-container-sm">
 					<div class="crt-paper-layers">
 						<div class="crt-paper clearfix">
@@ -166,7 +97,7 @@
 		<!--post content-->
 		<div class="post-content entry-content editor clearfix clear-mrg">
 	<h2 id="一条SQL语句是如何执行的"><a class="header-anchor" href="#一条SQL语句是如何执行的">¶</a>一条SQL语句是如何执行的?</h2>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="keyword">select</span> * <span class="keyword">from</span> T <span class="keyword">where</span> ID=<span class="number">10</span>；</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10；</span><br></pre></td></tr></table></figure>
 <p><img src="http://qiniu.deveye.cn/blog/img/20220605212825.png" alt=""></p>
 <p><strong>MySQL 分为Server层和存储引擎两部分。</strong></p>
 <p>Server 层包括连接器、查询缓存、分析器、优化器、执行器等。涵盖MySQL的大多数核心服务功能，以及所有内置函数（如日期、时间、数字和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
@@ -187,7 +118,7 @@
 <p>之前执行的查询结果可能会以key-value对的形式缓存在内存中，如果查询能够直接在缓存中找到key，那么会直接把value返回给客户端。</p>
 <p>*** 大多数情况下不建议使用查询缓存。***</p>
 <p>如果表中的数据修改的比较频繁，查询缓存的命中率就会非常的低。MySQL提供了以下方式使用查询缓存：</p>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="keyword">select</span> SQL_CACHE * <span class="keyword">from</span> T <span class="keyword">where</span> ID=<span class="number">10</span>；</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select SQL_CACHE * from T where ID=10；</span><br></pre></td></tr></table></figure>
 <p><em><strong>注意： MySQL8.0版本直接将查询缓存的整块功能删掉了。</strong></em></p>
 <h3 id="分析器"><a class="header-anchor" href="#分析器">¶</a>分析器</h3>
 <p>分析器主要是分析语法是否正确，如果不正确就会收到“You have an error in your SQL syntax”的错误提醒,一般语法错误会提示第一个出现错误的位置，所以你要关注的是紧接“use near”的内容。如果查询语句中包含表中不存在的字段，也是在这一步分析。</p>
@@ -465,7 +396,7 @@
 				<footer id="crt-footer" class="crt-container-lg">
         <div class="crt-container">
             <div class="crt-container-sm clear-mrg text-center">
-                <p>Deveye @ All Rights Reserved 2022</p>
+                <p>Deveye @ All Rights Reserved 2025</p>
 		<p><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
             </div>
         </div>

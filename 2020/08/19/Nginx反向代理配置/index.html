@@ -25,80 +25,12 @@
 <script src="/js/theme.min.js"></script>
 <script src="/js/mermaid.min.js"></script>
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="无常是常" type="application/atom+xml">
+</head>
 
 	
 	<body class="single">
 		<div class="crt-wrapper">
-		<!--	<div class="nb-switcher nb-switcher-left" style="height: 148px;">
-    <a class="nb-switcher-toggle" title="switcher">
-        <svg class="nb-switcher-icon" width="25px" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 76.68 65.82"><title>switcher</title>
-            <path d="M83.95,70.92H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,72.72,86.44,70.92,83.95,70.92Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,47.58H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,49.38,86.44,47.58,83.95,47.58Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,24.23H16a4.17,4.17,0,0,0-4.39,4,4.17,4.17,0,0,0,4.39,4h67.9a4.17,4.17,0,0,0,4.39-4C88.44,26,86.44,24.23,83.95,24.23Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <rect x="12.45" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="52.98" y="23.15" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="32.71" y="47.21" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-        </svg>
-    </a>
-    <div class="nb-switcher-content">
-        <div class="nb-switcher-header">
-            <h2 class="nb-switcher-title">Choose Demo</h2>
-        </div>
-        <ul class="nb-switcher-items">
-            <li>
-                <a href="#" class="nb-switcher-demo1">
-                    <span>Designer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo2">
-                    <span>Florist </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo3">
-                    <span>Architect </span>
-                </a>
-            </li>
-            <li class="current">
-                <a href="#" class="nb-switcher-demo4">
-                    <span>Attorney </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo5">
-                    <span>Developer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo6">
-                    <span>Dj </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo7">
-                    <span>Teacher </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo8">
-                    <span>Doctor </span>
-                </a>
-            </li>
-        </ul>
-        <div class="nb-switcher-text">
-        </div>
-        <div class="nb-switcher-btn-wrap">
-            <a target="_blank" href="#"
-               class="nb-switcher-btn">Buy now</a>
-        </div>
-    </div>
-</div> -->
 			<header id="crt-header">
 	<div class="crt-head-inner crt-container">
 		<div class="crt-container-sm">
@@ -143,7 +75,6 @@
 	</div>
 </header>
 			<div id="crt-container" class="crt-container">
-				
 				<div class="crt-container-sm">
 					<div class="crt-paper-layers">
 						<div class="crt-paper clearfix">
@@ -167,13 +98,13 @@
 		<div class="post-content entry-content editor clearfix clear-mrg">
 	<p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
 <h3 id="方法一：加"><a class="header-anchor" href="#方法一：加">¶</a>方法一：加&quot;/&quot;</h3>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>              <span class="number">8000</span>;</span><br><span class="line">    <span class="attribute">server_name</span>         abc.com;</span><br><span class="line">    <span class="attribute">access_log</span>  <span class="string">&quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;</span>  main;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span><span class="regexp"> ^~/user/</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Real-IP        <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Forwarded-For  <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_pass</span> http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span><span class="regexp"> ^~/order/</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Real-IP        <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Forwarded-For  <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_pass</span> http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
 <h3 id="方法二：rewrite"><a class="header-anchor" href="#方法二：rewrite">¶</a>方法二：rewrite</h3>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span><span class="regexp"> ^~/user/</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Real-IP        <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Forwarded-For  <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">rewrite</span><span class="regexp"> ^/user/(.*)$</span> /<span class="variable">$1</span> <span class="literal">break</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="section">location</span><span class="regexp"> ^~/order/</span> &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Real-IP        <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>  X-Forwarded-For  <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-NginX-Proxy <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">rewrite</span><span class="regexp"> ^/order/(.*)$</span> /<span class="variable">$1</span> <span class="literal">break</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>proxy_pass结尾没有/， rewrite重写了url。</p>
 <h3 id="location匹配命令"><a class="header-anchor" href="#location匹配命令">¶</a>location匹配命令</h3>
-<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #<span class="string">&quot;@&quot;</span> 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
 <h3 id="location-匹配的优先级-与location在配置文件中的顺序无关"><a class="header-anchor" href="#location-匹配的优先级-与location在配置文件中的顺序无关">¶</a>location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
 <p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
 <p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
@@ -448,7 +379,7 @@
 				<footer id="crt-footer" class="crt-container-lg">
         <div class="crt-container">
             <div class="crt-container-sm clear-mrg text-center">
-                <p>Deveye @ All Rights Reserved 2022</p>
+                <p>Deveye @ All Rights Reserved 2025</p>
 		<p><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
             </div>
         </div>

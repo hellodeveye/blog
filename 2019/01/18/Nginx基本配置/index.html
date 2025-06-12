@@ -25,80 +25,12 @@
 <script src="/js/theme.min.js"></script>
 <script src="/js/mermaid.min.js"></script>
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="无常是常" type="application/atom+xml">
+</head>
 
 	
 	<body class="single">
 		<div class="crt-wrapper">
-		<!--	<div class="nb-switcher nb-switcher-left" style="height: 148px;">
-    <a class="nb-switcher-toggle" title="switcher">
-        <svg class="nb-switcher-icon" width="25px" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 76.68 65.82"><title>switcher</title>
-            <path d="M83.95,70.92H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,72.72,86.44,70.92,83.95,70.92Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,47.58H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,49.38,86.44,47.58,83.95,47.58Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,24.23H16a4.17,4.17,0,0,0-4.39,4,4.17,4.17,0,0,0,4.39,4h67.9a4.17,4.17,0,0,0,4.39-4C88.44,26,86.44,24.23,83.95,24.23Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <rect x="12.45" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="52.98" y="23.15" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="32.71" y="47.21" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-        </svg>
-    </a>
-    <div class="nb-switcher-content">
-        <div class="nb-switcher-header">
-            <h2 class="nb-switcher-title">Choose Demo</h2>
-        </div>
-        <ul class="nb-switcher-items">
-            <li>
-                <a href="#" class="nb-switcher-demo1">
-                    <span>Designer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo2">
-                    <span>Florist </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo3">
-                    <span>Architect </span>
-                </a>
-            </li>
-            <li class="current">
-                <a href="#" class="nb-switcher-demo4">
-                    <span>Attorney </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo5">
-                    <span>Developer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo6">
-                    <span>Dj </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo7">
-                    <span>Teacher </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo8">
-                    <span>Doctor </span>
-                </a>
-            </li>
-        </ul>
-        <div class="nb-switcher-text">
-        </div>
-        <div class="nb-switcher-btn-wrap">
-            <a target="_blank" href="#"
-               class="nb-switcher-btn">Buy now</a>
-        </div>
-    </div>
-</div> -->
 			<header id="crt-header">
 	<div class="crt-head-inner crt-container">
 		<div class="crt-container-sm">
@@ -143,7 +75,6 @@
 	</div>
 </header>
 			<div id="crt-container" class="crt-container">
-				
 				<div class="crt-container-sm">
 					<div class="crt-paper-layers">
 						<div class="crt-paper clearfix">
@@ -167,21 +98,21 @@
 		<div class="post-content entry-content editor clearfix clear-mrg">
 	<h3 id="1-Nginx-常用操作整理"><a class="header-anchor" href="#1-Nginx-常用操作整理">¶</a>1. Nginx 常用操作整理</h3>
 <h4 id="1-1-启动-Nginx"><a class="header-anchor" href="#1-1-启动-Nginx">¶</a>1.1 启动 Nginx</h4>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="regexp">/sbin/</span>nginx</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx</span><br></pre></td></tr></table></figure>
 <h4 id="1-2-停止-Nginx"><a class="header-anchor" href="#1-2-停止-Nginx">¶</a>1.2 停止 Nginx</h4>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./sbin/nginx</span> -s stop</span><br><span class="line"><span class="string">./sbin/nginx</span> -s <span class="keyword">quit</span></span><br><span class="line">-s 都是采用向 Nginx 发送信号的方式。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s stop</span><br><span class="line">./sbin/nginx -s quit</span><br><span class="line">-s 都是采用向 Nginx 发送信号的方式。</span><br></pre></td></tr></table></figure>
 <h4 id="1-3-重载-Nginx"><a class="header-anchor" href="#1-3-重载-Nginx">¶</a>1.3 重载 Nginx</h4>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./sbin/nginx</span> -s <span class="keyword">reload</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
 <h4 id="1-4-指定配置文件"><a class="header-anchor" href="#1-4-指定配置文件">¶</a>1.4 指定配置文件</h4>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="regexp">/sbin/</span>nginx -c <span class="regexp">/etc/</span>nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -c /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
 <h4 id="1-5-配置语法检查"><a class="header-anchor" href="#1-5-配置语法检查">¶</a>1.5 配置语法检查</h4>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.<span class="regexp">/sbin/</span>nginx -t <span class="regexp">/etc/</span>nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">常规用法： .<span class="regexp">/sbin/</span>nginx -tc <span class="regexp">/etc/</span>nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -t /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">常规用法： ./sbin/nginx -tc /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
 <h3 id="2-配置文件详解"><a class="header-anchor" href="#2-配置文件详解">¶</a>2. 配置文件详解</h3>
 <p>Nginx配置文件的分块下，基本就分为以下几块：</p>
-<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">main <span class="comment"># 全局设置</span></span><br><span class="line">events &#123; <span class="comment"># Nginx工作模式</span></span><br><span class="line">    <span class="string">....</span></span><br><span class="line">&#125;</span><br><span class="line">http &#123; <span class="comment"># http设置</span></span><br><span class="line">    <span class="string">....</span></span><br><span class="line">    upstream myproject &#123; <span class="comment"># 负载均衡服务器设置</span></span><br><span class="line">        <span class="string">.....</span></span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123; <span class="comment"># 主机设置</span></span><br><span class="line">        <span class="string">....</span></span><br><span class="line">        location &#123; <span class="comment"># URL匹配</span></span><br><span class="line">            <span class="string">....</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123;</span><br><span class="line">        <span class="string">....</span></span><br><span class="line">        location &#123;</span><br><span class="line">            <span class="string">....</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="string">....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">main # 全局设置</span><br><span class="line">events &#123; # Nginx工作模式</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br><span class="line">http &#123; # http设置</span><br><span class="line">    ....</span><br><span class="line">    upstream myproject &#123; # 负载均衡服务器设置</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123; # 主机设置</span><br><span class="line">        ....</span><br><span class="line">        location &#123; # URL匹配</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123;</span><br><span class="line">        ....</span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="2-1-main模块"><a class="header-anchor" href="#2-1-main模块">¶</a>2.1 main模块</h4>
 <p>下面是一个main区域，它是一个全局的设置：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log /usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">log</span>/nginx/<span class="keyword">error</span>.<span class="keyword">log</span> notice;</span><br><span class="line">pid /usr/<span class="keyword">local</span>/<span class="keyword">var</span>/<span class="keyword">run</span>/nginx/nginx.pid;</span><br><span class="line">worker_rlimit_nofile 1024;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log /usr/local/var/log/nginx/error.log notice;</span><br><span class="line">pid /usr/local/var/run/nginx/nginx.pid;</span><br><span class="line">worker_rlimit_nofile 1024;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>user 来指定Nginx Worker进程运行用户以及用户组，默认由nobody账号运行。</p>
 <p>worker_processes 来指定了Nginx要开启的子进程数。每个Nginx进程平均耗费10M~12M内存。根据经验，一般指定1个进程就足够了，如果是多核CPU，建议指定和CPU的数量一样的进程数即可。我这里写2，那么就会开启2个子进程，总共3个进程。</p>
@@ -191,7 +122,7 @@
 </blockquote>
 <h4 id="2-2-events模块"><a class="header-anchor" href="#2-2-events模块">¶</a>2.2 events模块</h4>
 <p>events模块来用指定nginx的工作模式和工作模式及连接数上限，一般是这样：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">use</span> <span class="literal">kqueue</span>; <span class="comment">#mac平台</span></span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    use kqueue; #mac平台</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>use 用来指定Nginx的工作模式。Nginx支持的工作模式有select、poll、kqueue、epoll、rtsig和/dev/poll。其中select和poll都是标准的工作模式，kqueue和epoll是高效的工作模式，不同的是epoll用在Linux平台上，而kqueue用在BSD系统中，因为Mac基于BSD,所以Mac也得用这个模式，对于Linux系统，epoll工作模式是首选。</p>
 <p>worker_connections 用于定义Nginx每个进程的最大连接数，即接收前端的最大请求数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_clients = worker_processes * worker_connections，在作为反向代理时，Max_clients变为：Max_clients = worker_processes * worker_connections / 4。</p>
@@ -199,7 +130,7 @@
 </blockquote>
 <h4 id="2-3-http模块"><a class="header-anchor" href="#2-3-http模块">¶</a>2.3 http模块</h4>
 <p>http模块可以说是最核心的模块了，它负责HTTP服务器相关属性的配置，它里面的server和upstream子模块，至关重要，等到反向代理和负载均衡以及虚拟目录等会仔细说。</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include mime.types;</span><br><span class="line">    default_type application/octet-stream;</span><br><span class="line">    log_format main <span class="string">&#x27;<span class="subst">$remote_addr</span> - <span class="subst">$remote_user</span> [<span class="subst">$time_local</span>] &quot;<span class="subst">$request</span>&quot; &#x27;</span></span><br><span class="line">                    <span class="string">&#x27;<span class="subst">$status</span> <span class="subst">$body_bytes_sent</span> &quot;<span class="subst">$http_referer</span>&quot; &#x27;</span></span><br><span class="line">                    <span class="string">&#x27;&quot;<span class="subst">$http_user_agent</span>&quot; &quot;<span class="subst">$http_x_forwarded_for</span>&quot;&#x27;</span>;</span><br><span class="line">    access_log /usr/local/<span class="keyword">var</span>/log/nginx/access.log  main;</span><br><span class="line">    sendfile <span class="keyword">on</span>;</span><br><span class="line">    tcp_nopush <span class="keyword">on</span>;</span><br><span class="line">    tcp_nodelay <span class="keyword">on</span>;</span><br><span class="line">    keepalive_timeout <span class="number">10</span>;</span><br><span class="line">    #gzip <span class="keyword">on</span>;</span><br><span class="line">    upstream myproject &#123;</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include mime.types;</span><br><span class="line">    default_type application/octet-stream;</span><br><span class="line">    log_format main &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                    &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                    &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line">    access_log /usr/local/var/log/nginx/access.log  main;</span><br><span class="line">    sendfile on;</span><br><span class="line">    tcp_nopush on;</span><br><span class="line">    tcp_nodelay on;</span><br><span class="line">    keepalive_timeout 10;</span><br><span class="line">    #gzip on;</span><br><span class="line">    upstream myproject &#123;</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="2-3-1-include"><a class="header-anchor" href="#2-3-1-include">¶</a>2.3.1 include</h5>
 <blockquote>
 <p>用来设定文件的mime类型,类型在配置文件目录下的mime.type文件定义，来告诉nginx来识别文件类型。</p>
@@ -226,7 +157,7 @@
 </blockquote>
 <h4 id="6-4-server模块"><a class="header-anchor" href="#6-4-server模块">¶</a>6.4 server模块</h4>
 <p>server模块是http的子模块，它用来定一个虚拟主机，我们先讲最基本的配置，这些在后面再讲。我们看一下一个简单的server是如何做的？</p>
-<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen <span class="number">8080</span>;</span><br><span class="line">    server_name localhost <span class="number">192.168</span><span class="number">.12</span><span class="number">.10</span> www.yangyi.com;</span><br><span class="line">    # 全局定义，如果都是这一个目录，这样定义最简单。</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    <span class="built_in">index</span>  <span class="built_in">index</span>.php <span class="built_in">index</span>.html <span class="built_in">index</span>.htm;</span><br><span class="line">    charset utf-<span class="number">8</span>;</span><br><span class="line">    access_log  usr/<span class="keyword">local</span>/var/<span class="built_in">log</span>/host.access.<span class="built_in">log</span>  main;</span><br><span class="line">    error_log  usr/<span class="keyword">local</span>/var/<span class="built_in">log</span>/host.error.<span class="built_in">log</span>  error;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8080;</span><br><span class="line">    server_name localhost 192.168.12.10 www.yangyi.com;</span><br><span class="line">    # 全局定义，如果都是这一个目录，这样定义最简单。</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log  usr/local/var/log/host.access.log  main;</span><br><span class="line">    error_log  usr/local/var/log/host.error.log  error;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>server 标志定义虚拟主机开始。</p>
 <p>listen 用于指定虚拟主机的服务端口。</p>
@@ -240,7 +171,7 @@
 <p>location模块是nginx中用的最多的，也是最重要的模块了，什么负载均衡啊、反向代理啊、虚拟域名啊都与它相关。</p>
 <p>location根据它字面意思就知道是来定位的，定位URL，解析URL，所以，它也提供了强大的正则匹配功能，也支持条件判断匹配，用户可以通过location指令实现Nginx对动、静态网页进行过滤处理。像我们的php环境搭建就是用到了它。</p>
 <h5 id="2-5-1-我们先来看这个，设定默认首页和虚拟机目录"><a class="header-anchor" href="#2-5-1-我们先来看这个，设定默认首页和虚拟机目录">¶</a>2.5.1 我们先来看这个，设定默认首页和虚拟机目录</h5>
-<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">location</span> / &#123;</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    <span class="keyword">index</span>  <span class="keyword">index</span>.php <span class="keyword">index</span>.html <span class="keyword">index</span>.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>location / 表示匹配访问根目录。</p>
 <p>root 指令用于指定访问根目录时，虚拟主机的web目录，这个目录可以是相对路径（相对路径是相对于nginx的安装目录）。也可以是绝对路径。</p>
@@ -248,7 +179,7 @@
 </blockquote>
 <h5 id="2-5-2-location-还有一种方式就是正则匹配"><a class="header-anchor" href="#2-5-2-location-还有一种方式就是正则匹配">¶</a>2.5.2 location 还有一种方式就是正则匹配</h5>
 <p>下面这个例子是运用正则匹配来链接php。我们之前搭建环境也是这样做：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">location</span> <span class="regexp">~ \.php$</span> &#123;</span><br><span class="line">    <span class="attribute">root</span>           /Users/yangyi/www;</span><br><span class="line">    <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">    <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">    <span class="attribute">include</span>        fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    root           /Users/yangyi/www;</span><br><span class="line">    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">    fastcgi_index  index.php;</span><br><span class="line">    include        fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>.php$ 熟悉正则的我们直到，这是匹配.php结尾的URL，用来解析php文件。里面的root也是一样，用来表示虚拟主机的根目录。<br>
 fastcgi_pass 链接的是php-fpm的地址。其他几个参数我们以后再说。</p>
@@ -256,7 +187,7 @@ fastcgi_pass 链接的是php-fpm的地址。其他几个参数我们以后再说
 </blockquote>
 <h4 id="2-6-upstream模块"><a class="header-anchor" href="#2-6-upstream模块">¶</a>2.6 upstream模块</h4>
 <p>upstream 模块负责负载均衡模块，通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡。先学习怎么用，具体的使用实例以后再说。</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream deveye.cn&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">   <span class="built_in"> server </span>192.168.12.1:80;</span><br><span class="line">   <span class="built_in"> server </span>192.168.12.2:80 down;</span><br><span class="line">   <span class="built_in"> server </span>192.168.12.3:8080  <span class="attribute">max_fails</span>=3  <span class="attribute">fail_timeout</span>=20s;</span><br><span class="line">   <span class="built_in"> server </span>192.168.12.4:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream deveye.cn&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.12.1:80;</span><br><span class="line">    server 192.168.12.2:80 down;</span><br><span class="line">    server 192.168.12.3:8080  max_fails=3  fail_timeout=20s;</span><br><span class="line">    server 192.168.12.4:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在上面的例子中，<a href="http://xn--upstreamiyangyi-7e3xouw5c9yc706c1jlfyemo5arx4bba4380k2ktarn6g3z2ap3oc8b41d.com">通过upstream指令指定了一个负载均衡器的名称iyangyi.com</a>。这个名称可以任意指定，在后面需要的地方直接调用即可。里面是ip_hash这是其中的一种负载均衡调度算法，下面会着重介绍。紧接着就是各种服务器了。用server关键字表识，后面接ip。<br>
 <strong>Nginx的负载均衡模块目前支持4种调度算法：</strong></p>
 <ol>
@@ -561,7 +492,7 @@ fastcgi_pass 链接的是php-fpm的地址。其他几个参数我们以后再说
 				<footer id="crt-footer" class="crt-container-lg">
         <div class="crt-container">
             <div class="crt-container-sm clear-mrg text-center">
-                <p>Deveye @ All Rights Reserved 2022</p>
+                <p>Deveye @ All Rights Reserved 2025</p>
 		<p><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
             </div>
         </div>

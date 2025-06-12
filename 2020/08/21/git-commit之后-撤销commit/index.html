@@ -25,80 +25,12 @@
 <script src="/js/theme.min.js"></script>
 <script src="/js/mermaid.min.js"></script>
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="无常是常" type="application/atom+xml">
+</head>
 
 	
 	<body class="single">
 		<div class="crt-wrapper">
-		<!--	<div class="nb-switcher nb-switcher-left" style="height: 148px;">
-    <a class="nb-switcher-toggle" title="switcher">
-        <svg class="nb-switcher-icon" width="25px" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 76.68 65.82"><title>switcher</title>
-            <path d="M83.95,70.92H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,72.72,86.44,70.92,83.95,70.92Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,47.58H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,49.38,86.44,47.58,83.95,47.58Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,24.23H16a4.17,4.17,0,0,0-4.39,4,4.17,4.17,0,0,0,4.39,4h67.9a4.17,4.17,0,0,0,4.39-4C88.44,26,86.44,24.23,83.95,24.23Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <rect x="12.45" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="52.98" y="23.15" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="32.71" y="47.21" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-        </svg>
-    </a>
-    <div class="nb-switcher-content">
-        <div class="nb-switcher-header">
-            <h2 class="nb-switcher-title">Choose Demo</h2>
-        </div>
-        <ul class="nb-switcher-items">
-            <li>
-                <a href="#" class="nb-switcher-demo1">
-                    <span>Designer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo2">
-                    <span>Florist </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo3">
-                    <span>Architect </span>
-                </a>
-            </li>
-            <li class="current">
-                <a href="#" class="nb-switcher-demo4">
-                    <span>Attorney </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo5">
-                    <span>Developer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo6">
-                    <span>Dj </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo7">
-                    <span>Teacher </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo8">
-                    <span>Doctor </span>
-                </a>
-            </li>
-        </ul>
-        <div class="nb-switcher-text">
-        </div>
-        <div class="nb-switcher-btn-wrap">
-            <a target="_blank" href="#"
-               class="nb-switcher-btn">Buy now</a>
-        </div>
-    </div>
-</div> -->
 			<header id="crt-header">
 	<div class="crt-head-inner crt-container">
 		<div class="crt-container-sm">
@@ -143,7 +75,6 @@
 	</div>
 </header>
 			<div id="crt-container" class="crt-container">
-				
 				<div class="crt-container-sm">
 					<div class="crt-paper-layers">
 						<div class="crt-paper clearfix">
@@ -167,9 +98,9 @@
 		<div class="post-content entry-content editor clearfix clear-mrg">
 	<h3 id="场景"><a class="header-anchor" href="#场景">¶</a>场景</h3>
 <p>一般情况下，我们写完代码后会执行:</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">add</span> .</span><br><span class="line">git <span class="keyword">commit</span> -m &quot;xxx&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;xxx&quot;</span><br></pre></td></tr></table></figure>
 <p>但是执行完后，想撤回怎么办？可以执行以下命令:</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">reset</span> <span class="comment">--soft HEAD^</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
 <p>这样就可以撤回你的提交，并且不会丢失提交前修改的内容.</p>
 <h3 id="理解"><a class="header-anchor" href="#理解">¶</a>理解</h3>
 <p>HEAD^ 代表上一个版本，同等于HEAD<sub>1，如果进行了两次提交，可以写成HEAD</sub>2</p>
@@ -188,7 +119,7 @@
 <p>删除工作空间改动的代码，撤销commit，撤销<code>git add .</code>，直接回退到上次<code>commit</code></p>
 <h3 id="最后"><a class="header-anchor" href="#最后">¶</a>最后</h3>
 <p>如果commit注释写错了，只是想改一下注释，只需要：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">commit</span> <span class="comment">--amend</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
 <p>此时会进入默认vim编辑器，修改注释完毕后保存就好了。</p>
 
 </div>
@@ -459,7 +390,7 @@
 				<footer id="crt-footer" class="crt-container-lg">
         <div class="crt-container">
             <div class="crt-container-sm clear-mrg text-center">
-                <p>Deveye @ All Rights Reserved 2022</p>
+                <p>Deveye @ All Rights Reserved 2025</p>
 		<p><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
             </div>
         </div>

@@ -25,80 +25,12 @@
 <script src="/js/theme.min.js"></script>
 <script src="/js/mermaid.min.js"></script>
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="无常是常" type="application/atom+xml">
+</head>
 
 	
 	<body class="single">
 		<div class="crt-wrapper">
-		<!--	<div class="nb-switcher nb-switcher-left" style="height: 148px;">
-    <a class="nb-switcher-toggle" title="switcher">
-        <svg class="nb-switcher-icon" width="25px" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 76.68 65.82"><title>switcher</title>
-            <path d="M83.95,70.92H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,72.72,86.44,70.92,83.95,70.92Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,47.58H16a4,4,0,1,0,0,7.94h67.9a4.17,4.17,0,0,0,4.39-4C88.44,49.38,86.44,47.58,83.95,47.58Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <path d="M83.95,24.23H16a4.17,4.17,0,0,0-4.39,4,4.17,4.17,0,0,0,4.39,4h67.9a4.17,4.17,0,0,0,4.39-4C88.44,26,86.44,24.23,83.95,24.23Z"
-                  transform="translate(-11.66 -18.9)"></path>
-            <rect x="12.45" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="52.98" y="23.15" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-            <rect x="32.71" y="47.21" width="11.25" height="18.61" rx="5.2" ry="5.2"></rect>
-        </svg>
-    </a>
-    <div class="nb-switcher-content">
-        <div class="nb-switcher-header">
-            <h2 class="nb-switcher-title">Choose Demo</h2>
-        </div>
-        <ul class="nb-switcher-items">
-            <li>
-                <a href="#" class="nb-switcher-demo1">
-                    <span>Designer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo2">
-                    <span>Florist </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo3">
-                    <span>Architect </span>
-                </a>
-            </li>
-            <li class="current">
-                <a href="#" class="nb-switcher-demo4">
-                    <span>Attorney </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo5">
-                    <span>Developer </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo6">
-                    <span>Dj </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo7">
-                    <span>Teacher </span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nb-switcher-demo8">
-                    <span>Doctor </span>
-                </a>
-            </li>
-        </ul>
-        <div class="nb-switcher-text">
-        </div>
-        <div class="nb-switcher-btn-wrap">
-            <a target="_blank" href="#"
-               class="nb-switcher-btn">Buy now</a>
-        </div>
-    </div>
-</div> -->
 			<header id="crt-header">
 	<div class="crt-head-inner crt-container">
 		<div class="crt-container-sm">
@@ -143,7 +75,6 @@
 	</div>
 </header>
 			<div id="crt-container" class="crt-container">
-				
 				<div class="crt-container-sm">
 					<div class="crt-paper-layers">
 						<div class="crt-paper clearfix">
@@ -188,7 +119,7 @@
 <h3 id="Redis-复制的原理："><a class="header-anchor" href="#Redis-复制的原理：">¶</a>Redis 复制的原理：</h3>
 <p>每个Redis Master 节点都有一个replication ID:这是一个较大的伪随机字符串，用于标记当前数据集。每个Master 还有一个偏移量，该偏移量会针对复制流中要发送到副本的每个字节的增量而增加。<br>
 以便更新副本的状态。即使未连接任何副本，复制偏移也会增加。</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Replication</span></span><br><span class="line"><span class="attribute">role</span>:master</span><br><span class="line"><span class="attribute">connected_slaves</span>:<span class="number">1</span></span><br><span class="line"><span class="attribute">slave0</span>:ip=<span class="number">39.105.157.176</span>,port=<span class="number">6379</span>,state=online,offset=<span class="number">61238</span>,lag=<span class="number">0</span></span><br><span class="line"><span class="comment"># 主 Replication ID</span></span><br><span class="line"><span class="attribute">master_replid</span>:<span class="number">649255</span>ffb2183786d00203aa51715169b06f4f47</span><br><span class="line"><span class="comment"># 副 Replication ID</span></span><br><span class="line"><span class="attribute">master_replid2</span>:<span class="number">0000000000000000000000000000000000000000</span></span><br><span class="line"><span class="attribute">master_repl_offset</span>:<span class="number">61238</span></span><br><span class="line"><span class="attribute">second_repl_offset</span>:-<span class="number">1</span></span><br><span class="line"><span class="attribute">repl_backlog_active</span>:<span class="number">1</span></span><br><span class="line"><span class="attribute">repl_backlog_size</span>:<span class="number">1048576</span></span><br><span class="line"><span class="attribute">repl_backlog_first_byte_offset</span>:<span class="number">1</span></span><br><span class="line"><span class="attribute">repl_backlog_histlen</span>:<span class="number">61238</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># Replication</span><br><span class="line">role:master</span><br><span class="line">connected_slaves:1</span><br><span class="line">slave0:ip=39.105.157.176,port=6379,state=online,offset=61238,lag=0</span><br><span class="line"># 主 Replication ID</span><br><span class="line">master_replid:649255ffb2183786d00203aa51715169b06f4f47</span><br><span class="line"># 副 Replication ID</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:61238</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:61238</span><br></pre></td></tr></table></figure>
 <p>当从节点连接主节点时，会使用<code>PSYNC</code>命令来发送当前旧的主节点的Replication ID和offset，这样主节点只会同步相差的数据量，如果主节点缓冲区的副本引用（Replication ID）不存在，则会进行全量同步。</p>
 <h4 id="全量同步的工作流程如下："><a class="header-anchor" href="#全量同步的工作流程如下：">¶</a>全量同步的工作流程如下：</h4>
 <p>主节点开始后台生成RDB文件。同时，它开始缓冲从客户端收到的所有新写入命令。后台保存完成后，主数据库将数据库文件传输到从节点，从节点将其保存在磁盘上，然后将其加载到内存中。然后，主服务器将所有缓冲的命令发送到副本。</p>
@@ -200,12 +131,12 @@
 <p>通常，完全重新同步需要在磁盘上创建RDB文件，然后从磁盘重新加载相同的RDB，以便为副本提供数据。<br>
 但是对于硬盘速度慢，但是在内网环境下，可以采用无盘复制，这样可以直接通过Socket将RDB发送给从节点，而无需使用硬盘作为中间存储。</p>
 <h3 id="配置"><a class="header-anchor" href="#配置">¶</a>配置</h3>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">replicaof</span> <span class="number">192.168.1.1</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof 192.168.1.1 6379</span><br></pre></td></tr></table></figure>
 <p>也可以使用<code>REPLICAOF</code>命令进行同步。<br>
 可以使用<code>repl-diskless-sync</code>配置参数启用无盘复制。在<code>repl-diskless-sync-delay </code>参数控制第一个副本之后，为了等待更多副本到达而开始传输的延迟。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterauth <span class="tag">&lt;<span class="name">password</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterauth &lt;password&gt;</span><br></pre></td></tr></table></figure>
 <p>设置主节点的密码，也可以使用redis-cli输入<code>config set masterauth &lt;password&gt;</code>进行设置。</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在当前至少有N个副本连接到主服务器时才接受写查询</span></span><br><span class="line"><span class="built_in">min</span>-replicas-<span class="built_in">to</span>-<span class="built_in">write</span> &lt;<span class="built_in">number</span> <span class="keyword">of</span> replicas&gt;</span><br><span class="line"><span class="comment"># 在有N个副本延迟少于M秒时，则接受写入</span></span><br><span class="line"><span class="built_in">min</span>-replicas-<span class="built_in">max</span>-lag &lt;<span class="built_in">number</span> <span class="keyword">of</span> <span class="built_in">seconds</span>&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 在当前至少有N个副本连接到主服务器时才接受写查询</span><br><span class="line">min-replicas-to-write &lt;number of replicas&gt;</span><br><span class="line"># 在有N个副本延迟少于M秒时，则接受写入</span><br><span class="line">min-replicas-max-lag &lt;number of seconds&gt;</span><br></pre></td></tr></table></figure>
 
 </div>
 		<!--post footer-->
@@ -475,7 +406,7 @@
 				<footer id="crt-footer" class="crt-container-lg">
         <div class="crt-container">
             <div class="crt-container-sm clear-mrg text-center">
-                <p>Deveye @ All Rights Reserved 2022</p>
+                <p>Deveye @ All Rights Reserved 2025</p>
 		<p><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
             </div>
         </div>
