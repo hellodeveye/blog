@@ -3940,19 +3940,11 @@ img.aligncenter {
     float: left;
     width: 100%;
   }
-  .crt-side-box-on .crt-container-sm {
-    margin-left: 310px;
-  }
   .crt-side-box-on .crt-container {
     max-width: 1140px;
   }
   .crt-side-box-on.crt-nav-on .crt-container {
     max-width: 1196px;
-  }
-}
-@media (min-width: 1200px) {
-  .crt-side-box-on .crt-container-sm {
-    margin-left: 330px;
   }
 }
 .section {
