@@ -54,33 +54,6 @@
       </tags>
   </entry>
   <entry>
-    <title>10x程序员总结</title>
-    <url>/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[¶以终为始
-遇到问题不妨倒着去思考
-¶任务分解
-
-埃隆马斯克SpaceX 的计划，本质上就是把一件很困难实现的事情去做任务分解，使每件任务可执行化。
-
-如何降低火箭发射成本1. 造一个能容纳100人的火箭2. 实现火箭回收3. ....
-
-
-大师程序员都是懂的去做任务分解，分解的力度是可执行
-
-
-多写单元测试，代码小步提交
-
-
-
-]]></content>
-      <categories>
-        <category>读书</category>
-      </categories>
-      <tags>
-        <tag>读书</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Docker安装软件集合</title>
     <url>/2021/03/16/Docker%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E9%9B%86%E5%90%88/</url>
     <content><![CDATA[¶Docker安装Nginx
@@ -111,6 +84,33 @@ sudo mkdir -p /etc/docker sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x
       </categories>
       <tags>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>10x程序员总结</title>
+    <url>/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[¶以终为始
+遇到问题不妨倒着去思考
+¶任务分解
+
+埃隆马斯克SpaceX 的计划，本质上就是把一件很困难实现的事情去做任务分解，使每件任务可执行化。
+
+如何降低火箭发射成本1. 造一个能容纳100人的火箭2. 实现火箭回收3. ....
+
+
+大师程序员都是懂的去做任务分解，分解的力度是可执行
+
+
+多写单元测试，代码小步提交
+
+
+
+]]></content>
+      <categories>
+        <category>读书</category>
+      </categories>
+      <tags>
+        <tag>读书</tag>
       </tags>
   </entry>
   <entry>
@@ -163,6 +163,54 @@ chore (更新grunt任务等; 不包括生产代码变动)
       </categories>
       <tags>
         <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java将HTML转为图片</title>
+    <url>/2021/03/25/Java-HTML-%E8%BD%AC%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[记录一个使用Java转图片的第三方工具
+&lt;!-- https://mvnrepository.com/artifact/net.sf.cssbox/cssbox --&gt;&lt;dependency&gt;  &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt;  &lt;artifactId&gt;cssbox&lt;/artifactId&gt;  &lt;version&gt;5.0.0&lt;/version&gt;&lt;/dependency&gt;
+使用方法很简单，伪代码如下:
+ImageRenderer render = new ImageRenderer();ByteArrayOutputStream os = new ByteArrayOutputStream();//创建一个临时的HTML文件Path tempFile = Files.createTempFile(IdWorker.getMillisecond(), &quot;.html&quot;);//将HTML字节流写入到临时文件中Files.write(tempFile,createHtml());render.renderURL(tempFile.toUri().toString(), os);String fileName = &quot;test.png&quot;;//将图片上传到OSSAliyunOSSUtil.upload(AliyunOSSUtil.toOSSFilePath(fileName, sysUser.tenantId()), new  ByteArrayInputStream(os.toByteArray()));//删除临时文件Files.deleteIfExists(tempFile);
+我的方案是使用freemarker模板引擎先将数据渲染到成html文件，然后通过html文件生成一个图片，将图片上传到OSS中，最后删除临时生成的html文件。
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java的字符串常量池位于哪里，堆或堆栈？</title>
+    <url>/2021/03/24/Java%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E4%BD%8D%E4%BA%8E%E5%93%AA%E9%87%8C%EF%BC%8C%E5%A0%86%E6%88%96%E5%A0%86%E6%A0%88%EF%BC%9F/</url>
+    <content><![CDATA[
+转载自: https://www.baeldung.com/java-string-constant-pool-heap-stack
+
+¶1.简介
+每当我们声明一个变量或创建一个对象时，它就会存储在内存中。在较高的级别上，Java将内存分为两个块：stack和heap。两种存储器均存储特定类型的数据，并且具有不同的存储和访问模式。
+¶2.字符串常量池
+该字符串常量池是一个特殊的存储区。**当我们声明String时，JVM在池中创建对象并将其引用存储在堆栈中。**在内存中创建每个String对象之前，JVM执行一些步骤来减少内存开销。
+字符串常量池在其实现中使用HashMap。HashMap的每个存储桶均包含具有相同哈希码的String列表。在Java的早期版本中，池的存储区域是固定大小的，并且通常会导致*“无法为对象堆保留足够的空间”* 错误。
+**当系统加载类时，所有类的*String*文字都将进入应用程序级池。**这是因为不同类的相等String文字必须是相同的Object。在这些情况下，池中的数据应可用于每个类而没有任何依赖关系。
+通常，堆栈存储短期的数据。它包括局部基本变量，堆对象的引用以及执行中的方法。堆允许动态分配内存，在运行时存储Java对象和JRE类。
+堆允许全局访问，并且在应用程序的生存期内，堆中的数据存储可用于所有线程，而堆栈上的数据存储具有私有作用域，只有所有者线程可以访问它们。
+堆栈将数据存储在连续的存储块中，并允许随机访问。如果类需要池中的随机String，则由于堆栈的LIFO（后进先出）规则，该类可能不可用。相反，堆会动态分配内存，并允许我们以任何方式访问数据。
+假设我们有一个由不同类型的变量组成的代码段。堆栈将存储int文字的值以及String和Demo对象的引用*。任何对象的值都将存储在堆中，所有String*文字都放入堆中的池中：
+
+线程完成执行后，将立即释放在堆栈上创建的变量。相反，垃圾收集器回收堆中的资源。同样，垃圾收集器从池中收集未引用的项目。
+**池的默认大小在不同平台上可能会有所不同。**无论如何，它仍然比可用堆栈大小大得多。在JDK 7之前，该池是permgen空间的一部分，从JDK 7到现在，它是主堆内存的一部分。
+¶3.结论
+在这篇简短的文章中，我们了解了String常量池的存储区域。堆栈和堆具有不同的特性来存储和访问数据。从内存分配到其访问和可用性，堆是最适合存储String常量池的区域。
+实际上，池从未成为堆栈内存的一部分。
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>String</tag>
+        <tag>转载</tag>
       </tags>
   </entry>
   <entry>
@@ -503,54 +551,6 @@ Zhang, H., S. Liang, and L. Bak. Monitor Conversion in a Multithreaded Computer 
       </tags>
   </entry>
   <entry>
-    <title>Java将HTML转为图片</title>
-    <url>/2021/03/25/Java-HTML-%E8%BD%AC%E5%9B%BE%E7%89%87/</url>
-    <content><![CDATA[记录一个使用Java转图片的第三方工具
-&lt;!-- https://mvnrepository.com/artifact/net.sf.cssbox/cssbox --&gt;&lt;dependency&gt;  &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt;  &lt;artifactId&gt;cssbox&lt;/artifactId&gt;  &lt;version&gt;5.0.0&lt;/version&gt;&lt;/dependency&gt;
-使用方法很简单，伪代码如下:
-ImageRenderer render = new ImageRenderer();ByteArrayOutputStream os = new ByteArrayOutputStream();//创建一个临时的HTML文件Path tempFile = Files.createTempFile(IdWorker.getMillisecond(), &quot;.html&quot;);//将HTML字节流写入到临时文件中Files.write(tempFile,createHtml());render.renderURL(tempFile.toUri().toString(), os);String fileName = &quot;test.png&quot;;//将图片上传到OSSAliyunOSSUtil.upload(AliyunOSSUtil.toOSSFilePath(fileName, sysUser.tenantId()), new  ByteArrayInputStream(os.toByteArray()));//删除临时文件Files.deleteIfExists(tempFile);
-我的方案是使用freemarker模板引擎先将数据渲染到成html文件，然后通过html文件生成一个图片，将图片上传到OSS中，最后删除临时生成的html文件。
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java的字符串常量池位于哪里，堆或堆栈？</title>
-    <url>/2021/03/24/Java%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E4%BD%8D%E4%BA%8E%E5%93%AA%E9%87%8C%EF%BC%8C%E5%A0%86%E6%88%96%E5%A0%86%E6%A0%88%EF%BC%9F/</url>
-    <content><![CDATA[
-转载自: https://www.baeldung.com/java-string-constant-pool-heap-stack
-
-¶1.简介
-每当我们声明一个变量或创建一个对象时，它就会存储在内存中。在较高的级别上，Java将内存分为两个块：stack和heap。两种存储器均存储特定类型的数据，并且具有不同的存储和访问模式。
-¶2.字符串常量池
-该字符串常量池是一个特殊的存储区。**当我们声明String时，JVM在池中创建对象并将其引用存储在堆栈中。**在内存中创建每个String对象之前，JVM执行一些步骤来减少内存开销。
-字符串常量池在其实现中使用HashMap。HashMap的每个存储桶均包含具有相同哈希码的String列表。在Java的早期版本中，池的存储区域是固定大小的，并且通常会导致*“无法为对象堆保留足够的空间”* 错误。
-**当系统加载类时，所有类的*String*文字都将进入应用程序级池。**这是因为不同类的相等String文字必须是相同的Object。在这些情况下，池中的数据应可用于每个类而没有任何依赖关系。
-通常，堆栈存储短期的数据。它包括局部基本变量，堆对象的引用以及执行中的方法。堆允许动态分配内存，在运行时存储Java对象和JRE类。
-堆允许全局访问，并且在应用程序的生存期内，堆中的数据存储可用于所有线程，而堆栈上的数据存储具有私有作用域，只有所有者线程可以访问它们。
-堆栈将数据存储在连续的存储块中，并允许随机访问。如果类需要池中的随机String，则由于堆栈的LIFO（后进先出）规则，该类可能不可用。相反，堆会动态分配内存，并允许我们以任何方式访问数据。
-假设我们有一个由不同类型的变量组成的代码段。堆栈将存储int文字的值以及String和Demo对象的引用*。任何对象的值都将存储在堆中，所有String*文字都放入堆中的池中：
-
-线程完成执行后，将立即释放在堆栈上创建的变量。相反，垃圾收集器回收堆中的资源。同样，垃圾收集器从池中收集未引用的项目。
-**池的默认大小在不同平台上可能会有所不同。**无论如何，它仍然比可用堆栈大小大得多。在JDK 7之前，该池是permgen空间的一部分，从JDK 7到现在，它是主堆内存的一部分。
-¶3.结论
-在这篇简短的文章中，我们了解了String常量池的存储区域。堆栈和堆具有不同的特性来存储和访问数据。从内存分配到其访问和可用性，堆是最适合存储String常量池的区域。
-实际上，池从未成为堆栈内存的一部分。
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>String</tag>
-        <tag>转载</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>MySQL常用命令</title>
     <url>/2021/03/16/MySQL%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[¶创建表空间
@@ -883,6 +883,61 @@ ab -n 1000  -c 5  http://localhost:8080/hello
       </tags>
   </entry>
   <entry>
+    <title>Redis哨兵</title>
+    <url>/2020/07/07/Redis%E5%93%A8%E5%85%B5/</url>
+    <content><![CDATA[¶Sentinel的分布式特征
+Redis Sentinel是一个分布式系统：
+Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运行。
+
+当多个哨兵就给定的主机不再可用的事实达成共识时，将执行故障检测，降低了误报的可能性。
+即使不是所有的Sentinel进程都在工作，Sentinel仍可正常工作，从而使系统能够应对故障。毕竟，拥有故障转移系统本身就是一个单点故障，
+
+¶运行哨兵
+redis-sentinel /path/to/sentinel.conf
+redis-sentinel是redis-server的一个软链接，所以也可以使用以下方法：
+redis-server /path/to/sentinel.conf --sentinel
+两种方法的工作原理相同。
+但是，再运行Sentinel时必须指定配置文件，因为系统将使用此文件来保存当前状态，以便在重新启动时重新加载。如果未指定文件，则会启动失败。
+Sentinels默认情况下会监听TCP端口26379连接，因此必须打开26379端口。
+¶Sentinel的基础知识
+
+一个健壮的集群至少需要三个Sentinel实例
+应该将三个Sentinel实例部署在不同的机器上
+因为Redis使用的是异步复制，所以不能保证在故障转移期间保证数据的写入。
+
+¶配置哨兵
+Redis的源码包包含一个sentinel.conf文件可用于配置Sentinel，典型的最小配置如下所示：
+sentinel monitor mymaster 127.0.0.1 6379 2sentinel down-after-milliseconds mymaster 60000sentinel failover-timeout mymaster 180000sentinel parallel-syncs mymaster 1
+sentinel monitor含义如下：
+sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;
+&lt;master-group-name&gt; 指主节点名称，&lt;ip&gt; IP地址 &lt;port&gt;端口号，重点说一下&lt;quorum&gt;：
+假如有5个Sentinel进程，并且给定主服务器的quorum置为2，则将发生以下情况：
+
+如果有两个哨兵同时发现主节点不可访问，则其中一个哨兵将尝试启动故障转移。
+如果有三个哨兵同时发现主节点不可访问，则将启动故障转移。
+
+sentinel down-after-milliseconds
+down-after-milliseconds是指Sentinel在指定的时间内没有获得实例的响应，则认为实例已关闭。
+sentinel parallel-syncs
+parallel-syncs 设置每次可以对几个副本进行同步数据
+¶Redis 哨兵部署示例
+¶经典三节点最小部署
+        +----+        | M1 |        | S1 |        +----+           | +----+    |    +----+ | R2 |----+----| R3 | | S2 |         | S3 | +----+         +----+Configuration: quorum = 2
+如果主M1发生故障，则S2和S3将达成协议，并能够开启故障转移，从而使客户端能够继续使用。
+¶模拟发生网络分区
+         +----+         | M1 |         | S1 | &lt;- C1 (writes will be lost)         +----+            |            /            /+------+    |    +----+| [M2] |----+----| R3 || S2   |         | S3 |+------+         +----+
+在这种情况下，网络分区隔离了旧的主数据库M1，因此副本R2被提升为主数据库。但是，与旧主服务器位于同一分区中的客户端（例如C1）可能会继续向旧主服务器写入数据。该数据将永远丢失，因为当分区恢复正常时，主服务器将被重新配置为新主服务器的副本，从而造成数据丢失。
+使用以下Redis复制功能可以缓解此问题，如果主服务器检测到副本数量没有达到指定的副本数据，则停止接受数据写入。
+# 最小副本数量min-replicas-to-write 1# 发送异步确认的最大时间min-replicas-max-lag 10
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis分布式锁</title>
     <url>/2020/07/09/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
     <content><![CDATA[¶简介
@@ -991,52 +1046,49 @@ RedLock分析      [http://martin.kleppmann.com/2016/02/08/how-to-do-distributed
       </tags>
   </entry>
   <entry>
-    <title>Redis哨兵</title>
-    <url>/2020/07/07/Redis%E5%93%A8%E5%85%B5/</url>
-    <content><![CDATA[¶Sentinel的分布式特征
-Redis Sentinel是一个分布式系统：
-Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运行。
+    <title>Redis复制</title>
+    <url>/2018/07/07/Redis%E5%A4%8D%E5%88%B6/</url>
+    <content><![CDATA[¶Replication
+Redis使用主从复制非常简单，它允许从实例成为主实例的副本，每当链接断开时，从节点将自动重新连接到主服务器上。并且无论主服务器发生什么情况，从节点都尝试完全复制所有数据。
+¶Redis主从复制使用以下三种机制：
 
-当多个哨兵就给定的主机不再可用的事实达成共识时，将执行故障检测，降低了误报的可能性。
-即使不是所有的Sentinel进程都在工作，Sentinel仍可正常工作，从而使系统能够应对故障。毕竟，拥有故障转移系统本身就是一个单点故障，
+当主从实例连接良好时，主节点向从节点发送命令流来进行更新，是为了复制由于Key过期或回收等其他操作对数据产生影响。
+当主从实例断开时，从节点重新连接后只会尝试获取链接断开期间错开的命令流。
+如果无法进行部分重新同步，则会要求完全重新同步。
 
-¶运行哨兵
-redis-sentinel /path/to/sentinel.conf
-redis-sentinel是redis-server的一个软链接，所以也可以使用以下方法：
-redis-server /path/to/sentinel.conf --sentinel
-两种方法的工作原理相同。
-但是，再运行Sentinel时必须指定配置文件，因为系统将使用此文件来保存当前状态，以便在重新启动时重新加载。如果未指定文件，则会启动失败。
-Sentinels默认情况下会监听TCP端口26379连接，因此必须打开26379端口。
-¶Sentinel的基础知识
 
-一个健壮的集群至少需要三个Sentinel实例
-应该将三个Sentinel实例部署在不同的机器上
-因为Redis使用的是异步复制，所以不能保证在故障转移期间保证数据的写入。
+默认情况下，Redis会使用异步复制，Redis从节点会异步地确认接收的数据。因此，主节点不会等待从节点处理完成。但是，如果需要知道从节点都处理了那些命令，也可以选择同步复制。
 
-¶配置哨兵
-Redis的源码包包含一个sentinel.conf文件可用于配置Sentinel，典型的最小配置如下所示：
-sentinel monitor mymaster 127.0.0.1 6379 2sentinel down-after-milliseconds mymaster 60000sentinel failover-timeout mymaster 180000sentinel parallel-syncs mymaster 1
-sentinel monitor含义如下：
-sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;
-&lt;master-group-name&gt; 指主节点名称，&lt;ip&gt; IP地址 &lt;port&gt;端口号，重点说一下&lt;quorum&gt;：
-假如有5个Sentinel进程，并且给定主服务器的quorum置为2，则将发生以下情况：
+¶Redis 复制的几个特征：
 
-如果有两个哨兵同时发现主节点不可访问，则其中一个哨兵将尝试启动故障转移。
-如果有三个哨兵同时发现主节点不可访问，则将启动故障转移。
+Redis是使用异步复制
+一个主节点可以有多个从节点
+从节点还可以有子节点，从Redis 4.0开始，所有子节点将从主节点接收完全相同的复制流。
+Redis主从复制是无阻塞的，意味着在进行复制或同步是仍然可以进行数据查询
+复制既可以用于可伸缩性，也可以用于只读查询的多个副本（读写分离）
+可以配置主节点不进行数据保存或只启用AOF，然后将数据保存到副本，但是注意:当服务器重启后，从节点服务器重新同步数据时，同时会清空从节点数据。
 
-sentinel down-after-milliseconds
-down-after-milliseconds是指Sentinel在指定的时间内没有获得实例的响应，则认为实例已关闭。
-sentinel parallel-syncs
-parallel-syncs 设置每次可以对几个副本进行同步数据
-¶Redis 哨兵部署示例
-¶经典三节点最小部署
-        +----+        | M1 |        | S1 |        +----+           | +----+    |    +----+ | R2 |----+----| R3 | | S2 |         | S3 | +----+         +----+Configuration: quorum = 2
-如果主M1发生故障，则S2和S3将达成协议，并能够开启故障转移，从而使客户端能够继续使用。
-¶模拟发生网络分区
-         +----+         | M1 |         | S1 | &lt;- C1 (writes will be lost)         +----+            |            /            /+------+    |    +----+| [M2] |----+----| R3 || S2   |         | S3 |+------+         +----+
-在这种情况下，网络分区隔离了旧的主数据库M1，因此副本R2被提升为主数据库。但是，与旧主服务器位于同一分区中的客户端（例如C1）可能会继续向旧主服务器写入数据。该数据将永远丢失，因为当分区恢复正常时，主服务器将被重新配置为新主服务器的副本，从而造成数据丢失。
-使用以下Redis复制功能可以缓解此问题，如果主服务器检测到副本数量没有达到指定的副本数据，则停止接受数据写入。
-# 最小副本数量min-replicas-to-write 1# 发送异步确认的最大时间min-replicas-max-lag 10
+¶Redis 复制的原理：
+每个Redis Master 节点都有一个replication ID:这是一个较大的伪随机字符串，用于标记当前数据集。每个Master 还有一个偏移量，该偏移量会针对复制流中要发送到副本的每个字节的增量而增加。
+以便更新副本的状态。即使未连接任何副本，复制偏移也会增加。
+# Replicationrole:masterconnected_slaves:1slave0:ip=39.105.157.176,port=6379,state=online,offset=61238,lag=0# 主 Replication IDmaster_replid:649255ffb2183786d00203aa51715169b06f4f47# 副 Replication IDmaster_replid2:0000000000000000000000000000000000000000master_repl_offset:61238second_repl_offset:-1repl_backlog_active:1repl_backlog_size:1048576repl_backlog_first_byte_offset:1repl_backlog_histlen:61238
+当从节点连接主节点时，会使用PSYNC命令来发送当前旧的主节点的Replication ID和offset，这样主节点只会同步相差的数据量，如果主节点缓冲区的副本引用（Replication ID）不存在，则会进行全量同步。
+¶全量同步的工作流程如下：
+主节点开始后台生成RDB文件。同时，它开始缓冲从客户端收到的所有新写入命令。后台保存完成后，主数据库将数据库文件传输到从节点，从节点将其保存在磁盘上，然后将其加载到内存中。然后，主服务器将所有缓冲的命令发送到副本。
+¶Replication ID 说明：
+如果两个实例具有相同的Replication ID和offset，则它们具有完全相同的数据。但是为什么会有两个Replication ID(主和副)？
+因为两个实例A和B具有相同的Replication ID，但一个实例的offset为1000，另一个实例的offset为1023，则意味着第一个实例缺少应用于数据集的某些命令。这也意味着，仅通过应用一些命令，A即可达到与B完全相同的状态。
+Redis实例具有两个Replication ID的原因是由于副本被提升为主副本。故障转移后，升级后的副本仍需要记住其过去的Replication ID，因为该Replication ID是以前的主副本之一。这样，当其他副本将与新的主副本同步时，它们将尝试使用旧的主Replication ID执行部分重新同步。因为将副本提升为主副本时，它会将其辅助ID设置为其主ID，并记住发生此ID切换时的offset。稍后它将选择一个新的随机Replication ID，因为新的历史记录开始了。处理新的副本连接时，主机将其ID和offset与当前ID和辅助ID相匹配（为安全起见，直到给定的偏移量）。简而言之，这意味着在故障转移后，连接到新提升的主服务器的副本不必执行完全同步。
+¶无盘复制
+通常，完全重新同步需要在磁盘上创建RDB文件，然后从磁盘重新加载相同的RDB，以便为副本提供数据。
+但是对于硬盘速度慢，但是在内网环境下，可以采用无盘复制，这样可以直接通过Socket将RDB发送给从节点，而无需使用硬盘作为中间存储。
+¶配置
+replicaof 192.168.1.1 6379
+也可以使用REPLICAOF命令进行同步。
+可以使用repl-diskless-sync配置参数启用无盘复制。在repl-diskless-sync-delay 参数控制第一个副本之后，为了等待更多副本到达而开始传输的延迟。
+masterauth &lt;password&gt;
+设置主节点的密码，也可以使用redis-cli输入config set masterauth &lt;password&gt;进行设置。
+# 在当前至少有N个副本连接到主服务器时才接受写查询min-replicas-to-write &lt;number of replicas&gt;# 在有N个副本延迟少于M秒时，则接受写入min-replicas-max-lag &lt;number of seconds&gt;
 ]]></content>
       <categories>
         <category>Redis</category>
@@ -1186,58 +1238,6 @@ redis-cli -u redis://password@ip:port/database keys &quot;business:data:10103*&q
 ]]></content>
       <categories>
         <category>工作</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis复制</title>
-    <url>/2018/07/07/Redis%E5%A4%8D%E5%88%B6/</url>
-    <content><![CDATA[¶Replication
-Redis使用主从复制非常简单，它允许从实例成为主实例的副本，每当链接断开时，从节点将自动重新连接到主服务器上。并且无论主服务器发生什么情况，从节点都尝试完全复制所有数据。
-¶Redis主从复制使用以下三种机制：
-
-当主从实例连接良好时，主节点向从节点发送命令流来进行更新，是为了复制由于Key过期或回收等其他操作对数据产生影响。
-当主从实例断开时，从节点重新连接后只会尝试获取链接断开期间错开的命令流。
-如果无法进行部分重新同步，则会要求完全重新同步。
-
-
-默认情况下，Redis会使用异步复制，Redis从节点会异步地确认接收的数据。因此，主节点不会等待从节点处理完成。但是，如果需要知道从节点都处理了那些命令，也可以选择同步复制。
-
-¶Redis 复制的几个特征：
-
-Redis是使用异步复制
-一个主节点可以有多个从节点
-从节点还可以有子节点，从Redis 4.0开始，所有子节点将从主节点接收完全相同的复制流。
-Redis主从复制是无阻塞的，意味着在进行复制或同步是仍然可以进行数据查询
-复制既可以用于可伸缩性，也可以用于只读查询的多个副本（读写分离）
-可以配置主节点不进行数据保存或只启用AOF，然后将数据保存到副本，但是注意:当服务器重启后，从节点服务器重新同步数据时，同时会清空从节点数据。
-
-¶Redis 复制的原理：
-每个Redis Master 节点都有一个replication ID:这是一个较大的伪随机字符串，用于标记当前数据集。每个Master 还有一个偏移量，该偏移量会针对复制流中要发送到副本的每个字节的增量而增加。
-以便更新副本的状态。即使未连接任何副本，复制偏移也会增加。
-# Replicationrole:masterconnected_slaves:1slave0:ip=39.105.157.176,port=6379,state=online,offset=61238,lag=0# 主 Replication IDmaster_replid:649255ffb2183786d00203aa51715169b06f4f47# 副 Replication IDmaster_replid2:0000000000000000000000000000000000000000master_repl_offset:61238second_repl_offset:-1repl_backlog_active:1repl_backlog_size:1048576repl_backlog_first_byte_offset:1repl_backlog_histlen:61238
-当从节点连接主节点时，会使用PSYNC命令来发送当前旧的主节点的Replication ID和offset，这样主节点只会同步相差的数据量，如果主节点缓冲区的副本引用（Replication ID）不存在，则会进行全量同步。
-¶全量同步的工作流程如下：
-主节点开始后台生成RDB文件。同时，它开始缓冲从客户端收到的所有新写入命令。后台保存完成后，主数据库将数据库文件传输到从节点，从节点将其保存在磁盘上，然后将其加载到内存中。然后，主服务器将所有缓冲的命令发送到副本。
-¶Replication ID 说明：
-如果两个实例具有相同的Replication ID和offset，则它们具有完全相同的数据。但是为什么会有两个Replication ID(主和副)？
-因为两个实例A和B具有相同的Replication ID，但一个实例的offset为1000，另一个实例的offset为1023，则意味着第一个实例缺少应用于数据集的某些命令。这也意味着，仅通过应用一些命令，A即可达到与B完全相同的状态。
-Redis实例具有两个Replication ID的原因是由于副本被提升为主副本。故障转移后，升级后的副本仍需要记住其过去的Replication ID，因为该Replication ID是以前的主副本之一。这样，当其他副本将与新的主副本同步时，它们将尝试使用旧的主Replication ID执行部分重新同步。因为将副本提升为主副本时，它会将其辅助ID设置为其主ID，并记住发生此ID切换时的offset。稍后它将选择一个新的随机Replication ID，因为新的历史记录开始了。处理新的副本连接时，主机将其ID和offset与当前ID和辅助ID相匹配（为安全起见，直到给定的偏移量）。简而言之，这意味着在故障转移后，连接到新提升的主服务器的副本不必执行完全同步。
-¶无盘复制
-通常，完全重新同步需要在磁盘上创建RDB文件，然后从磁盘重新加载相同的RDB，以便为副本提供数据。
-但是对于硬盘速度慢，但是在内网环境下，可以采用无盘复制，这样可以直接通过Socket将RDB发送给从节点，而无需使用硬盘作为中间存储。
-¶配置
-replicaof 192.168.1.1 6379
-也可以使用REPLICAOF命令进行同步。
-可以使用repl-diskless-sync配置参数启用无盘复制。在repl-diskless-sync-delay 参数控制第一个副本之后，为了等待更多副本到达而开始传输的延迟。
-masterauth &lt;password&gt;
-设置主节点的密码，也可以使用redis-cli输入config set masterauth &lt;password&gt;进行设置。
-# 在当前至少有N个副本连接到主服务器时才接受写查询min-replicas-to-write &lt;number of replicas&gt;# 在有N个副本延迟少于M秒时，则接受写入min-replicas-max-lag &lt;number of seconds&gt;
-]]></content>
-      <categories>
-        <category>Redis</category>
       </categories>
       <tags>
         <tag>Redis</tag>
@@ -1572,21 +1572,6 @@ https://git-scm.com/book/zh/v2/Git-分支-分支的新建与合并#_basic_mergin
       </tags>
   </entry>
   <entry>
-    <title>go反向代理quickstart</title>
-    <url>/2022/04/07/golang%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86quickstart/</url>
-    <content><![CDATA[main.go
-package mainimport (	&quot;context&quot;	&quot;github.com/gorilla/mux&quot;	&quot;github.com/txn2/txeh&quot;	&quot;log&quot;	&quot;net/http&quot;	&quot;net/http/httputil&quot;	&quot;net/url&quot;	&quot;os&quot;	&quot;os/signal&quot;)var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;const (	host     = &quot;api-dev.deveye.cn&quot;	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;	address  = &quot;127.0.0.1&quot;)func main() &#123;	hosts, err := txeh.NewHostsDefault()	if err != nil &#123;		panic(err)	&#125;	hosts.AddHosts(address, hostArr)	log.Println(hosts.Save())	r := mux.NewRouter()	r.Use(LoggingHandler, AuthHandler, RecoverHandler)		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)	srv := &amp;http.Server&#123;		Addr:    &quot;:80&quot;,		Handler: r,	&#125;	go func() &#123;		if err := srv.ListenAndServe(); err != nil &#123;			log.Println(err)		&#125;	&#125;()	c := make(chan os.Signal, 1)	signal.Notify(c, os.Interrupt)	&lt;-c	ctx, cancel := context.WithCancel(context.Background())	defer cancel()	log.Println(srv.Shutdown(ctx))	hosts.RemoveHosts(hostArr)	log.Println(hosts.Save())	log.Println(&quot;shutting down&quot;)	os.Exit(0)&#125;func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;	u, err := url.Parse(proxyUrl)	if err != nil &#123;		log.Println(err)	&#125;	proxy := httputil.NewSingleHostReverseProxy(u)	r.Host = host	proxy.ServeHTTP(w, r)&#125;
-middleware.go
-import (	&quot;bytes&quot;	&quot;encoding/json&quot;	&quot;errors&quot;	&quot;io/ioutil&quot;	&quot;log&quot;	&quot;net/http&quot;	&quot;time&quot;)var loginUrl = proxyUrl + &quot;login/sms&quot;func LoggingHandler(next http.Handler) http.Handler &#123;	fn := func(w http.ResponseWriter, r *http.Request) &#123;		t1 := time.Now()		next.ServeHTTP(w, r)		t2 := time.Now()		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))	&#125;	return http.HandlerFunc(fn)&#125;func RecoverHandler(next http.Handler) http.Handler &#123;	fn := func(w http.ResponseWriter, r *http.Request) &#123;		defer func() &#123;			if err := recover(); err != nil &#123;				log.Printf(&quot;Recover from panic: %+v&quot;, err)				http.Error(w, http.StatusText(500), 500)			&#125;		&#125;()		next.ServeHTTP(w, r)	&#125;	return http.HandlerFunc(fn)&#125;func AuthHandler(next http.Handler) http.Handler &#123;	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;		token, err := getAccessToken()		if err != nil &#123;			log.Fatalln(err)		&#125;		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)		r.Header.Set(&quot;X-Auth-Token&quot;, token)		next.ServeHTTP(w, r)	&#125;)&#125;func getAccessToken() (string, error) &#123;	params := map[string]string&#123;		&quot;phone&quot;:      &quot;15555555551&quot;,		&quot;verifyCode&quot;: &quot;888888&quot;,		&quot;codeId&quot;:     &quot;111111&quot;,	&#125;	marshal, _ := json.Marshal(params)	reader := bytes.NewReader(marshal)	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)	client := &amp;http.Client&#123;&#125;	do, err := client.Do(request)	if err != nil &#123;		return &quot;&quot;, err	&#125;	b, err := ioutil.ReadAll(do.Body)	if err != nil &#123;		return &quot;&quot;, err	&#125;	_ = do.Body.Close()	result := &amp;LoginResult&#123;&#125;	if err := json.Unmarshal(b, result); err != nil &#123;		return &quot;&quot;, err	&#125;	if result.ErrCode != &quot;0&quot; &#123;		return &quot;&quot;, errors.New(result.Message)	&#125;	return result.Data.Token, nil&#125;type LoginResult struct &#123;	ErrCode string	Message string	Data    struct &#123;		Name  string		Token string		Phone string	&#125;&#125;
-]]></content>
-      <categories>
-        <category>go</category>
-      </categories>
-      <tags>
-        <tag>go</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git常用命令</title>
     <url>/2019/02/18/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[
@@ -1799,6 +1784,21 @@ $ git archive
       </categories>
       <tags>
         <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>go反向代理quickstart</title>
+    <url>/2022/04/07/golang%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86quickstart/</url>
+    <content><![CDATA[main.go
+package mainimport (	&quot;context&quot;	&quot;github.com/gorilla/mux&quot;	&quot;github.com/txn2/txeh&quot;	&quot;log&quot;	&quot;net/http&quot;	&quot;net/http/httputil&quot;	&quot;net/url&quot;	&quot;os&quot;	&quot;os/signal&quot;)var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;const (	host     = &quot;api-dev.deveye.cn&quot;	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;	address  = &quot;127.0.0.1&quot;)func main() &#123;	hosts, err := txeh.NewHostsDefault()	if err != nil &#123;		panic(err)	&#125;	hosts.AddHosts(address, hostArr)	log.Println(hosts.Save())	r := mux.NewRouter()	r.Use(LoggingHandler, AuthHandler, RecoverHandler)		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)	srv := &amp;http.Server&#123;		Addr:    &quot;:80&quot;,		Handler: r,	&#125;	go func() &#123;		if err := srv.ListenAndServe(); err != nil &#123;			log.Println(err)		&#125;	&#125;()	c := make(chan os.Signal, 1)	signal.Notify(c, os.Interrupt)	&lt;-c	ctx, cancel := context.WithCancel(context.Background())	defer cancel()	log.Println(srv.Shutdown(ctx))	hosts.RemoveHosts(hostArr)	log.Println(hosts.Save())	log.Println(&quot;shutting down&quot;)	os.Exit(0)&#125;func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;	u, err := url.Parse(proxyUrl)	if err != nil &#123;		log.Println(err)	&#125;	proxy := httputil.NewSingleHostReverseProxy(u)	r.Host = host	proxy.ServeHTTP(w, r)&#125;
+middleware.go
+import (	&quot;bytes&quot;	&quot;encoding/json&quot;	&quot;errors&quot;	&quot;io/ioutil&quot;	&quot;log&quot;	&quot;net/http&quot;	&quot;time&quot;)var loginUrl = proxyUrl + &quot;login/sms&quot;func LoggingHandler(next http.Handler) http.Handler &#123;	fn := func(w http.ResponseWriter, r *http.Request) &#123;		t1 := time.Now()		next.ServeHTTP(w, r)		t2 := time.Now()		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))	&#125;	return http.HandlerFunc(fn)&#125;func RecoverHandler(next http.Handler) http.Handler &#123;	fn := func(w http.ResponseWriter, r *http.Request) &#123;		defer func() &#123;			if err := recover(); err != nil &#123;				log.Printf(&quot;Recover from panic: %+v&quot;, err)				http.Error(w, http.StatusText(500), 500)			&#125;		&#125;()		next.ServeHTTP(w, r)	&#125;	return http.HandlerFunc(fn)&#125;func AuthHandler(next http.Handler) http.Handler &#123;	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;		token, err := getAccessToken()		if err != nil &#123;			log.Fatalln(err)		&#125;		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)		r.Header.Set(&quot;X-Auth-Token&quot;, token)		next.ServeHTTP(w, r)	&#125;)&#125;func getAccessToken() (string, error) &#123;	params := map[string]string&#123;		&quot;phone&quot;:      &quot;15555555551&quot;,		&quot;verifyCode&quot;: &quot;888888&quot;,		&quot;codeId&quot;:     &quot;111111&quot;,	&#125;	marshal, _ := json.Marshal(params)	reader := bytes.NewReader(marshal)	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)	client := &amp;http.Client&#123;&#125;	do, err := client.Do(request)	if err != nil &#123;		return &quot;&quot;, err	&#125;	b, err := ioutil.ReadAll(do.Body)	if err != nil &#123;		return &quot;&quot;, err	&#125;	_ = do.Body.Close()	result := &amp;LoginResult&#123;&#125;	if err := json.Unmarshal(b, result); err != nil &#123;		return &quot;&quot;, err	&#125;	if result.ErrCode != &quot;0&quot; &#123;		return &quot;&quot;, errors.New(result.Message)	&#125;	return result.Data.Token, nil&#125;type LoginResult struct &#123;	ErrCode string	Message string	Data    struct &#123;		Name  string		Token string		Phone string	&#125;&#125;
+]]></content>
+      <categories>
+        <category>go</category>
+      </categories>
+      <tags>
+        <tag>go</tag>
       </tags>
   </entry>
   <entry>
@@ -2582,21 +2582,6 @@ mysql&gt; select * from tuser where name like &#x27;张 %&#x27; and age=10 and i
       </tags>
   </entry>
   <entry>
-    <title>算法之旅</title>
-    <url>/2019/09/03/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%97%85/</url>
-    <content><![CDATA[
-排序算法
-链表
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>程序员的测试课</title>
     <url>/2022/05/30/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AF%BE/</url>
     <content><![CDATA[¶时代在要求我们写测试
@@ -2659,15 +2644,12 @@ Repository 的问题以运行时异常的形式抛出，业务层不需要做任
       </tags>
   </entry>
   <entry>
-    <title>链表</title>
-    <url>/2019/09/03/%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[¶反转链表
+    <title>算法之旅</title>
+    <url>/2019/09/03/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%97%85/</url>
+    <content><![CDATA[
+排序算法
+链表
 
-package mainimport (	&quot;fmt&quot;)func main() &#123;	head := &amp;ListNode&#123;		1, &amp;ListNode&#123;			2, &amp;ListNode&#123;				3, &amp;ListNode&#123;					4, &amp;ListNode&#123;						5, nil&#125;&#125;,			&#125;,		&#125;,	&#125;	for list := reverseList(head); list != nil; list = list.Next &#123;		fmt.Println(list.Val)	&#125;&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func reverseList(head *ListNode) *ListNode &#123;	var cur, prev *ListNode = head, nil	for cur != nil &#123;		cur.Next, prev, cur = prev, cur, cur.Next	&#125;	return prev&#125;
-¶交换相邻两个节点
-package mainimport &quot;fmt&quot;func main() &#123;	head := &amp;ListNode&#123;		1, &amp;ListNode&#123;			2, &amp;ListNode&#123;				3, &amp;ListNode&#123;					4, nil&#125;,			&#125;,		&#125;,	&#125;	for list := swapPairs(head); list != nil; list = list.Next &#123;		fmt.Println(list.Val)	&#125;&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func swapPairs(head *ListNode) *ListNode &#123;	if head == nil || head.Next == nil &#123;		return head	&#125;	newHead := head.Next	head.Next = swapPairs(newHead.Next)	newHead.Next = head	return newHead&#125;
-¶判断链表是否有环
-package mainimport &quot;fmt&quot;func main() &#123;	cycle := &amp;ListNode&#123;		2, &amp;ListNode&#123;			0, &amp;ListNode&#123;				-4, nil&#125;&#125;&#125;	cycle.Next.Next.Next = cycle	head := &amp;ListNode&#123;		3, cycle,	&#125;	fmt.Println(hasCycle(head))&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func hasCycle(head *ListNode) bool &#123;	if head == nil || head.Next == nil &#123;		return false	&#125;	slow, fast := head, head	for fast != nil &amp;&amp; fast.Next != nil &#123;		slow, fast = slow.Next, fast.Next.Next		if slow == fast &#123;			return true		&#125;	&#125;	return false&#125;
 ]]></content>
       <categories>
         <category>算法</category>
@@ -2723,6 +2705,24 @@ package mainimport &quot;fmt&quot;func main() &#123;	cycle := &amp;ListNode&#123
       </categories>
       <tags>
         <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>链表</title>
+    <url>/2019/09/03/%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[¶反转链表
+
+package mainimport (	&quot;fmt&quot;)func main() &#123;	head := &amp;ListNode&#123;		1, &amp;ListNode&#123;			2, &amp;ListNode&#123;				3, &amp;ListNode&#123;					4, &amp;ListNode&#123;						5, nil&#125;&#125;,			&#125;,		&#125;,	&#125;	for list := reverseList(head); list != nil; list = list.Next &#123;		fmt.Println(list.Val)	&#125;&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func reverseList(head *ListNode) *ListNode &#123;	var cur, prev *ListNode = head, nil	for cur != nil &#123;		cur.Next, prev, cur = prev, cur, cur.Next	&#125;	return prev&#125;
+¶交换相邻两个节点
+package mainimport &quot;fmt&quot;func main() &#123;	head := &amp;ListNode&#123;		1, &amp;ListNode&#123;			2, &amp;ListNode&#123;				3, &amp;ListNode&#123;					4, nil&#125;,			&#125;,		&#125;,	&#125;	for list := swapPairs(head); list != nil; list = list.Next &#123;		fmt.Println(list.Val)	&#125;&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func swapPairs(head *ListNode) *ListNode &#123;	if head == nil || head.Next == nil &#123;		return head	&#125;	newHead := head.Next	head.Next = swapPairs(newHead.Next)	newHead.Next = head	return newHead&#125;
+¶判断链表是否有环
+package mainimport &quot;fmt&quot;func main() &#123;	cycle := &amp;ListNode&#123;		2, &amp;ListNode&#123;			0, &amp;ListNode&#123;				-4, nil&#125;&#125;&#125;	cycle.Next.Next.Next = cycle	head := &amp;ListNode&#123;		3, cycle,	&#125;	fmt.Println(hasCycle(head))&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func hasCycle(head *ListNode) bool &#123;	if head == nil || head.Next == nil &#123;		return false	&#125;	slow, fast := head, head	for fast != nil &amp;&amp; fast.Next != nil &#123;		slow, fast = slow.Next, fast.Next.Next		if slow == fast &#123;			return true		&#125;	&#125;	return false&#125;
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
