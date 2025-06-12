@@ -54,6 +54,33 @@
       </tags>
   </entry>
   <entry>
+    <title>10x程序员总结</title>
+    <url>/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[¶以终为始
+遇到问题不妨倒着去思考
+¶任务分解
+
+埃隆马斯克SpaceX 的计划，本质上就是把一件很困难实现的事情去做任务分解，使每件任务可执行化。
+
+如何降低火箭发射成本1. 造一个能容纳100人的火箭2. 实现火箭回收3. ....
+
+
+大师程序员都是懂的去做任务分解，分解的力度是可执行
+
+
+多写单元测试，代码小步提交
+
+
+
+]]></content>
+      <categories>
+        <category>读书</category>
+      </categories>
+      <tags>
+        <tag>读书</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Docker安装软件集合</title>
     <url>/2021/03/16/Docker%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E9%9B%86%E5%90%88/</url>
     <content><![CDATA[¶Docker安装Nginx
@@ -84,33 +111,6 @@ sudo mkdir -p /etc/docker sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x
       </categories>
       <tags>
         <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>10x程序员总结</title>
-    <url>/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[¶以终为始
-遇到问题不妨倒着去思考
-¶任务分解
-
-埃隆马斯克SpaceX 的计划，本质上就是把一件很困难实现的事情去做任务分解，使每件任务可执行化。
-
-如何降低火箭发射成本1. 造一个能容纳100人的火箭2. 实现火箭回收3. ....
-
-
-大师程序员都是懂的去做任务分解，分解的力度是可执行
-
-
-多写单元测试，代码小步提交
-
-
-
-]]></content>
-      <categories>
-        <category>读书</category>
-      </categories>
-      <tags>
-        <tag>读书</tag>
       </tags>
   </entry>
   <entry>
@@ -163,22 +163,6 @@ chore (更新grunt任务等; 不包括生产代码变动)
       </categories>
       <tags>
         <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java将HTML转为图片</title>
-    <url>/2021/03/25/Java-HTML-%E8%BD%AC%E5%9B%BE%E7%89%87/</url>
-    <content><![CDATA[记录一个使用Java转图片的第三方工具
-&lt;!-- https://mvnrepository.com/artifact/net.sf.cssbox/cssbox --&gt;&lt;dependency&gt;  &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt;  &lt;artifactId&gt;cssbox&lt;/artifactId&gt;  &lt;version&gt;5.0.0&lt;/version&gt;&lt;/dependency&gt;
-使用方法很简单，伪代码如下:
-ImageRenderer render = new ImageRenderer();ByteArrayOutputStream os = new ByteArrayOutputStream();//创建一个临时的HTML文件Path tempFile = Files.createTempFile(IdWorker.getMillisecond(), &quot;.html&quot;);//将HTML字节流写入到临时文件中Files.write(tempFile,createHtml());render.renderURL(tempFile.toUri().toString(), os);String fileName = &quot;test.png&quot;;//将图片上传到OSSAliyunOSSUtil.upload(AliyunOSSUtil.toOSSFilePath(fileName, sysUser.tenantId()), new  ByteArrayInputStream(os.toByteArray()));//删除临时文件Files.deleteIfExists(tempFile);
-我的方案是使用freemarker模板引擎先将数据渲染到成html文件，然后通过html文件生成一个图片，将图片上传到OSS中，最后删除临时生成的html文件。
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -519,6 +503,22 @@ Zhang, H., S. Liang, and L. Bak. Monitor Conversion in a Multithreaded Computer 
       </tags>
   </entry>
   <entry>
+    <title>Java将HTML转为图片</title>
+    <url>/2021/03/25/Java-HTML-%E8%BD%AC%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[记录一个使用Java转图片的第三方工具
+&lt;!-- https://mvnrepository.com/artifact/net.sf.cssbox/cssbox --&gt;&lt;dependency&gt;  &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt;  &lt;artifactId&gt;cssbox&lt;/artifactId&gt;  &lt;version&gt;5.0.0&lt;/version&gt;&lt;/dependency&gt;
+使用方法很简单，伪代码如下:
+ImageRenderer render = new ImageRenderer();ByteArrayOutputStream os = new ByteArrayOutputStream();//创建一个临时的HTML文件Path tempFile = Files.createTempFile(IdWorker.getMillisecond(), &quot;.html&quot;);//将HTML字节流写入到临时文件中Files.write(tempFile,createHtml());render.renderURL(tempFile.toUri().toString(), os);String fileName = &quot;test.png&quot;;//将图片上传到OSSAliyunOSSUtil.upload(AliyunOSSUtil.toOSSFilePath(fileName, sysUser.tenantId()), new  ByteArrayInputStream(os.toByteArray()));//删除临时文件Files.deleteIfExists(tempFile);
+我的方案是使用freemarker模板引擎先将数据渲染到成html文件，然后通过html文件生成一个图片，将图片上传到OSS中，最后删除临时生成的html文件。
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java的字符串常量池位于哪里，堆或堆栈？</title>
     <url>/2021/03/24/Java%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E4%BD%8D%E4%BA%8E%E5%93%AA%E9%87%8C%EF%BC%8C%E5%A0%86%E6%88%96%E5%A0%86%E6%A0%88%EF%BC%9F/</url>
     <content><![CDATA[
@@ -551,6 +551,19 @@ Zhang, H., S. Liang, and L. Bak. Monitor Conversion in a Multithreaded Computer 
       </tags>
   </entry>
   <entry>
+    <title>MySQL常用命令</title>
+    <url>/2021/03/16/MySQL%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[¶创建表空间
+./mysql -uroot -p -hlocalhost -P3306mysql&gt; CREATE DATABASE cicro DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;mysql&gt; CREATE USER &#x27;cicrouser&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;cicropassword&#x27;;mysql&gt; GRANT ALL PRIVILEGES ON cicro.* TO &#x27;cicrouser&#x27;@&#x27;%&#x27;;mysql&gt; flush privileges;
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux常用命令</title>
     <url>/2020/09/27/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[
@@ -567,19 +580,6 @@ tail -n +358653 catalina.2021-01-12.out|head -n 20
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MySQL常用命令</title>
-    <url>/2021/03/16/MySQL%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[¶创建表空间
-./mysql -uroot -p -hlocalhost -P3306mysql&gt; CREATE DATABASE cicro DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;mysql&gt; CREATE USER &#x27;cicrouser&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;cicropassword&#x27;;mysql&gt; GRANT ALL PRIVILEGES ON cicro.* TO &#x27;cicrouser&#x27;@&#x27;%&#x27;;mysql&gt; flush privileges;
-]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -1046,58 +1046,6 @@ parallel-syncs 设置每次可以对几个副本进行同步数据
       </tags>
   </entry>
   <entry>
-    <title>Redis复制</title>
-    <url>/2018/07/07/Redis%E5%A4%8D%E5%88%B6/</url>
-    <content><![CDATA[¶Replication
-Redis使用主从复制非常简单，它允许从实例成为主实例的副本，每当链接断开时，从节点将自动重新连接到主服务器上。并且无论主服务器发生什么情况，从节点都尝试完全复制所有数据。
-¶Redis主从复制使用以下三种机制：
-
-当主从实例连接良好时，主节点向从节点发送命令流来进行更新，是为了复制由于Key过期或回收等其他操作对数据产生影响。
-当主从实例断开时，从节点重新连接后只会尝试获取链接断开期间错开的命令流。
-如果无法进行部分重新同步，则会要求完全重新同步。
-
-
-默认情况下，Redis会使用异步复制，Redis从节点会异步地确认接收的数据。因此，主节点不会等待从节点处理完成。但是，如果需要知道从节点都处理了那些命令，也可以选择同步复制。
-
-¶Redis 复制的几个特征：
-
-Redis是使用异步复制
-一个主节点可以有多个从节点
-从节点还可以有子节点，从Redis 4.0开始，所有子节点将从主节点接收完全相同的复制流。
-Redis主从复制是无阻塞的，意味着在进行复制或同步是仍然可以进行数据查询
-复制既可以用于可伸缩性，也可以用于只读查询的多个副本（读写分离）
-可以配置主节点不进行数据保存或只启用AOF，然后将数据保存到副本，但是注意:当服务器重启后，从节点服务器重新同步数据时，同时会清空从节点数据。
-
-¶Redis 复制的原理：
-每个Redis Master 节点都有一个replication ID:这是一个较大的伪随机字符串，用于标记当前数据集。每个Master 还有一个偏移量，该偏移量会针对复制流中要发送到副本的每个字节的增量而增加。
-以便更新副本的状态。即使未连接任何副本，复制偏移也会增加。
-# Replicationrole:masterconnected_slaves:1slave0:ip=39.105.157.176,port=6379,state=online,offset=61238,lag=0# 主 Replication IDmaster_replid:649255ffb2183786d00203aa51715169b06f4f47# 副 Replication IDmaster_replid2:0000000000000000000000000000000000000000master_repl_offset:61238second_repl_offset:-1repl_backlog_active:1repl_backlog_size:1048576repl_backlog_first_byte_offset:1repl_backlog_histlen:61238
-当从节点连接主节点时，会使用PSYNC命令来发送当前旧的主节点的Replication ID和offset，这样主节点只会同步相差的数据量，如果主节点缓冲区的副本引用（Replication ID）不存在，则会进行全量同步。
-¶全量同步的工作流程如下：
-主节点开始后台生成RDB文件。同时，它开始缓冲从客户端收到的所有新写入命令。后台保存完成后，主数据库将数据库文件传输到从节点，从节点将其保存在磁盘上，然后将其加载到内存中。然后，主服务器将所有缓冲的命令发送到副本。
-¶Replication ID 说明：
-如果两个实例具有相同的Replication ID和offset，则它们具有完全相同的数据。但是为什么会有两个Replication ID(主和副)？
-因为两个实例A和B具有相同的Replication ID，但一个实例的offset为1000，另一个实例的offset为1023，则意味着第一个实例缺少应用于数据集的某些命令。这也意味着，仅通过应用一些命令，A即可达到与B完全相同的状态。
-Redis实例具有两个Replication ID的原因是由于副本被提升为主副本。故障转移后，升级后的副本仍需要记住其过去的Replication ID，因为该Replication ID是以前的主副本之一。这样，当其他副本将与新的主副本同步时，它们将尝试使用旧的主Replication ID执行部分重新同步。因为将副本提升为主副本时，它会将其辅助ID设置为其主ID，并记住发生此ID切换时的offset。稍后它将选择一个新的随机Replication ID，因为新的历史记录开始了。处理新的副本连接时，主机将其ID和offset与当前ID和辅助ID相匹配（为安全起见，直到给定的偏移量）。简而言之，这意味着在故障转移后，连接到新提升的主服务器的副本不必执行完全同步。
-¶无盘复制
-通常，完全重新同步需要在磁盘上创建RDB文件，然后从磁盘重新加载相同的RDB，以便为副本提供数据。
-但是对于硬盘速度慢，但是在内网环境下，可以采用无盘复制，这样可以直接通过Socket将RDB发送给从节点，而无需使用硬盘作为中间存储。
-¶配置
-replicaof 192.168.1.1 6379
-也可以使用REPLICAOF命令进行同步。
-可以使用repl-diskless-sync配置参数启用无盘复制。在repl-diskless-sync-delay 参数控制第一个副本之后，为了等待更多副本到达而开始传输的延迟。
-masterauth &lt;password&gt;
-设置主节点的密码，也可以使用redis-cli输入config set masterauth &lt;password&gt;进行设置。
-# 在当前至少有N个副本连接到主服务器时才接受写查询min-replicas-to-write &lt;number of replicas&gt;# 在有N个副本延迟少于M秒时，则接受写入min-replicas-max-lag &lt;number of seconds&gt;
-]]></content>
-      <categories>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis安装与配置</title>
     <url>/2018/07/06/Redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[¶下载
@@ -1244,6 +1192,58 @@ redis-cli -u redis://password@ip:port/database keys &quot;business:data:10103*&q
       </tags>
   </entry>
   <entry>
+    <title>Redis复制</title>
+    <url>/2018/07/07/Redis%E5%A4%8D%E5%88%B6/</url>
+    <content><![CDATA[¶Replication
+Redis使用主从复制非常简单，它允许从实例成为主实例的副本，每当链接断开时，从节点将自动重新连接到主服务器上。并且无论主服务器发生什么情况，从节点都尝试完全复制所有数据。
+¶Redis主从复制使用以下三种机制：
+
+当主从实例连接良好时，主节点向从节点发送命令流来进行更新，是为了复制由于Key过期或回收等其他操作对数据产生影响。
+当主从实例断开时，从节点重新连接后只会尝试获取链接断开期间错开的命令流。
+如果无法进行部分重新同步，则会要求完全重新同步。
+
+
+默认情况下，Redis会使用异步复制，Redis从节点会异步地确认接收的数据。因此，主节点不会等待从节点处理完成。但是，如果需要知道从节点都处理了那些命令，也可以选择同步复制。
+
+¶Redis 复制的几个特征：
+
+Redis是使用异步复制
+一个主节点可以有多个从节点
+从节点还可以有子节点，从Redis 4.0开始，所有子节点将从主节点接收完全相同的复制流。
+Redis主从复制是无阻塞的，意味着在进行复制或同步是仍然可以进行数据查询
+复制既可以用于可伸缩性，也可以用于只读查询的多个副本（读写分离）
+可以配置主节点不进行数据保存或只启用AOF，然后将数据保存到副本，但是注意:当服务器重启后，从节点服务器重新同步数据时，同时会清空从节点数据。
+
+¶Redis 复制的原理：
+每个Redis Master 节点都有一个replication ID:这是一个较大的伪随机字符串，用于标记当前数据集。每个Master 还有一个偏移量，该偏移量会针对复制流中要发送到副本的每个字节的增量而增加。
+以便更新副本的状态。即使未连接任何副本，复制偏移也会增加。
+# Replicationrole:masterconnected_slaves:1slave0:ip=39.105.157.176,port=6379,state=online,offset=61238,lag=0# 主 Replication IDmaster_replid:649255ffb2183786d00203aa51715169b06f4f47# 副 Replication IDmaster_replid2:0000000000000000000000000000000000000000master_repl_offset:61238second_repl_offset:-1repl_backlog_active:1repl_backlog_size:1048576repl_backlog_first_byte_offset:1repl_backlog_histlen:61238
+当从节点连接主节点时，会使用PSYNC命令来发送当前旧的主节点的Replication ID和offset，这样主节点只会同步相差的数据量，如果主节点缓冲区的副本引用（Replication ID）不存在，则会进行全量同步。
+¶全量同步的工作流程如下：
+主节点开始后台生成RDB文件。同时，它开始缓冲从客户端收到的所有新写入命令。后台保存完成后，主数据库将数据库文件传输到从节点，从节点将其保存在磁盘上，然后将其加载到内存中。然后，主服务器将所有缓冲的命令发送到副本。
+¶Replication ID 说明：
+如果两个实例具有相同的Replication ID和offset，则它们具有完全相同的数据。但是为什么会有两个Replication ID(主和副)？
+因为两个实例A和B具有相同的Replication ID，但一个实例的offset为1000，另一个实例的offset为1023，则意味着第一个实例缺少应用于数据集的某些命令。这也意味着，仅通过应用一些命令，A即可达到与B完全相同的状态。
+Redis实例具有两个Replication ID的原因是由于副本被提升为主副本。故障转移后，升级后的副本仍需要记住其过去的Replication ID，因为该Replication ID是以前的主副本之一。这样，当其他副本将与新的主副本同步时，它们将尝试使用旧的主Replication ID执行部分重新同步。因为将副本提升为主副本时，它会将其辅助ID设置为其主ID，并记住发生此ID切换时的offset。稍后它将选择一个新的随机Replication ID，因为新的历史记录开始了。处理新的副本连接时，主机将其ID和offset与当前ID和辅助ID相匹配（为安全起见，直到给定的偏移量）。简而言之，这意味着在故障转移后，连接到新提升的主服务器的副本不必执行完全同步。
+¶无盘复制
+通常，完全重新同步需要在磁盘上创建RDB文件，然后从磁盘重新加载相同的RDB，以便为副本提供数据。
+但是对于硬盘速度慢，但是在内网环境下，可以采用无盘复制，这样可以直接通过Socket将RDB发送给从节点，而无需使用硬盘作为中间存储。
+¶配置
+replicaof 192.168.1.1 6379
+也可以使用REPLICAOF命令进行同步。
+可以使用repl-diskless-sync配置参数启用无盘复制。在repl-diskless-sync-delay 参数控制第一个副本之后，为了等待更多副本到达而开始传输的延迟。
+masterauth &lt;password&gt;
+设置主节点的密码，也可以使用redis-cli输入config set masterauth &lt;password&gt;进行设置。
+# 在当前至少有N个副本连接到主服务器时才接受写查询min-replicas-to-write &lt;number of replicas&gt;# 在有N个副本延迟少于M秒时，则接受写入min-replicas-max-lag &lt;number of seconds&gt;
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis持久化</title>
     <url>/2018/07/06/Redis%E6%8C%81%E4%B9%85%E5%8C%96/</url>
     <content><![CDATA[¶Redis的持久化机制-RDB
@@ -1337,19 +1337,6 @@ Redis 启动加载配置
       </categories>
       <tags>
         <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Tomcat运维脚本</title>
-    <url>/2021/03/16/Tomcat%E8%BF%90%E7%BB%B4%E8%84%9A%E6%9C%AC/</url>
-    <content><![CDATA[#!/bin/shBASE_HOME=/deveye/dspSERVER_PORT=8960# set customer varibalesulimit -n 65535export JAVA_HOME=$BASE_HOME/opt/jdkexport JAVA_OPTS=&quot;-server -Xms16000m -Xmx16000m -XX:PermSize=128m -XX:MaxPermSize=256m -Djava.security.egd=file:/dev/./urandom&quot;log () &#123;    echo &quot;========&gt;&gt; $1 &lt;&lt;========&quot;&#125;get_pid_by_port () &#123;    PID=$(netstat -anp | grep $1 | grep LISTEN | awk &#x27;&#123;printf $7&#125;&#x27; | cut -d/ -f1)    if [[ &quot;$PID&quot; != &quot;&quot; &amp;&amp; &quot;$&#123;PID:0:1&#125;&quot; != &quot;-&quot; ]] ; then        echo $PID    else        echo -1    fi&#125;kill_by_port () &#123;    PID=$(get_pid_by_port $1)    echo &quot;[$1] pid: [$PID]&quot;    if [ &quot;$PID&quot; != &quot;-1&quot; ] ; then        kill -9 $PID    fi&#125;case &quot;$1&quot; in    &#x27;start&#x27; )        log &quot;cdi start ...&quot;        /deveye/opt/rsync-client/bin/rsync-dsp        $BASE_HOME/opt/tomcat/bin/startup.sh        log &quot;cdi start ok.&quot;        ;;    &#x27;stop&#x27; )        log &quot;cdi stop ...&quot;        kill_by_port $SERVER_PORT        sleep 1s        log &quot;cdi stop ok.&quot;        ;;    &#x27;restart&#x27; )        $0 stop        sleep 1s        $0 start        ;;    &#x27;cc&#x27; )        &gt; $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    &#x27;tc&#x27; )        tail -f $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    &#x27;vc&#x27; )        vim $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    * )        echo &quot;Usage: $0 [ start | stop | restart | cc | tc | vc ]&quot;        exit 1        ;;esac
-]]></content>
-      <categories>
-        <category>Tomcat</category>
-      </categories>
-      <tags>
-        <tag>Tomcat</tag>
-        <tag>运维</tag>
       </tags>
   </entry>
   <entry>
@@ -1475,6 +1462,19 @@ public static boolean interrupted() &#123;  return currentThread().isInterrupted
       </tags>
   </entry>
   <entry>
+    <title>Tomcat运维脚本</title>
+    <url>/2021/03/16/Tomcat%E8%BF%90%E7%BB%B4%E8%84%9A%E6%9C%AC/</url>
+    <content><![CDATA[#!/bin/shBASE_HOME=/deveye/dspSERVER_PORT=8960# set customer varibalesulimit -n 65535export JAVA_HOME=$BASE_HOME/opt/jdkexport JAVA_OPTS=&quot;-server -Xms16000m -Xmx16000m -XX:PermSize=128m -XX:MaxPermSize=256m -Djava.security.egd=file:/dev/./urandom&quot;log () &#123;    echo &quot;========&gt;&gt; $1 &lt;&lt;========&quot;&#125;get_pid_by_port () &#123;    PID=$(netstat -anp | grep $1 | grep LISTEN | awk &#x27;&#123;printf $7&#125;&#x27; | cut -d/ -f1)    if [[ &quot;$PID&quot; != &quot;&quot; &amp;&amp; &quot;$&#123;PID:0:1&#125;&quot; != &quot;-&quot; ]] ; then        echo $PID    else        echo -1    fi&#125;kill_by_port () &#123;    PID=$(get_pid_by_port $1)    echo &quot;[$1] pid: [$PID]&quot;    if [ &quot;$PID&quot; != &quot;-1&quot; ] ; then        kill -9 $PID    fi&#125;case &quot;$1&quot; in    &#x27;start&#x27; )        log &quot;cdi start ...&quot;        /deveye/opt/rsync-client/bin/rsync-dsp        $BASE_HOME/opt/tomcat/bin/startup.sh        log &quot;cdi start ok.&quot;        ;;    &#x27;stop&#x27; )        log &quot;cdi stop ...&quot;        kill_by_port $SERVER_PORT        sleep 1s        log &quot;cdi stop ok.&quot;        ;;    &#x27;restart&#x27; )        $0 stop        sleep 1s        $0 start        ;;    &#x27;cc&#x27; )        &gt; $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    &#x27;tc&#x27; )        tail -f $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    &#x27;vc&#x27; )        vim $BASE_HOME/opt/tomcat/logs/catalina.out        exit 1        ;;    * )        echo &quot;Usage: $0 [ start | stop | restart | cc | tc | vc ]&quot;        exit 1        ;;esac
+]]></content>
+      <categories>
+        <category>Tomcat</category>
+      </categories>
+      <tags>
+        <tag>Tomcat</tag>
+        <tag>运维</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git commit之后，撤销commit</title>
     <url>/2020/08/21/git-commit%E4%B9%8B%E5%90%8E-%E6%92%A4%E9%94%80commit/</url>
     <content><![CDATA[¶场景
@@ -1569,6 +1569,21 @@ https://git-scm.com/book/zh/v2/Git-分支-分支的新建与合并#_basic_mergin
       </categories>
       <tags>
         <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>go反向代理quickstart</title>
+    <url>/2022/04/07/golang%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86quickstart/</url>
+    <content><![CDATA[main.go
+package mainimport (	&quot;context&quot;	&quot;github.com/gorilla/mux&quot;	&quot;github.com/txn2/txeh&quot;	&quot;log&quot;	&quot;net/http&quot;	&quot;net/http/httputil&quot;	&quot;net/url&quot;	&quot;os&quot;	&quot;os/signal&quot;)var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;const (	host     = &quot;api-dev.deveye.cn&quot;	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;	address  = &quot;127.0.0.1&quot;)func main() &#123;	hosts, err := txeh.NewHostsDefault()	if err != nil &#123;		panic(err)	&#125;	hosts.AddHosts(address, hostArr)	log.Println(hosts.Save())	r := mux.NewRouter()	r.Use(LoggingHandler, AuthHandler, RecoverHandler)		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)	srv := &amp;http.Server&#123;		Addr:    &quot;:80&quot;,		Handler: r,	&#125;	go func() &#123;		if err := srv.ListenAndServe(); err != nil &#123;			log.Println(err)		&#125;	&#125;()	c := make(chan os.Signal, 1)	signal.Notify(c, os.Interrupt)	&lt;-c	ctx, cancel := context.WithCancel(context.Background())	defer cancel()	log.Println(srv.Shutdown(ctx))	hosts.RemoveHosts(hostArr)	log.Println(hosts.Save())	log.Println(&quot;shutting down&quot;)	os.Exit(0)&#125;func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;	u, err := url.Parse(proxyUrl)	if err != nil &#123;		log.Println(err)	&#125;	proxy := httputil.NewSingleHostReverseProxy(u)	r.Host = host	proxy.ServeHTTP(w, r)&#125;
+middleware.go
+import (	&quot;bytes&quot;	&quot;encoding/json&quot;	&quot;errors&quot;	&quot;io/ioutil&quot;	&quot;log&quot;	&quot;net/http&quot;	&quot;time&quot;)var loginUrl = proxyUrl + &quot;login/sms&quot;func LoggingHandler(next http.Handler) http.Handler &#123;	fn := func(w http.ResponseWriter, r *http.Request) &#123;		t1 := time.Now()		next.ServeHTTP(w, r)		t2 := time.Now()		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))	&#125;	return http.HandlerFunc(fn)&#125;func RecoverHandler(next http.Handler) http.Handler &#123;	fn := func(w http.ResponseWriter, r *http.Request) &#123;		defer func() &#123;			if err := recover(); err != nil &#123;				log.Printf(&quot;Recover from panic: %+v&quot;, err)				http.Error(w, http.StatusText(500), 500)			&#125;		&#125;()		next.ServeHTTP(w, r)	&#125;	return http.HandlerFunc(fn)&#125;func AuthHandler(next http.Handler) http.Handler &#123;	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;		token, err := getAccessToken()		if err != nil &#123;			log.Fatalln(err)		&#125;		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)		r.Header.Set(&quot;X-Auth-Token&quot;, token)		next.ServeHTTP(w, r)	&#125;)&#125;func getAccessToken() (string, error) &#123;	params := map[string]string&#123;		&quot;phone&quot;:      &quot;15555555551&quot;,		&quot;verifyCode&quot;: &quot;888888&quot;,		&quot;codeId&quot;:     &quot;111111&quot;,	&#125;	marshal, _ := json.Marshal(params)	reader := bytes.NewReader(marshal)	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)	client := &amp;http.Client&#123;&#125;	do, err := client.Do(request)	if err != nil &#123;		return &quot;&quot;, err	&#125;	b, err := ioutil.ReadAll(do.Body)	if err != nil &#123;		return &quot;&quot;, err	&#125;	_ = do.Body.Close()	result := &amp;LoginResult&#123;&#125;	if err := json.Unmarshal(b, result); err != nil &#123;		return &quot;&quot;, err	&#125;	if result.ErrCode != &quot;0&quot; &#123;		return &quot;&quot;, errors.New(result.Message)	&#125;	return result.Data.Token, nil&#125;type LoginResult struct &#123;	ErrCode string	Message string	Data    struct &#123;		Name  string		Token string		Phone string	&#125;&#125;
+]]></content>
+      <categories>
+        <category>go</category>
+      </categories>
+      <tags>
+        <tag>go</tag>
       </tags>
   </entry>
   <entry>
@@ -1784,21 +1799,6 @@ $ git archive
       </categories>
       <tags>
         <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>go反向代理quickstart</title>
-    <url>/2022/04/07/golang%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86quickstart/</url>
-    <content><![CDATA[main.go
-package mainimport (	&quot;context&quot;	&quot;github.com/gorilla/mux&quot;	&quot;github.com/txn2/txeh&quot;	&quot;log&quot;	&quot;net/http&quot;	&quot;net/http/httputil&quot;	&quot;net/url&quot;	&quot;os&quot;	&quot;os/signal&quot;)var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;const (	host     = &quot;api-dev.deveye.cn&quot;	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;	address  = &quot;127.0.0.1&quot;)func main() &#123;	hosts, err := txeh.NewHostsDefault()	if err != nil &#123;		panic(err)	&#125;	hosts.AddHosts(address, hostArr)	log.Println(hosts.Save())	r := mux.NewRouter()	r.Use(LoggingHandler, AuthHandler, RecoverHandler)		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)	srv := &amp;http.Server&#123;		Addr:    &quot;:80&quot;,		Handler: r,	&#125;	go func() &#123;		if err := srv.ListenAndServe(); err != nil &#123;			log.Println(err)		&#125;	&#125;()	c := make(chan os.Signal, 1)	signal.Notify(c, os.Interrupt)	&lt;-c	ctx, cancel := context.WithCancel(context.Background())	defer cancel()	log.Println(srv.Shutdown(ctx))	hosts.RemoveHosts(hostArr)	log.Println(hosts.Save())	log.Println(&quot;shutting down&quot;)	os.Exit(0)&#125;func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;	u, err := url.Parse(proxyUrl)	if err != nil &#123;		log.Println(err)	&#125;	proxy := httputil.NewSingleHostReverseProxy(u)	r.Host = host	proxy.ServeHTTP(w, r)&#125;
-middleware.go
-import (	&quot;bytes&quot;	&quot;encoding/json&quot;	&quot;errors&quot;	&quot;io/ioutil&quot;	&quot;log&quot;	&quot;net/http&quot;	&quot;time&quot;)var loginUrl = proxyUrl + &quot;login/sms&quot;func LoggingHandler(next http.Handler) http.Handler &#123;	fn := func(w http.ResponseWriter, r *http.Request) &#123;		t1 := time.Now()		next.ServeHTTP(w, r)		t2 := time.Now()		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))	&#125;	return http.HandlerFunc(fn)&#125;func RecoverHandler(next http.Handler) http.Handler &#123;	fn := func(w http.ResponseWriter, r *http.Request) &#123;		defer func() &#123;			if err := recover(); err != nil &#123;				log.Printf(&quot;Recover from panic: %+v&quot;, err)				http.Error(w, http.StatusText(500), 500)			&#125;		&#125;()		next.ServeHTTP(w, r)	&#125;	return http.HandlerFunc(fn)&#125;func AuthHandler(next http.Handler) http.Handler &#123;	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;		token, err := getAccessToken()		if err != nil &#123;			log.Fatalln(err)		&#125;		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)		r.Header.Set(&quot;X-Auth-Token&quot;, token)		next.ServeHTTP(w, r)	&#125;)&#125;func getAccessToken() (string, error) &#123;	params := map[string]string&#123;		&quot;phone&quot;:      &quot;15555555551&quot;,		&quot;verifyCode&quot;: &quot;888888&quot;,		&quot;codeId&quot;:     &quot;111111&quot;,	&#125;	marshal, _ := json.Marshal(params)	reader := bytes.NewReader(marshal)	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)	client := &amp;http.Client&#123;&#125;	do, err := client.Do(request)	if err != nil &#123;		return &quot;&quot;, err	&#125;	b, err := ioutil.ReadAll(do.Body)	if err != nil &#123;		return &quot;&quot;, err	&#125;	_ = do.Body.Close()	result := &amp;LoginResult&#123;&#125;	if err := json.Unmarshal(b, result); err != nil &#123;		return &quot;&quot;, err	&#125;	if result.ErrCode != &quot;0&quot; &#123;		return &quot;&quot;, errors.New(result.Message)	&#125;	return result.Data.Token, nil&#125;type LoginResult struct &#123;	ErrCode string	Message string	Data    struct &#123;		Name  string		Token string		Phone string	&#125;&#125;
-]]></content>
-      <categories>
-        <category>go</category>
-      </categories>
-      <tags>
-        <tag>go</tag>
       </tags>
   </entry>
   <entry>
@@ -2582,6 +2582,21 @@ mysql&gt; select * from tuser where name like &#x27;张 %&#x27; and age=10 and i
       </tags>
   </entry>
   <entry>
+    <title>算法之旅</title>
+    <url>/2019/09/03/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%97%85/</url>
+    <content><![CDATA[
+排序算法
+链表
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>程序员的测试课</title>
     <url>/2022/05/30/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AF%BE/</url>
     <content><![CDATA[¶时代在要求我们写测试
@@ -2644,12 +2659,15 @@ Repository 的问题以运行时异常的形式抛出，业务层不需要做任
       </tags>
   </entry>
   <entry>
-    <title>算法之旅</title>
-    <url>/2019/09/03/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%97%85/</url>
-    <content><![CDATA[
-排序算法
-链表
+    <title>链表</title>
+    <url>/2019/09/03/%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[¶反转链表
 
+package mainimport (	&quot;fmt&quot;)func main() &#123;	head := &amp;ListNode&#123;		1, &amp;ListNode&#123;			2, &amp;ListNode&#123;				3, &amp;ListNode&#123;					4, &amp;ListNode&#123;						5, nil&#125;&#125;,			&#125;,		&#125;,	&#125;	for list := reverseList(head); list != nil; list = list.Next &#123;		fmt.Println(list.Val)	&#125;&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func reverseList(head *ListNode) *ListNode &#123;	var cur, prev *ListNode = head, nil	for cur != nil &#123;		cur.Next, prev, cur = prev, cur, cur.Next	&#125;	return prev&#125;
+¶交换相邻两个节点
+package mainimport &quot;fmt&quot;func main() &#123;	head := &amp;ListNode&#123;		1, &amp;ListNode&#123;			2, &amp;ListNode&#123;				3, &amp;ListNode&#123;					4, nil&#125;,			&#125;,		&#125;,	&#125;	for list := swapPairs(head); list != nil; list = list.Next &#123;		fmt.Println(list.Val)	&#125;&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func swapPairs(head *ListNode) *ListNode &#123;	if head == nil || head.Next == nil &#123;		return head	&#125;	newHead := head.Next	head.Next = swapPairs(newHead.Next)	newHead.Next = head	return newHead&#125;
+¶判断链表是否有环
+package mainimport &quot;fmt&quot;func main() &#123;	cycle := &amp;ListNode&#123;		2, &amp;ListNode&#123;			0, &amp;ListNode&#123;				-4, nil&#125;&#125;&#125;	cycle.Next.Next.Next = cycle	head := &amp;ListNode&#123;		3, cycle,	&#125;	fmt.Println(hasCycle(head))&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func hasCycle(head *ListNode) bool &#123;	if head == nil || head.Next == nil &#123;		return false	&#125;	slow, fast := head, head	for fast != nil &amp;&amp; fast.Next != nil &#123;		slow, fast = slow.Next, fast.Next.Next		if slow == fast &#123;			return true		&#125;	&#125;	return false&#125;
 ]]></content>
       <categories>
         <category>算法</category>
@@ -2705,24 +2723,6 @@ Repository 的问题以运行时异常的形式抛出，业务层不需要做任
       </categories>
       <tags>
         <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>链表</title>
-    <url>/2019/09/03/%E9%93%BE%E8%A1%A8/</url>
-    <content><![CDATA[¶反转链表
-
-package mainimport (	&quot;fmt&quot;)func main() &#123;	head := &amp;ListNode&#123;		1, &amp;ListNode&#123;			2, &amp;ListNode&#123;				3, &amp;ListNode&#123;					4, &amp;ListNode&#123;						5, nil&#125;&#125;,			&#125;,		&#125;,	&#125;	for list := reverseList(head); list != nil; list = list.Next &#123;		fmt.Println(list.Val)	&#125;&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func reverseList(head *ListNode) *ListNode &#123;	var cur, prev *ListNode = head, nil	for cur != nil &#123;		cur.Next, prev, cur = prev, cur, cur.Next	&#125;	return prev&#125;
-¶交换相邻两个节点
-package mainimport &quot;fmt&quot;func main() &#123;	head := &amp;ListNode&#123;		1, &amp;ListNode&#123;			2, &amp;ListNode&#123;				3, &amp;ListNode&#123;					4, nil&#125;,			&#125;,		&#125;,	&#125;	for list := swapPairs(head); list != nil; list = list.Next &#123;		fmt.Println(list.Val)	&#125;&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func swapPairs(head *ListNode) *ListNode &#123;	if head == nil || head.Next == nil &#123;		return head	&#125;	newHead := head.Next	head.Next = swapPairs(newHead.Next)	newHead.Next = head	return newHead&#125;
-¶判断链表是否有环
-package mainimport &quot;fmt&quot;func main() &#123;	cycle := &amp;ListNode&#123;		2, &amp;ListNode&#123;			0, &amp;ListNode&#123;				-4, nil&#125;&#125;&#125;	cycle.Next.Next.Next = cycle	head := &amp;ListNode&#123;		3, cycle,	&#125;	fmt.Println(hasCycle(head))&#125;type ListNode struct &#123;	Val  int	Next *ListNode&#125;func hasCycle(head *ListNode) bool &#123;	if head == nil || head.Next == nil &#123;		return false	&#125;	slow, fast := head, head	for fast != nil &amp;&amp; fast.Next != nil &#123;		slow, fast = slow.Next, fast.Next.Next		if slow == fast &#123;			return true		&#125;	&#125;	return false&#125;
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
