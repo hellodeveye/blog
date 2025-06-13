@@ -61,13 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
       // 初始化Lunr索引
       idx = lunr(function () {
         this.field('title', { boost: 10 });
-        this.field('text');
+        this.field('content');
         this.ref('url');
         
         data.forEach(item => {
             this.add({
                 title: item.title,
-                text: item.text,
+                content: item.content,
                 url: item.url
             });
         });
@@ -117,27 +117,26 @@ document.addEventListener('DOMContentLoaded', function() {
     let html = '';
     results.forEach(result => {
       const post = dataMap.get(result.ref);
-      console.log(post)
       if (post) {
-        const postUrl = ('<%- config.root %>' + post.url).replace(/^\/\//, '/');
-        let postExcerpt = truncate(post.content, 150);
-        const postTitle = post.title || '';
+        const url = ('<%- config.root %>' + post.url).replace(/^\/\//, '/');
+        let excerpt = truncate(post.content, 150);
+        const title = post.title || '';
 
         // Highlight search terms
         queryTerms.forEach(term => {
           const regex = new RegExp(escapeRegExp(term), 'gi');
-          postExcerpt = postExcerpt.replace(regex, (match) => `<mark>${match}</mark>`);
+          excerpt = excerpt.replace(regex, (match) => `<mark>${match}</mark>`);
         });
 
         html += `
           <article class="post brd-btm">
               <header class="post-header">
                   <h3 class="post-title">
-                      <a href="${postUrl}">${postTitle}</a>
+                      <a href="${url}">${title}</a>
                   </h3>
               </header>
               <div class="post-content">
-                  <p>${postExcerpt}</p>
+                  <p>${excerpt}</p>
               </div>
           </article>
         `;
