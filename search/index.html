@@ -152,9 +152,10 @@ document.addEventListener('DOMContentLoaded', function() {
         this.ref('url');
         
         data.forEach(item => {
+          console.log(item)
             this.add({
                 title: item.title,
-                text: item.content,
+                content: item.content,
                 url: item.url
             });
         });
