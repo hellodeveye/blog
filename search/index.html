@@ -148,13 +148,13 @@ document.addEventListener('DOMContentLoaded', function() {
       // 初始化Lunr索引
       idx = lunr(function () {
         this.field('title', { boost: 10 });
-        this.field('text');
+        this.field('content');
         this.ref('url');
         
         data.forEach(item => {
             this.add({
                 title: item.title,
-                text: item.text,
+                text: item.content,
                 url: item.url
             });
         });
