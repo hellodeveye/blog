@@ -3930,6 +3930,9 @@ img.aligncenter {
     padding-left: 20px;
     padding-right: 20px;
   }
+  .crt-nav-on .crt-container-sm {
+    margin-right: 56px;
+  }
   .crt-nav-on .crt-container {
     max-width: 866px;
   }
@@ -4499,7 +4502,7 @@ img.aligncenter {
   top: 0;
   right: 0;
   width: 85%;
-  max-width: 320px;
+  max-width: 380px;
   height: 100%;
   z-index: 10000;
   position: fixed;
@@ -4534,7 +4537,7 @@ img.aligncenter {
 }
 #crt-sidebar-close {
   top: 6px;
-  left: -42px;
+  left: -20px;
   width: 35px;
   height: 35px;
   position: absolute;
@@ -4629,10 +4632,10 @@ img.aligncenter {
   margin-bottom: 0.5em;
 }
 .post-header {
-  margin-bottom: 2.188em;
+  margin-bottom: 1.188em;
 }
 .post-footer {
-  margin-top: 3.1em;
+  margin-top: 0.5em;
 }
 .post-footer-top {
   padding-bottom: 1.15em;
