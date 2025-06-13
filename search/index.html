@@ -152,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function() {
         this.ref('url');
         
         data.forEach(item => {
-          console.log(item)
             this.add({
                 title: item.title,
                 content: item.content,
@@ -206,25 +205,25 @@ document.addEventListener('DOMContentLoaded', function() {
     results.forEach(result => {
       const post = dataMap.get(result.ref);
       if (post) {
-        const postUrl = ('/' + post.url).replace(/^\/\//, '/');
-        let postExcerpt = truncate(post.content, 150);
-        const postTitle = post.title || '';
+        const url = ('/' + post.url).replace(/^\/\//, '/');
+        let excerpt = truncate(post.content, 150);
+        const title = post.title || '';
 
         // Highlight search terms
         queryTerms.forEach(term => {
           const regex = new RegExp(escapeRegExp(term), 'gi');
-          postExcerpt = postExcerpt.replace(regex, (match) => `<mark>${match}</mark>`);
+          excerpt = excerpt.replace(regex, (match) => `<mark>${match}</mark>`);
         });
 
         html += `
           <article class="post brd-btm">
               <header class="post-header">
                   <h3 class="post-title">
-                      <a href="${postUrl}">${postTitle}</a>
+                      <a href="${url}">${title}</a>
                   </h3>
               </header>
               <div class="post-content">
-                  <p>${postExcerpt}</p>
+                  <p>${excerpt}</p>
               </div>
           </article>
         `;
