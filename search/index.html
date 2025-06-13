@@ -29,7 +29,7 @@
 </head>
 
 	
-	<body class="single">
+	<body class="category">
 		<div class="crt-wrapper">
 			<header id="crt-header">
 	<div class="crt-head-inner crt-container">
@@ -85,127 +85,170 @@
 					<div class="crt-paper-layers">
 						<div class="crt-paper clearfix">
 							<div class="crt-paper-cont paper-padd clear-mrg">
-								<article class="post hentry">
-	<div class="padd-box">
-		<!--post header-->
-		<header class="post-header text-center">
-	<h1 class="post-title entry-title">Redis哨兵</h1>
-	<div class="post-header-info">
-		<span class="posted-on"><span class="screen-reader-text">Posted on </span>
-		<a href="#" rel="bookmark">
-			<time class="post-date published" datetime="2020/7/7">2020/7/7</time>
-			<time class="post-date updated" datetime="2020/7/7">2020/7/7</time>
-		</a>
-		</span>
-		&nbsp;<span class="post-author vcard">by <a class="url fn n" href="#" rel="author">yangkai</a></span>
-	</div>
-</header>
-		<!--post content-->
-		<div class="post-content entry-content editor clearfix clear-mrg">
-	<h3 id="Sentinel的分布式特征"><a class="header-anchor" href="#Sentinel的分布式特征">¶</a>Sentinel的分布式特征</h3>
-<p>Redis Sentinel是一个分布式系统：<br>
-Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运行。</p>
-<ul>
-<li>当多个哨兵就给定的主机不再可用的事实达成共识时，将执行故障检测，降低了误报的可能性。</li>
-<li>即使不是所有的Sentinel进程都在工作，Sentinel仍可正常工作，从而使系统能够应对故障。毕竟，拥有故障转移系统本身就是一个单点故障，</li>
-</ul>
-<h3 id="运行哨兵"><a class="header-anchor" href="#运行哨兵">¶</a>运行哨兵</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel /path/to/sentinel.conf</span><br></pre></td></tr></table></figure>
-<p><code>redis-sentinel</code>是<code>redis-server</code>的一个软链接，所以也可以使用以下方法：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /path/to/sentinel.conf --sentinel</span><br></pre></td></tr></table></figure>
-<p>两种方法的工作原理相同。</p>
-<p>但是，再运行<code>Sentinel</code>时<strong>必须</strong>指定配置文件，因为系统将使用此文件来保存当前状态，以便在重新启动时重新加载。如果未指定文件，则会启动失败。</p>
-<p>Sentinels默认情况下会<strong>监听TCP端口26379连接</strong>，因此必须打开26379端口。</p>
-<h3 id="Sentinel的基础知识"><a class="header-anchor" href="#Sentinel的基础知识">¶</a>Sentinel的基础知识</h3>
-<ol>
-<li>一个健壮的集群至少需要三个Sentinel实例</li>
-<li>应该将三个Sentinel实例部署在不同的机器上</li>
-<li>因为Redis使用的是异步复制，所以不能保证在故障转移期间保证数据的写入。</li>
-</ol>
-<h3 id="配置哨兵"><a class="header-anchor" href="#配置哨兵">¶</a>配置哨兵</h3>
-<p>Redis的源码包包含一个sentinel.conf文件可用于配置Sentinel，典型的最小配置如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor mymaster 127.0.0.1 6379 2</span><br><span class="line">sentinel down-after-milliseconds mymaster 60000</span><br><span class="line">sentinel failover-timeout mymaster 180000</span><br><span class="line">sentinel parallel-syncs mymaster 1</span><br></pre></td></tr></table></figure>
-<p>sentinel monitor含义如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;</span><br></pre></td></tr></table></figure>
-<p><code>&lt;master-group-name&gt;</code> 指主节点名称，<code>&lt;ip&gt;</code> IP地址 <code>&lt;port&gt;</code>端口号，重点说一下<code>&lt;quorum&gt;</code>：<br>
-假如有5个Sentinel进程，并且给定主服务器的quorum置为2，则将发生以下情况：</p>
-<ul>
-<li>如果有两个哨兵同时发现主节点不可访问，则其中一个哨兵将尝试启动故障转移。</li>
-<li>如果有三个哨兵同时发现主节点不可访问，则将启动故障转移。</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel down-after-milliseconds</span><br></pre></td></tr></table></figure>
-<p><code>down-after-milliseconds</code>是指Sentinel在指定的时间内没有获得实例的响应，则认为实例已关闭。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel parallel-syncs</span><br></pre></td></tr></table></figure>
-<p><code>parallel-syncs</code> 设置每次可以对几个副本进行同步数据</p>
-<h3 id="Redis-哨兵部署示例"><a class="header-anchor" href="#Redis-哨兵部署示例">¶</a>Redis 哨兵部署示例</h3>
-<h4 id="经典三节点最小部署"><a class="header-anchor" href="#经典三节点最小部署">¶</a>经典三节点最小部署</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        +----+</span><br><span class="line">        | M1 |</span><br><span class="line">        | S1 |</span><br><span class="line">        +----+</span><br><span class="line">           |</span><br><span class="line"> +----+    |    +----+</span><br><span class="line"> | R2 |----+----| R3 |</span><br><span class="line"> | S2 |         | S3 |</span><br><span class="line"> +----+         +----+</span><br><span class="line"></span><br><span class="line">Configuration: quorum = 2</span><br></pre></td></tr></table></figure>
-<p>如果主M1发生故障，则S2和S3将达成协议，并能够开启故障转移，从而使客户端能够继续使用。</p>
-<h4 id="模拟发生网络分区"><a class="header-anchor" href="#模拟发生网络分区">¶</a>模拟发生网络分区</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">         +----+</span><br><span class="line">         | M1 |</span><br><span class="line">         | S1 | &lt;- C1 (writes will be lost)</span><br><span class="line">         +----+</span><br><span class="line">            |</span><br><span class="line">            /</span><br><span class="line">            /</span><br><span class="line">+------+    |    +----+</span><br><span class="line">| [M2] |----+----| R3 |</span><br><span class="line">| S2   |         | S3 |</span><br><span class="line">+------+         +----+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>在这种情况下，网络分区隔离了旧的主数据库M1，因此副本R2被提升为主数据库。但是，与旧主服务器位于同一分区中的客户端（例如C1）可能会继续向旧主服务器写入数据。该数据将永远丢失，因为当分区恢复正常时，主服务器将被重新配置为新主服务器的副本，从而造成数据丢失。</p>
-<p>使用以下Redis复制功能可以缓解此问题，如果主服务器检测到副本数量没有达到指定的副本数据，则停止接受数据写入。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 最小副本数量</span><br><span class="line">min-replicas-to-write 1</span><br><span class="line"># 发送异步确认的最大时间</span><br><span class="line">min-replicas-max-lag 10</span><br></pre></td></tr></table></figure>
+								<section class="section padd-box">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="title-lg text-upper">搜索</h2>
+      <div class="text-box">
+          <div class="search-form" style="margin-bottom: 30px;">
+            <label>
+              <span class="screen-reader-text">Search for:</span>
+              <input type="search" id="search-input" class="search-field" placeholder="Search" value="" name="s">
+            </label>
+            <button type="button" id="search-btn" class="search-submit">
+              <span class="screen-reader-text">Search</span>
+              <span class="crt-icon crt-icon-search"></span>
+            </button>
+          </div>
+          <div id="search-summary"></div>
+          <div id="search-results" class="search-results">
+            <!-- 搜索结果将显示在这里 -->
+          </div>
+        </div>
+    </div>
+</section>
 
-</div>
-		<!--post footer-->
-		<footer class="single post-footer">
-	<div class="post-footer-top brd-btm">
-		<div class="post-footer-info">
-			<span class="post-cat-links"><span class="screen-reader-text">Categories</span>
-				
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Redis/">Redis</a>
-  </div>
+<script src="/js/lunr.min.js"></script>
 
-			</span>
-		</div>
-	</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.getElementById('search-btn');
+  const searchResults = document.getElementById('search-results');
+  let dataMap = new Map();
+  let idx;
 
-	<div class="post-footer-btm">
-		<div class="post-tags">
-			<span class="screen-reader-text">Tags </span>
-				
-  <a class="article-tag-none-link" href="/tags/Redis/" rel="tag">Redis</a>
+  // Helper function to debounce search input
+  function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  }
 
-		</div>
-	</div>
-</footer>
-	</div>
-</article>
-		
-<nav class="post-nav" role="navigation">
-	<div class="padd-box-sm brd-btm">
-		<h2 class="screen-reader-text">Post navigation</h2>
-		<div class="row">
-			
-			<div class="col-sm-5 col-xs-6" style="float: left">
-				<div class="post-nav-prev">
-					<a href="/2020/07/09/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" rel="prev">
-						<span class="text-left text-muted">上一篇</span>
-						<figure><img src="/images/pre.jpg" alt=""> </figure>
-						
-						<strong class="text-center">Redis分布式锁</strong>
-						
-					</a>
-				</div>
-			</div>
-			
-			
-			<div class="col-sm-5 col-xs-6" style="float: right">
-				<div class="post-nav-next">
-					<a href="/2020/05/14/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E9%80%89%E5%9E%8B/" rel="next">
-						<span class="text-right text-muted">下一篇</span>
-						<figure><img src="/images/next.jpg" alt=""></figure>
-						<strong class="text-center">	消息中间件选型</strong>
-					</a>
-				</div>
-			</div>
-			
-		</div>
-	</div>
-</nav>
+  // Helper function to escape regex special characters for highlighting
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
 
+  // 加载搜索数据
+  // For a significant performance improvement, consider pre-building the Lunr.js index
+  // during your Hexo build process and loading the serialized index here.
+  fetch('/search.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      dataMap = new Map(data.map(item => [item.url, item]));
+      // 初始化Lunr索引
+      idx = lunr(function () {
+        this.field('title', { boost: 10 });
+        this.field('text');
+        this.ref('url');
+        
+        data.forEach(item => {
+            this.add({
+                title: item.title,
+                text: item.text,
+                url: item.url
+            });
+        });
+      });
+      searchInput.disabled = false;
+      searchBtn.disabled = false;
+      searchInput.placeholder = "输入关键词搜索...";
+    })
+    .catch(error => {
+        console.error('Failed to load search data:', error);
+        searchResults.innerHTML = '<div class="text-center"><p>抱歉，搜索功能加载失败，请稍后重试。</p></div>';
+        searchInput.disabled = true;
+        searchBtn.disabled = true;
+    });
+
+  function performSearch() {
+    const query = searchInput.value.trim();
+    if (!query) {
+      searchResults.innerHTML = '';
+      document.getElementById('search-summary').style.display = 'none';
+      return;
+    }
+
+    try {
+      const results = idx.search(query);
+      renderResults(results, query);
+    } catch (e) {
+      console.error(e);
+      searchResults.innerHTML = '<div class="text-center"><p>搜索时遇到错误。</p></div>';
+    }
+  }
+
+  function renderResults(results, query) {
+    const summaryEl = document.getElementById('search-summary');
+    const searchResults = document.getElementById('search-results');
+
+    if (results.length === 0) {
+      summaryEl.style.display = 'none';
+      searchResults.innerHTML = '<div class="text-center"><p>没有找到相关结果</p></div>';
+      return;
+    }
+
+    summaryEl.innerHTML = `<div style="margin-bottom: 30px;">找到 ${results.length} 个结果</div>`;
+    summaryEl.style.display = 'block';
+
+    const queryTerms = query.split(/\s+/).filter(term => term.length > 0);
+    let html = '';
+    results.forEach(result => {
+      const post = dataMap.get(result.ref);
+      console.log(post)
+      if (post) {
+        const postUrl = ('/' + post.url).replace(/^\/\//, '/');
+        let postExcerpt = truncate(post.content, 150);
+        const postTitle = post.title || '';
+
+        // Highlight search terms
+        queryTerms.forEach(term => {
+          const regex = new RegExp(escapeRegExp(term), 'gi');
+          postExcerpt = postExcerpt.replace(regex, (match) => `<mark>${match}</mark>`);
+        });
+
+        html += `
+          <article class="post brd-btm">
+              <header class="post-header">
+                  <h3 class="post-title">
+                      <a href="${postUrl}">${postTitle}</a>
+                  </h3>
+              </header>
+              <div class="post-content">
+                  <p>${postExcerpt}</p>
+              </div>
+          </article>
+        `;
+      }
+    });
+    searchResults.innerHTML = html;
+  }
+  
+  function truncate(text, length) {
+      if (!text || text.length <= length) {
+          return text || '';
+      }
+      return text.substring(0, length) + '...';
+  }
+
+  searchBtn.addEventListener('click', performSearch);
+  searchInput.addEventListener('input', debounce(performSearch, 300));
+
+  // 初始时禁用输入框和按钮
+  searchInput.disabled = true;
+  searchInput.placeholder = "正在加载搜索索引...";
+  searchBtn.disabled = true;
+});
+</script> 
 							</div>
 						</div>
 					</div>
