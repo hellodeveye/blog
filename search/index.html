@@ -205,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let html = '';
     results.forEach(result => {
       const post = dataMap.get(result.ref);
-      console.log(post)
       if (post) {
         const postUrl = ('/' + post.url).replace(/^\/\//, '/');
         let postExcerpt = truncate(post.content, 150);
