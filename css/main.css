@@ -701,8 +701,6 @@ blockquote {
 .btn-primary:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .btn-secondary {
@@ -890,6 +888,8 @@ blockquote {
   border: 1px solid #334155;
   overflow: hidden;
   font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  max-width: 100%;
+  width: 100%;
 }
 
 /* 代码块头部 */
@@ -958,6 +958,9 @@ blockquote {
 .post-content .code-content {
   display: flex;
   background: #0f172a;
+  min-width: 0;
+  /* 防止flex容器溢出 */
+  overflow: hidden;
 }
 
 /* 行号样式 */
@@ -993,6 +996,8 @@ blockquote {
   flex: 1 1 0%;
   overflow-x: auto;
   padding: 1.5rem 0;
+  min-width: 0;
+  /* 允许flex项目收缩，解决长代码行溢出问题 */
 }
 
 .post-content .code-line {
@@ -1577,12 +1582,6 @@ blockquote {
   scroll-behavior: smooth;
 }
 
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .text-wrap {
   text-wrap: wrap;
 }
@@ -1847,10 +1846,6 @@ blockquote {
 
 .pt-4 {
   padding-top: 1rem;
-}
-
-.text-left {
-  text-align: left;
 }
 
 .text-center {
@@ -2203,8 +2198,9 @@ blockquote {
 }
 
 .main-content {
-  flex: 1 1 0% !important;
-  min-width: 0 !important;
+  flex: 1 1 0%;
+  min-width: 0;
+  /* 允许flex项目收缩，防止内部宽元素（如代码块）撑破布局 */
 }
 
 /* 移动端隐藏侧边栏 */
