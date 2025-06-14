@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+	<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>无常是常</title>
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    
+<link rel="stylesheet" href="/css/main.css">
+
+	
+	<!-- Dark Mode Script -->
+	<script>
+		// 深色模式初始化
+		if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			document.documentElement.classList.add('dark')
+		} else {
+			document.documentElement.classList.remove('dark')
+		}
+		
+		// 深色模式切换函数
+		function toggleDarkMode() {
+			if (document.documentElement.classList.contains('dark')) {
+				document.documentElement.classList.remove('dark')
+				localStorage.theme = 'light'
+			} else {
+				document.documentElement.classList.add('dark')
+				localStorage.theme = 'dark'
+			}
+		}
+		
+		// 搜索功能
+		function performSearch() {
+			const query = document.getElementById('search-input').value.toLowerCase();
+			const resultsContainer = document.getElementById('search-results');
+			const loadingElement = document.getElementById('search-loading');
+			const emptyElement = document.getElementById('search-empty');
+			
+			if (!query.trim()) {
+				resultsContainer.innerHTML = '';
+				emptyElement.classList.add('hidden');
+				return;
+			}
+			
+			loadingElement.classList.remove('hidden');
+			emptyElement.classList.add('hidden');
+			
+			// 模拟搜索延迟
+			setTimeout(() => {
+				fetch('/search.json')
+					.then(response => response.json())
+					.then(data => {
+						const results = data.filter(post => 
+							post.title.toLowerCase().includes(query) ||
+							post.content.toLowerCase().includes(query) ||
+							(post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+						);
+						
+						loadingElement.classList.add('hidden');
+						
+						if (results.length === 0) {
+							emptyElement.classList.remove('hidden');
+							resultsContainer.innerHTML = '';
+						} else {
+							emptyElement.classList.add('hidden');
+							displaySearchResults(results, query);
+						}
+					})
+					.catch(error => {
+						console.error('搜索出错:', error);
+						loadingElement.classList.add('hidden');
+						emptyElement.classList.remove('hidden');
+					});
+			}, 300);
+		}
+		
+		function displaySearchResults(results, query) {
+			const resultsContainer = document.getElementById('search-results');
+			resultsContainer.innerHTML = results.map(post => {
+				const highlightedTitle = highlightText(post.title, query);
+				const excerpt = getExcerpt(post.content, query);
+				const highlightedExcerpt = highlightText(excerpt, query);
+				
+				return `
+					<article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-200 dark:border-gray-700">
+						<h3 class="text-xl font-semibold mb-2">
+							<a href="${post.url}" class="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+								${highlightedTitle}
+							</a>
+						</h3>
+						<p class="text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
+							${highlightedExcerpt}
+						</p>
+						<div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+							<time datetime="${post.date}">${new Date(post.date).toLocaleDateString('zh-CN')}</time>
+							${post.tags ? `<div class="flex gap-2">${post.tags.map(tag => `<span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-xs">${tag}</span>`).join('')}</div>` : ''}
+						</div>
+					</article>
+				`;
+			}).join('');
+		}
+		
+		function highlightText(text, query) {
+			if (!query) return text;
+			const regex = new RegExp(`(${query})`, 'gi');
+			return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+		}
+		
+		function getExcerpt(content, query, maxLength = 200) {
+			const queryIndex = content.toLowerCase().indexOf(query.toLowerCase());
+			if (queryIndex === -1) {
+				return content.substring(0, maxLength) + (content.length > maxLength ? '...' : '');
+			}
+			
+			const start = Math.max(0, queryIndex - 50);
+			const end = Math.min(content.length, queryIndex + query.length + 150);
+			let excerpt = content.substring(start, end);
+			
+			if (start > 0) excerpt = '...' + excerpt;
+			if (end < content.length) excerpt = excerpt + '...';
+			
+			return excerpt;
+		}
+	</script>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="无常是常" type="application/atom+xml">
+</head>
+
+	
+	<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 category">
+		<div class="flex flex-col">
+			<!-- 头部导航 -->
+			<header class="bg-white dark:bg-gray-800 shadow-md">
+	<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+				<div class="flex-shrink-0">
+					<a href="/" class="flex items-center">						
+						
+						<span class="ml-2 text-xl font-bold text-gray-900 dark:text-white">无常是常</span>
+					</a>
+				</div>
+				<div class="hidden md:block">
+					<nav class="ml-10 flex items-baseline space-x-4">
+						
+						<a href="/" 
+							class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+							文章
+						</a>
+						
+						<a href="/about" 
+							class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+							关于
+						</a>
+						
+					</nav>
+				</div>
+
+				<div class="flex items-center space-x-4">
+					<!-- 搜索按钮 -->
+					<a href="/search/" class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors" title="搜索">
+						<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+						</svg>
+					</a>
+					
+					<!-- 深色模式切换 -->
+					<button id="theme-toggle" class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors" title="切换主题">
+						<svg id="theme-toggle-dark-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+						</svg>
+						<svg id="theme-toggle-light-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+						</svg>
+					</button>
+					
+					<!-- 移动端菜单按钮 -->
+					<button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors">
+						<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+						</svg>
+					</button>
+				</div>
+			</div>
+			
+			<!-- 移动端菜单 -->
+			<div id="mobile-menu" class="hidden md:hidden">
+				<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-gray-700">
+					
+					<a href="/" 
+						class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						文章
+					</a>
+					
+					<a href="/about" 
+						class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						关于
+					</a>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+			
+			<!-- 主要内容区域 -->
+			<main class="flex-1">
+				<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					<div class="main-layout flex flex-col xl:flex-row gap-8">
+						<!-- 主内容区 -->
+						<div class="main-content flex-1">
+							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 md:p-12 lg:p-16">
+								<!-- Hero Section -->
+<div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-6 -mt-6 mb-8 px-6 py-8 rounded-t-lg">
+    <div class="text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            无常是常
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+            分享技术见解、学习心得和生活感悟
+        </p>
+        <div class="flex justify-center space-x-4">
+            <a href="/archives" class="btn btn-primary">
+                浏览文章
+            </a>
+            <a href="/about" class="btn btn-secondary">
+                了解更多
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 最新文章列表 -->
+<div class="space-y-6">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+        <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+        </svg>
+        最新文章
+    </h2>
+    
+    <div class="space-y-6">
+        
+            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2021/03/24/Java%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E4%BD%8D%E4%BA%8E%E5%93%AA%E9%87%8C%EF%BC%8C%E5%A0%86%E6%88%96%E5%A0%86%E6%A0%88%EF%BC%9F/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Java的字符串常量池位于哪里，堆或堆栈？
+                            </a>
+                        </h3>
+                        
+                        
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="2021-03-24T14:16:44.000Z" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    2021-03-24
+                                </time>
+                                
+                                
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        
+                                            <a href="/categories/Java/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                Java
+                                            </a>
+                                        
+                                    </div>
+                                
+                            </div>
+                            
+                            <a href="/2021/03/24/Java%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E4%BD%8D%E4%BA%8E%E5%93%AA%E9%87%8C%EF%BC%8C%E5%A0%86%E6%88%96%E5%A0%86%E6%A0%88%EF%BC%9F/" class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium flex items-center transition-colors">
+                                阅读更多
+                                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2021/01/17/%E3%80%8A%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E3%80%8B%EF%BC%9A%E4%BB%A5%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E4%B8%BA%E4%BE%8B/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                《刻意练习》：以学习编程为例
+                            </a>
+                        </h3>
+                        
+                        
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="2021-01-17T11:07:59.000Z" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    2021-01-17
+                                </time>
+                                
+                                
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        
+                                            <a href="/categories/%E8%AF%BB%E4%B9%A6/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                读书
+                                            </a>
+                                        
+                                    </div>
+                                
+                            </div>
+                            
+                            <a href="/2021/01/17/%E3%80%8A%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E3%80%8B%EF%BC%9A%E4%BB%A5%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E4%B8%BA%E4%BE%8B/" class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium flex items-center transition-colors">
+                                阅读更多
+                                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+    </div>
+    
+    <!-- 分页 -->
+    
+</div>
+							</div>
+						</div>
+						
+						<!-- 侧边栏 - 移动端隐藏 -->
+						<aside class="main-sidebar hidden xl:block xl:w-80 xl:flex-shrink-0">
+							<div class="space-y-6">
+	<!-- 个人信息卡片 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center border border-gray-200 dark:border-gray-700">
+		<div class="mb-4">
+			
+			<div class="relative inline-block">
+				<img class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary-100 dark:border-primary-800" 
+					 src="/img/avatar.jpg" 
+					 alt="KIM">
+			</div>
+			
+		</div>
+		
+		<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+			KIM
+		</h3>
+		
+		
+		<p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+			stay hungry , stay foolish 
+		</p>
+		
+		
+		<!-- 社交链接 -->
+		
+		<div class="flex justify-center space-x-3">
+			
+			<a href="https://github.com/" target="_blank" 
+			   class="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+				<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+					<path d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"/>
+				</svg>
+			</a>
+			
+			<a href="https://twitter.com/" target="_blank" 
+			   class="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+				<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+					<path d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"/>
+				</svg>
+			</a>
+			
+			<a href="https://www.facebook.com/" target="_blank" 
+			   class="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+				<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+					<path d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"/>
+				</svg>
+			</a>
+			
+			<a href="https://dribbble.com/" target="_blank" 
+			   class="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+				<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+					<path d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"/>
+				</svg>
+			</a>
+			
+			<a href="https://github.com/hellodeveye/hexo-deveye" target="_blank" 
+			   class="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+				<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+					<path d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"/>
+				</svg>
+			</a>
+			
+		</div>
+		
+	</div>
+
+	<!-- 搜索框 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+			</svg>
+			搜索
+		</h4>
+		<div class="relative">
+			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+				<svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+					<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+				</svg>
+			</div>
+			<input type="text" 
+				   placeholder="请输入关键词搜索..." 
+				   class="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+				   onclick="window.location.href='/search/'">
+		</div>
+	</div>
+
+	<!-- 最近文章 -->
+	
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+			</svg>
+			最近文章
+		</h4>
+		<ul class="space-y-2">
+			
+			<li>
+				<a href="/2025/06/11/mermaid/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					mermaid
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-11
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2025/01/01/2025%E6%91%98%E6%8A%84/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					2025摘抄
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					01-01
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2024/12/31/2024%E6%91%98%E6%8A%84/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					2024摘抄
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					12-31
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					事务到底是隔离的还是不隔离的？
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-12
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					行锁功过：怎么减少行锁对性能的影响？
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-12
+				</time>
+			</li>
+			
+		</ul>
+	</div>
+	
+
+	<!-- 分类 -->
+	
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+			</svg>
+			分类
+		</h4>
+		<div class="space-y-1">
+			
+			<a href="/categories/Git/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Git</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					6
+				</span>
+			</a>
+			
+			<a href="/categories/Java/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Java</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/categories/Linux/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Linux</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/MySQL/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>MySQL</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/categories/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>MySQL实战45讲</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					7
+				</span>
+			</a>
+			
+			<a href="/categories/Netty/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Netty</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/Nginx/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Nginx</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/Redis/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Redis</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					5
+				</span>
+			</a>
+			
+			<a href="/categories/RocketMQ/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>RocketMQ</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/categories/Tomcat/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Tomcat</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/ddia/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>ddia</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/docker/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>docker</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/go/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>go</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/golang/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>golang</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/mermiad/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>mermiad</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/nginx/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>nginx</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/prometheus/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>prometheus</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E4%BA%BA%E7%94%9F/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>人生</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E5%85%B6%E4%BB%96/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>其他</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>多线程</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E5%AD%A6%E4%B9%A0/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>学习</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E5%B7%A5%E4%BD%9C/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>工作</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E6%91%98%E6%8A%84/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>摘抄</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AF%BE/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>程序员的测试课</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E7%AE%97%E6%B3%95/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>算法</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/categories/%E8%AF%BB%E4%B9%A6/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>读书</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>随手记</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+		</div>
+	</div>
+	
+
+	<!-- 标签云 -->
+	
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+			</svg>
+			标签
+		</h4>
+		<div class="flex flex-wrap gap-2">
+			
+			<a href="/tags/Git/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Git
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					6
+				</span>
+			</a>
+			
+			<a href="/tags/Java/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Java
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					4
+				</span>
+			</a>
+			
+			<a href="/tags/Linux/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Linux
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/MySQL/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				MySQL
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					9
+				</span>
+			</a>
+			
+			<a href="/tags/Netty/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Netty
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Nginx/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Nginx
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Redis/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Redis
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					6
+				</span>
+			</a>
+			
+			<a href="/tags/RocketMQ/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				RocketMQ
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/String/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				String
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Tomcat/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Tomcat
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/docker/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				docker
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/go/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				go
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/golang/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				golang
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/hexo/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				hexo
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/juc/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				juc
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/mermaid/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				mermaid
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/nginx/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				nginx
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/prometheus/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				prometheus
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				人生
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%85%B6%E4%BB%96/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				其他
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				分布式
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				分布式锁
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				多线程
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%AD%A6%E4%B9%A0/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				学习
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E6%91%98%E6%8A%84/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				摘抄
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E6%B5%8B%E8%AF%95/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				测试
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E7%AE%97%E6%B3%95/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				算法
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					3
+				</span>
+			</a>
+			
+			<a href="/tags/%E7%BF%BB%E8%AF%91/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				翻译
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%AF%BB%E4%B9%A6/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				读书
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%BD%AC%E8%BD%BD/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				转载
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%BF%90%E7%BB%B4/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				运维
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				随手记
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+		</div>
+	</div>
+	
+
+	<!-- 归档 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+			</svg>
+			归档
+		</h4>
+		<div class="space-y-1">
+			
+			<a href="/archives/2025/06/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2025年06月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2025/01/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2025年01月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2024/12/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2024年12月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2022/06/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年06月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					7
+				</span>
+			</a>
+			
+			<a href="/archives/2022/05/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年05月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2022/04/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年04月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+		</div>
+	</div>
+</div>
+						</aside>
+					</div>
+				</div>
+			</main>
+			
+			<!-- 页脚 -->
+			<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+            <p class="text-gray-600 dark:text-gray-400 mb-2">Deveye @ All Rights Reserved 2025</p>
+            
+            <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
+            
+        </div>
+    </div>
+</footer>
+
+<!-- 回到顶部按钮 -->
+<button id="back-to-top" class="fixed bottom-8 right-8 bg-primary-600 hover:bg-primary-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible z-50">
+    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+</button>
+
+<!-- JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 深色模式切换
+    const themeToggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    
+    // 初始化图标显示
+    function updateThemeIcons() {
+        if (document.documentElement.classList.contains('dark')) {
+            darkIcon.classList.add('hidden');
+            lightIcon.classList.remove('hidden');
+        } else {
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+        }
+    }
+    
+    updateThemeIcons();
+    
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateThemeIcons();
+        });
+    }
+    
+    // 移动端菜单切换
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+    
+    // 回到顶部按钮
+    const backToTopButton = document.getElementById('back-to-top');
+    
+    if (backToTopButton) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
+</script>
+
+<!-- 现代代码块系统 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化所有代码块 - 处理Hexo的figure.highlight结构
+    document.querySelectorAll('figure.highlight').forEach(function(figure, index) {
+        // 创建代码块容器
+        const codeContainer = document.createElement('div');
+        codeContainer.className = 'modern-code-block';
+        
+        // 获取语言信息
+        const language = getLanguageFromClass(figure.className) || 'text';
+        
+        // 创建头部
+        const header = document.createElement('div');
+        header.className = 'code-header';
+        header.innerHTML = `
+            <div class="code-language">${getLanguageDisplay(language)}</div>
+            <button class="code-copy-btn" data-index="${index}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                </svg>
+                <span>复制</span>
+            </button>
+        `;
+        
+        // 创建代码内容区域
+        const codeContent = document.createElement('div');
+        codeContent.className = 'code-content';
+        
+        // 处理代码内容 - 从Hexo的table结构中提取
+        const codeLineElements = figure.querySelectorAll('td.code .line');
+        const lines = Array.from(codeLineElements).map(line => line.textContent);
+        const codeText = lines.join('\n');
+        
+        // 创建行号和代码行
+        const lineNumbers = document.createElement('div');
+        lineNumbers.className = 'line-numbers';
+        
+        const codeLinesContainer = document.createElement('div');
+        codeLinesContainer.className = 'code-lines';
+        
+        lines.forEach((line, lineIndex) => {
+            if (lineIndex === lines.length - 1 && line === '') return; // 跳过最后的空行
+            
+            // 行号
+            const lineNumber = document.createElement('div');
+            lineNumber.className = 'line-number';
+            lineNumber.textContent = lineIndex + 1;
+            lineNumbers.appendChild(lineNumber);
+            
+            // 代码行
+            const codeLine = document.createElement('div');
+            codeLine.className = 'code-line';
+            codeLine.textContent = line || ' '; // 空行显示空格
+            codeLinesContainer.appendChild(codeLine);
+        });
+        
+        codeContent.appendChild(lineNumbers);
+        codeContent.appendChild(codeLinesContainer);
+        
+        // 组装代码块
+        codeContainer.appendChild(header);
+        codeContainer.appendChild(codeContent);
+        
+        // 替换原始代码块
+        figure.parentNode.replaceChild(codeContainer, figure);
+        
+        // 添加复制功能
+        const copyBtn = codeContainer.querySelector('.code-copy-btn');
+        copyBtn.addEventListener('click', function() {
+            const textToCopy = codeText;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    showCopySuccess(copyBtn);
+                });
+            } else {
+                // 降级方案
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopySuccess(copyBtn);
+            }
+        });
+    });
+    
+    function getLanguageFromClass(className) {
+        if (!className) return null;
+        // Hexo使用 highlight 后跟语言名称的格式
+        const match = className.match(/highlight\s+(\w+)/);
+        return match ? match[1] : null;
+    }
+    
+    function getLanguageDisplay(lang) {
+        const langMap = {
+            'javascript': 'JavaScript',
+            'js': 'JavaScript',
+            'typescript': 'TypeScript',
+            'ts': 'TypeScript',
+            'python': 'Python',
+            'py': 'Python',
+            'java': 'Java',
+            'cpp': 'C++',
+            'c': 'C',
+            'csharp': 'C#',
+            'cs': 'C#',
+            'html': 'HTML',
+            'css': 'CSS',
+            'scss': 'SCSS',
+            'sass': 'Sass',
+            'json': 'JSON',
+            'xml': 'XML',
+            'yaml': 'YAML',
+            'yml': 'YAML',
+            'sql': 'SQL',
+            'bash': 'Bash',
+            'shell': 'Shell',
+            'sh': 'Shell',
+            'powershell': 'PowerShell',
+            'ps1': 'PowerShell',
+            'go': 'Go',
+            'rust': 'Rust',
+            'php': 'PHP',
+            'ruby': 'Ruby',
+            'swift': 'Swift',
+            'kotlin': 'Kotlin',
+            'dart': 'Dart',
+            'text': 'Text',
+            'txt': 'Text'
+        };
+        return langMap[lang.toLowerCase()] || lang.toUpperCase();
+    }
+    
+    function showCopySuccess(button) {
+        const span = button.querySelector('span');
+        const originalText = span.textContent;
+        span.textContent = '已复制!';
+        button.classList.add('copied');
+        
+        setTimeout(function() {
+            span.textContent = originalText;
+            button.classList.remove('copied');
+        }, 2000);
+    }
+});
+</script>
+
+		</div>
+	</body>
+</html>
