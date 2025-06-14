@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="crt crt-nav-on crt-nav-type1 crt-main-nav-on crt-sidebar-on crt-layers-2 desktop crt-desktop">
+<html lang="zh-CN" class="scroll-smooth">
 	<%- partial('_partial/head') %>
 	<%
 		var page_class = 'category';
@@ -7,23 +7,32 @@
 			page_class = 'single';
 		}
 	%>
-	<body class="<%- page_class %>">
-		<div class="crt-wrapper">
+	<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 <%= page_class %>">
+		<div class="flex flex-col">
+			<!-- 头部导航 -->
 			<%- partial('_partial/header') %>
-			<div id="crt-container" class="crt-container">
-				<div class="crt-container-sm">
-					<div class="crt-paper-layers">
-						<div class="crt-paper clearfix">
-							<div class="crt-paper-cont paper-padd clear-mrg">
+			
+			<!-- 主要内容区域 -->
+			<main class="flex-1">
+				<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+					<div class="main-layout flex flex-col xl:flex-row gap-8">
+						<!-- 主内容区 -->
+						<div class="main-content flex-1">
+							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 md:p-12 lg:p-16">
 								<%- body %>
 							</div>
 						</div>
+						
+						<!-- 侧边栏 - 移动端隐藏 -->
+						<aside class="main-sidebar hidden xl:block xl:w-80 xl:flex-shrink-0">
+							<%- partial('_partial/sidebar') %>
+						</aside>
 					</div>
 				</div>
-				<%- partial('_partial/sidebar') %>
-				<%- partial('_partial/footer') %>
-				<%- partial('_partial/background') %>
-			</div>
+			</main>
+			
+			<!-- 页脚 -->
+			<%- partial('_partial/footer') %>
+		</div>
 	</body>
-
 </html>

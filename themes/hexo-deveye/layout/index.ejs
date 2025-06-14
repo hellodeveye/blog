@@ -1,1 +1,111 @@
-<%- partial('_partial/index') %>
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-6 -mt-6 mb-8 px-6 py-8 rounded-t-lg">
+    <div class="text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <%= config.title %>
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+            <%= config.description || '分享技术见解、学习心得和生活感悟' %>
+        </p>
+        <div class="flex justify-center space-x-4">
+            <a href="/archives" class="btn btn-primary">
+                浏览文章
+            </a>
+            <a href="/about" class="btn btn-secondary">
+                了解更多
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 最新文章列表 -->
+<div class="space-y-6">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+        <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+        </svg>
+        最新文章
+    </h2>
+    
+    <div class="space-y-6">
+        <% page.posts.each(function(post) { %>
+            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="<%- url_for(post.path) %>" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                <%= post.title %>
+                            </a>
+                        </h3>
+                        
+                        <% if (post.excerpt) { %>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                                <%- strip_html(post.excerpt) %>
+                            </p>
+                        <% } %>
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="<%= post.date.toISOString() %>" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <%= post.date.format('YYYY-MM-DD') %>
+                                </time>
+                                
+                                <% if (post.categories && post.categories.length) { %>
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <% post.categories.each(function(cat) { %>
+                                            <a href="<%- url_for(cat.path) %>" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                <%= cat.name %>
+                                            </a>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
+                            </div>
+                            
+                            <a href="<%- url_for(post.path) %>" class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium flex items-center transition-colors">
+                                阅读更多
+                                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        <% }); %>
+    </div>
+    
+    <!-- 分页 -->
+    <% if (page.total > 1) { %>
+        <nav class="flex justify-center mt-12">
+            <div class="flex items-center space-x-2">
+                <% if (page.prev) { %>
+                    <a href="<%- url_for(page.prev_link) %>" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        上一页
+                    </a>
+                <% } %>
+                
+                <span class="px-4 py-2 bg-primary-600 text-white rounded-lg font-medium">
+                    <%= page.current %> / <%= page.total %>
+                </span>
+                
+                <% if (page.next) { %>
+                    <a href="<%- url_for(page.next_link) %>" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center">
+                        下一页
+                        <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                <% } %>
+            </div>
+        </nav>
+    <% } %>
+</div>

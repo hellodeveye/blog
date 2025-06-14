@@ -5,6 +5,25 @@ var htmlmin = require('gulp-htmlmin');
 var htmlclean = require('gulp-htmlclean');
 var imagemin = require('gulp-imagemin');
 var babel = require('gulp-babel');
+var { exec } = require('child_process');
+
+// 构建 Tailwind CSS
+gulp.task('build-tailwind', function (done) {
+    exec('npm run build:css', function (err, stdout, stderr) {
+        if (err) {
+            console.error('Tailwind CSS build error:', err);
+            return done(err);
+        }
+        console.log('Tailwind CSS built successfully');
+        console.log(stdout);
+        done();
+    });
+});
+
+// 监听 Tailwind CSS 变化
+gulp.task('watch-tailwind', function () {
+    return gulp.watch(['./themes/hexo-deveye/source/css/tailwind.css', './themes/hexo-deveye/layout/**/*.ejs'], gulp.series('build-tailwind'));
+});
 
 // 压缩css文件
 gulp.task('minify-css', function (done) {
@@ -72,7 +91,10 @@ gulp.task('minify-images', function (done) {
 
 //4.0以后的写法
 // 执行 gulp 命令时执行的任务
-gulp.task('default', gulp.series(gulp.parallel('minify-html', 'minify-css', 'minify-js', 'minify-images')), function () {
+gulp.task('default', gulp.series('build-tailwind', gulp.parallel('minify-html', 'minify-css', 'minify-js', 'minify-images')), function () {
     console.log("----------gulp Finished----------");
     // Do something after a, b, and c are finished.
 });
+
+// 开发模式任务
+gulp.task('dev', gulp.series('build-tailwind', 'watch-tailwind'));

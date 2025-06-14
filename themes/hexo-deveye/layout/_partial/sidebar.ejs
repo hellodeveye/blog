@@ -1,64 +1,166 @@
-<div id="crt-sidebar">
-	<button id="crt-sidebar-close" class="btn btn-icon btn-light btn-shade">
-		<span class="crt-icon crt-icon-close"></span>
-	</button>
-
-	<div id="crt-sidebar-inner">
-		<nav id="crt-main-nav-sm" class="visible-xs text-center">
-
-			<ul class="clear-list">
-				<% for (name in theme.menu) { %>
-				<li>
-					<a href="<%- url_for(theme.menu[name]) %>">
-						<%= name %>
-					</a>
-				</li>
-				<% } %>
-			</ul>
-		</nav>
-
-		<div class="crt-card bg-primary text-center">
-			<div class="crt-card-avatar">
-				<span class="crt-avatar-state">
-					<span class="crt-avatar-state1">
-						<img class="avatar avatar-195" alt="" src="<%= theme.about_widget_avatar_url_1 %>" srcset="<%= theme.about_widget_avatar_url_1 %>">
-					</span>
-					<span class="crt-avatar-state2">
-						<img class="avatar avatar-195" alt="" src="<%= theme.about_widget_avatar_url_2 %>" srcset="<%= theme.about_widget_avatar_url_2 %>">
-					</span>
-				</span>
+<div class="space-y-6">
+	<!-- 个人信息卡片 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center border border-gray-200 dark:border-gray-700">
+		<div class="mb-4">
+			<% if (theme.about_widget_avatar_url_1) { %>
+			<div class="relative inline-block">
+				<img class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary-100 dark:border-primary-800" 
+					 src="<%= theme.about_widget_avatar_url_1 %>" 
+					 alt="<%= theme.about_widget_nikename || config.author %>">
 			</div>
-			<div class="crt-card-info">
-				<h2 class="text-upper"><%= theme.about_widget_nikename %></h2>
-				<p class="text-muted">
-					<%- theme.about_widget_text %>
-				</p>
-				<ul class="crt-social clear-list">
-					<% theme.social_platforms.forEach(function(platform) { %>
-					<li>
-						<a href="<%- platform.url %>" target="_blank">
-							<span class="crt-icon <%- platform.crt_icon %>"></span>
-						</a>
-					</li>
-					<% }) %>
-				</ul>
-			</div>
+			<% } %>
 		</div>
-		<aside class="widget-area">
-			<!--search -->
-			<%- partial('_widget/search') %>
-			<!-- tag clouds-->
-			<%- partial('_widget/tagcloud') %>
-			
-			<!-- archive-->
-			<%- partial('_widget/archive') %>
-
-			<!-- Recent Posts-->
-			<%- partial('_widget/recent_posts') %>
-			<!-- 分类列表-->
-			<%- partial('_widget/category') %>
-		</aside>
-
+		
+		<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+			<%= theme.about_widget_nikename || config.author %>
+		</h3>
+		
+		<% if (theme.about_widget_text) { %>
+		<p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+			<%- theme.about_widget_text %>
+		</p>
+		<% } %>
+		
+		<!-- 社交链接 -->
+		<% if (theme.social_platforms && theme.social_platforms.length) { %>
+		<div class="flex justify-center space-x-3">
+			<% theme.social_platforms.forEach(function(platform) { %>
+			<a href="<%- platform.url %>" target="_blank" 
+			   class="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+				<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+					<path d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"/>
+				</svg>
+			</a>
+			<% }) %>
+		</div>
+		<% } %>
 	</div>
-	<!-- #crt-sidebar-inner -->
+
+	<!-- 搜索框 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+			</svg>
+			搜索
+		</h4>
+		<div class="relative">
+			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+				<svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+					<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+				</svg>
+			</div>
+			<input type="text" 
+				   placeholder="请输入关键词搜索..." 
+				   class="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+				   onclick="window.location.href='/search/'">
+		</div>
+	</div>
+
+	<!-- 最近文章 -->
+	<% if (site.posts.length) { %>
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+			</svg>
+			最近文章
+		</h4>
+		<ul class="space-y-2">
+			<% site.posts.sort('date', -1).limit(5).each(function(post) { %>
+			<li>
+				<a href="<%- url_for(post.path) %>" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					<%= post.title || '(无标题)' %>
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					<%= post.date.format('MM-DD') %>
+				</time>
+			</li>
+			<% }) %>
+		</ul>
+	</div>
+	<% } %>
+
+	<!-- 分类 -->
+	<% if (site.categories.length) { %>
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+			</svg>
+			分类
+		</h4>
+		<div class="space-y-1">
+			<% site.categories.sort('name').each(function(cat) { %>
+			<a href="<%- url_for(cat.path) %>" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span><%= cat.name %></span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					<%= cat.posts.length %>
+				</span>
+			</a>
+			<% }) %>
+		</div>
+	</div>
+	<% } %>
+
+	<!-- 标签云 -->
+	<% if (site.tags.length) { %>
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+			</svg>
+			标签
+		</h4>
+		<div class="flex flex-wrap gap-2">
+			<% site.tags.sort('name').each(function(tag) { %>
+			<a href="<%- url_for(tag.path) %>" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				<%= tag.name %>
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					<%= tag.posts.length %>
+				</span>
+			</a>
+			<% }) %>
+		</div>
+	</div>
+	<% } %>
+
+	<!-- 归档 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+			</svg>
+			归档
+		</h4>
+		<div class="space-y-1">
+			<%
+			var archives = {};
+			site.posts.sort('date', -1).each(function(post) {
+				var year = post.date.format('YYYY');
+				var month = post.date.format('MM');
+				var key = year + '-' + month;
+				var label = year + '年' + month + '月';
+				if (!archives[key]) {
+					archives[key] = { label: label, count: 0, year: year, month: month };
+				}
+				archives[key].count++;
+			});
+			
+			Object.keys(archives).slice(0, 6).forEach(function(key) {
+				var archive = archives[key];
+			%>
+			<a href="/archives/<%= archive.year %>/<%= archive.month %>/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span><%= archive.label %></span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					<%= archive.count %>
+				</span>
+			</a>
+			<% }); %>
+		</div>
+	</div>
 </div>
