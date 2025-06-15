@@ -306,10 +306,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const availableWidth = leftSpace - 64; // 留出32px的间距
         
         // 只在有足够空间时显示目录（需要至少280px宽度）
-        if (availableWidth >= 280 && viewportWidth >= 1400) {
+        if (availableWidth >= 280 && viewportWidth >= 1280) {
             // 将目录定位在左侧空白区域的中央
             const tocWidth = 280;
-            const left = Math.max(32, (leftSpace - tocWidth) / 2);
+            const left = leftSpace - tocWidth - 32;
             const postContentRect = postContent.getBoundingClientRect();
             const top = postContentRect.top + window.pageYOffset - 20; // 与文章内容顶部对齐
             

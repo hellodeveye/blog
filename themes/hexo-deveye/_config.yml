@@ -14,16 +14,16 @@ about_widget_bottom:
 
 # Social Media Platforms
 social_platforms:
-  - url: https://github.com/
-    crt_icon: crt-icon-github
-  - url: https://twitter.com/ 
-    crt_icon: crt-icon-twitter
-  - url: https://www.facebook.com/
-    crt_icon: crt-icon-google-plus
-  - url: https://dribbble.com/
-    crt_icon: crt-icon-instagram
-  - url: https://github.com/hellodeveye/hexo-deveye
-    crt_icon: crt-icon-pinterest
+  # - url: https://github.com/
+  #   crt_icon: crt-icon-github
+  # - url: https://twitter.com/ 
+  #   crt_icon: crt-icon-twitter
+  # - url: https://www.facebook.com/
+  #   crt_icon: crt-icon-google-plus
+  # - url: https://dribbble.com/
+  #   crt_icon: crt-icon-instagram
+  # - url: https://github.com/hellodeveye/hexo-deveye
+  #   crt_icon: crt-icon-pinterest
 # 顶部导航
 menu:
   文章: /
