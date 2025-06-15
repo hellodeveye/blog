@@ -153,6 +153,10 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #f8f9fa;
     border-radius: 0.5rem;
     border: 1px solid #e9ecef;
+    overflow-x: auto;
+    overflow-y: visible;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .mermaid-rendered {
@@ -193,6 +197,42 @@ document.addEventListener('DOMContentLoaded', function() {
 .mermaid svg {
     max-width: 100%;
     height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Mermaid 图表容器已在上面定义，这里添加额外的响应式处理 */
+
+/* 针对大型图表的滚动条样式 */
+.mermaid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.mermaid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.mermaid::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.mermaid::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 深色模式下的滚动条 */
+.dark .mermaid::-webkit-scrollbar-track {
+    background: #4b5563;
+}
+
+.dark .mermaid::-webkit-scrollbar-thumb {
+    background: #6b7280;
+}
+
+.dark .mermaid::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
 }
 </style>
 <% } %>
