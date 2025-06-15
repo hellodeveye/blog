@@ -6,7 +6,7 @@
   <link href="https://www.buzhidao.cc/atom.xml" rel="self"/>
   
   <link href="https://www.buzhidao.cc/"/>
-  <updated>2025-06-14T10:20:01.551Z</updated>
+  <updated>2025-06-15T02:49:42.192Z</updated>
   <id>https://www.buzhidao.cc/</id>
   
   <author>
@@ -21,20 +21,16 @@
     <link href="https://www.buzhidao.cc/2025/06/11/mermaid/"/>
     <id>https://www.buzhidao.cc/2025/06/11/mermaid/</id>
     <published>2025-06-11T14:11:19.000Z</published>
-    <updated>2025-06-14T10:20:01.551Z</updated>
+    <updated>2025-06-15T02:49:42.192Z</updated>
     
-    <content type="html"><![CDATA[<h1>mermaid</h1><pre class="mermaid">mindmap  root((mindmap))    Origins      Long history      ::icon(fa fa-book)      Popularisation        British popular psychology author Tony Buzan    Research      On effectiveness<br/>and features      On Automatic creation        Uses            Creative techniques            Strategic planning            Argument mapping    Tools      Pen and paper      Mermaid</pre>]]></content>
+    <content type="html"><![CDATA[<h1>Mermaid 图表展示</h1><p>这是一个展示Mermaid图表功能的文章，同时也演示了目录功能。</p><h2 id="思维导图-mindmap"><a class="header-anchor" href="#思维导图-mindmap">¶</a>思维导图 (mindmap)</h2><pre class="mermaid">mindmap  root((mindmap))    Origins      Long history      ::icon(fa fa-book)      Popularisation        British popular psychology author Tony Buzan    Research      On effectiveness<br/>and features      On Automatic creation        Uses            Creative techniques            Strategic planning            Argument mapping    Tools      Pen and paper      Mermaid</pre><h2 id="状态图-stateDiagram"><a class="header-anchor" href="#状态图-stateDiagram">¶</a>状态图 (stateDiagram)</h2><pre class="mermaid">stateDiagram-v2    [*] --> Still    Still --> [*]    Still --> Moving    Moving --> Still    Moving --> Crash    Crash --> [*]</pre><h2 id="类图-classDiagram"><a class="header-anchor" href="#类图-classDiagram">¶</a>类图 (classDiagram)</h2><pre class="mermaid">classDiagram    Animal <|-- Duck    Animal <|-- Fish    Animal <|-- Zebra    Animal : +int age    Animal : +String gender    Animal: +isMammal()    Animal: +mate()    class Duck{      +String beakColor      +swim()      +quack()    }    class Fish{      -int sizeInFeet      -canEat()    }    class Zebra{      +bool is_wild      +run()    }</pre><h2 id="象限图-quadrantChart"><a class="header-anchor" href="#象限图-quadrantChart">¶</a>象限图 (quadrantChart)</h2><pre class="mermaid">quadrantChart    title Reach and engagement of campaigns    x-axis Low Reach --> High Reach    y-axis Low Engagement --> High Engagement    quadrant-1 We should expand    quadrant-2 Need to promote    quadrant-3 Re-evaluate    quadrant-4 May be improved    Campaign A: [0.3, 0.6]    Campaign B: [0.45, 0.23]    Campaign C: [0.57, 0.69]    Campaign D: [0.78, 0.34]    Campaign E: [0.40, 0.34]    Campaign F: [0.35, 0.78]</pre><h2 id="流程图示例"><a class="header-anchor" href="#流程图示例">¶</a>流程图示例</h2><h3 id="简单流程图"><a class="header-anchor" href="#简单流程图">¶</a>简单流程图</h3><pre class="mermaid">flowchart TD    A[开始] --> B{是否有条件}    B -->|是| C[执行操作A]    B -->|否| D[执行操作B]    C --> E[结束]    D --> E</pre><h3 id="复杂流程图"><a class="header-anchor" href="#复杂流程图">¶</a>复杂流程图</h3><pre class="mermaid">flowchart LR    A[用户请求] --> B[身份验证]    B -->|成功| C[处理请求]    B -->|失败| D[返回错误]    C --> E[数据库查询]    E --> F[数据处理]    F --> G[返回结果]</pre><h2 id="时序图示例"><a class="header-anchor" href="#时序图示例">¶</a>时序图示例</h2><pre class="mermaid">sequenceDiagram    participant U as 用户    participant S as 服务器    participant D as 数据库        U->>S: 发送请求    S->>D: 查询数据    D->>S: 返回数据    S->>U: 返回响应</pre><h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2><p>通过以上示例，我们可以看到Mermaid支持多种类型的图表：</p><ul><li>思维导图：用于整理思路和概念</li><li>状态图：用于描述系统状态变化</li><li>类图：用于展示类之间的关系</li><li>象限图：用于分析和分类</li><li>流程图：用于描述业务流程</li><li>时序图：用于展示交互过程</li></ul><p>这些图表都可以通过简单的文本语法来创建，非常适合技术文档和博客文章。</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1&gt;mermaid&lt;/h1&gt;
-&lt;pre class=&quot;mermaid&quot;&gt;mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation</summary>
+    <summary type="html">&lt;h1&gt;Mermaid 图表展示&lt;/h1&gt;
+&lt;p&gt;这是一个展示Mermaid图表功能的文章，同时也演示了目录功能。&lt;/p&gt;
+&lt;h2 id=&quot;思维导图-mindmap&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#思维导图-mindmap&quot;&gt;¶&lt;/a&gt;思维导图 </summary>
       
     
     
