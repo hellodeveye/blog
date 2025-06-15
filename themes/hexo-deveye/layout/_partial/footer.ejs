@@ -88,15 +88,18 @@ document.addEventListener('DOMContentLoaded', function() {
 <% if (config.mermaid && config.mermaid.enable) { %>
 <script src="<%- url_for('js/mermaid.min.js') %>"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 初始化 Mermaid
+window.addEventListener('load', function() {
+    // 初始化 Mermaid 并让其自动渲染
     mermaid.initialize({
         theme: '<%= config.mermaid.options.theme || "default" %>',
-        startOnLoad: false, // 手动控制渲染
+        startOnLoad: true, // 启用自动渲染
         securityLevel: '<%= config.mermaid.options.securityLevel || "loose" %>',
+        
+        // 为各个图表类型配置自适应宽度
         flowchart: {
             htmlLabels: <%= config.mermaid.options.flowchart && config.mermaid.options.flowchart.htmlLabels !== undefined ? config.mermaid.options.flowchart.htmlLabels : true %>,
-            curve: '<%= config.mermaid.options.flowchart && config.mermaid.options.flowchart.curve || "linear" %>'
+            curve: '<%= config.mermaid.options.flowchart && config.mermaid.options.flowchart.curve || "linear" %>',
+            useMaxWidth: true
         },
         sequence: {
             diagramMarginX: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.diagramMarginX || 50 %>,
@@ -110,37 +113,21 @@ document.addEventListener('DOMContentLoaded', function() {
             messageMargin: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.messageMargin || 35 %>,
             mirrorActors: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.mirrorActors !== undefined ? config.mermaid.options.sequence.mirrorActors : true %>,
             bottomMarginAdj: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.bottomMarginAdj || 1 %>,
-            useMaxWidth: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.useMaxWidth !== undefined ? config.mermaid.options.sequence.useMaxWidth : true %>
+            useMaxWidth: true
+        },
+        class: {
+            useMaxWidth: true
+        },
+        state: {
+            useMaxWidth: true
+        },
+        gantt: {
+            useMaxWidth: true
+        },
+        journey: {
+            useMaxWidth: true
         }
     });
-
-    // 等待代码块处理完成后再处理 Mermaid
-    setTimeout(function() {
-        // 查找所有 mermaid 元素并渲染
-        const mermaidElements = document.querySelectorAll('.mermaid');
-        
-        mermaidElements.forEach(async (element, index) => {
-            const content = element.textContent || element.innerText;
-            
-            if (content.trim()) {
-                try {
-                    // 为每个 mermaid 图表生成唯一的 ID
-                    const mermaidId = 'mermaid-' + Date.now() + '-' + index;
-                    element.id = mermaidId;
-                    
-                    // 渲染 mermaid 图表
-                    const {svg} = await mermaid.render(mermaidId + '-svg', content);
-                    element.innerHTML = svg;
-                    element.classList.add('mermaid-rendered');
-                    
-                    console.log('Mermaid diagram rendered successfully');
-                } catch (error) {
-                    console.error('Mermaid rendering error:', error);
-                    element.innerHTML = '<div class="mermaid-error">Mermaid 渲染错误: ' + error.message + '</div>';
-                }
-            }
-        });
-    }, 500); // 延迟500ms确保代码块处理完成
 });
 </script>
 
@@ -199,6 +186,8 @@ document.addEventListener('DOMContentLoaded', function() {
     height: auto;
     display: block;
     margin: 0 auto;
+    /* 保持原始比例，但不超过容器 */
+    width: auto;
 }
 
 /* Mermaid 图表容器已在上面定义，这里添加额外的响应式处理 */
