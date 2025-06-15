@@ -890,17 +890,16 @@
     <link href="https://www.buzhidao.cc/2020/09/27/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
     <id>https://www.buzhidao.cc/2020/09/27/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
     <published>2020-09-27T07:52:43.000Z</published>
-    <updated>2025-06-14T10:20:01.544Z</updated>
+    <updated>2025-06-15T12:57:44.004Z</updated>
     
-    <content type="html"><![CDATA[<ul><li>查看配置文件只匹配不是以“#”开头的行</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat .zshrc | grep -v &quot;^#&quot; &gt; profile.txt</span><br></pre></td></tr></table></figure><ul><li>使用<code>tail</code>查看指定行以后的N行日志</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -n +358653 catalina.2021-01-12.out|head -n 20</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h2 id="grep"><a class="header-anchor" href="#grep">¶</a>grep</h2><p>查看配置文件只匹配不是以“#”开头的行</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat .zshrc | grep -v &quot;^#&quot; &gt; profile.txt</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep -A 200 -B 20 &quot;BadSqlGrammarException&quot; ai-server.log</span><br><span class="line">grep -B 20 &quot;BadSqlGrammarException&quot; ai-server.log</span><br></pre></td></tr></table></figure><p>使用<code>tail</code>查看指定行以后的N行日志</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -n +358653 catalina.2021-01-12.out|head -n 20</span><br></pre></td></tr></table></figure><h2 id="hash"><a class="header-anchor" href="#hash">¶</a>hash</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hash 显示hash缓存</span><br><span class="line">hash –l 显示hash缓存，加参数-l既可以看到hash表命令的路径，也可以看到它的名字，说不定会有别名</span><br><span class="line">hash –p path name 将命令全路径path起别名为name</span><br><span class="line">hash –t name 显示指定命令的完整路径</span><br><span class="line">hash –d name 清除name缓存</span><br><span class="line">hash –r 清除缓存</span><br></pre></td></tr></table></figure><h2 id="awk"><a class="header-anchor" href="#awk">¶</a>awk</h2><p>查询指定日志行数</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk &#x27;/error/&#123;print; for(i=1; i&lt;=10; i++) &#123;getline; print&#125;&#125;&#x27; ai-server.log</span><br></pre></td></tr></table></figure>]]></content>
     
     
       
       
-    <summary type="html">&lt;ul&gt;
-&lt;li&gt;查看配置文件只匹配不是以“#”开头的行&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;b</summary>
+    <summary type="html">&lt;h2 id=&quot;grep&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#grep&quot;&gt;¶&lt;/a&gt;grep&lt;/h2&gt;
+&lt;p&gt;查看配置文件只匹配不是以“#”开头的行&lt;/p&gt;
+&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td</summary>
       
     
     

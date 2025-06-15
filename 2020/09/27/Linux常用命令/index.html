@@ -239,11 +239,11 @@
             </time>
             
             
-                <time datetime="2025-06-14T10:20:01.544Z" class="flex items-center">
+                <time datetime="2025-06-15T12:57:44.004Z" class="flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
                     </svg>
-                    更新于 2025年06月14日
+                    更新于 2025年06月15日
                 </time>
             
             
@@ -287,15 +287,17 @@
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
-        <ul>
-<li>查看配置文件只匹配不是以“#”开头的行</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat .zshrc | grep -v &quot;^#&quot; &gt; profile.txt</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用<code>tail</code>查看指定行以后的N行日志</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -n +358653 catalina.2021-01-12.out|head -n 20</span><br></pre></td></tr></table></figure>
-
+        <h2 id="grep"><a class="header-anchor" href="#grep">¶</a>grep</h2>
+<p>查看配置文件只匹配不是以“#”开头的行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat .zshrc | grep -v &quot;^#&quot; &gt; profile.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep -A 200 -B 20 &quot;BadSqlGrammarException&quot; ai-server.log</span><br><span class="line">grep -B 20 &quot;BadSqlGrammarException&quot; ai-server.log</span><br></pre></td></tr></table></figure>
+<p>使用<code>tail</code>查看指定行以后的N行日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -n +358653 catalina.2021-01-12.out|head -n 20</span><br></pre></td></tr></table></figure>
+<h2 id="hash"><a class="header-anchor" href="#hash">¶</a>hash</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hash 显示hash缓存</span><br><span class="line">hash –l 显示hash缓存，加参数-l既可以看到hash表命令的路径，也可以看到它的名字，说不定会有别名</span><br><span class="line">hash –p path name 将命令全路径path起别名为name</span><br><span class="line">hash –t name 显示指定命令的完整路径</span><br><span class="line">hash –d name 清除name缓存</span><br><span class="line">hash –r 清除缓存</span><br></pre></td></tr></table></figure>
+<h2 id="awk"><a class="header-anchor" href="#awk">¶</a>awk</h2>
+<p>查询指定日志行数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk &#x27;/error/&#123;print; for(i=1; i&lt;=10; i++) &#123;getline; print&#125;&#125;&#x27; ai-server.log</span><br></pre></td></tr></table></figure>
     </div>
 </article>
 
