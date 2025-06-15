@@ -900,8 +900,8 @@ blockquote {
   justify-content: space-between;
   padding-left: 1rem;
   padding-right: 1rem;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   background: linear-gradient(90deg, #1e293b 0%, #334155 100%);
   border-bottom: 1px solid #475569;
 }
@@ -970,16 +970,16 @@ blockquote {
   flex-direction: column;
   background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
   border-right: 1px solid #334155;
-  padding: 1.5rem 0;
-  min-width: 3.5rem;
+  padding: 1rem 0;
+  min-width: 3rem;
   -webkit-user-select: none;
   -moz-user-select: none;
        user-select: none;
 }
 
 .post-content .line-number {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   text-align: right;
   color: #64748b;
   font-size: 12px;
@@ -995,7 +995,7 @@ blockquote {
 .post-content .code-lines {
   flex: 1 1 0%;
   overflow-x: auto;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
   min-width: 0;
   /* 允许flex项目收缩，解决长代码行溢出问题 */
 }

@@ -97,22 +97,22 @@ window.addEventListener('load', function() {
         
         // 为各个图表类型配置自适应宽度
         flowchart: {
-            htmlLabels: <%= config.mermaid.options.flowchart && config.mermaid.options.flowchart.htmlLabels !== undefined ? config.mermaid.options.flowchart.htmlLabels : true %>,
+            htmlLabels: '<%= config.mermaid.options.flowchart && config.mermaid.options.flowchart.htmlLabels !== undefined ? config.mermaid.options.flowchart.htmlLabels : true %>',
             curve: '<%= config.mermaid.options.flowchart && config.mermaid.options.flowchart.curve || "linear" %>',
             useMaxWidth: true
         },
         sequence: {
-            diagramMarginX: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.diagramMarginX || 50 %>,
-            diagramMarginY: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.diagramMarginY || 10 %>,
-            actorMargin: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.actorMargin || 50 %>,
-            width: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.width || 150 %>,
-            height: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.height || 65 %>,
-            boxMargin: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.boxMargin || 10 %>,
-            boxTextMargin: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.boxTextMargin || 5 %>,
-            noteMargin: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.noteMargin || 10 %>,
-            messageMargin: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.messageMargin || 35 %>,
-            mirrorActors: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.mirrorActors !== undefined ? config.mermaid.options.sequence.mirrorActors : true %>,
-            bottomMarginAdj: <%= config.mermaid.options.sequence && config.mermaid.options.sequence.bottomMarginAdj || 1 %>,
+            diagramMarginX: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.diagramMarginX || 50 %>',
+            diagramMarginY: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.diagramMarginY || 10 %>',
+            actorMargin: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.actorMargin || 50 %>',
+            width: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.width || 150 %>',
+            height: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.height || 65 %>',
+            boxMargin: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.boxMargin || 10 %>',
+            boxTextMargin: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.boxTextMargin || 5 %>',
+            noteMargin: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.noteMargin || 10 %>',
+            messageMargin: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.messageMargin || 35 %>',
+            mirrorActors: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.mirrorActors !== undefined ? config.mermaid.options.sequence.mirrorActors : true %>',
+            bottomMarginAdj: '<%= config.mermaid.options.sequence && config.mermaid.options.sequence.bottomMarginAdj || 1 %>',
             useMaxWidth: true
         },
         class: {
