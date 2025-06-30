@@ -1141,6 +1141,21 @@ blockquote {
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
 
+/* 修复超链接换行问题 */
+.post-content a {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+/* 确保其他可能导致溢出的长文本也能正确换行 */
+.post-content {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
 .pointer-events-none {
   pointer-events: none;
 }
