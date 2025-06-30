@@ -50,24 +50,7 @@
     </div>
 </header>
 
-<!-- 悬浮目录 - 固定在左侧空白区域 -->
-<div id="floating-toc" class="hidden">
-    <div id="toc-panel" class="fixed z-40 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 w-72 max-h-96 overflow-hidden" style="display: none;">
-        <div class="p-4 border-b border-gray-200 dark:border-gray-600 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                <svg class="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                </svg>
-                目录
-            </h3>
-        </div>
-        <div class="p-4 overflow-y-auto max-h-80">
-            <nav id="toc-nav" class="toc-nav">
-                <!-- 目录内容将由JavaScript生成 -->
-            </nav>
-        </div>
-    </div>
-</div>
+<%- partial('_partial/toc') %>
 
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">

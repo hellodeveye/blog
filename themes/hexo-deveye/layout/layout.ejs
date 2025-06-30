@@ -14,7 +14,7 @@
 			
 			<!-- 主要内容区域 -->
 			<main class="flex-1">
-				<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+				<div class="mx-auto px-4 sm:px-6 lg:px-8 py-8 <%= is_post() ? 'max-w-5xl' : 'max-w-7xl' %>">
 					<div class="main-layout flex flex-col lg:flex-row gap-8">
 						<!-- 主内容区 -->
 						<div class="main-content flex-1">
@@ -23,10 +23,12 @@
 							</div>
 						</div>
 						
-						<!-- 侧边栏 - 移动端隐藏 -->
+						<% if (!is_post()) { %>
+						<!-- 侧边栏 - 仅在非文章页显示 -->
 						<aside class="main-sidebar hidden lg:block lg:w-72 xl:w-80 flex-shrink-0">
 							<%- partial('_partial/sidebar') %>
 						</aside>
+						<% } %>
 					</div>
 				</div>
 			</main>
