@@ -208,11 +208,11 @@
 			
 			<!-- 主要内容区域 -->
 			<main class="flex-1">
-				<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+				<div class="mx-auto px-2 sm:px-6 lg:px-8 py-8 max-w-5xl">
 					<div class="main-layout flex flex-col lg:flex-row gap-8">
 						<!-- 主内容区 -->
 						<div class="main-content flex-1">
-							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 md:p-12 lg:p-16">
+							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 md:p-12 lg:p-16">
 								<!-- 文章头部 -->
 <header class="mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
     <div class="mb-4">
@@ -267,7 +267,7 @@
 
 <!-- 悬浮目录 - 固定在左侧空白区域 -->
 <div id="floating-toc" class="hidden">
-    <div id="toc-panel" class="fixed z-40 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 w-72 max-h-96 overflow-hidden" style="display: none;">
+    <div id="toc-panel" class="z-40 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 flex flex-col" style="display: none;">
         <div class="p-4 border-b border-gray-200 dark:border-gray-600 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                 <svg class="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
@@ -276,13 +276,332 @@
                 目录
             </h3>
         </div>
-        <div class="p-4 overflow-y-auto max-h-80">
+        <div class="p-4 overflow-y-auto">
             <nav id="toc-nav" class="toc-nav">
                 <!-- 目录内容将由JavaScript生成 -->
             </nav>
         </div>
     </div>
 </div>
+<!-- 悬浮目录功能 -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const floatingToc = document.getElementById('floating-toc');
+    const tocPanel = document.getElementById('toc-panel');
+    const tocNav = document.getElementById('toc-nav');
+    const postContent = document.getElementById('post-content');
+    
+    if (!floatingToc || !tocPanel || !tocNav || !postContent) return;
+    
+    // 生成目录
+    function generateTOC() {
+        const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        if (headings.length === 0) return false;
+        
+        let tocHTML = '<ul class="toc-list">';
+        let currentLevel = 0;
+
+        headings.forEach((heading, index) => {
+            const level = parseInt(heading.tagName.charAt(1));
+            const text = heading.textContent || heading.innerText;
+            const id = heading.id || `toc-${index}`;
+            
+            // 为标题添加ID（如果没有的话）
+            if (!heading.id) {
+                heading.id = id;
+            }
+            
+            // 处理层级 for <ul> tags
+            if (level > currentLevel) {
+                for (let i = currentLevel; i < level; i++) {
+                     if (i > 0) tocHTML += '<ul class="toc-list">';
+                }
+            } else if (level < currentLevel) {
+                for (let i = currentLevel; i > level; i--) {
+                    tocHTML += '</ul>';
+                }
+            }
+            
+            tocHTML += `
+                <li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-target="${id}">
+                        <span class="toc-text">${text}</span>
+                    </a>
+                </li>
+            `;
+            
+            currentLevel = level;
+        });
+        
+        // 关闭剩余的ul标签
+        for (let i = currentLevel; i > 1; i--) {
+            tocHTML += '</ul>';
+        }
+        tocHTML += '</ul>';
+        
+        tocNav.innerHTML = tocHTML;
+        return true;
+    }
+    
+
+    
+    // 精确定位目录在左侧空白区域
+    function positionTocInLeftMargin() {
+        const mainContent = document.querySelector('.main-content');
+        const tocPanel = document.getElementById('toc-panel');
+        const postContent = document.querySelector('#post-content');
+
+        if (!mainContent || !tocPanel || !postContent) return;
+        
+        const mainContentRect = mainContent.getBoundingClientRect();
+        const leftSpace = mainContentRect.left;
+        
+        const tocWidth = 280;
+        const marginBuffer = 32;
+
+        if (leftSpace >= tocWidth + marginBuffer) {
+            const left = leftSpace - tocWidth - marginBuffer;
+            const postContentRect = postContent.getBoundingClientRect();
+            const top = postContentRect.top + window.pageYOffset - 20;
+
+            tocPanel.style.left = left + 'px';
+            tocPanel.style.width = tocWidth + 'px';
+            tocPanel.style.top = top + 'px';
+            tocPanel.style.display = 'flex';
+        } else {
+            tocPanel.style.display = 'none';
+        }
+    }
+    
+    // 初始化目录
+    if (generateTOC()) {
+        floatingToc.classList.remove('hidden');
+        
+        let isTocFixed = false;
+        let ticking = false;
+
+        function onWindowScroll() {
+            if (ticking) return;
+            
+            ticking = true;
+            requestAnimationFrame(() => {
+                // --- 1. 高亮当前章节 ---
+                const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                let activeHeadingId = null;
+                for (let i = headings.length - 1; i >= 0; i--) {
+                    if (headings[i].getBoundingClientRect().top <= 100) {
+                        activeHeadingId = headings[i].id;
+                        break;
+                    }
+                }
+                updateActiveTOCItem(activeHeadingId);
+
+                // --- 2. 处理面板固定/绝对定位 ---
+                const mainContent = document.querySelector('.main-content');
+                if (mainContent) {
+                    const shouldFix = mainContent.getBoundingClientRect().top < 100;
+                    if (shouldFix && !isTocFixed) {
+                        isTocFixed = true;
+                        positionTocInLeftMargin();
+                        tocPanel.classList.add('is-fixed');
+                    } else if (!shouldFix && isTocFixed) {
+                        isTocFixed = false;
+                        tocPanel.classList.remove('is-fixed');
+                    }
+                }
+                
+                ticking = false;
+            });
+        }
+
+        // 定位目录
+        positionTocInLeftMargin();
+        
+        // 监听滚动和窗口大小改变
+        window.addEventListener('scroll', onWindowScroll);
+        window.addEventListener('resize', positionTocInLeftMargin);
+        
+        // 初始检查
+        onWindowScroll();
+
+        // 目录点击事件
+        tocNav.addEventListener('click', function(e) {
+            e.preventDefault();
+            const link = e.target.closest('.toc-link');
+            if (!link) return;
+            
+            const targetId = link.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                // 平滑滚动到目标位置
+                const headerOffset = 80; // 考虑固定头部的高度
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // 更新活跃状态
+                updateActiveTOCItem(targetId);
+            }
+        });
+        
+        // 滚动时高亮当前章节
+        function updateActiveTOCItem(activeId) {
+            // 移除所有活跃状态
+            tocNav.querySelectorAll('.toc-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // 添加当前活跃状态
+            if (activeId) {
+                const activeLink = tocNav.querySelector(`[data-target="${activeId}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+        }
+    }
+});
+</script>
+
+<!-- 左侧目录样式 -->
+<style>
+#toc-panel {
+    position: absolute;
+    transition: top 0.3s ease, transform 0.3s ease;
+}
+
+#toc-panel.is-fixed {
+    position: fixed;
+    top: 100px !important;
+    max-height: calc(100vh - 120px);
+}
+
+/* 目录列表样式 */
+.toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-list .toc-list {
+    margin-left: 0.75rem;
+    margin-top: 0.2rem;
+}
+
+.toc-item {
+    margin: 0.2rem 0;
+}
+
+.toc-link {
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0.5rem;
+    text-decoration: none;
+    color: #6b7280;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    min-height: 1.8rem;
+}
+
+.toc-link:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+    transform: translateX(3px);
+}
+
+.toc-link.active {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #2563eb;
+    font-weight: 600;
+    border-left: 3px solid #2563eb;
+    padding-left: 0.5rem;
+}
+
+.toc-text {
+    flex: 1;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+/* 不同层级的样式 */
+.toc-level-1 .toc-link {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.toc-level-2 .toc-link {
+    font-size: 0.8rem;
+}
+
+.toc-level-3 .toc-link,
+.toc-level-4 .toc-link,
+.toc-level-5 .toc-link,
+.toc-level-6 .toc-link {
+    font-size: 0.75rem;
+}
+
+/* 深色模式 */
+.dark .toc-link {
+    color: #9ca3af;
+}
+
+.dark .toc-link:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+}
+
+.dark .toc-link.active {
+    background-color: rgba(59, 130, 246, 0.25);
+    color: #60a5fa;
+    border-left-color: #60a5fa;
+}
+
+/* 响应式设计 */
+@media (max-width: 1023px) {
+    /* 小屏幕：隐藏目录 */
+    #floating-toc {
+        display: none !important;
+    }
+    
+    #toc-panel {
+        display: none !important;
+    }
+}
+
+/* 悬浮目录的滚动条样式 */
+#toc-panel .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+#toc-panel .overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#toc-panel .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.4);
+    border-radius: 3px;
+}
+
+.dark #toc-panel .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(75, 85, 99, 0.6);
+}
+
+</style>
+
+
 
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
@@ -297,12 +616,12 @@
 <p>另一个是InnoDB 在实现MVCC时用到的一致性<strong>读视图</strong>，即 consistent read view，用于支持RC（Read Commit 读提交）和RR（Repeatable 可重复读）隔离级别实现的。</p>
 </li>
 </ul>
-<h2 id="“快照”在-MVCC-里是怎么工作的？"><a class="header-anchor" href="#“快照”在-MVCC-里是怎么工作的？">¶</a>“快照”在 MVCC 里是怎么工作的？</h2>
+<h2 id="“快照”在-MVCC-里是怎么工作的？">“快照”在 MVCC 里是怎么工作的？</h2>
 <p>在可重复读隔离级别下，事务在启动的时候就“拍个快照”，这个快照时基于整库的。</p>
 <blockquote>
 <p>如果库有100G，那么启动一个事务就需要拷贝100G数据，这样实现是不现实的。</p>
 </blockquote>
-<h3 id="快照是怎么实现的？"><a class="header-anchor" href="#快照是怎么实现的？">¶</a>快照是怎么实现的？</h3>
+<h3 id="快照是怎么实现的？">快照是怎么实现的？</h3>
 <p>InnoDB 里面每个事务都有一个唯一的事务ID，叫做transaction id，它是在事务开始的时候向InnoDB 的事务系统申请的，<strong>是按照顺序严格递增的。</strong></p>
 <p>而每行数据也都是有多个版本的。每次事务更新数据的时候，都会生成一个新的数据版本，并且把 transaction id 赋值给这个数据版本的事务 ID，记为 row trx_id。同时，旧的数据版本要保留，并且在新的数据版本中，能够有信息可以直接拿到它。</p>
 <p>也就是说，数据表中的一行记录，其实可能有多个版本 (row)，每个版本有自己的 row trx_id。</p>
@@ -329,12 +648,12 @@ b. 若 row trx_id 不在数组中，表示这个版本是已经提交了的事�
 </li>
 </ol>
 <p>** InnoDB 利用了“所有数据都有多个版本”的这个特性，实现了“秒级创建快照”的能力。**</p>
-<h2 id="更新逻辑"><a class="header-anchor" href="#更新逻辑">¶</a>更新逻辑</h2>
+<h2 id="更新逻辑">更新逻辑</h2>
 <p><strong>更新数据都是先读后写的，而这个读，只能读当前的值，称为“当前读”（current read）。</strong></p>
 <p>当前读，<strong>读取的是最新版本</strong>，并且需要先获取对应记录的锁，如以下这些 SQL 类型：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select ... lock in share mode</span><br><span class="line"></span><br><span class="line">select ... for update</span><br><span class="line"></span><br><span class="line">update 、delete 、insert</span><br></pre></td></tr></table></figure>
 <p>例如，要 update 一条记录，在事务执行过程中，如果不加锁，那么另一个事务可以 delete 这条数据并且能成功 commit ，就会产生冲突了。所以 update 的时候肯定要是当前读，得到最新的信息并且锁定相应的记录。</p>
-<h2 id="事务的可重复读的能力是怎么实现的？"><a class="header-anchor" href="#事务的可重复读的能力是怎么实现的？">¶</a>事务的可重复读的能力是怎么实现的？</h2>
+<h2 id="事务的可重复读的能力是怎么实现的？">事务的可重复读的能力是怎么实现的？</h2>
 <p>可重复读的核心就是一致性读（consistent read）；而事务更新数据的时候，只能用当前读。如果当前的记录的行锁被其他事务占用的话，就需要进入锁等待。</p>
 <p>而读提交的逻辑和可重复读的逻辑类似，它们最主要的区别是：</p>
 <ul>
@@ -401,685 +720,7 @@ b. 若 row trx_id 不在数组中，表示这个版本是已经提交了的事�
 							</div>
 						</div>
 						
-						<!-- 侧边栏 - 移动端隐藏 -->
-						<aside class="main-sidebar hidden lg:block lg:w-72 xl:w-80 flex-shrink-0">
-							<div class="space-y-6">
-	<!-- 个人信息卡片 -->
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center border border-gray-200 dark:border-gray-700">
-		<div class="mb-4">
-			
-			<div class="relative inline-block">
-				<img class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary-100 dark:border-primary-800" 
-					 src="/img/avatar.jpg" 
-					 alt="KIM">
-			</div>
-			
-		</div>
-		
-		<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-			KIM
-		</h3>
-		
-		
-		<p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
-			stay hungry , stay foolish 
-		</p>
-		
-		
-		<!-- 社交链接 -->
-		
-	</div>
-
-	<!-- 搜索框 -->
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-				<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-			</svg>
-			搜索
-		</h4>
-		<div class="relative">
-			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-				<svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-					<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-				</svg>
-			</div>
-			<input type="text" 
-				   placeholder="请输入关键词搜索..." 
-				   class="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-				   onclick="window.location.href='/search/'">
-		</div>
-	</div>
-
-	<!-- 最近文章 -->
-	
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-				<path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
-			</svg>
-			最近文章
-		</h4>
-		<ul class="space-y-2">
-			
-			<li>
-				<a href="/2025/06/11/mermaid/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					mermaid
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					06-11
-				</time>
-			</li>
-			
-			<li>
-				<a href="/2025/01/01/2025%E6%91%98%E6%8A%84/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					2025摘抄
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					01-01
-				</time>
-			</li>
-			
-			<li>
-				<a href="/2024/12/31/2024%E6%91%98%E6%8A%84/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					2024摘抄
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					12-31
-				</time>
-			</li>
-			
-			<li>
-				<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					事务到底是隔离的还是不隔离的？
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					06-12
-				</time>
-			</li>
-			
-			<li>
-				<a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					行锁功过：怎么减少行锁对性能的影响？
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					06-12
-				</time>
-			</li>
-			
-		</ul>
-	</div>
-	
-
-	<!-- 分类 -->
-	
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-				<path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
-			</svg>
-			分类
-		</h4>
-		<div class="space-y-1">
-			
-			<a href="/categories/Git/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>Git</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					6
-				</span>
-			</a>
-			
-			<a href="/categories/Java/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>Java</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					3
-				</span>
-			</a>
-			
-			<a href="/categories/Linux/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>Linux</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/MySQL/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>MySQL</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/categories/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>MySQL实战45讲</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					7
-				</span>
-			</a>
-			
-			<a href="/categories/Netty/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>Netty</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/Nginx/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>Nginx</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/Redis/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>Redis</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					5
-				</span>
-			</a>
-			
-			<a href="/categories/RocketMQ/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>RocketMQ</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/categories/Tomcat/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>Tomcat</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/ddia/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>ddia</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/docker/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>docker</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/go/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>go</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/golang/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>golang</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/mermiad/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>mermiad</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/nginx/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>nginx</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/prometheus/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>prometheus</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/%E4%BA%BA%E7%94%9F/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>人生</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/%E5%85%B6%E4%BB%96/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>其他</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>多线程</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/%E5%AD%A6%E4%B9%A0/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>学习</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/%E5%B7%A5%E4%BD%9C/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>工作</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/%E6%91%98%E6%8A%84/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>摘抄</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AF%BE/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>程序员的测试课</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/categories/%E7%AE%97%E6%B3%95/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>算法</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					3
-				</span>
-			</a>
-			
-			<a href="/categories/%E8%AF%BB%E4%B9%A6/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>读书</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					3
-				</span>
-			</a>
-			
-			<a href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>随手记</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-		</div>
-	</div>
-	
-
-	<!-- 标签云 -->
-	
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-				<path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
-			</svg>
-			标签
-		</h4>
-		<div class="flex flex-wrap gap-2">
-			
-			<a href="/tags/Git/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Git
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					6
-				</span>
-			</a>
-			
-			<a href="/tags/Java/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Java
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					4
-				</span>
-			</a>
-			
-			<a href="/tags/Linux/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Linux
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/MySQL/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				MySQL
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					9
-				</span>
-			</a>
-			
-			<a href="/tags/Netty/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Netty
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/Nginx/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Nginx
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/Redis/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Redis
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					6
-				</span>
-			</a>
-			
-			<a href="/tags/RocketMQ/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				RocketMQ
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					2
-				</span>
-			</a>
-			
-			<a href="/tags/String/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				String
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/Tomcat/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Tomcat
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/docker/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				docker
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/go/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				go
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/golang/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				golang
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/hexo/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				hexo
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/juc/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				juc
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/mermaid/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				mermaid
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/nginx/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				nginx
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/prometheus/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				prometheus
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				人生
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%85%B6%E4%BB%96/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				其他
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				分布式
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				分布式锁
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				多线程
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%AD%A6%E4%B9%A0/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				学习
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E6%91%98%E6%8A%84/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				摘抄
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					2
-				</span>
-			</a>
-			
-			<a href="/tags/%E6%B5%8B%E8%AF%95/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				测试
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E7%AE%97%E6%B3%95/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				算法
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					3
-				</span>
-			</a>
-			
-			<a href="/tags/%E7%BF%BB%E8%AF%91/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				翻译
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E8%AF%BB%E4%B9%A6/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				读书
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					2
-				</span>
-			</a>
-			
-			<a href="/tags/%E8%BD%AC%E8%BD%BD/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				转载
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					2
-				</span>
-			</a>
-			
-			<a href="/tags/%E8%BF%90%E7%BB%B4/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				运维
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				随手记
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-		</div>
-	</div>
-	
-
-	<!-- 归档 -->
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-				<path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-			</svg>
-			归档
-		</h4>
-		<div class="space-y-1">
-			
-			<a href="/archives/2025/06/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2025年06月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2025/01/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2025年01月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2024/12/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2024年12月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2022/06/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2022年06月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					7
-				</span>
-			</a>
-			
-			<a href="/archives/2022/05/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2022年05月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/archives/2022/04/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2022年04月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					3
-				</span>
-			</a>
-			
-		</div>
-	</div>
-</div>
-						</aside>
+						
 					</div>
 				</div>
 			</main>
@@ -1088,7 +729,7 @@ b. 若 row trx_id 不在数组中，表示这个版本是已经提交了的事�
 			<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center">
-            <p class="text-gray-600 dark:text-gray-400 mb-2">Deveye @ All Rights Reserved 2025</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-2">无常是常 @ All Rights Reserved 2025</p>
             
             <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
             
@@ -1104,7 +745,7 @@ b. 若 row trx_id 不在数组中，表示这个版本是已经提交了的事�
 </button>
 
 <!-- JavaScript -->
-<script>
+<script defer>
 document.addEventListener('DOMContentLoaded', function() {
     // 深色模式切换
     const themeToggle = document.getElementById('theme-toggle');
@@ -1173,8 +814,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Mermaid 支持 -->
 
-<script src="/js/mermaid.min.js"></script>
-<script>
+<script src="/js/mermaid.min.js" ></script>
+<script defer>
 window.addEventListener('load', function() {
     // 初始化 Mermaid 并让其自动渲染
     mermaid.initialize({
@@ -1313,375 +954,8 @@ window.addEventListener('load', function() {
 </style>
 
 
-<!-- 悬浮目录功能 -->
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const floatingToc = document.getElementById('floating-toc');
-    const tocPanel = document.getElementById('toc-panel');
-    const tocNav = document.getElementById('toc-nav');
-    const postContent = document.getElementById('post-content');
-    
-    if (!floatingToc || !tocPanel || !tocNav || !postContent) return;
-    
-    // 生成目录
-    function generateTOC() {
-        const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
-        if (headings.length === 0) return false;
-        
-        let tocHTML = '<ul class="toc-list">';
-        let currentLevel = 0;
-        let tocIndex = 0;
-        
-        headings.forEach((heading, index) => {
-            const level = parseInt(heading.tagName.charAt(1));
-            const text = heading.textContent || heading.innerText;
-            const id = heading.id || `toc-${index}`;
-            
-            // 为标题添加ID（如果没有的话）
-            if (!heading.id) {
-                heading.id = id;
-            }
-            
-            // 处理层级
-            if (level > currentLevel) {
-                for (let i = currentLevel; i < level; i++) {
-                    if (i > 0) tocHTML += '<ul class="toc-list">';
-                }
-            } else if (level < currentLevel) {
-                for (let i = currentLevel; i > level; i--) {
-                    tocHTML += '</ul>';
-                }
-            }
-            
-            tocHTML += `
-                <li class="toc-item toc-level-${level}">
-                    <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${++tocIndex}</span>
-                        <span class="toc-text">${text}</span>
-                    </a>
-                </li>
-            `;
-            
-            currentLevel = level;
-        });
-        
-        // 关闭剩余的ul标签
-        for (let i = currentLevel; i > 1; i--) {
-            tocHTML += '</ul>';
-        }
-        tocHTML += '</ul>';
-        
-        tocNav.innerHTML = tocHTML;
-        return true;
-    }
-    
-
-    
-    // 精确定位目录在左侧空白区域
-    function positionTocInLeftMargin() {
-        const mainContent = document.querySelector('.main-content');
-        const postContent = document.querySelector('#post-content');
-        
-        if (!mainContent || !postContent) return;
-        
-        const mainContentRect = mainContent.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        
-        // 计算左侧空白区域
-        const leftSpace = mainContentRect.left;
-        const availableWidth = leftSpace - 64; // 留出32px的间距
-        
-        // 只在有足够空间时显示目录（需要至少280px宽度）
-        if (availableWidth >= 280 && viewportWidth >= 1280) {
-            // 将目录定位在左侧空白区域的中央
-            const tocWidth = 280;
-            const left = leftSpace - tocWidth - 32;
-            const postContentRect = postContent.getBoundingClientRect();
-            const top = postContentRect.top + window.pageYOffset - 20; // 与文章内容顶部对齐
-            
-            tocPanel.style.left = left + 'px';
-            tocPanel.style.top = top + 'px';
-            tocPanel.style.position = 'absolute';
-            tocPanel.style.width = tocWidth + 'px';
-            tocPanel.style.display = 'block';
-            
-            return true;
-        } else {
-            // 屏幕太小时隐藏目录
-            tocPanel.style.display = 'none';
-            return false;
-        }
-    }
-    
-    // 初始化目录
-    if (generateTOC()) {
-        floatingToc.classList.remove('hidden');
-        
-        // 定位目录
-        if (positionTocInLeftMargin()) {
-            // 窗口大小改变时重新定位
-            window.addEventListener('resize', positionTocInLeftMargin);
-            
-            // 滚动时保持固定位置
-            let isFixed = false;
-            let originalLeft = parseInt(tocPanel.style.left);
-            
-            window.addEventListener('scroll', function() {
-                const scrollTop = window.pageYOffset;
-                const postContent = document.querySelector('#post-content');
-                
-                if (!postContent) return;
-                
-                const postContentRect = postContent.getBoundingClientRect();
-                const shouldFix = scrollTop > 150; // 滚动超过150px时固定
-                
-                if (shouldFix && !isFixed) {
-                    tocPanel.style.position = 'fixed';
-                    tocPanel.style.top = '100px'; // 距离顶部100px
-                    tocPanel.style.left = originalLeft + 'px'; // 保持原来的水平位置
-                    isFixed = true;
-                } else if (!shouldFix && isFixed) {
-                    positionTocInLeftMargin();
-                    originalLeft = parseInt(tocPanel.style.left);
-                    isFixed = false;
-                }
-            });
-        }
-        
-        // 目录点击事件
-        tocNav.addEventListener('click', function(e) {
-            e.preventDefault();
-            const link = e.target.closest('.toc-link');
-            if (!link) return;
-            
-            const targetId = link.getAttribute('data-target');
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                // 平滑滚动到目标位置
-                const headerOffset = 80; // 考虑固定头部的高度
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // 更新活跃状态
-                updateActiveTOCItem(targetId);
-            }
-        });
-        
-        // 滚动时高亮当前章节
-        let ticking = false;
-        function updateActiveTOCItem(activeId) {
-            // 移除所有活跃状态
-            tocNav.querySelectorAll('.toc-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // 添加当前活跃状态
-            if (activeId) {
-                const activeLink = tocNav.querySelector(`[data-target="${activeId}"]`);
-                if (activeLink) {
-                    activeLink.classList.add('active');
-                }
-            }
-        }
-        
-        function onScroll() {
-            if (!ticking) {
-                requestAnimationFrame(function() {
-                    const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
-                    let activeHeading = null;
-                    
-                    // 找到当前可见的标题
-                    for (let i = headings.length - 1; i >= 0; i--) {
-                        const heading = headings[i];
-                        const rect = heading.getBoundingClientRect();
-                        if (rect.top <= 100) { // 100px的容差
-                            activeHeading = heading.id;
-                            break;
-                        }
-                    }
-                    
-                    if (activeHeading) {
-                        updateActiveTOCItem(activeHeading);
-                    }
-                    
-                    ticking = false;
-                });
-            }
-            ticking = true;
-        }
-        
-        window.addEventListener('scroll', onScroll);
-        
-        // 初始化时设置活跃状态
-        setTimeout(onScroll, 100);
-    }
-});
-</script>
-
-<!-- 左侧目录样式 -->
-<style>
-/* 目录侧边栏样式 */
-#toc-sidebar {
-    /* 基础样式已在HTML中定义 */
-}
-
-/* 目录列表样式 */
-.toc-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.toc-list .toc-list {
-    margin-left: 1rem;
-    margin-top: 0.25rem;
-}
-
-.toc-item {
-    margin: 0.2rem 0;
-}
-
-.toc-link {
-    display: flex;
-    align-items: center;
-    padding: 0.4rem 0.6rem;
-    text-decoration: none;
-    color: #6b7280;
-    border-radius: 0.375rem;
-    transition: all 0.2s ease;
-    font-size: 0.825rem;
-    line-height: 1.2rem;
-}
-
-.toc-link:hover {
-    background-color: rgba(59, 130, 246, 0.1);
-    color: #2563eb;
-    transform: translateX(3px);
-}
-
-.toc-link.active {
-    background-color: rgba(59, 130, 246, 0.15);
-    color: #2563eb;
-    font-weight: 600;
-    border-left: 3px solid #2563eb;
-    padding-left: 0.5rem;
-}
-
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.3rem;
-    height: 1.3rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.7rem;
-    font-weight: 600;
-    margin-right: 0.4rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
-.toc-text {
-    flex: 1;
-    line-height: 1.3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* 不同层级的样式 */
-.toc-level-1 .toc-link {
-    font-weight: 600;
-    font-size: 0.875rem;
-}
-
-.toc-level-2 .toc-link {
-    font-size: 0.8rem;
-}
-
-.toc-level-3 .toc-link,
-.toc-level-4 .toc-link,
-.toc-level-5 .toc-link,
-.toc-level-6 .toc-link {
-    font-size: 0.75rem;
-}
-
-/* 深色模式 */
-.dark .toc-link {
-    color: #9ca3af;
-}
-
-.dark .toc-link:hover {
-    background-color: rgba(59, 130, 246, 0.2);
-    color: #60a5fa;
-}
-
-.dark .toc-link.active {
-    background-color: rgba(59, 130, 246, 0.25);
-    color: #60a5fa;
-    border-left-color: #60a5fa;
-}
-
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
-/* 响应式设计 */
-@media (max-width: 1023px) {
-    /* 小屏幕：隐藏目录 */
-    #toc-sidebar {
-        display: none !important;
-    }
-}
-
-/* 滚动条样式 */
-#toc-sidebar .overflow-y-auto::-webkit-scrollbar {
-    width: 4px;
-}
-
-#toc-sidebar .overflow-y-auto::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-#toc-sidebar .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.5);
-    border-radius: 2px;
-}
-
-.dark #toc-sidebar .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: rgba(75, 85, 99, 0.5);
-}
-
-
-</style>
-
-</script>
-
 <!-- 现代代码块系统 -->
-<script>
+<script defer>
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化所有代码块 - 处理Hexo的figure.highlight结构
     document.querySelectorAll('figure.highlight').forEach(function(figure, index) {
@@ -1845,6 +1119,16 @@ document.addEventListener('DOMContentLoaded', function() {
             button.classList.remove('copied');
         }, 2000);
     }
+});
+</script>
+
+<script>
+// 图片懒加载
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.post-content img');
+    images.forEach(img => {
+        img.setAttribute('loading', 'lazy');
+    });
 });
 </script>
 

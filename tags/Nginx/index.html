@@ -208,13 +208,13 @@
 			
 			<!-- 主要内容区域 -->
 			<main class="flex-1">
-				<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+				<div class="mx-auto px-2 sm:px-6 lg:px-8 py-8 max-w-7xl">
 					<div class="main-layout flex flex-col lg:flex-row gap-8">
 						<!-- 主内容区 -->
 						<div class="main-content flex-1">
-							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 md:p-12 lg:p-16">
+							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 md:p-12 lg:p-16">
 								<!-- Hero Section -->
-<div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-6 -mt-6 mb-8 px-6 py-8 rounded-t-lg">
+<div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-4 -mt-4 mb-8 px-6 py-8 rounded-t-lg">
     <div class="text-center">
         <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             无常是常
@@ -297,7 +297,8 @@
 							</div>
 						</div>
 						
-						<!-- 侧边栏 - 移动端隐藏 -->
+						
+						<!-- 侧边栏 - 仅在非文章页显示 -->
 						<aside class="main-sidebar hidden lg:block lg:w-72 xl:w-80 flex-shrink-0">
 							<div class="space-y-6">
 	<!-- 个人信息卡片 -->
@@ -359,6 +360,16 @@
 		<ul class="space-y-2">
 			
 			<li>
+				<a href="/2025/06/15/%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					常用构建脚本
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-15
+				</time>
+			</li>
+			
+			<li>
 				<a href="/2025/06/11/mermaid/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					mermaid
@@ -392,16 +403,6 @@
 				<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					事务到底是隔离的还是不隔离的？
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					06-12
-				</time>
-			</li>
-			
-			<li>
-				<a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					行锁功过：怎么减少行锁对性能的影响？
 				</a>
 				<time class="text-xs text-gray-400 dark:text-gray-500">
 					06-12
@@ -623,6 +624,14 @@
 				</span>
 			</a>
 			
+			<a href="/categories/%E8%84%9A%E6%9C%AC/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>脚本</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
 			<a href="/categories/%E8%AF%BB%E4%B9%A6/" 
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>读书</span>
@@ -798,6 +807,14 @@
 				</span>
 			</a>
 			
+			<a href="/tags/shell/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				shell
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
 			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
 			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 				人生
@@ -928,7 +945,7 @@
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>2025年06月</span>
 				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
+					2
 				</span>
 			</a>
 			
@@ -976,6 +993,7 @@
 	</div>
 </div>
 						</aside>
+						
 					</div>
 				</div>
 			</main>
@@ -984,7 +1002,7 @@
 			<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center">
-            <p class="text-gray-600 dark:text-gray-400 mb-2">Deveye @ All Rights Reserved 2025</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-2">无常是常 @ All Rights Reserved 2025</p>
             
             <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
             
@@ -1000,7 +1018,7 @@
 </button>
 
 <!-- JavaScript -->
-<script>
+<script defer>
 document.addEventListener('DOMContentLoaded', function() {
     // 深色模式切换
     const themeToggle = document.getElementById('theme-toggle');
@@ -1069,8 +1087,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Mermaid 支持 -->
 
-<script src="/js/mermaid.min.js"></script>
-<script>
+<script src="/js/mermaid.min.js" ></script>
+<script defer>
 window.addEventListener('load', function() {
     // 初始化 Mermaid 并让其自动渲染
     mermaid.initialize({
@@ -1209,12 +1227,8 @@ window.addEventListener('load', function() {
 </style>
 
 
-<!-- 悬浮目录功能 -->
-
-</script>
-
 <!-- 现代代码块系统 -->
-<script>
+<script defer>
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化所有代码块 - 处理Hexo的figure.highlight结构
     document.querySelectorAll('figure.highlight').forEach(function(figure, index) {
@@ -1381,10 +1395,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-		</div>
-	</body>
-</html>
-
+<script>
+// 图片懒加载
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.post-content img');
+    images.forEach(img => {
+        img.setAttribute('loading', 'lazy');
+    });
 });
 </script>
 
