@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="crt crt-nav-on crt-nav-type1 crt-main-nav-on crt-sidebar-on crt-layers-2 desktop crt-desktop">
+<html lang="zh-CN" class="scroll-smooth">
 	<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,538 +8,1538 @@
     <title>无常是常</title>
     <meta name="description" content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
-
-    <!-- Google Fonts -->
     
-<link rel="stylesheet" href="/css/css.css?family=Pacifico.css">
-<link rel="stylesheet" href="/css/css.css?family=Quicksand:400,700.css">
-<link rel="stylesheet" href="/fonts/icomoon/style.css">
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/plugins.css">
-<link rel="stylesheet" href="/css/switcher.css">
+    <!-- Tailwind CSS -->
+    
+<link rel="stylesheet" href="/css/main.css">
 
 	
-<script src="/js/vendor/modernizr-3.3.1.min.js"></script>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/plugins.min.js"></script>
-<script src="/js/theme.min.js"></script>
-<script src="/js/mermaid.min.js"></script>
-
+	<!-- Dark Mode Script -->
+	<script>
+		// 深色模式初始化
+		if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			document.documentElement.classList.add('dark')
+		} else {
+			document.documentElement.classList.remove('dark')
+		}
+		
+		// 深色模式切换函数
+		function toggleDarkMode() {
+			if (document.documentElement.classList.contains('dark')) {
+				document.documentElement.classList.remove('dark')
+				localStorage.theme = 'light'
+			} else {
+				document.documentElement.classList.add('dark')
+				localStorage.theme = 'dark'
+			}
+		}
+		
+		// 搜索功能
+		function performSearch() {
+			const query = document.getElementById('search-input').value.toLowerCase();
+			const resultsContainer = document.getElementById('search-results');
+			const loadingElement = document.getElementById('search-loading');
+			const emptyElement = document.getElementById('search-empty');
+			
+			if (!query.trim()) {
+				resultsContainer.innerHTML = '';
+				emptyElement.classList.add('hidden');
+				return;
+			}
+			
+			loadingElement.classList.remove('hidden');
+			emptyElement.classList.add('hidden');
+			
+			// 模拟搜索延迟
+			setTimeout(() => {
+				fetch('/search.json')
+					.then(response => response.json())
+					.then(data => {
+						const results = data.filter(post => 
+							post.title.toLowerCase().includes(query) ||
+							post.content.toLowerCase().includes(query) ||
+							(post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+						);
+						
+						loadingElement.classList.add('hidden');
+						
+						if (results.length === 0) {
+							emptyElement.classList.remove('hidden');
+							resultsContainer.innerHTML = '';
+						} else {
+							emptyElement.classList.add('hidden');
+							displaySearchResults(results, query);
+						}
+					})
+					.catch(error => {
+						console.error('搜索出错:', error);
+						loadingElement.classList.add('hidden');
+						emptyElement.classList.remove('hidden');
+					});
+			}, 300);
+		}
+		
+		function displaySearchResults(results, query) {
+			const resultsContainer = document.getElementById('search-results');
+			resultsContainer.innerHTML = results.map(post => {
+				const highlightedTitle = highlightText(post.title, query);
+				const excerpt = getExcerpt(post.content, query);
+				const highlightedExcerpt = highlightText(excerpt, query);
+				
+				return `
+					<article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-200 dark:border-gray-700">
+						<h3 class="text-xl font-semibold mb-2">
+							<a href="${post.url}" class="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+								${highlightedTitle}
+							</a>
+						</h3>
+						<p class="text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
+							${highlightedExcerpt}
+						</p>
+						<div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+							<time datetime="${post.date}">${new Date(post.date).toLocaleDateString('zh-CN')}</time>
+							${post.tags ? `<div class="flex gap-2">${post.tags.map(tag => `<span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-xs">${tag}</span>`).join('')}</div>` : ''}
+						</div>
+					</article>
+				`;
+			}).join('');
+		}
+		
+		function highlightText(text, query) {
+			if (!query) return text;
+			const regex = new RegExp(`(${query})`, 'gi');
+			return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+		}
+		
+		function getExcerpt(content, query, maxLength = 200) {
+			const queryIndex = content.toLowerCase().indexOf(query.toLowerCase());
+			if (queryIndex === -1) {
+				return content.substring(0, maxLength) + (content.length > maxLength ? '...' : '');
+			}
+			
+			const start = Math.max(0, queryIndex - 50);
+			const end = Math.min(content.length, queryIndex + query.length + 150);
+			let excerpt = content.substring(start, end);
+			
+			if (start > 0) excerpt = '...' + excerpt;
+			if (end < content.length) excerpt = excerpt + '...';
+			
+			return excerpt;
+		}
+	</script>
 <meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="无常是常" type="application/atom+xml">
 </head>
 
 	
-	<body class="category">
-		<div class="crt-wrapper">
-			<header id="crt-header">
-	<div class="crt-head-inner crt-container">
-		<div class="crt-container-sm">
-			<div class="crt-head-row">
-				<div id="crt-head-col1" class="crt-head-col text-left">
-					<a id="crt-logo" class="crt-logo" href="/">						
+	<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 category">
+		<div class="flex flex-col">
+			<!-- 头部导航 -->
+			<header class="bg-white dark:bg-gray-800 shadow-md">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+				<div class="flex-shrink-0">
+					<a href="/" class="flex items-center">						
 						
-						<span>无常是常</span>
+						<span class="ml-2 text-xl font-bold text-gray-900 dark:text-white">无常是常</span>
 					</a>
 				</div>
-				<div id="crt-head-col2" class="crt-head-col text-right">
-					<div class="crt-nav-container crt-container hidden-sm hidden-xs">
-						<nav id="crt-main-nav">
-
-							<ul class="clear-list">
-								
-								<li>
-									<a href="/">
-										文章
-									</a>
-								</li>
-								
-								<li>
-									<a href="/search">
-										搜索
-									</a>
-								</li>
-								
-								<li>
-									<a href="/about">
-										关于
-									</a>
-								</li>
-								
-							</ul>
-						</nav>
-					</div>
+				<div class="hidden md:block">
+					<nav class="ml-10 flex items-baseline space-x-4">
+						
+						<a href="/" 
+							class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							文章
+						</a>
+						
+						<a href="/about" 
+							class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							关于
+						</a>
+						
+					</nav>
 				</div>
 
-				<div id="crt-head-col3" class="crt-head-col text-right">
-					<div id="crt-sidebar-btn" class="btn btn-icon btn-shade">
-						<span class="crt-icon crt-icon-side-bar-icon"></span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- .crt-head-inner -->
-	</div>
-</header>
-			<div id="crt-container" class="crt-container">
-				<div class="crt-container-sm">
-					<div class="crt-paper-layers">
-						<div class="crt-paper clearfix">
-							<div class="crt-paper-cont paper-padd clear-mrg">
-								<header class="page-header padd-box">
-	<h1 class="title-lg"></h1>
-</header>
-
-	<article class="post hentry">
-	<div class="post-media">
-		<a href="/2018/07/07/Redis%E5%A4%8D%E5%88%B6/" rel="bookmark">
-			<figure class="post-figure">
-				
-				<img src="http://qiniu.deveye.cn/timg.jpeg" alt=""> 
-				
-			</figure>
-		</a>
-	</div>
-	<div class="padd-box-sm">
-		<header class="post-header text-center">
-			<h2 class="post-title entry-title"><a rel="bookmark" href="/2018/07/07/Redis%E5%A4%8D%E5%88%B6/">Redis复制</a></h2>
-			<div class="post-header-info">
-				<span class="posted-on"><span class="screen-reader-text">Posted on </span>
-				<a href="#" rel="bookmark">
-					<time class="post-date published" datetime="2018/7/7">2018/7/7</time>
-					<time class="post-date updated" datetime="2018/7/7">2018/7/7</time>
-				</a>
-				</span>
-				&nbsp;<span class="post-author vcard">by <a class="url fn n" href="#" rel="author">Kim</a></span>
-			</div>
-		</header>
-
-<!--		<div class="post-content entry-content editor clearfix clear-mrg">
-			<p>
-				<p></p>
-			</p>
-		</div>  -->
-
-		<footer class="post-footer">
-			<div class="post-footer-top brd-btm clearfix">
-				<div class="post-footer-info">
-					<span class="post-cat-links"><span class="screen-reader-text">Tags</span>
+				<div class="flex items-center space-x-4">
+					<!-- 搜索按钮 -->
+					<a href="/search/" class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors" title="搜索">
+						<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+						</svg>
+					</a>
 					
-					  <a class="article-category-link" href="/categories/Redis/">Redis</a>
+					<!-- 深色模式切换 -->
+					<button id="theme-toggle" class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors" title="切换主题">
+						<svg id="theme-toggle-dark-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+						</svg>
+						<svg id="theme-toggle-light-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+						</svg>
+					</button>
 					
-					</span>
-					
-						<span class="post-line">|</span>
-					
-					
-					  <a class="article-tag-none-link" href="/tags/Redis/" rel="tag">Redis</a>
-					
-				</div>
-				<div class="post-more">
-					<a class="btn btn-sm btn-primary" href="/2018/07/07/Redis%E5%A4%8D%E5%88%B6/" rel="bookmark">阅读更多</a>
+					<!-- 移动端菜单按钮 -->
+					<button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors">
+						<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+						</svg>
+					</button>
 				</div>
 			</div>
-		</footer>
-	</div>
-</article>
-
-
-	<article class="post hentry">
-	<div class="post-media">
-		<a href="/2018/07/06/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" rel="bookmark">
-			<figure class="post-figure">
-				
-				<img src="/images/cover/1.jpg" alt=""> 
-				
-			</figure>
-		</a>
-	</div>
-	<div class="padd-box-sm">
-		<header class="post-header text-center">
-			<h2 class="post-title entry-title"><a rel="bookmark" href="/2018/07/06/Redis%E6%8C%81%E4%B9%85%E5%8C%96/">Redis持久化</a></h2>
-			<div class="post-header-info">
-				<span class="posted-on"><span class="screen-reader-text">Posted on </span>
-				<a href="#" rel="bookmark">
-					<time class="post-date published" datetime="2018/7/6">2018/7/6</time>
-					<time class="post-date updated" datetime="2018/7/6">2018/7/6</time>
-				</a>
-				</span>
-				&nbsp;<span class="post-author vcard">by <a class="url fn n" href="#" rel="author">Kim</a></span>
-			</div>
-		</header>
-
-<!--		<div class="post-content entry-content editor clearfix clear-mrg">
-			<p>
-				<p></p>
-			</p>
-		</div>  -->
-
-		<footer class="post-footer">
-			<div class="post-footer-top brd-btm clearfix">
-				<div class="post-footer-info">
-					<span class="post-cat-links"><span class="screen-reader-text">Tags</span>
+			
+			<!-- 移动端菜单 -->
+			<div id="mobile-menu" class="hidden md:hidden">
+				<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-gray-700">
 					
-					  <a class="article-category-link" href="/categories/Redis/">Redis</a>
-					
-					</span>
-					
-						<span class="post-line">|</span>
-					
-					
-					  <a class="article-tag-none-link" href="/tags/Redis/" rel="tag">Redis</a>
-					
-				</div>
-				<div class="post-more">
-					<a class="btn btn-sm btn-primary" href="/2018/07/06/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" rel="bookmark">阅读更多</a>
-				</div>
-			</div>
-		</footer>
-	</div>
-</article>
-
-
-	<article class="post hentry">
-	<div class="post-media">
-		<a href="/2018/07/06/Redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" rel="bookmark">
-			<figure class="post-figure">
-				
-				<img src="/images/cover/2.jpg" alt=""> 
-				
-			</figure>
-		</a>
-	</div>
-	<div class="padd-box-sm">
-		<header class="post-header text-center">
-			<h2 class="post-title entry-title"><a rel="bookmark" href="/2018/07/06/Redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/">Redis安装与配置</a></h2>
-			<div class="post-header-info">
-				<span class="posted-on"><span class="screen-reader-text">Posted on </span>
-				<a href="#" rel="bookmark">
-					<time class="post-date published" datetime="2018/7/6">2018/7/6</time>
-					<time class="post-date updated" datetime="2018/7/6">2018/7/6</time>
-				</a>
-				</span>
-				&nbsp;<span class="post-author vcard">by <a class="url fn n" href="#" rel="author">Kim</a></span>
-			</div>
-		</header>
-
-<!--		<div class="post-content entry-content editor clearfix clear-mrg">
-			<p>
-				<p></p>
-			</p>
-		</div>  -->
-
-		<footer class="post-footer">
-			<div class="post-footer-top brd-btm clearfix">
-				<div class="post-footer-info">
-					<span class="post-cat-links"><span class="screen-reader-text">Tags</span>
-					
-					  <a class="article-category-link" href="/categories/Redis/">Redis</a>
-					
-					</span>
-					
-						<span class="post-line">|</span>
-					
-					
-					  <a class="article-tag-none-link" href="/tags/Redis/" rel="tag">Redis</a>
-					
-				</div>
-				<div class="post-more">
-					<a class="btn btn-sm btn-primary" href="/2018/07/06/Redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" rel="bookmark">阅读更多</a>
-				</div>
-			</div>
-		</footer>
-	</div>
-</article>
-
-
-	<article class="post hentry">
-	<div class="post-media">
-		<a href="/2018/06/06/%E9%9A%8F%E6%89%8B%E8%AE%B0/" rel="bookmark">
-			<figure class="post-figure">
-				
-				<img src="/images/cover/3.jpg" alt=""> 
-				
-			</figure>
-		</a>
-	</div>
-	<div class="padd-box-sm">
-		<header class="post-header text-center">
-			<h2 class="post-title entry-title"><a rel="bookmark" href="/2018/06/06/%E9%9A%8F%E6%89%8B%E8%AE%B0/">随手记</a></h2>
-			<div class="post-header-info">
-				<span class="posted-on"><span class="screen-reader-text">Posted on </span>
-				<a href="#" rel="bookmark">
-					<time class="post-date published" datetime="2018/6/6">2018/6/6</time>
-					<time class="post-date updated" datetime="2018/6/6">2018/6/6</time>
-				</a>
-				</span>
-				&nbsp;<span class="post-author vcard">by <a class="url fn n" href="#" rel="author">Kim</a></span>
-			</div>
-		</header>
-
-<!--		<div class="post-content entry-content editor clearfix clear-mrg">
-			<p>
-				<p></p>
-			</p>
-		</div>  -->
-
-		<footer class="post-footer">
-			<div class="post-footer-top brd-btm clearfix">
-				<div class="post-footer-info">
-					<span class="post-cat-links"><span class="screen-reader-text">Tags</span>
-					
-					  <a class="article-category-link" href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/">随手记</a>
-					
-					</span>
-					
-						<span class="post-line">|</span>
-					
-					
-					  <a class="article-tag-none-link" href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/" rel="tag">随手记</a>
-					
-				</div>
-				<div class="post-more">
-					<a class="btn btn-sm btn-primary" href="/2018/06/06/%E9%9A%8F%E6%89%8B%E8%AE%B0/" rel="bookmark">阅读更多</a>
-				</div>
-			</div>
-		</footer>
-	</div>
-</article>
-
-
-
-
-
-
-							</div>
-						</div>
-					</div>
-				</div>
-				<div id="crt-sidebar">
-	<button id="crt-sidebar-close" class="btn btn-icon btn-light btn-shade">
-		<span class="crt-icon crt-icon-close"></span>
-	</button>
-
-	<div id="crt-sidebar-inner">
-		<nav id="crt-main-nav-sm" class="visible-xs text-center">
-
-			<ul class="clear-list">
-				
-				<li>
-					<a href="/">
+					<a href="/" 
+						class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
 						文章
 					</a>
-				</li>
-				
-				<li>
-					<a href="/search">
-						搜索
-					</a>
-				</li>
-				
-				<li>
-					<a href="/about">
+					
+					<a href="/about" 
+						class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
 						关于
 					</a>
-				</li>
-				
-			</ul>
-		</nav>
-
-		<div class="crt-card bg-primary text-center">
-			<div class="crt-card-avatar">
-				<span class="crt-avatar-state">
-					<span class="crt-avatar-state1">
-						<img class="avatar avatar-195" alt="" src="/img/avatar.jpg" srcset="/img/avatar.jpg">
-					</span>
-					<span class="crt-avatar-state2">
-						<img class="avatar avatar-195" alt="" src="/img/avatar.jpg" srcset="/img/avatar.jpg">
-					</span>
-				</span>
-			</div>
-			<div class="crt-card-info">
-				<h2 class="text-upper">KIM</h2>
-				<p class="text-muted">
-					stay hungry , stay foolish 
-				</p>
-				<ul class="crt-social clear-list">
 					
-					<li>
-						<a href="https://github.com/" target="_blank">
-							<span class="crt-icon crt-icon-github"></span>
-						</a>
-					</li>
-					
-					<li>
-						<a href="https://twitter.com/" target="_blank">
-							<span class="crt-icon crt-icon-twitter"></span>
-						</a>
-					</li>
-					
-					<li>
-						<a href="https://www.facebook.com/" target="_blank">
-							<span class="crt-icon crt-icon-google-plus"></span>
-						</a>
-					</li>
-					
-					<li>
-						<a href="https://dribbble.com/" target="_blank">
-							<span class="crt-icon crt-icon-instagram"></span>
-						</a>
-					</li>
-					
-					<li>
-						<a href="https://github.com/hellodeveye/hexo-deveye" target="_blank">
-							<span class="crt-icon crt-icon-pinterest"></span>
-						</a>
-					</li>
-					
-				</ul>
+				</div>
 			</div>
 		</div>
-		<aside class="widget-area">
-			<!--search -->
-			<section class="widget widget_search">
-	<form role="search" method="get" class="search-form" action="/search">
-		<label>
-			<span class="screen-reader-text">Search for:</span>
-			<input type="search" class="search-field" placeholder="Search" value="" name="s">
-		</label>
-		<button type="submit" class="search-submit">
-			<span class="screen-reader-text">Search</span>
-			<span class="crt-icon crt-icon-search"></span>
-		</button>
-	</form>
-</section>
-			<!-- tag clouds-->
-			<!--
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Git/" style="font-size: 18px;">Git</a> <a href="/tags/Java/" style="font-size: 16px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Netty/" style="font-size: 10px;">Netty</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 18px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 12px;">RocketMQ</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/juc/" style="font-size: 10px;">juc</a> <a href="/tags/mermaid/" style="font-size: 10px;">mermaid</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/%E4%BA%BA%E7%94%9F/" style="font-size: 10px;">人生</a> <a href="/tags/%E5%85%B6%E4%BB%96/" style="font-size: 10px;">其他</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 10px;">多线程</a> <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">学习</a> <a href="/tags/%E6%91%98%E6%8A%84/" style="font-size: 12px;">摘抄</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">测试</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px;">算法</a> <a href="/tags/%E7%BF%BB%E8%AF%91/" style="font-size: 10px;">翻译</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 12px;">转载</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a> <a href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/" style="font-size: 10px;">随手记</a>
-    </div>
-  </div>
--->
-<section id="tag_cloud-2" class="widget widget_tag_cloud">
-	<h2 class="widget-title">标签云</h2>
-	<div class="tagcloud">
-		
-				<a href="/tags/Git/" style="font-size: 18px;">Git</a> <a href="/tags/Java/" style="font-size: 16px;">Java</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 20px;">MySQL</a> <a href="/tags/Netty/" style="font-size: 10px;">Netty</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 18px;">Redis</a> <a href="/tags/RocketMQ/" style="font-size: 12px;">RocketMQ</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/juc/" style="font-size: 10px;">juc</a> <a href="/tags/mermaid/" style="font-size: 10px;">mermaid</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/prometheus/" style="font-size: 10px;">prometheus</a> <a href="/tags/%E4%BA%BA%E7%94%9F/" style="font-size: 10px;">人生</a> <a href="/tags/%E5%85%B6%E4%BB%96/" style="font-size: 10px;">其他</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 10px;">分布式</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" style="font-size: 10px;">分布式锁</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 10px;">多线程</a> <a href="/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">学习</a> <a href="/tags/%E6%91%98%E6%8A%84/" style="font-size: 12px;">摘抄</a> <a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">测试</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px;">算法</a> <a href="/tags/%E7%BF%BB%E8%AF%91/" style="font-size: 10px;">翻译</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 12px;">读书</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 12px;">转载</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a> <a href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/" style="font-size: 10px;">随手记</a>
-		
-		</div>
-</section>
-			
-			<!-- archive-->
-			<!--
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">六月 2025</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">一月 2025</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">十二月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-  </div>
--->
-
-<section class="widget widget_posts_entries">
-	<h4 class="widget-title">归档</h4>
-	<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/06/">2025年06月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">2025年01月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">2024年12月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">2022年06月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">2022年05月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">2022年04月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">2022年02月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">2021年09月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">2021年04月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">2021年03月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">2021年01月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">2020年10月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">2020年09月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">2020年08月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">2020年07月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">2020年05月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">2019年09月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">2019年08月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">2019年02月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">2019年01月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">2018年07月</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">2018年06月</a></li></ul>
-</section>
-
-			<!-- Recent Posts-->
-			<!--
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2025/06/11/mermaid/">mermaid</a>
-          </li>
-        
-          <li>
-            <a href="/2025/01/01/2025%E6%91%98%E6%8A%84/">2025摘抄</a>
-          </li>
-        
-          <li>
-            <a href="/2024/12/31/2024%E6%91%98%E6%8A%84/">2024摘抄</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/">事务到底是隔离的还是不隔离的？</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/">行锁功过：怎么减少行锁对性能的影响？</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
--->
-
-<section id="recent-posts-3" class="widget widget_recent_entries">
-	<h4 class="widget-title">最新文章</h4>
-	<ul>
-		
-		<li>
-			<a href="/2025/06/11/mermaid/">mermaid</a>
-		</li>
-		
-		<li>
-			<a href="/2025/01/01/2025%E6%91%98%E6%8A%84/">2025摘抄</a>
-		</li>
-		
-		<li>
-			<a href="/2024/12/31/2024%E6%91%98%E6%8A%84/">2024摘抄</a>
-		</li>
-		
-		<li>
-			<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/">事务到底是隔离的还是不隔离的？</a>
-		</li>
-		
-		<li>
-			<a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/">行锁功过：怎么减少行锁对性能的影响？</a>
-		</li>
-		
-	</ul>
-</section>
-
-			<!-- 分类列表-->
-			<!--
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/">MySQL实战45讲</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RocketMQ/">RocketMQ</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ddia/">ddia</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/go/">go</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/golang/">golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mermiad/">mermiad</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/prometheus/">prometheus</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%BA%E7%94%9F/">人生</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%91%98%E6%8A%84/">摘抄</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AF%BE/">程序员的测试课</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/">随手记</a><span class="category-list-count">1</span></li></ul>
-    </div>
-  </div>
--->
-
-<section class="widget widget_categories">
-	<h4 class="widget-title">分类</h4>
-	<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/">MySQL实战45讲</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Netty/">Netty</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RocketMQ/">RocketMQ</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ddia/">ddia</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/docker/">docker</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/go/">go</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/golang/">golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mermiad/">mermiad</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/prometheus/">prometheus</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%BA%E7%94%9F/">人生</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%91%98%E6%8A%84/">摘抄</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AF%BE/">程序员的测试课</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%BB%E4%B9%A6/">读书</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/">随手记</a><span class="category-list-count">1</span></li></ul>
-</section>
-
-		</aside>
-
 	</div>
-	<!-- #crt-sidebar-inner -->
+</header>
+			
+			<!-- 主要内容区域 -->
+			<main class="flex-1">
+				<div class="mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
+					<div class="main-layout flex flex-col lg:flex-row gap-8">
+						<!-- 主内容区 -->
+						<div class="main-content flex-1">
+							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 md:p-12 lg:p-16">
+								<!-- Hero Section -->
+<div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-6 -mt-6 mb-8 px-6 py-8 rounded-t-lg">
+    <div class="text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            无常是常
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+            分享技术见解、学习心得和生活感悟
+        </p>
+        <div class="flex justify-center space-x-4">
+            <a href="/archives" class="btn btn-primary">
+                浏览文章
+            </a>
+            <a href="/about" class="btn btn-secondary">
+                了解更多
+            </a>
+        </div>
+    </div>
 </div>
-				<footer id="crt-footer" class="crt-container-lg">
-        <div class="crt-container">
-            <div class="crt-container-sm clear-mrg text-center">
-                <p>无常是常 @ All Rights Reserved 2025</p>
-		<p><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
+
+<!-- 最新文章列表 -->
+<div class="space-y-6">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+        <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+        </svg>
+        最新文章
+    </h2>
+    
+    <div class="space-y-6">
+        
+            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2018/07/07/Redis%E5%A4%8D%E5%88%B6/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Redis复制
+                            </a>
+                        </h3>
+                        
+                        
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="2018-07-07T01:04:12.000Z" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    2018-07-07
+                                </time>
+                                
+                                
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        
+                                            <a href="/categories/Redis/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                Redis
+                                            </a>
+                                        
+                                    </div>
+                                
+                            </div>
+                            
+                            <a href="/2018/07/07/Redis%E5%A4%8D%E5%88%B6/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                阅读更多
+                                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2018/07/06/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Redis持久化
+                            </a>
+                        </h3>
+                        
+                        
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="2018-07-06T14:56:00.000Z" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    2018-07-06
+                                </time>
+                                
+                                
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        
+                                            <a href="/categories/Redis/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                Redis
+                                            </a>
+                                        
+                                    </div>
+                                
+                            </div>
+                            
+                            <a href="/2018/07/06/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                阅读更多
+                                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2018/07/06/Redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Redis安装与配置
+                            </a>
+                        </h3>
+                        
+                        
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="2018-07-06T14:22:42.000Z" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    2018-07-06
+                                </time>
+                                
+                                
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        
+                                            <a href="/categories/Redis/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                Redis
+                                            </a>
+                                        
+                                    </div>
+                                
+                            </div>
+                            
+                            <a href="/2018/07/06/Redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                阅读更多
+                                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2018/06/06/%E9%9A%8F%E6%89%8B%E8%AE%B0/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                随手记
+                            </a>
+                        </h3>
+                        
+                        
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="2018-06-06T06:40:23.000Z" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    2018-06-06
+                                </time>
+                                
+                                
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        
+                                            <a href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                随手记
+                                            </a>
+                                        
+                                    </div>
+                                
+                            </div>
+                            
+                            <a href="/2018/06/06/%E9%9A%8F%E6%89%8B%E8%AE%B0/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                阅读更多
+                                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+    </div>
+    
+    <!-- 分页 -->
+    
+</div>
+							</div>
+						</div>
+						
+						
+						<!-- 侧边栏 - 仅在非文章页显示 -->
+						<aside class="main-sidebar hidden lg:block lg:w-72 xl:w-80 flex-shrink-0">
+							<div class="space-y-6">
+	<!-- 个人信息卡片 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center border border-gray-200 dark:border-gray-700">
+		<div class="mb-4">
+			
+			<div class="relative inline-block">
+				<img class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary-100 dark:border-primary-800" 
+					 src="/img/avatar.jpg" 
+					 alt="KIM">
+			</div>
+			
+		</div>
+		
+		<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+			KIM
+		</h3>
+		
+		
+		<p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+			stay hungry , stay foolish 
+		</p>
+		
+		
+		<!-- 社交链接 -->
+		
+	</div>
+
+	<!-- 搜索框 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+			</svg>
+			搜索
+		</h4>
+		<div class="relative">
+			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+				<svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+					<path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+				</svg>
+			</div>
+			<input type="text" 
+				   placeholder="请输入关键词搜索..." 
+				   class="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+				   onclick="window.location.href='/search/'">
+		</div>
+	</div>
+
+	<!-- 最近文章 -->
+	
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd"></path>
+			</svg>
+			最近文章
+		</h4>
+		<ul class="space-y-2">
+			
+			<li>
+				<a href="/2025/06/15/%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					常用构建脚本
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-15
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2025/06/11/mermaid/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					mermaid
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-11
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2025/01/01/2025%E6%91%98%E6%8A%84/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					2025摘抄
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					01-01
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2024/12/31/2024%E6%91%98%E6%8A%84/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					2024摘抄
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					12-31
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					事务到底是隔离的还是不隔离的？
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-12
+				</time>
+			</li>
+			
+		</ul>
+	</div>
+	
+
+	<!-- 分类 -->
+	
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+			</svg>
+			分类
+		</h4>
+		<div class="space-y-1">
+			
+			<a href="/categories/Git/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Git</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					6
+				</span>
+			</a>
+			
+			<a href="/categories/Java/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Java</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/categories/Linux/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Linux</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/MySQL/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>MySQL</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/categories/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>MySQL实战45讲</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					7
+				</span>
+			</a>
+			
+			<a href="/categories/Netty/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Netty</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/Nginx/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Nginx</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/Redis/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Redis</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					5
+				</span>
+			</a>
+			
+			<a href="/categories/RocketMQ/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>RocketMQ</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/categories/Tomcat/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>Tomcat</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/ddia/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>ddia</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/docker/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>docker</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/go/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>go</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/golang/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>golang</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/mermiad/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>mermiad</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/nginx/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>nginx</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/prometheus/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>prometheus</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E4%BA%BA%E7%94%9F/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>人生</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E5%85%B6%E4%BB%96/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>其他</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>多线程</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E5%AD%A6%E4%B9%A0/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>学习</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E5%B7%A5%E4%BD%9C/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>工作</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E6%91%98%E6%8A%84/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>摘抄</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/categories/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AF%BE/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>程序员的测试课</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E7%AE%97%E6%B3%95/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>算法</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/categories/%E8%84%9A%E6%9C%AC/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>脚本</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/categories/%E8%AF%BB%E4%B9%A6/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>读书</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/categories/%E9%9A%8F%E6%89%8B%E8%AE%B0/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>随手记</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+		</div>
+	</div>
+	
+
+	<!-- 标签云 -->
+	
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+			</svg>
+			标签
+		</h4>
+		<div class="flex flex-wrap gap-2">
+			
+			<a href="/tags/Git/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Git
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					6
+				</span>
+			</a>
+			
+			<a href="/tags/Java/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Java
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					4
+				</span>
+			</a>
+			
+			<a href="/tags/Linux/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Linux
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/MySQL/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				MySQL
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					9
+				</span>
+			</a>
+			
+			<a href="/tags/Netty/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Netty
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Nginx/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Nginx
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Redis/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Redis
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					6
+				</span>
+			</a>
+			
+			<a href="/tags/RocketMQ/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				RocketMQ
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/String/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				String
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Tomcat/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Tomcat
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/docker/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				docker
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/go/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				go
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/golang/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				golang
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/hexo/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				hexo
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/juc/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				juc
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/mermaid/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				mermaid
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/nginx/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				nginx
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/prometheus/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				prometheus
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/shell/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				shell
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				人生
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%85%B6%E4%BB%96/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				其他
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				分布式
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				分布式锁
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				多线程
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%AD%A6%E4%B9%A0/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				学习
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E6%91%98%E6%8A%84/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				摘抄
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E6%B5%8B%E8%AF%95/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				测试
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E7%AE%97%E6%B3%95/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				算法
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					3
+				</span>
+			</a>
+			
+			<a href="/tags/%E7%BF%BB%E8%AF%91/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				翻译
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%AF%BB%E4%B9%A6/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				读书
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%BD%AC%E8%BD%BD/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				转载
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%BF%90%E7%BB%B4/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				运维
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				随手记
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+		</div>
+	</div>
+	
+
+	<!-- 归档 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+				<path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+			</svg>
+			归档
+		</h4>
+		<div class="space-y-1">
+			
+			<a href="/archives/2025/06/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2025年06月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2025/01/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2025年01月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2024/12/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2024年12月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2022/06/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年06月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					7
+				</span>
+			</a>
+			
+			<a href="/archives/2022/05/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年05月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2022/04/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年04月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+		</div>
+	</div>
+</div>
+						</aside>
+						
+					</div>
+				</div>
+			</main>
+			
+			<!-- 页脚 -->
+			<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+            <p class="text-gray-600 dark:text-gray-400 mb-2">无常是常 @ All Rights Reserved 2025</p>
+            
+            <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
+            
             </div>
         </div>
  </footer>
- <div id="crtBtnUp" class="btn btn-icon btn-primary" style="display: inline-block;">
-	<span class="crt-icon crt-icon-arrow-page-up"></span>
- </div>
 
-				<svg id="crt-bg-shape-1" class="hidden-sm hidden-xs" height="519" width="758">
-	<polygon class="pol" points="0,455,693,352,173,0,92,0,0,71" />
-</svg>
-<svg id="crt-bg-shape-2" class="hidden-sm hidden-xs" height="536" width="633">
-	<polygon points="0,0,633,0,633,536" />
-</svg>
-			</div>
+<!-- 回到顶部按钮 -->
+<button id="back-to-top" class="fixed bottom-8 right-8 bg-primary-600 hover:bg-primary-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible z-50">
+    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+</button>
+
+<!-- JavaScript -->
+<script defer>
+document.addEventListener('DOMContentLoaded', function() {
+    // 深色模式切换
+    const themeToggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    
+    // 初始化图标显示
+    function updateThemeIcons() {
+        if (document.documentElement.classList.contains('dark')) {
+            darkIcon.classList.add('hidden');
+            lightIcon.classList.remove('hidden');
+        } else {
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+        }
+    }
+    
+    updateThemeIcons();
+    
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateThemeIcons();
+        });
+    }
+    
+    // 移动端菜单切换
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+    
+    // 回到顶部按钮
+    const backToTopButton = document.getElementById('back-to-top');
+    
+    if (backToTopButton) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
+</script>
+
+<!-- Mermaid 支持 -->
+
+<script src="/js/mermaid.min.js" ></script>
+<script defer>
+window.addEventListener('load', function() {
+    // 初始化 Mermaid 并让其自动渲染
+    mermaid.initialize({
+        theme: 'default',
+        startOnLoad: true, // 启用自动渲染
+        securityLevel: 'loose',
+        
+        // 为各个图表类型配置自适应宽度
+        flowchart: {
+            htmlLabels: 'true',
+            curve: 'linear',
+            useMaxWidth: true
+        },
+        sequence: {
+            diagramMarginX: '50',
+            diagramMarginY: '10',
+            actorMargin: '50',
+            width: '150',
+            height: '65',
+            boxMargin: '10',
+            boxTextMargin: '5',
+            noteMargin: '10',
+            messageMargin: '35',
+            mirrorActors: 'true',
+            bottomMarginAdj: '1',
+            useMaxWidth: true
+        },
+        class: {
+            useMaxWidth: true
+        },
+        state: {
+            useMaxWidth: true
+        },
+        gantt: {
+            useMaxWidth: true
+        },
+        journey: {
+            useMaxWidth: true
+        }
+    });
+});
+</script>
+
+<!-- Mermaid 样式 -->
+<style>
+.mermaid {
+    text-align: center;
+    margin: 1.5em 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    border: 1px solid #e9ecef;
+    overflow-x: auto;
+    overflow-y: visible;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.mermaid-rendered {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.mermaid-error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    margin: 1rem 0;
+    font-family: monospace;
+    text-align: left;
+}
+
+/* 深色模式下的 Mermaid 样式 */
+.dark .mermaid {
+    background: #374151;
+    border-color: #4b5563;
+}
+
+.dark .mermaid-error {
+    color: #f8d7da;
+    background-color: #2d1b1e;
+    border-color: #842029;
+}
+
+/* 确保 Mermaid 图表在深색模式下可见 */
+.dark .mermaid svg {
+    background-color: transparent;
+}
+
+/* Mermaid 图表样式优化 */
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    /* 保持原始比例，但不超过容器 */
+    width: auto;
+}
+
+/* Mermaid 图表容器已在上面定义，这里添加额外的响应式处理 */
+
+/* 针对大型图表的滚动条样式 */
+.mermaid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.mermaid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.mermaid::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.mermaid::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 深色模式下的滚动条 */
+.dark .mermaid::-webkit-scrollbar-track {
+    background: #4b5563;
+}
+
+.dark .mermaid::-webkit-scrollbar-thumb {
+    background: #6b7280;
+}
+
+.dark .mermaid::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+</style>
+
+
+<!-- 现代代码块系统 -->
+<script defer>
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化所有代码块 - 处理Hexo的figure.highlight结构
+    document.querySelectorAll('figure.highlight').forEach(function(figure, index) {
+        // 获取语言信息
+        const language = getLanguageFromClass(figure.className) || 'text';
+        
+        // 如果是 mermaid，特殊处理
+        if (language === 'mermaid') {
+            // 处理 Mermaid 代码块
+            const codeLineElements = figure.querySelectorAll('td.code .line');
+            const lines = Array.from(codeLineElements).map(line => line.textContent);
+            const mermaidCode = lines.join('\n');
+            
+            // 创建 Mermaid 容器
+            const mermaidContainer = document.createElement('div');
+            mermaidContainer.className = 'mermaid';
+            mermaidContainer.textContent = mermaidCode;
+            
+            // 替换原来的代码块
+            figure.parentNode.replaceChild(mermaidContainer, figure);
+            return; // 跳过普通代码块处理
+        }
+        
+        // 创建代码块容器
+        const codeContainer = document.createElement('div');
+        codeContainer.className = 'modern-code-block';
+        
+        // 创建头部
+        const header = document.createElement('div');
+        header.className = 'code-header';
+        header.innerHTML = `
+            <div class="code-language">${getLanguageDisplay(language)}</div>
+            <button class="code-copy-btn" data-index="${index}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                </svg>
+                <span>复制</span>
+            </button>
+        `;
+        
+        // 创建代码内容区域
+        const codeContent = document.createElement('div');
+        codeContent.className = 'code-content';
+        
+        // 处理代码内容 - 从Hexo的table结构中提取
+        const codeLineElements = figure.querySelectorAll('td.code .line');
+        const lines = Array.from(codeLineElements).map(line => line.textContent);
+        const codeText = lines.join('\n');
+        
+        // 创建行号和代码行
+        const lineNumbers = document.createElement('div');
+        lineNumbers.className = 'line-numbers';
+        
+        const codeLinesContainer = document.createElement('div');
+        codeLinesContainer.className = 'code-lines';
+        
+        lines.forEach((line, lineIndex) => {
+            if (lineIndex === lines.length - 1 && line === '') return; // 跳过最后的空行
+            
+            // 行号
+            const lineNumber = document.createElement('div');
+            lineNumber.className = 'line-number';
+            lineNumber.textContent = lineIndex + 1;
+            lineNumbers.appendChild(lineNumber);
+            
+            // 代码行
+            const codeLine = document.createElement('div');
+            codeLine.className = 'code-line';
+            codeLine.textContent = line || ' '; // 空行显示空格
+            codeLinesContainer.appendChild(codeLine);
+        });
+        
+        codeContent.appendChild(lineNumbers);
+        codeContent.appendChild(codeLinesContainer);
+        
+        // 组装代码块
+        codeContainer.appendChild(header);
+        codeContainer.appendChild(codeContent);
+        
+        // 替换原始代码块
+        figure.parentNode.replaceChild(codeContainer, figure);
+        
+        // 添加复制功能
+        const copyBtn = codeContainer.querySelector('.code-copy-btn');
+        copyBtn.addEventListener('click', function() {
+            const textToCopy = codeText;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(textToCopy).then(function() {
+                    showCopySuccess(copyBtn);
+                });
+            } else {
+                // 降级方案
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopySuccess(copyBtn);
+            }
+        });
+    });
+    
+    function getLanguageFromClass(className) {
+        if (!className) return null;
+        // Hexo使用 highlight 后跟语言名称的格式
+        const match = className.match(/highlight\s+(\w+)/);
+        return match ? match[1] : null;
+    }
+    
+    function getLanguageDisplay(lang) {
+        const langMap = {
+            'javascript': 'JavaScript',
+            'js': 'JavaScript',
+            'typescript': 'TypeScript',
+            'ts': 'TypeScript',
+            'python': 'Python',
+            'py': 'Python',
+            'java': 'Java',
+            'cpp': 'C++',
+            'c': 'C',
+            'csharp': 'C#',
+            'cs': 'C#',
+            'html': 'HTML',
+            'css': 'CSS',
+            'scss': 'SCSS',
+            'sass': 'Sass',
+            'json': 'JSON',
+            'xml': 'XML',
+            'yaml': 'YAML',
+            'yml': 'YAML',
+            'sql': 'SQL',
+            'bash': 'Bash',
+            'shell': 'Shell',
+            'sh': 'Shell',
+            'powershell': 'PowerShell',
+            'ps1': 'PowerShell',
+            'go': 'Go',
+            'rust': 'Rust',
+            'php': 'PHP',
+            'ruby': 'Ruby',
+            'swift': 'Swift',
+            'kotlin': 'Kotlin',
+            'dart': 'Dart',
+            'text': 'Text',
+            'txt': 'Text'
+        };
+        return langMap[lang.toLowerCase()] || lang.toUpperCase();
+    }
+    
+    function showCopySuccess(button) {
+        const span = button.querySelector('span');
+        const originalText = span.textContent;
+        span.textContent = '已复制!';
+        button.classList.add('copied');
+        
+        setTimeout(function() {
+            span.textContent = originalText;
+            button.classList.remove('copied');
+        }, 2000);
+    }
+});
+</script>
+
+<script>
+// 图片懒加载
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.post-content img');
+    images.forEach(img => {
+        img.setAttribute('loading', 'lazy');
+    });
+});
+</script>
+
+		</div>
 	</body>
-
 </html>
