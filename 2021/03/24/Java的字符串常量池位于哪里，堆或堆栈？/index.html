@@ -254,12 +254,12 @@
                     </svg>
                     <div class="flex flex-wrap gap-1">
                         
-                            <a href="/tags/String/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                String,
-                            </a>
-                        
                             <a href="/tags/Java/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 Java,
+                            </a>
+                        
+                            <a href="/tags/String/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                String,
                             </a>
                         
                             <a href="/tags/%E8%BD%AC%E8%BD%BD/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
@@ -309,7 +309,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -320,19 +319,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -348,7 +334,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -548,29 +533,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -615,17 +577,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -666,9 +617,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <blockquote>
 <p>转载自: <a href="https://www.baeldung.com/java-string-constant-pool-heap-stack">https://www.baeldung.com/java-string-constant-pool-heap-stack</a></p>
 </blockquote>
-<h3 id="1-简介"><a class="header-anchor" href="#1-简介">¶</a>1.简介</h3>
+<h3 id="1-简介">1.简介</h3>
 <p>每当我们声明一个变量或创建一个对象时，它就会存储在内存中。在较高的级别上，Java将内存分为两个块：<code>stack</code>和<code>heap</code>。<strong>两种存储器均存储特定类型的数据</strong>，并且具有不同的存储和访问模式。</p>
-<h3 id="2-字符串常量池"><a class="header-anchor" href="#2-字符串常量池">¶</a>2.字符串常量池</h3>
+<h3 id="2-字符串常量池">2.字符串常量池</h3>
 <p>该字符串常量池是一个特殊的存储区。**当我们声明<code>String</code>时，JVM在池中创建对象并将其引用存储在堆栈中。**在内存中创建每个<em>String</em>对象之前，JVM执行一些步骤来减少内存开销。</p>
 <p>字符串常量池在其实现中使用HashMap。<em>HashMap的</em>每个存储桶<em>均</em>包含具有相同哈希码的<em>String</em>列表。在Java的早期版本中，池的存储区域是固定大小的，并且通常会导致*“无法为对象堆保留足够的空间”* 错误。</p>
 <p>**当系统加载类时，所有类的*String*文字都将进入应用程序级池。**这是因为不同类的相等<em>String</em>文字必须是相同的<em>Object</em>。在这些情况下，池中的数据应可用于每个类而没有任何依赖关系。</p>
@@ -679,7 +630,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img src="http://qiniu.deveye.cn/blog/img/20210324222316.png" alt=""></p>
 <p>线程完成执行后，将立即释放在堆栈上创建的变量。相反，垃圾收集器回收堆中的资源。同样，垃圾收集器从池中收集未引用的项目。</p>
 <p>**池的默认大小在不同平台上可能会有所不同。**无论如何，它仍然比可用堆栈大小大得多。在JDK 7之前，该池是permgen空间的一部分，从JDK 7到现在，它是主堆内存的一部分。</p>
-<h2 id="3-结论"><a class="header-anchor" href="#3-结论">¶</a>3.结论</h2>
+<h2 id="3-结论">3.结论</h2>
 <p>在这篇简短的文章中，我们了解了<em>String</em>常量池的存储区域。堆栈和堆具有不同的特性来存储和访问数据。从内存分配到其访问和可用性，堆是最适合存储String常量池的区域。</p>
 <p><strong>实际上，池从未成为堆栈内存的一部分。</strong></p>
 
@@ -697,12 +648,12 @@ document.addEventListener('DOMContentLoaded', function() {
         </h3>
         <div class="flex flex-wrap gap-2">
             
-                <a href="/tags/String/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
-                    String
-                </a>
-            
                 <a href="/tags/Java/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
                     Java
+                </a>
+            
+                <a href="/tags/String/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    String
                 </a>
             
                 <a href="/tags/%E8%BD%AC%E8%BD%BD/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">

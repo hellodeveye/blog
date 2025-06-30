@@ -305,7 +305,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -316,19 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -344,7 +330,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -544,29 +529,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -611,17 +573,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -659,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
-        <h3 id="简介"><a class="header-anchor" href="#简介">¶</a>简介</h3>
+        <h3 id="简介">简介</h3>
 <p>在一些分布式系统中，应用与应用之间是相互独立部署的，Java应用运行在不同的JVM中，所以，在操作一些共享资源的时候，使用JDK提供的Lock工具类时就有些力不从心，这时候就需要借助外力来实现分布式一致性问题。</p>
 <p>通常会使用以下三种方式进行实现：</p>
 <ul>
@@ -704,14 +655,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </tr>
 </tbody>
 </table>
-<h3 id="安全和活性的保证"><a class="header-anchor" href="#安全和活性的保证">¶</a>安全和活性的保证</h3>
+<h3 id="安全和活性的保证">安全和活性的保证</h3>
 <p>Redis官方文档提出以下三点作为分布式锁的最低保证：</p>
 <ol>
 <li><strong>互斥</strong>，在任何给定时刻，只有一个客户端可以持有锁</li>
 <li><strong>无死锁</strong>，最终，即使锁定资源的客户端崩溃或分区，也始终可以获得锁</li>
 <li><strong>容错能力</strong>，只要大多数Redis节点都处于运行状态，客户端就可以获取和释放锁</li>
 </ol>
-<h3 id="基于主备架构实现的不足"><a class="header-anchor" href="#基于主备架构实现的不足">¶</a>基于主备架构实现的不足</h3>
+<h3 id="基于主备架构实现的不足">基于主备架构实现的不足</h3>
 <p>使用Redis实现分布式锁最简单的方法就是加锁的时候创建一个带有过期时间Key(这样是为了防止出现死锁)，当客户端需要释放锁的时候删除这个Key。</p>
 <p>从表面上看没有什么问题，但是当Redis出现宕机的时候怎么办？为了解决单点故障问题，我们可以添加一个从节点，当主节点不可用的时候，切换到从节点，但是这样实际上是不可行的，因为Redis使用的是异步复制。</p>
 <p>该模型明显存在的竞争条件:</p>
@@ -721,13 +672,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>从节点切换成主节点</li>
 <li>客户端B获取到相同资源的锁，此时A和B同时持有锁，<strong>违反了安全性</strong></li>
 </ol>
-<h3 id="单实例方案"><a class="header-anchor" href="#单实例方案">¶</a>单实例方案</h3>
+<h3 id="单实例方案">单实例方案</h3>
 <p>假设可以克服以上单节点不足的问题，我们可以使用以下命令实现分布式锁：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value NX PX 30000</span><br></pre></td></tr></table></figure>
 <p>该命令仅在Key不存在(NX)、且到期时间(PX)为30000毫秒的情况下才设置Key。Key的值为一个随机数，该值要求必须全局唯一，使用全局唯一值是为了在删除Key的时候，Key的值是我们之前设置的值时，才删除Key。(Tips:<strong>我们总不能删除其他客户端设置的Key吧？</strong>)</p>
 <p>可以使用以下Lua脚本完成，因为Lua脚本可以保证两个操作的原子性。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if redis.call(&quot;get&quot;,KEYS[1]) == ARGV[1] then</span><br><span class="line">    return redis.call(&quot;del&quot;,KEYS[1])</span><br><span class="line">else</span><br><span class="line">    return 0</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<h3 id="RedLock算法"><a class="header-anchor" href="#RedLock算法">¶</a>RedLock算法</h3>
+<h3 id="RedLock算法">RedLock算法</h3>
 <p>在算法的分布式版本中，我们假设有5个Master节点，这些节点是完全独立的，我们将各个节点部署在不同的服务器中，以保证他们同时出现故障的概率。</p>
 <p>为了获取锁，客户端执行以下操作：</p>
 <ol>
@@ -737,15 +688,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <li>如果获取了锁，则将其有效时间视为初始有效时间减去经过的时间</li>
 <li>如果客户端由于某种原因（无法锁定N / 2 + 1实例或有效时间为负数）而未能获得该锁，它将尝试解锁所有实例</li>
 </ol>
-<h3 id="释放锁"><a class="header-anchor" href="#释放锁">¶</a>释放锁</h3>
+<h3 id="释放锁">释放锁</h3>
 <p>释放锁很简单，只需在所有实例中释放锁（即使之前在某个实例中没有获取到锁）。</p>
-<h3 id="RedLock注意点"><a class="header-anchor" href="#RedLock注意点">¶</a>RedLock注意点</h3>
+<h3 id="RedLock注意点">RedLock注意点</h3>
 <ol>
 <li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移</li>
 <li>对于以N/2+ 1(也就是一半以 上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况，从而使锁失效</li>
 <li>一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效</li>
 </ol>
-<h3 id="系统具有活性的三大特征"><a class="header-anchor" href="#系统具有活性的三大特征">¶</a>系统具有活性的三大特征</h3>
+<h3 id="系统具有活性的三大特征">系统具有活性的三大特征</h3>
 <ol>
 <li>能够自动释放锁</li>
 <li>再获取锁失败（不到一半以上），或任务完成后能够释放锁，不用等到其自动过期</li>

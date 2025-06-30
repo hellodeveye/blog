@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -655,16 +606,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
-        <h2 id="覆盖索引"><a class="header-anchor" href="#覆盖索引">¶</a>覆盖索引</h2>
+        <h2 id="覆盖索引">覆盖索引</h2>
 <p>如果执行语句如:<code>select ID from T where k between 3 and 5</code>，这是只需要查ID的值，而ID的值已经在k索引树上了，因此可以直接提供查询结果，不需要回表，这种情况我们称为<strong>覆盖索引</strong>。</p>
 <p><strong>由于覆盖索引可以减少树的搜索次数，显著提升查询性能，所以使用覆盖索引是一个常用的性能优化手段。</strong></p>
-<h2 id="最左前缀原则"><a class="header-anchor" href="#最左前缀原则">¶</a>最左前缀原则</h2>
+<h2 id="最左前缀原则">最左前缀原则</h2>
 <p><img src="http://qiniu.deveye.cn/blog/img/20220608105848.png" alt=""><br>
 可以看到，索引是按照索引定义里面出现的字段排序的。</p>
 <p>只要满足最左前缀，就可以利用索引来加速检索。这个最左前缀可以是联合索引的最左 N 个字段，也可以是字符串索引的最左 M 个字符。</p>
-<h3 id="在建立联合索引的时候，如何安排索引内的字段顺序"><a class="header-anchor" href="#在建立联合索引的时候，如何安排索引内的字段顺序">¶</a>在建立联合索引的时候，如何安排索引内的字段顺序?</h3>
+<h3 id="在建立联合索引的时候，如何安排索引内的字段顺序">在建立联合索引的时候，如何安排索引内的字段顺序?</h3>
 <p>第一原则是，如果通过调整顺序，可以少维护一个索引，那么这个顺序往往就是需要优先考虑采用的。</p>
-<h2 id="索引下推"><a class="header-anchor" href="#索引下推">¶</a>索引下推</h2>
+<h2 id="索引下推">索引下推</h2>
 <p>MySQL 5.6 引入的索引下推优化（index condition pushdown)， 可以在索引遍历过程中，对索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数。</p>
 <p>例如以下查询语句：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from tuser where name like &#x27;张 %&#x27; and age=10 and ismale=1;</span><br></pre></td></tr></table></figure>

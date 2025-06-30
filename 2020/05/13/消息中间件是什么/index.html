@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -655,13 +606,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
-        <h3 id="1、了解消息中间件之前先了解一下什么是“同步”"><a class="header-anchor" href="#1、了解消息中间件之前先了解一下什么是“同步”">¶</a>1、了解消息中间件之前先了解一下什么是“同步”?</h3>
+        <h3 id="1、了解消息中间件之前先了解一下什么是“同步”">1、了解消息中间件之前先了解一下什么是“同步”?</h3>
 <p>通常业务系统直接的调用如下图所示:</p>
 <p><img src="http://qiniu.deveye.cn/blog/img/20210513184840.png" alt=""></p>
 <p>假设系统A收到了一个请求，可能是用户通过浏览器或者APP发起的，这时候系统A收到请求后马上去调用系统B，然后系统B再把返回结果返回给系统A，系统A才能返回给用户。如下图所示：</p>
 <p><img src="http://qiniu.deveye.cn/blog/img/20210513185350.png" alt=""></p>
 <p>以上就是所谓的**“同步”**调用。这个同步的意思就是各个系统联动都是同步依次进行的，一个系统先动，然后立马带动另外一个系统一起动，最后大家依次干完活以后再返回结果。</p>
-<h3 id="2、如何依托消息中间件实现异步？"><a class="header-anchor" href="#2、如何依托消息中间件实现异步？">¶</a>2、如何依托消息中间件实现异步？</h3>
+<h3 id="2、如何依托消息中间件实现异步？">2、如何依托消息中间件实现异步？</h3>
 <p>我们往系统A和系统B之间加入一个消息中间件，简称为“MQ”，也就是消息队列。</p>
 <p><img src="http://qiniu.deveye.cn/blog/img/20210513191451.png" alt=""></p>
 <p>加入消息队列之后如何通信呢？</p>
@@ -671,7 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>如上图所示，系统B什么时候执行自己的任务呢？</p>
 <p>这时候系统B根据自己的情况，可能是系统A投递消息到MQ之后的1秒内，也可能是1分钟之后，多长时间都有可能，不管多长时间，系统B肯定会从MQ里获取到一条属于自己的消息。</p>
 <p><img src="http://qiniu.deveye.cn/blog/img/20210513192841.png" alt=""></p>
-<h3 id="3、消息中间件到底有什么用？"><a class="header-anchor" href="#3、消息中间件到底有什么用？">¶</a>3、消息中间件到底有什么用？</h3>
+<h3 id="3、消息中间件到底有什么用？">3、消息中间件到底有什么用？</h3>
 <p>假设系统A要调用系统B干一些事，然后系统A先执行一些操作，需要耗费20ms，接着系统B执行一些操作，需要200ms，所以总共需要220ms。如下图所示：</p>
 <p><img src="http://qiniu.deveye.cn/blog/img/20210513193519.png" alt=""></p>
 <p>如果在系统A和系统中间加一个MQ呢？</p>
@@ -683,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>如果在系统A和系统B中间加一个消息中间件，系统A就不用关心系统B是否出现故障了，因为那是系统B自己的事，等系统B故障恢复以后，就继续执行它自己的事，此时就对系统A没任何影响了。</p>
 <p><img src="http://qiniu.deveye.cn/blog/img/20210513215346.png" alt=""></p>
 <p>为什么会有这样的效果呢？正式因为通过引入MQ，两个系统实现了异步化调用，也就实现了解耦，所以相互之间并没有任何影响。</p>
-<h3 id="5、流量削峰"><a class="header-anchor" href="#5、流量削峰">¶</a>5、流量削峰</h3>
+<h3 id="5、流量削峰">5、流量削峰</h3>
 <p>假设系统A是不操作数据库的，因此只要多部署几台机器，就可以抗下每秒1万的请求，比如部署个20台机器，就可以轻松抗下每秒上万请求。</p>
 <p>然后系统B是要操作一台数据库服务器的，那台数据库的上限是接收每秒6000请求，那么系统B无论部署多少台机器都没用，因为他依赖的数据库最多只能接收每秒6000请求。</p>
 <p>如下图所示：</p>
@@ -697,7 +648,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p><img src="http://qiniu.deveye.cn/blog/img/20210513221033.png" alt=""></p>
 <p>这个时候因为系统A发送消息到MQ很快，系统B从MQ消费消息很慢，所以MQ里自然会积压一些消息，不过不要紧，MQ一般都是基于磁盘来存储消息的，所以适当积压一些消息是可以的。当系统A的高峰过去，每秒可能就恢复到1000 QPS了，此时系统b还是以每秒6000QPS的速度获取消息写入数据库，那么自然MQ里积压的消息就会慢慢被消化掉了。</p>
 <p>所以这就是MQ进行流量削峰的效果，<strong>系统A发送过来的每秒1万请求是一个流量洪峰，然后MQ直接给扛下来了，都存储自己本地磁盘，这个过程就是流量削峰的过程，瞬间把一个洪峰给削下来了，让系统B后续慢慢获取消息来处理。</strong></p>
-<h3 id="6、总结"><a class="header-anchor" href="#6、总结">¶</a>6、总结</h3>
+<h3 id="6、总结">6、总结</h3>
 <p><strong>消息中间件的主要作用就是削峰解耦，提升系统的响应速度。</strong></p>
 
     </div>

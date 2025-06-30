@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -655,13 +606,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
-        <h2 id="一条SQL语句是如何执行的"><a class="header-anchor" href="#一条SQL语句是如何执行的">¶</a>一条SQL语句是如何执行的?</h2>
+        <h2 id="一条SQL语句是如何执行的">一条SQL语句是如何执行的?</h2>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10；</span><br></pre></td></tr></table></figure>
 <p><img src="http://qiniu.deveye.cn/blog/img/20220605212825.png" alt=""></p>
 <p><strong>MySQL 分为Server层和存储引擎两部分。</strong></p>
 <p>Server 层包括连接器、查询缓存、分析器、优化器、执行器等。涵盖MySQL的大多数核心服务功能，以及所有内置函数（如日期、时间、数字和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
 <p>存储引擎是插件式的，支持InnoDB、MyISAM、Memory等。从MySQL5.5.5版本以后默认存储引擎为InnoDB。</p>
-<h3 id="连接器"><a class="header-anchor" href="#连接器">¶</a>连接器</h3>
+<h3 id="连接器">连接器</h3>
 <p>连接器主要负责客户端和MySQL服务端进行连接的。可以通过<code>show processlist</code>查看连接信息，客户端和服务端默认连接超时为8小时，可以通过过<code>wait_timeout</code>参数配置。</p>
 <p>长连接使用一段时间后会导致MySQL内存长得很快，主要是因为MySQL在执行过程中临时使用的内存是管理在连接对象里面。这些资源会在连接重新断开的时候才释放。<br>
 解决方案如下:</p>
@@ -673,17 +624,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>MySQL5.7以后，可以在每次执行一个比较大的操作后，通过执行<code>mysql_reset_connection</code>来重新初始化连接资源。这个过程不需要重连和重新做权限验证，但是会将连接恢复到刚刚创建完时的状态。</p>
 </li>
 </ul>
-<h3 id="查询缓存"><a class="header-anchor" href="#查询缓存">¶</a>查询缓存</h3>
+<h3 id="查询缓存">查询缓存</h3>
 <p>之前执行的查询结果可能会以key-value对的形式缓存在内存中，如果查询能够直接在缓存中找到key，那么会直接把value返回给客户端。</p>
 <p>*** 大多数情况下不建议使用查询缓存。***</p>
 <p>如果表中的数据修改的比较频繁，查询缓存的命中率就会非常的低。MySQL提供了以下方式使用查询缓存：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select SQL_CACHE * from T where ID=10；</span><br></pre></td></tr></table></figure>
 <p><em><strong>注意： MySQL8.0版本直接将查询缓存的整块功能删掉了。</strong></em></p>
-<h3 id="分析器"><a class="header-anchor" href="#分析器">¶</a>分析器</h3>
+<h3 id="分析器">分析器</h3>
 <p>分析器主要是分析语法是否正确，如果不正确就会收到“You have an error in your SQL syntax”的错误提醒,一般语法错误会提示第一个出现错误的位置，所以你要关注的是紧接“use near”的内容。如果查询语句中包含表中不存在的字段，也是在这一步分析。</p>
-<h3 id="优化器"><a class="header-anchor" href="#优化器">¶</a>优化器</h3>
+<h3 id="优化器">优化器</h3>
 <p>优化器的作用主要是决定使用那个索引，或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。</p>
-<h3 id="执行器"><a class="header-anchor" href="#执行器">¶</a>执行器</h3>
+<h3 id="执行器">执行器</h3>
 <p>开始执行的时候，要先判断你对这个表有没有执行的查询权限，如果没有，就会返回没有权限的错误。使用慢SQL查询日志中看到<code>rows_examined</code>字段，表示执行过程中扫描了多少行，但有些情况下执行器调用一次，在引擎内部则扫描多行，因此<strong>引擎扫描行数跟rows_examined并不是完全相同</strong>。</p>
 <iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715.781px; height:245px;" src="https://www.processon.com/embed/629cb777e401fd1c3857b913"></iframe>
 

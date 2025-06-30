@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -655,10 +606,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
-        <h2 id="镜像构建脚本"><a class="header-anchor" href="#镜像构建脚本">¶</a>镜像构建脚本</h2>
+        <h2 id="镜像构建脚本">镜像构建脚本</h2>
 <p>build-image-web.sh</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">if [ &quot;$&#123;BUILD_DIR&#125;&quot; == &quot;&quot; ];then</span><br><span class="line">    echo &quot;env &#x27;BUILD_DIR&#x27; is not set&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">DOCKER_DIR=$&#123;BUILD_DIR&#125;/$&#123;JOB_NAME&#125;</span><br><span class="line"></span><br><span class="line">if [ ! -d $&#123;DOCKER_DIR&#125; ];then</span><br><span class="line">    mkdir -p $&#123;DOCKER_DIR&#125;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">echo &quot;docker workspace: $&#123;DOCKER_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line">JENKINS_DIR=$&#123;WORKSPACE&#125;/$&#123;MODULE&#125;</span><br><span class="line"></span><br><span class="line">echo &quot;jenkins workspace: $&#123;JENKINS_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line">PROJECT_DIR=$&#123;JENKINS_DIR&#125;$&#123;JOB_NAME&#125;-web</span><br><span class="line"></span><br><span class="line">echo &quot;project workspace: $&#123;PROJECT_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [ ! -f $&#123;PROJECT_DIR&#125;/target/*.jar ];then</span><br><span class="line">    echo &quot;target jar file not found $&#123;PROJECT_DIR&#125;/target/*.jar&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cd $&#123;DOCKER_DIR&#125;</span><br><span class="line">rm -fr *.jar Dockerfile</span><br><span class="line"></span><br><span class="line">DOCKER_FILE=/opt/script/Dockerfile</span><br><span class="line"></span><br><span class="line">cp $&#123;PROJECT_DIR&#125;/target/*.jar .</span><br><span class="line">cp $&#123;DOCKER_FILE&#125; .</span><br><span class="line"></span><br><span class="line">sed -i &quot;s,&#123;&#123;JOB_NAME&#125;&#125;,$&#123;JOB_NAME&#125;,g&quot; Dockerfile</span><br><span class="line"></span><br><span class="line">VERSION=$(date +%Y%m%d%H%M%S)</span><br><span class="line"></span><br><span class="line">IMAGE_NAME=harbor.merchant.com/kubernetes/$&#123;JOB_NAME&#125;:$&#123;VERSION&#125;</span><br><span class="line"></span><br><span class="line">echo &quot;$&#123;IMAGE_NAME&#125;&quot; &gt; $&#123;WORKSPACE&#125;/IMAGE</span><br><span class="line"></span><br><span class="line">echo &quot;building image: $&#123;IMAGE_NAME&#125;&quot;</span><br><span class="line">docker build -t $&#123;IMAGE_NAME&#125; .</span><br><span class="line"></span><br><span class="line">docker push $&#123;IMAGE_NAME&#125;</span><br><span class="line"></span><br><span class="line">helm list -n default</span><br><span class="line">helm upgrade $&#123;JOB_NAME&#125; --set name=$&#123;JOB_NAME&#125; --set version=$VERSION --set httpPorts=8080  -n default  /opt/charts/</span><br></pre></td></tr></table></figure>
-<h2 id="Dockerfile"><a class="header-anchor" href="#Dockerfile">¶</a>Dockerfile</h2>
+<h2 id="Dockerfile">Dockerfile</h2>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">11</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> LANG en_US.UTF-<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> LANGUAGE en_US:en</span><br><span class="line"><span class="keyword">ENV</span> LC_ALL en_US.UTF-<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="keyword">ENV</span> apollo.meta http://<span class="number">192.168</span>.<span class="number">3.183</span>:<span class="number">8080</span></span><br><span class="line"><span class="keyword">ENV</span> APOLLO_LABEL XianDevLabel</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> &#123;&#123;JOB_NAME&#125;&#125;.jar /&#123;&#123;JOB_NAME&#125;&#125;.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-Dapollo.label=XianDevLabel&quot;</span>,<span class="string">&quot;-Djava.security.egd=file:/dev/./urandom&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;&#123;&#123;JOB_NAME&#125;&#125;.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
     </div>
 </article>

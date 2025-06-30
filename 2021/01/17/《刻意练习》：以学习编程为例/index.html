@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -660,7 +611,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </blockquote>
 <p>《刻意练习》是一本神奇的魔法书，它用大量的事实案例和数据来证明了刻意练习能给一个人带来的巨大改变。更为难能可贵的是，它不仅仅只是介绍刻意练习的好处，还给读者介绍了刻意练习的方法和注意事项，可以说是干货满满的一本书。</p>
 <p>本文想以“学习编程”为例，结合《刻意练习》这本书教给我们的方式方法，阐述如何通过刻意练习来提高自己的编程水平。</p>
-<h3 id="关于练习"><a class="header-anchor" href="#关于练习">¶</a>关于练习</h3>
+<h3 id="关于练习">关于练习</h3>
 <p>**不断重复只是“天真的练习”，无法带来进步。“正确的练习”需要好导师、有目标、有反馈。**所以如果想要提高编程水平，光靠一味闷着头努力写代码是不够的，有些人写了几年的CRUD，可能整体的技术水平还不及刚毕业的同学。</p>
 <p>一个好的导师很难得，他不仅要自己在编程水平是有一定的成就，还应该具有一些教育方面的经验，才能更好的指导你。一般来说，大一点的公司都会有老人带新人的机制，可以利用这个来找一个比较好的前辈带一带。另外就是通过看书或看视频其实也是一种很不错的学习方式，写书和出视频的老师自然是具备上述条件的。</p>
 <p>有目标指的是应该要有明确的目标，而不是一个宽泛的目标。比如“我要提高Java水平”明显就是一个宽泛的目标，无法量化。明确的目标应该是什么样子呢？比如，我要学习JVM的基础知识，我要学完23种设计模式等等。一个好的目标还应该是可分解的，有时间或成果量化的。比如，我需要在一个月内学习完Java多线程技术，第一周学习多线程模型，第二周学习多线程基本的类和接口，第三周阅读JDK里面关于多线程方面的工具类的源码，第四周写多线程案例Demo，最后产出一个Java多线程系列笔记或者博客。</p>
@@ -671,18 +622,18 @@ document.addEventListener('DOMContentLoaded', function() {
 3.有目的的练习包含反馈<br>
 4.有目的的练习需要走出舒适区</p>
 <p>对于任何类型的练习，这是一条基本的真理：<strong>如果你从来不迫使自己走出舒适区，便永远无法进步。</strong></p>
-<h3 id="关于心理表征"><a class="header-anchor" href="#关于心理表征">¶</a>关于心理表征</h3>
+<h3 id="关于心理表征">关于心理表征</h3>
 <p>《刻意练习》这本书用了大量的篇幅来介绍心理表征。作者认为，刻意练习的核心之一在于通过练习来创建大量的心理表征，然后再使用这些心理表征反过来帮助练习。</p>
 <p>那心理表征到底是什么？</p>
 <p>我认为**它是一个人学习某样东西的时候，自己心中形成的一个体系架构。**比如我们学习算法，就会形成一个关于算法的体系架构，也就是心理表征。而当我们再学习到Mysql的底层索引原理的时候，就会想到算法关于平衡树方面的知识；当我们学习JDK源码里关于集合框架的时候，就会想到链表、栈与队列、红黑树等等。</p>
 <p>我们的知识形成了一个循环，学得越多，懂得越多。当我们积累了大量的知识以后，再学一样有关联的东西，就能快速学会。</p>
-<h3 id="刻意练习"><a class="header-anchor" href="#刻意练习">¶</a>刻意练习</h3>
+<h3 id="刻意练习">刻意练习</h3>
 <p>刻意练习提倡“边干边学”，**它使人们熟悉练习的习惯，并思考如何练习。**这与我们学习编程的理念是一样的，几乎没有人会对你说：你只需要看书，看博客，看视频就能学会编程。有经验的前辈一般会告诉你，要有输入，也要有输出。学习了的东西，要通过写代码或者做笔记或者写博客的方式，让知识变成你自己的，更加牢固。</p>
 <p>你通过写代码，不断地写代码来提高自己的编程水平，然后通过思考，反思来决定该如何写代码才能写得更好。</p>
 <p>传统的方法也一直是先找出关于正确方法的信息，然后很大程度上让学生去运用那些知识。<strong>刻意练习则完全相反，它只聚焦于绩效和表现，以及怎样提高绩效和表现。</strong></p>
 <p>编程也是一样，老板和上级其实真正在意的并不是你懂多少理论，而是你写得代码质量好不好，你能不能快速地实现他们需要的功能，能不能解决技术难题。</p>
 <p><strong>你的代码写得比别人快，你的代码写得比别人漂亮，你能快速解决别人不能解决的难题，那你就牛逼。</strong></p>
-<h3 id="关于专注与坚持"><a class="header-anchor" href="#关于专注与坚持">¶</a>关于专注与坚持</h3>
+<h3 id="关于专注与坚持">关于专注与坚持</h3>
 <p>刻意练习里面有一个观点颠覆了我以前的认知。我一度认为，一个人能不能专注，能不能坚持做一件事，除了热爱，那必然是意志力越高的人越能专注和坚持。</p>
 <p>然而刻意练习告诉我，**意志力根本不存在！**所谓意志力，其实是保持动机与专注的结果。</p>
 <p>我们先来看看如何让自己保持专注，**不专注的练习是没有效果的。**刻意练习提供了一个观点，<strong>如果练习的时间更短，那就会有更好的注意力。</strong></p>

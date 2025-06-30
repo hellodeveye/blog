@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -656,7 +607,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
         <p><img src="http://qiniu.deveye.cn/20210316200434.png" alt=""></p>
-<h3 id="一、新建代码库"><a class="header-anchor" href="#一、新建代码库">¶</a>一、新建代码库</h3>
+<h3 id="一、新建代码库">一、新建代码库</h3>
 <blockquote>
 <p><font color=gray># 在当前目录新建一个Git代码库</font><br>
 $ git init</p>
@@ -665,7 +616,7 @@ $ git init [project-name]</p>
 <p><font color=gray># 下载一个项目和它的整个代码历史</font><br>
 $ git clone [url]</p>
 </blockquote>
-<h3 id="二、配置"><a class="header-anchor" href="#二、配置">¶</a>二、配置</h3>
+<h3 id="二、配置">二、配置</h3>
 <p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）</p>
 <blockquote>
 <p><font color=gray># 显示当前的Git配置</font><br>
@@ -676,7 +627,7 @@ $ git config -e [–global]</p>
 $ git config [–global] <a href="http://user.name">user.name</a> &quot;[name]&quot;<br>
 $ git config [–global] user.email &quot;[email   address]&quot;</p>
 </blockquote>
-<h3 id="三、增加-删除文件"><a class="header-anchor" href="#三、增加-删除文件">¶</a>三、增加/删除文件</h3>
+<h3 id="三、增加-删除文件">三、增加/删除文件</h3>
 <blockquote>
 <p><font color=gray># 添加指定文件到暂存区</font><br>
 $ git add [file1] [file2] …</p>
@@ -694,7 +645,7 @@ $ git rm --cached [file]</p>
 <p><font color=gray># 改名文件，并且将这个改名放入暂存区</font><br>
 $ git mv [file-original] [file-renamed]</p>
 </blockquote>
-<h3 id="四、代码提交"><a class="header-anchor" href="#四、代码提交">¶</a>四、代码提交</h3>
+<h3 id="四、代码提交">四、代码提交</h3>
 <blockquote>
 <p><font color=gray># 提交暂存区到仓库区</font><br>
 $ git commit -m [message]</p>
@@ -710,7 +661,7 @@ $ git commit --amend -m [message]</p>
 <p><font color=gray># 重做上一次commit，并包括指定文件的新变化</font><br>
 $ git commit --amend [file1] [file2] …</p>
 </blockquote>
-<h3 id="五、分支"><a class="header-anchor" href="#五、分支">¶</a>五、分支</h3>
+<h3 id="五、分支">五、分支</h3>
 <blockquote>
 <p><font color=gray># 列出所有本地分支</font><br>
 $ git branch</p>
@@ -742,7 +693,7 @@ $ git branch -d [branch-name]</p>
 $ git push origin --delete [branch-name]<br>
 $ git branch -dr [remote/branch]</p>
 </blockquote>
-<h3 id="六、标签"><a class="header-anchor" href="#六、标签">¶</a>六、标签</h3>
+<h3 id="六、标签">六、标签</h3>
 <blockquote>
 <p><font color=gray># 列出所有tag</font><br>
 $ git tag</p>
@@ -763,7 +714,7 @@ $ git push [remote] --tags</p>
 <p><font color=gray># 新建一个分支，指向某个tag</font><br>
 $ git checkout -b [branch] [tag]</p>
 </blockquote>
-<h3 id="七、查看信息"><a class="header-anchor" href="#七、查看信息">¶</a>七、查看信息</h3>
+<h3 id="七、查看信息">七、查看信息</h3>
 <blockquote>
 <p><font color=gray># 显示有变更的文件</font><br>
 $ git status</p>
@@ -809,7 +760,7 @@ $ git reflog</p>
 <p><font color=gray># 从本地master拉取代码更新当前分支：branch 一般为master</font><br>
 $ git rebase [branch]</p>
 </blockquote>
-<h3 id="八、远程同步"><a class="header-anchor" href="#八、远程同步">¶</a>八、远程同步</h3>
+<h3 id="八、远程同步">八、远程同步</h3>
 <blockquote>
 <p>$ git remote update  --更新远程仓储<br>
 <font color=gray># 下载远程仓库的所有变动</font><br>
@@ -829,7 +780,7 @@ $ git push [remote] --force</p>
 <p><font color=gray># 推送所有分支到远程仓库</font><br>
 $ git push [remote] --all</p>
 </blockquote>
-<h3 id="九、撤销"><a class="header-anchor" href="#九、撤销">¶</a>九、撤销</h3>
+<h3 id="九、撤销">九、撤销</h3>
 <blockquote>
 <p><font color=gray># 恢复暂存区的指定文件到工作区</font><br>
 $ git checkout [file]</p>
@@ -854,7 +805,7 @@ $ git revert [commit]</p>
 $ git stash<br>
 $ git stash pop</p>
 </blockquote>
-<h3 id="十、其他"><a class="header-anchor" href="#十、其他">¶</a>十、其他</h3>
+<h3 id="十、其他">十、其他</h3>
 <blockquote>
 <p><font color=gray># 生成一个可供发布的压缩包</font><br>
 $ git archive</p>

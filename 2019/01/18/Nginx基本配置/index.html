@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -655,21 +606,21 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
-        <h3 id="1-Nginx-常用操作整理"><a class="header-anchor" href="#1-Nginx-常用操作整理">¶</a>1. Nginx 常用操作整理</h3>
-<h4 id="1-1-启动-Nginx"><a class="header-anchor" href="#1-1-启动-Nginx">¶</a>1.1 启动 Nginx</h4>
+        <h3 id="1-Nginx-常用操作整理">1. Nginx 常用操作整理</h3>
+<h4 id="1-1-启动-Nginx">1.1 启动 Nginx</h4>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx</span><br></pre></td></tr></table></figure>
-<h4 id="1-2-停止-Nginx"><a class="header-anchor" href="#1-2-停止-Nginx">¶</a>1.2 停止 Nginx</h4>
+<h4 id="1-2-停止-Nginx">1.2 停止 Nginx</h4>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s stop</span><br><span class="line">./sbin/nginx -s quit</span><br><span class="line">-s 都是采用向 Nginx 发送信号的方式。</span><br></pre></td></tr></table></figure>
-<h4 id="1-3-重载-Nginx"><a class="header-anchor" href="#1-3-重载-Nginx">¶</a>1.3 重载 Nginx</h4>
+<h4 id="1-3-重载-Nginx">1.3 重载 Nginx</h4>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
-<h4 id="1-4-指定配置文件"><a class="header-anchor" href="#1-4-指定配置文件">¶</a>1.4 指定配置文件</h4>
+<h4 id="1-4-指定配置文件">1.4 指定配置文件</h4>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -c /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
-<h4 id="1-5-配置语法检查"><a class="header-anchor" href="#1-5-配置语法检查">¶</a>1.5 配置语法检查</h4>
+<h4 id="1-5-配置语法检查">1.5 配置语法检查</h4>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -t /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">常规用法： ./sbin/nginx -tc /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
-<h3 id="2-配置文件详解"><a class="header-anchor" href="#2-配置文件详解">¶</a>2. 配置文件详解</h3>
+<h3 id="2-配置文件详解">2. 配置文件详解</h3>
 <p>Nginx配置文件的分块下，基本就分为以下几块：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">main # 全局设置</span><br><span class="line">events &#123; # Nginx工作模式</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br><span class="line">http &#123; # http设置</span><br><span class="line">    ....</span><br><span class="line">    upstream myproject &#123; # 负载均衡服务器设置</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123; # 主机设置</span><br><span class="line">        ....</span><br><span class="line">        location &#123; # URL匹配</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123;</span><br><span class="line">        ....</span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-1-main模块"><a class="header-anchor" href="#2-1-main模块">¶</a>2.1 main模块</h4>
+<h4 id="2-1-main模块">2.1 main模块</h4>
 <p>下面是一个main区域，它是一个全局的设置：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log /usr/local/var/log/nginx/error.log notice;</span><br><span class="line">pid /usr/local/var/run/nginx/nginx.pid;</span><br><span class="line">worker_rlimit_nofile 1024;</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -679,7 +630,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>pid 来指定进程id的存储文件位置。</p>
 <p>worker_rlimit_nofile 来指定一个nginx进程可以打开的最多文件描述符数目，这里是65535，需要使用命令“ulimit -n 65535”来设置。</p>
 </blockquote>
-<h4 id="2-2-events模块"><a class="header-anchor" href="#2-2-events模块">¶</a>2.2 events模块</h4>
+<h4 id="2-2-events模块">2.2 events模块</h4>
 <p>events模块来用指定nginx的工作模式和工作模式及连接数上限，一般是这样：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    use kqueue; #mac平台</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -687,34 +638,34 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>worker_connections 用于定义Nginx每个进程的最大连接数，即接收前端的最大请求数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_clients = worker_processes * worker_connections，在作为反向代理时，Max_clients变为：Max_clients = worker_processes * worker_connections / 4。</p>
 <p>进程的最大连接数受Linux系统进程的最大打开文件数限制，在执行操作系统命令“ulimit -n 65536”后worker_connections的设置才能生效。</p>
 </blockquote>
-<h4 id="2-3-http模块"><a class="header-anchor" href="#2-3-http模块">¶</a>2.3 http模块</h4>
+<h4 id="2-3-http模块">2.3 http模块</h4>
 <p>http模块可以说是最核心的模块了，它负责HTTP服务器相关属性的配置，它里面的server和upstream子模块，至关重要，等到反向代理和负载均衡以及虚拟目录等会仔细说。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include mime.types;</span><br><span class="line">    default_type application/octet-stream;</span><br><span class="line">    log_format main &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                    &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                    &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line">    access_log /usr/local/var/log/nginx/access.log  main;</span><br><span class="line">    sendfile on;</span><br><span class="line">    tcp_nopush on;</span><br><span class="line">    tcp_nodelay on;</span><br><span class="line">    keepalive_timeout 10;</span><br><span class="line">    #gzip on;</span><br><span class="line">    upstream myproject &#123;</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="2-3-1-include"><a class="header-anchor" href="#2-3-1-include">¶</a>2.3.1 include</h5>
+<h5 id="2-3-1-include">2.3.1 include</h5>
 <blockquote>
 <p>用来设定文件的mime类型,类型在配置文件目录下的mime.type文件定义，来告诉nginx来识别文件类型。</p>
 </blockquote>
-<h5 id="2-3-2-default-type"><a class="header-anchor" href="#2-3-2-default-type">¶</a>2.3.2 default_type</h5>
+<h5 id="2-3-2-default-type">2.3.2 default_type</h5>
 <blockquote>
 <p>设定了默认的类型为二进制流，也就是当文件类型未定义时使用这种方式，例如在没有配置asp的locate 环境时，Nginx是不予解析的，此时，用浏览器访问asp文件就会出现下载窗口了。</p>
 </blockquote>
-<h5 id="2-3-3-log-format"><a class="header-anchor" href="#2-3-3-log-format">¶</a>2.3.3 log_format</h5>
+<h5 id="2-3-3-log-format">2.3.3 log_format</h5>
 <blockquote>
 <p>用于设置日志的格式，和记录哪些参数，这里设置为main，刚好用于access_log来纪录这种类型。</p>
 </blockquote>
-<h5 id="2-3-4-access-log"><a class="header-anchor" href="#2-3-4-access-log">¶</a>2.3.4 access_log</h5>
+<h5 id="2-3-4-access-log">2.3.4 access_log</h5>
 <blockquote>
 <p>用来纪录每次的访问日志的文件地址，后面的main是日志的格式样式，对应于log_format的main。</p>
 </blockquote>
-<h5 id="2-3-5-sendfile"><a class="header-anchor" href="#2-3-5-sendfile">¶</a>2.3.5 sendfile</h5>
+<h5 id="2-3-5-sendfile">2.3.5 sendfile</h5>
 <blockquote>
 <p>用于开启高效文件传输模式。将tcp_nopush和tcp_nodelay两个指令设置为on用于防止网络阻塞。</p>
 </blockquote>
-<h5 id="2-3-6-keepalive-timeout"><a class="header-anchor" href="#2-3-6-keepalive-timeout">¶</a>2.3.6 keepalive_timeout</h5>
+<h5 id="2-3-6-keepalive-timeout">2.3.6 keepalive_timeout</h5>
 <blockquote>
 <p>设置客户端连接保持活动的超时时间。在超过这个时间之后，服务器会关闭该连接。</p>
 </blockquote>
-<h4 id="6-4-server模块"><a class="header-anchor" href="#6-4-server模块">¶</a>6.4 server模块</h4>
+<h4 id="6-4-server模块">6.4 server模块</h4>
 <p>server模块是http的子模块，它用来定一个虚拟主机，我们先讲最基本的配置，这些在后面再讲。我们看一下一个简单的server是如何做的？</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8080;</span><br><span class="line">    server_name localhost 192.168.12.10 www.yangyi.com;</span><br><span class="line">    # 全局定义，如果都是这一个目录，这样定义最简单。</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log  usr/local/var/log/host.access.log  main;</span><br><span class="line">    error_log  usr/local/var/log/host.error.log  error;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -726,17 +677,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>charset 用于设置网页的默认编码格式。</p>
 <p>access_log 用来指定此虚拟主机的访问日志存放路径，最后的main用于指定访问日志的输出格式。</p>
 </blockquote>
-<h4 id="2-5-location模块"><a class="header-anchor" href="#2-5-location模块">¶</a>2.5 location模块</h4>
+<h4 id="2-5-location模块">2.5 location模块</h4>
 <p>location模块是nginx中用的最多的，也是最重要的模块了，什么负载均衡啊、反向代理啊、虚拟域名啊都与它相关。</p>
 <p>location根据它字面意思就知道是来定位的，定位URL，解析URL，所以，它也提供了强大的正则匹配功能，也支持条件判断匹配，用户可以通过location指令实现Nginx对动、静态网页进行过滤处理。像我们的php环境搭建就是用到了它。</p>
-<h5 id="2-5-1-我们先来看这个，设定默认首页和虚拟机目录"><a class="header-anchor" href="#2-5-1-我们先来看这个，设定默认首页和虚拟机目录">¶</a>2.5.1 我们先来看这个，设定默认首页和虚拟机目录</h5>
+<h5 id="2-5-1-我们先来看这个，设定默认首页和虚拟机目录">2.5.1 我们先来看这个，设定默认首页和虚拟机目录</h5>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>location / 表示匹配访问根目录。</p>
 <p>root 指令用于指定访问根目录时，虚拟主机的web目录，这个目录可以是相对路径（相对路径是相对于nginx的安装目录）。也可以是绝对路径。</p>
 <p>index 用于设定我们只输入域名后访问的默认首页地址，有个先后顺序：index.php index.html index.htm，如果没有开启目录浏览权限，又找不到这些默认首页，就会报403错误。</p>
 </blockquote>
-<h5 id="2-5-2-location-还有一种方式就是正则匹配"><a class="header-anchor" href="#2-5-2-location-还有一种方式就是正则匹配">¶</a>2.5.2 location 还有一种方式就是正则匹配</h5>
+<h5 id="2-5-2-location-还有一种方式就是正则匹配">2.5.2 location 还有一种方式就是正则匹配</h5>
 <p>下面这个例子是运用正则匹配来链接php。我们之前搭建环境也是这样做：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    root           /Users/yangyi/www;</span><br><span class="line">    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">    fastcgi_index  index.php;</span><br><span class="line">    include        fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -744,7 +695,7 @@ document.addEventListener('DOMContentLoaded', function() {
 fastcgi_pass 链接的是php-fpm的地址。其他几个参数我们以后再说。</p>
 <p>location 还有其他用法，等讲到实例的时候，再看吧。</p>
 </blockquote>
-<h4 id="2-6-upstream模块"><a class="header-anchor" href="#2-6-upstream模块">¶</a>2.6 upstream模块</h4>
+<h4 id="2-6-upstream模块">2.6 upstream模块</h4>
 <p>upstream 模块负责负载均衡模块，通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡。先学习怎么用，具体的使用实例以后再说。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream deveye.cn&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.12.1:80;</span><br><span class="line">    server 192.168.12.2:80 down;</span><br><span class="line">    server 192.168.12.3:8080  max_fails=3  fail_timeout=20s;</span><br><span class="line">    server 192.168.12.4:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在上面的例子中，<a href="http://xn--upstreamiyangyi-7e3xouw5c9yc706c1jlfyemo5arx4bba4380k2ktarn6g3z2ap3oc8b41d.com">通过upstream指令指定了一个负载均衡器的名称iyangyi.com</a>。这个名称可以任意指定，在后面需要的地方直接调用即可。里面是ip_hash这是其中的一种负载均衡调度算法，下面会着重介绍。紧接着就是各种服务器了。用server关键字表识，后面接ip。<br>

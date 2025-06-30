@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -657,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
         <p>Mermaid 图表展示</p>
 <p>这是一个展示Mermaid图表功能的文章，同时也演示了目录功能。</p>
-<h2 id="思维导图-mindmap"><a class="header-anchor" href="#思维导图-mindmap">¶</a>思维导图 (mindmap)</h2>
+<h2 id="思维导图-mindmap">思维导图 (mindmap)</h2>
 <pre class="mermaid">mindmap
   root((mindmap))
     Origins
@@ -675,7 +626,7 @@ document.addEventListener('DOMContentLoaded', function() {
     Tools
       Pen and paper
       Mermaid</pre>
-<h2 id="状态图-stateDiagram"><a class="header-anchor" href="#状态图-stateDiagram">¶</a>状态图 (stateDiagram)</h2>
+<h2 id="状态图-stateDiagram">状态图 (stateDiagram)</h2>
 <pre class="mermaid">stateDiagram-v2
     [*] --> Still
     Still --> [*]
@@ -683,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
     Moving --> Still
     Moving --> Crash
     Crash --> [*]</pre>
-<h2 id="类图-classDiagram"><a class="header-anchor" href="#类图-classDiagram">¶</a>类图 (classDiagram)</h2>
+<h2 id="类图-classDiagram">类图 (classDiagram)</h2>
 <pre class="mermaid">classDiagram
     Animal <|-- Duck
     Animal <|-- Fish
@@ -705,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
       +bool is_wild
       +run()
     }</pre>
-<h2 id="象限图-quadrantChart"><a class="header-anchor" href="#象限图-quadrantChart">¶</a>象限图 (quadrantChart)</h2>
+<h2 id="象限图-quadrantChart">象限图 (quadrantChart)</h2>
 <pre class="mermaid">quadrantChart
     title Reach and engagement of campaigns
     x-axis Low Reach --> High Reach
@@ -720,15 +671,15 @@ document.addEventListener('DOMContentLoaded', function() {
     Campaign D: [0.78, 0.34]
     Campaign E: [0.40, 0.34]
     Campaign F: [0.35, 0.78]</pre>
-<h2 id="流程图示例"><a class="header-anchor" href="#流程图示例">¶</a>流程图示例</h2>
-<h2 id="简单流程图"><a class="header-anchor" href="#简单流程图">¶</a>简单流程图</h2>
+<h2 id="流程图示例">流程图示例</h2>
+<h2 id="简单流程图">简单流程图</h2>
 <pre class="mermaid">flowchart TD
     A[开始] --> B{是否有条件}
     B -->|是| C[执行操作A]
     B -->|否| D[执行操作B]
     C --> E[结束]
     D --> E</pre>
-<h2 id="复杂流程图"><a class="header-anchor" href="#复杂流程图">¶</a>复杂流程图</h2>
+<h2 id="复杂流程图">复杂流程图</h2>
 <pre class="mermaid">flowchart LR
     A[用户请求] --> B[身份验证]
     B -->|成功| C[处理请求]
@@ -736,7 +687,7 @@ document.addEventListener('DOMContentLoaded', function() {
     C --> E[数据库查询]
     E --> F[数据处理]
     F --> G[返回结果]</pre>
-<h2 id="甘特图示例"><a class="header-anchor" href="#甘特图示例">¶</a>甘特图示例</h2>
+<h2 id="甘特图示例">甘特图示例</h2>
 <pre class="mermaid">gantt
     section Section
     Completed :done,    des1, 2014-01-06,2014-01-08
@@ -745,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
     Parallel 2   :         des4, after des1, 1d
     Parallel 3   :         des5, after des3, 1d
     Parallel 4   :         des6, after des4, 1d</pre>
-<h2 id="时序图示例"><a class="header-anchor" href="#时序图示例">¶</a>时序图示例</h2>
+<h2 id="时序图示例">时序图示例</h2>
 <pre class="mermaid">sequenceDiagram
 Alice->>John: Hello John, how are you?
 loop HealthCheck
@@ -755,7 +706,7 @@ Note right of John: Rational thoughts!
 John-->>Alice: Great!
 John->>Bob: How about you?
 Bob-->>John: Jolly good!</pre>
-<h2 id="C4"><a class="header-anchor" href="#C4">¶</a>C4</h2>
+<h2 id="C4">C4</h2>
 <pre class="mermaid">C4Context
 title System Context diagram for Internet Banking System
 
@@ -788,7 +739,7 @@ BiRel(customerA, SystemAA, "Uses")
 BiRel(SystemAA, SystemE, "Uses")
 Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
 Rel(SystemC, customerA, "Sends e-mails to")</pre>
-<h2 id="Journey"><a class="header-anchor" href="#Journey">¶</a>Journey</h2>
+<h2 id="Journey">Journey</h2>
 <pre class="mermaid">  journey
     title My working day
     section Go to work
@@ -798,7 +749,7 @@ Rel(SystemC, customerA, "Sends e-mails to")</pre>
     section Go home
       Go downstairs: 5: Me
       Sit down: 3: Me</pre>
-<h2 id="Bar-Chart"><a class="header-anchor" href="#Bar-Chart">¶</a>Bar Chart</h2>
+<h2 id="Bar-Chart">Bar Chart</h2>
 <pre class="mermaid">gantt
     title Git Issues - days since last update
     dateFormat  X
@@ -814,7 +765,7 @@ Rel(SystemC, customerA, "Sends e-mails to")</pre>
     9    : 0, 9
     section Issue1300
     5    : 0, 5</pre>
-<h2 id="Git-Graph"><a class="header-anchor" href="#Git-Graph">¶</a>Git Graph</h2>
+<h2 id="Git-Graph">Git Graph</h2>
 <pre class="mermaid">gitGraph
   commit
   commit
@@ -826,12 +777,12 @@ Rel(SystemC, customerA, "Sends e-mails to")</pre>
   merge develop
   commit
   commit</pre>
-<h2 id="Pie"><a class="header-anchor" href="#Pie">¶</a>Pie</h2>
+<h2 id="Pie">Pie</h2>
 <pre class="mermaid">pie
 "Dogs" : 386
 "Cats" : 85.9
 "Rats" : 15</pre>
-<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<h2 id="总结">总结</h2>
 <p>通过以上示例，我们可以看到Mermaid支持多种类型的图表：</p>
 <ul>
 <li>思维导图：用于整理思路和概念</li>

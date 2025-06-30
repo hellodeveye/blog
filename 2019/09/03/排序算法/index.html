@@ -301,7 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let tocHTML = '<ul class="toc-list">';
         let currentLevel = 0;
-        const levelCounters = [0, 0, 0, 0, 0, 0]; // Counters for h1 to h6
 
         headings.forEach((heading, index) => {
             const level = parseInt(heading.tagName.charAt(1));
@@ -312,19 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!heading.id) {
                 heading.id = id;
             }
-
-            // Reset counters for levels deeper than the current one when moving up the hierarchy
-            if (level < currentLevel) {
-                for (let i = level; i < levelCounters.length; i++) {
-                    levelCounters[i] = 0;
-                }
-            }
-            
-            // Increment the counter for the current level
-            levelCounters[level - 1]++;
-            
-            // Generate the hierarchical number string (e.g., 1, 1.1, 1.1.2)
-            const tocNumber = levelCounters.slice(0, level).filter(num => num > 0).join('.');
             
             // 处理层级 for <ul> tags
             if (level > currentLevel) {
@@ -340,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tocHTML += `
                 <li class="toc-item toc-level-${level}">
                     <a href="#${id}" class="toc-link" data-target="${id}">
-                        <span class="toc-number">${tocNumber}</span>
                         <span class="toc-text">${text}</span>
                     </a>
                 </li>
@@ -540,29 +525,6 @@ document.addEventListener('DOMContentLoaded', function() {
     padding-left: 0.5rem;
 }
 
-.toc-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #e5e7eb;
-    color: #374151;
-    border-radius: 50%;
-    font-size: 0.65rem;
-    font-weight: 600;
-    margin-right: 0.35rem;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.toc-link:hover .toc-number,
-.toc-link.active .toc-number {
-    background-color: #2563eb;
-    color: white;
-    transform: scale(1.1);
-}
-
 .toc-text {
     flex: 1;
     line-height: 1.3;
@@ -607,17 +569,6 @@ document.addEventListener('DOMContentLoaded', function() {
     border-left-color: #60a5fa;
 }
 
-.dark .toc-number {
-    background-color: #4b5563;
-    color: #d1d5db;
-}
-
-.dark .toc-link:hover .toc-number,
-.dark .toc-link.active .toc-number {
-    background-color: #3b82f6;
-    color: white;
-}
-
 /* 响应式设计 */
 @media (max-width: 1023px) {
     /* 小屏幕：隐藏目录 */
@@ -655,20 +606,20 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- 文章内容 -->
 <article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
     <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
-        <h3 id="排序算法"><a class="header-anchor" href="#排序算法">¶</a>排序算法</h3>
-<h4 id="冒泡排序"><a class="header-anchor" href="#冒泡排序">¶</a>冒泡排序</h4>
+        <h3 id="排序算法">排序算法</h3>
+<h4 id="冒泡排序">冒泡排序</h4>
 <p>双层循环,每次循环将最大的值放到数组的最后面,外层循环n次,内层循环n-i次完成排序,时间复杂度为O(n²)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func bubbleSort(arr []int) &#123;</span><br><span class="line">	for i := 0; i &lt; len(arr)-1; i++ &#123;</span><br><span class="line">		for j := 0; j &lt; len(arr)-i-1; j++ &#123;</span><br><span class="line">			if arr[j] &gt; arr[j+1] &#123;</span><br><span class="line">				arr[j], arr[j+1] = arr[j+1], arr[j]</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="选择排序"><a class="header-anchor" href="#选择排序">¶</a>选择排序</h4>
+<h4 id="选择排序">选择排序</h4>
 <p>双层循环,每次循环找出arr[n-i]中最小的数与当前数进行交换,时间复杂度为O(n²)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func selectSort(arr []int) &#123;</span><br><span class="line">	for i := 0; i &lt; len(arr)-1; i++ &#123;</span><br><span class="line">		var min = i</span><br><span class="line">		for j := i + 1; j &lt; len(arr); j++ &#123;</span><br><span class="line">			if arr[min] &gt; arr[j] &#123;</span><br><span class="line">				min = j</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		arr[i], arr[min] = arr[min], arr[i]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="插入排序"><a class="header-anchor" href="#插入排序">¶</a>插入排序</h4>
+<h4 id="插入排序">插入排序</h4>
 <p>双层循环,类似打扑克牌调整牌的顺序,每次循环对当前数字顺序进行插入调整,时间复杂度为O(n²)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func insertionSort(arr []int) &#123;</span><br><span class="line">	for i := range arr &#123;</span><br><span class="line">		preIndex := i - 1</span><br><span class="line">		current := arr[i]</span><br><span class="line">		for preIndex &gt;= 0 &amp;&amp; arr[preIndex] &gt; current &#123;</span><br><span class="line">			arr[preIndex+1] = arr[preIndex]</span><br><span class="line">			preIndex -= 1</span><br><span class="line">		&#125;</span><br><span class="line">		arr[preIndex+1] = current</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="归并排序"><a class="header-anchor" href="#归并排序">¶</a>归并排序</h4>
+<h4 id="归并排序">归并排序</h4>
 <p>分治的思想,时间复杂度O(N*logN)</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">func mergeSort(arr []int) []int &#123;</span><br><span class="line">	if len(arr) &lt; 2 &#123;</span><br><span class="line">		return arr</span><br><span class="line">	&#125;</span><br><span class="line">	i := len(arr) / 2</span><br><span class="line">	left := mergeSort(arr[:i])</span><br><span class="line">	right := mergeSort(arr[i:])</span><br><span class="line">	result := merge(left, right)</span><br><span class="line">	return result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func merge(left, right []int) []int &#123;</span><br><span class="line">	result := make([]int, 0)</span><br><span class="line">	m, n := 0, 0</span><br><span class="line">	l, r := len(left), len(right)</span><br><span class="line">	for m &lt; l &amp;&amp; n &lt; r &#123;</span><br><span class="line">		if left[m] &gt; right[n] &#123;</span><br><span class="line">			result = append(result, right[n])</span><br><span class="line">			n++</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			result = append(result, left[m])</span><br><span class="line">			m++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	result = append(result, right[n:]...)</span><br><span class="line">	result = append(result, left[m:]...)</span><br><span class="line">	return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="堆排序"><a class="header-anchor" href="#堆排序">¶</a>堆排序</h4>
+<h4 id="堆排序">堆排序</h4>
 <p><img src="http://qiniu.deveye.cn/blog/img/20220411162143.png" alt=""></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">package heap</span><br><span class="line"></span><br><span class="line">func sink(array []int, parentIndex int, length int) &#123;</span><br><span class="line">	//保存父节点，用于最后的赋值</span><br><span class="line">	temp := array[parentIndex]</span><br><span class="line">	//左子节点</span><br><span class="line">	childIndex := 2*parentIndex + 1</span><br><span class="line">	//是否有左子节点</span><br><span class="line">	for childIndex &lt; length &#123;</span><br><span class="line">		//判断是否有右子节点，并且右子节点大于左子节点的值</span><br><span class="line">		if childIndex+1 &lt; length &amp;&amp; array[childIndex+1] &gt; array[childIndex] &#123;</span><br><span class="line">			childIndex++</span><br><span class="line">		&#125;</span><br><span class="line">		//如果父节点大于任何一个子节点的值直接跳出</span><br><span class="line">		if temp &gt;= array[childIndex] &#123;</span><br><span class="line">			break</span><br><span class="line">		&#125;</span><br><span class="line">		array[parentIndex] = array[childIndex]</span><br><span class="line">		parentIndex = childIndex</span><br><span class="line">		childIndex = 2*childIndex + 1</span><br><span class="line">	&#125;</span><br><span class="line">	array[parentIndex] = temp</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func heapSort(array []int) &#123;</span><br><span class="line">	//构建大顶堆</span><br><span class="line">	for i := (len(array) - 2) / 2; i &gt;= 0; i-- &#123;</span><br><span class="line">		sink(array, i, len(array))</span><br><span class="line">	&#125;</span><br><span class="line">	//将堆顶元素和最后一个元素交换，数组长度i--(相当于循环删除根顶部元素，然后sink 调整最大堆)</span><br><span class="line">	for i := len(array) - 1; i &gt; 0; i-- &#123;</span><br><span class="line">		array[i], array[0] = array[0], array[i]</span><br><span class="line">		sink(array, 0, i)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
