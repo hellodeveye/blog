@@ -879,73 +879,148 @@ blockquote {
 /* 现代代码块样式 */
 
 .post-content .modern-code-block {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   border-radius: 0.75rem;
-  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border: 1px solid #334155;
+  /* Light模式：调整为用户指定的背景色 */
+  background: #f5f6f7;
+  border: 1px solid #e0e0e0;
   overflow: hidden;
   font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   max-width: 100%;
   width: 100%;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.post-content .modern-code-block:hover {
+  background: #f0f1f2;
+  border-color: #d0d0d0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* 代码块头部 */
 
 .post-content .code-header {
+  border: none !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background: linear-gradient(90deg, #1e293b 0%, #334155 100%);
-  border-bottom: 1px solid #475569;
+  /* Light模式：匹配参考图的头部样式 */
+  background: transparent;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.post-content .code-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-content .code-collapse-btn {
+  display: flex;
+  height: 1.25rem;
+  width: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.post-content .code-collapse-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.post-content .code-collapse-btn svg {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.2s ease;
 }
 
 .post-content .code-language {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  font-weight: 600;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-weight: 500;
+  /* Light模式：匹配参考图的标题样式 */
+  color: #333;
+  margin: 0;
+}
+
+.post-content .code-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.post-content .code-format-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-weight: 400;
+}
+
+.post-content .code-format-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.post-content .code-wrap-btn {
+  /* 自动换行按钮样式继承code-format-btn */
 }
 
 .post-content .code-copy-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
+  gap: 0.25rem;
+  border-radius: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
-  background: rgba(148, 163, 184, 0.1);
-  color: #94a3b8;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  font-size: 12px;
-  font-weight: 500;
+  background: transparent;
+  color: #666;
+  border: none;
+  font-weight: 400;
   cursor: pointer;
 }
 
 .post-content .code-copy-btn:hover {
-  background: rgba(148, 163, 184, 0.2);
-  color: #e2e8f0;
-  border-color: rgba(148, 163, 184, 0.3);
-  transform: translateY(-1px);
+  background: rgba(0, 0, 0, 0.05);
+  color: #333;
 }
 
 .post-content .code-copy-btn.copied {
-  background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
-  border-color: rgba(34, 197, 94, 0.3);
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.1);
 }
 
 .post-content .code-copy-btn svg {
@@ -957,7 +1032,8 @@ blockquote {
 
 .post-content .code-content {
   display: flex;
-  background: #0f172a;
+  /* Light模式：匹配调整后的内容背景 */
+  background: #f5f6f7;
   min-width: 0;
   /* 防止flex容器溢出 */
   overflow: hidden;
@@ -966,28 +1042,32 @@ blockquote {
 /* 行号样式 */
 
 .post-content .line-numbers {
+  border: none !important;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-  border-right: 1px solid #334155;
-  padding: 1rem 0;
-  min-width: 3rem;
+  /* Light模式：与代码内容融为一体 */
+  background: transparent;
+  border-right: 1px solid #e0e0e0;
+  padding: 0.75rem 0;
+  min-width: 2.5rem;
   -webkit-user-select: none;
   -moz-user-select: none;
        user-select: none;
 }
 
 .post-content .line-number {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   text-align: right;
-  color: #64748b;
+  /* Light模式：匹配参考图的行号颜色 */
+  color: #999;
   font-size: 12px;
-  line-height: 1.6;
-  height: 1.6em;
+  line-height: 1.4;
+  height: 1.4em;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  font-weight: 400;
 }
 
 /* 代码行样式 */
@@ -995,26 +1075,28 @@ blockquote {
 .post-content .code-lines {
   flex: 1 1 0%;
   overflow-x: auto;
-  padding: 1rem 0;
+  padding: 0.75rem 0;
   min-width: 0;
   /* 允许flex项目收缩，解决长代码行溢出问题 */
 }
 
 .post-content .code-line {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  color: #e2e8f0;
-  font-size: 14px;
-  line-height: 1.6;
-  height: 1.6em;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  /* Light模式：匹配参考图的代码文字颜色 */
+  color: #333;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 1.4em;
   display: flex;
   align-items: center;
   white-space: pre;
-  min-height: 1.6em;
+  min-height: 1.4em;
 }
 
 .post-content .code-line:hover {
-  background: rgba(148, 163, 184, 0.05);
+  /* Light模式：匹配参考图的悬停效果 */
+  background: rgba(0, 0, 0, 0.03);
 }
 
 /* 移动端适配 */
@@ -1026,61 +1108,169 @@ blockquote {
   }
 
   .post-content .code-header {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
   }
 
   .post-content .code-language {
-    font-size: 11px;
+    font-size: 12px;
+  }
+
+  .post-content .code-collapse-btn {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .post-content .code-collapse-btn svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .post-content .code-format-btn {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    padding-top: 0.125rem;
+    padding-bottom: 0.125rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .post-content .code-format-btn span {
+    display: none;
+  }
+
+  .post-content .code-wrap-btn span {
+    display: none;
   }
 
   .post-content .code-copy-btn {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    font-size: 10px;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    padding-top: 0.125rem;
+    padding-bottom: 0.125rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
   }
 
   .post-content .code-copy-btn svg {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
   }
 
   .post-content .line-numbers {
-    min-width: 2.5rem;
-    padding: 1rem 0;
+    min-width: 2rem;
+    padding: 0.5rem 0;
   }
 
   .post-content .line-number {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
     font-size: 10px;
   }
 
   .post-content .code-lines {
-    padding: 1rem 0;
+    padding: 0.5rem 0;
   }
 
   .post-content .code-line {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    font-size: 13px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 12px;
   }
 }
 
 /* 深色模式优化 */
 
 .dark .post-content .modern-code-block {
-  background: linear-gradient(135deg, #0c0a09 0%, #1c1917 100%);
-  border-color: #44403c;
+  /* Dark模式：匹配深色主题 */
+  background: #2d2d2d;
+  border-color: #404040;
+}
+
+.dark .post-content .modern-code-block:hover {
+  background: #323232;
+  border-color: #4a4a4a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .dark .post-content .code-header {
-  background: linear-gradient(90deg, #1c1917 0%, #44403c 100%);
-  border-bottom-color: #57534e;
+  /* Dark模式：透明头部 */
+  background: transparent;
+  border-bottom-color: #404040;
+}
+
+.dark .post-content .code-collapse-btn {
+  color: #ccc;
+}
+
+.dark .post-content .code-collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.dark .post-content .code-language {
+  /* Dark模式：匹配深色主题的标题 */
+  color: #fff;
+}
+
+.dark .post-content .code-format-btn {
+  color: #ccc;
+}
+
+.dark .post-content .code-format-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.dark .post-content .code-format-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.dark .post-content .code-wrap-btn {
+  /* 深色模式自动换行按钮样式继承code-format-btn */
+}
+
+.dark .post-content .code-copy-btn {
+  color: #ccc;
+}
+
+.dark .post-content .code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.dark .post-content .code-copy-btn.copied {
+  color: #60a5fa;
+  background: rgba(96, 165, 250, 0.15);
+}
+
+.dark .post-content .code-content {
+  /* Dark模式：匹配深色内容背景 */
+  background: #2d2d2d;
+}
+
+.dark .post-content .line-numbers {
+  /* Dark模式：与代码内容融为一体 */
+  background: transparent;
+  border-right-color: #404040;
+}
+
+.dark .post-content .line-number {
+  /* Dark模式：深色主题行号 */
+  color: #888;
+}
+
+.dark .post-content .code-line {
+  /* Dark模式：清晰的代码文字 */
+  color: #e5e5e5;
+}
+
+.dark .post-content .code-line:hover {
+  /* Dark模式：深色悬停效果 */
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .post-content img {
@@ -1221,6 +1411,11 @@ blockquote {
   margin: 0.25rem;
 }
 
+.-mx-4 {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
 .-mx-6 {
   margin-left: -1.5rem;
   margin-right: -1.5rem;
@@ -1233,6 +1428,10 @@ blockquote {
 
 .-ml-1 {
   margin-left: -0.25rem;
+}
+
+.-mt-4 {
+  margin-top: -1rem;
 }
 
 .-mt-6 {
@@ -1297,10 +1496,6 @@ blockquote {
 
 .mt-4 {
   margin-top: 1rem;
-}
-
-.mt-6 {
-  margin-top: 1.5rem;
 }
 
 .line-clamp-1 {
@@ -1397,10 +1592,6 @@ blockquote {
   height: 10rem;
 }
 
-.h-48 {
-  height: 12rem;
-}
-
 .h-5 {
   height: 1.25rem;
 }
@@ -1411,14 +1602,6 @@ blockquote {
 
 .h-8 {
   height: 2rem;
-}
-
-.max-h-80 {
-  max-height: 20rem;
-}
-
-.max-h-96 {
-  max-height: 24rem;
 }
 
 .w-1 {
@@ -1447,10 +1630,6 @@ blockquote {
 
 .w-6 {
   width: 1.5rem;
-}
-
-.w-72 {
-  width: 18rem;
 }
 
 .w-8 {
@@ -1483,10 +1662,6 @@ blockquote {
 
 .flex-1 {
   flex: 1 1 0%;
-}
-
-.flex-shrink {
-  flex-shrink: 1;
 }
 
 .flex-shrink-0 {
@@ -1607,10 +1782,6 @@ blockquote {
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
-}
-
-.overflow-hidden {
-  overflow: hidden;
 }
 
 .overflow-y-auto {
@@ -1799,10 +1970,6 @@ blockquote {
   padding: 1.5rem;
 }
 
-.p-8 {
-  padding: 2rem;
-}
-
 .px-1 {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
@@ -1899,10 +2066,6 @@ blockquote {
 
 .pt-2 {
   padding-top: 0.5rem;
-}
-
-.pt-4 {
-  padding-top: 1rem;
 }
 
 .text-center {
@@ -2285,11 +2448,6 @@ blockquote {
   }
 }
 
-.hover\:bg-gray-200:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
@@ -2379,10 +2537,6 @@ blockquote {
 }
 
 @media (min-width: 640px) {
-  .sm\:mt-0 {
-    margin-top: 0px;
-  }
-
   .sm\:px-3 {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
@@ -2431,6 +2585,18 @@ blockquote {
 }
 
 @media (min-width: 1024px) {
+  .lg\:block {
+    display: block;
+  }
+
+  .lg\:w-72 {
+    width: 18rem;
+  }
+
+  .lg\:flex-row {
+    flex-direction: row;
+  }
+
   .lg\:p-16 {
     padding: 4rem;
   }
@@ -2442,20 +2608,8 @@ blockquote {
 }
 
 @media (min-width: 1280px) {
-  .xl\:block {
-    display: block;
-  }
-
   .xl\:w-80 {
     width: 20rem;
-  }
-
-  .xl\:flex-shrink-0 {
-    flex-shrink: 0;
-  }
-
-  .xl\:flex-row {
-    flex-direction: row;
   }
 }
 
@@ -2657,11 +2811,6 @@ blockquote {
 :is(:where(.dark) .dark\:placeholder-gray-400)::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(156 163 175 / var(--tw-placeholder-opacity));
-}
-
-:is(:where(.dark) .dark\:hover\:bg-gray-600:hover) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
 }
 
 :is(:where(.dark) .dark\:hover\:bg-gray-700:hover) {

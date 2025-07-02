@@ -259,14 +259,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const header = document.createElement('div');
         header.className = 'code-header';
         header.innerHTML = `
-            <div class="code-language">${getLanguageDisplay(language)}</div>
-            <button class="code-copy-btn" data-index="${index}">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
-                </svg>
-                <span>复制</span>
-            </button>
+            <div class="code-header-left">
+                <button class="code-collapse-btn" data-index="${index}">
+                    <svg viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/>
+                    </svg>
+                </button>
+                <div class="code-language">${getLanguageDisplay(language)}</div>
+            </div>
+            <div class="code-header-right">
+                <button class="code-wrap-btn code-format-btn">
+                    <svg viewBox="0 0 16 16" fill="currentColor" style="width: 12px; height: 12px;">
+                        <path d="M2 4.75A.75.75 0 0 1 2.75 4h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 8a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 2 8Zm0 3.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z"/>
+                    </svg>
+                    <span>自动换行</span>
+                </button>
+                <button class="code-copy-btn" data-index="${index}">
+                    <svg viewBox="0 0 16 16" fill="currentColor" style="width: 12px; height: 12px;">
+                        <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/>
+                        <path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/>
+                    </svg>
+                    <span>复制</span>
+                </button>
+            </div>
         `;
         
         // 创建代码内容区域
@@ -310,6 +325,64 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 替换原始代码块
         figure.parentNode.replaceChild(codeContainer, figure);
+        
+        // 添加折叠功能
+        const collapseBtn = codeContainer.querySelector('.code-collapse-btn');
+        const codeContentEl = codeContainer.querySelector('.code-content');
+        let isCollapsed = false;
+        
+        collapseBtn.addEventListener('click', function() {
+            isCollapsed = !isCollapsed;
+            const svg = collapseBtn.querySelector('svg');
+            
+            if (isCollapsed) {
+                codeContentEl.style.display = 'none';
+                svg.style.transform = 'rotate(0deg)';
+            } else {
+                codeContentEl.style.display = 'flex';
+                svg.style.transform = 'rotate(90deg)';
+            }
+        });
+        
+        // 初始状态为展开
+        collapseBtn.querySelector('svg').style.transform = 'rotate(90deg)';
+        
+        // 添加自动换行功能
+        const wrapBtn = codeContainer.querySelector('.code-wrap-btn'); // 自动换行按钮
+        const codeLines = codeContainer.querySelector('.code-lines');
+        let isWrapped = false;
+        
+        wrapBtn.addEventListener('click', function() {
+            isWrapped = !isWrapped;
+            const allCodeLines = codeContainer.querySelectorAll('.code-line');
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            const wrapText = wrapBtn.querySelector('span');
+            
+            if (isWrapped) {
+                allCodeLines.forEach(line => {
+                    line.style.whiteSpace = 'pre-wrap';
+                    line.style.wordBreak = 'break-word';
+                });
+                codeLines.style.overflowX = 'visible';
+                // 根据主题设置激活状态背景色
+                if (isDarkMode) {
+                    wrapBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+                } else {
+                    wrapBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.08)';
+                }
+                wrapBtn.classList.add('active');
+                wrapText.textContent = '取消自动换行';
+            } else {
+                allCodeLines.forEach(line => {
+                    line.style.whiteSpace = 'pre';
+                    line.style.wordBreak = 'normal';
+                });
+                codeLines.style.overflowX = 'auto';
+                wrapBtn.style.backgroundColor = 'transparent';
+                wrapBtn.classList.remove('active');
+                wrapText.textContent = '自动换行';
+            }
+        });
         
         // 添加复制功能
         const copyBtn = codeContainer.querySelector('.code-copy-btn');
