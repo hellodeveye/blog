@@ -266,7 +266,7 @@
     @apply text-right px-2;
     /* Light模式：匹配参考图的行号颜色 */
     color: #999;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.4;
     height: 1.4em;
     display: flex;
@@ -312,7 +312,7 @@
     }
     
     .post-content .code-language {
-      font-size: 12px;
+      font-size: 13px;
     }
     
     .post-content .code-collapse-btn {
@@ -362,7 +362,7 @@
     
     .post-content .code-line {
       @apply px-2;
-      font-size: 12px;
+      font-size: 13px;
     }
   }
   
