@@ -1061,7 +1061,7 @@ blockquote {
   text-align: right;
   /* Light模式：匹配参考图的行号颜色 */
   color: #999;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.4;
   height: 1.4em;
   display: flex;
@@ -1115,7 +1115,7 @@ blockquote {
   }
 
   .post-content .code-language {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .post-content .code-collapse-btn {
@@ -1177,7 +1177,7 @@ blockquote {
   .post-content .code-line {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    font-size: 12px;
+    font-size: 13px;
   }
 }
 
