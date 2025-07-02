@@ -746,6 +746,8 @@ blockquote {
   max-width: none;
   letter-spacing: 0.025em;
   line-height: 1.8;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .post-content p {
@@ -1019,8 +1021,8 @@ blockquote {
 }
 
 .post-content .code-copy-btn.copied {
-  color: #2563eb;
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(0, 0, 0, 0.05);
+  color: #333;
 }
 
 .post-content .code-copy-btn svg {
@@ -1137,14 +1139,6 @@ blockquote {
     line-height: 1rem;
   }
 
-  .post-content .code-format-btn span {
-    display: none;
-  }
-
-  .post-content .code-wrap-btn span {
-    display: none;
-  }
-
   .post-content .code-copy-btn {
     padding-left: 0.25rem;
     padding-right: 0.25rem;
@@ -1167,7 +1161,7 @@ blockquote {
   .post-content .line-number {
     padding-left: 0.25rem;
     padding-right: 0.25rem;
-    font-size: 10px;
+    font-size: 13px;
   }
 
   .post-content .code-lines {
@@ -1332,18 +1326,12 @@ blockquote {
 }
 
 /* 修复超链接换行问题 */
+
 .post-content a {
   word-break: break-all;
   overflow-wrap: break-word;
   -webkit-hyphens: auto;
-  -moz-hyphens: auto;
   hyphens: auto;
-}
-
-/* 确保其他可能导致溢出的长文本也能正确换行 */
-.post-content {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
 }
 
 .pointer-events-none {
