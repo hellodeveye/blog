@@ -290,7 +290,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 处理代码内容 - 从Hexo的table结构中提取
         const codeLineElements = figure.querySelectorAll('td.code .line');
-        const lines = Array.from(codeLineElements).map(line => line.textContent);
+        const lineNumberElements = figure.querySelectorAll('td.gutter .line');
+        
+        const lines = Array.from(codeLineElements).map(line => line.textContent || '');
+        const originalLineNumbers = Array.from(lineNumberElements).map(line => line.textContent || '');
         const codeText = lines.join('\n');
         
         // 创建行号和代码行
@@ -300,19 +303,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const codeLinesContainer = document.createElement('div');
         codeLinesContainer.className = 'code-lines';
         
-        lines.forEach((line, lineIndex) => {
-            if (lineIndex === lines.length - 1 && line === '') return; // 跳过最后的空行
-            
-            // 行号
+        // 直接使用Hexo原始的行号和代码行一一对应
+        lines.forEach((line, index) => {
+            // 使用原始行号
             const lineNumber = document.createElement('div');
             lineNumber.className = 'line-number';
-            lineNumber.textContent = lineIndex + 1;
+            lineNumber.textContent = originalLineNumbers[index] || (index + 1);
             lineNumbers.appendChild(lineNumber);
             
             // 代码行
             const codeLine = document.createElement('div');
             codeLine.className = 'code-line';
-            codeLine.textContent = line || ' '; // 空行显示空格
+            // 确保空行也显示为一个空格以保持行高
+            codeLine.textContent = line === '' ? ' ' : line;
             codeLinesContainer.appendChild(codeLine);
         });
         
@@ -362,6 +365,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 allCodeLines.forEach(line => {
                     line.style.whiteSpace = 'pre-wrap';
                     line.style.wordBreak = 'break-word';
+                    // 自动换行时使用最小高度而不是固定高度
+                    line.style.height = 'auto';
+                    line.style.minHeight = '1.4em';
                 });
                 codeLines.style.overflowX = 'visible';
                 // 根据主题设置激活状态背景色
@@ -376,6 +382,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 allCodeLines.forEach(line => {
                     line.style.whiteSpace = 'pre';
                     line.style.wordBreak = 'normal';
+                    // 恢复固定行高
+                    line.style.height = '1.4em';
+                    line.style.minHeight = '';
                 });
                 codeLines.style.overflowX = 'auto';
                 wrapBtn.style.backgroundColor = 'transparent';
