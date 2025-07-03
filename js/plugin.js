@@ -68,28 +68,15 @@ document.addEventListener('DOMContentLoaded', function() {
          });
      }
 
+     // 初始化mermaid
+     document.querySelectorAll('.post-content .mermaid').forEach(function(mermaid, index) {
+        mermaid.style.opacity = '1';
+     });
+
     // 初始化所有代码块 - 处理Hexo的figure.highlight结构
     document.querySelectorAll('figure.highlight').forEach(function(figure, index) {
         // 获取语言信息
         const language = getLanguageFromClass(figure.className) || 'text';
-        
-        // 如果是 mermaid，特殊处理
-        if (language === 'mermaid') {
-            // 处理 Mermaid 代码块
-            const codeLineElements = figure.querySelectorAll('td.code .line');
-            const lines = Array.from(codeLineElements).map(line => line.textContent);
-            const mermaidCode = lines.join('\n');
-            
-            // 创建 Mermaid 容器
-            const mermaidContainer = document.createElement('div');
-            mermaidContainer.className = 'mermaid';
-            mermaidContainer.textContent = mermaidCode;
-            
-            // 替换原来的代码块
-            figure.parentNode.replaceChild(mermaidContainer, figure);
-            return; // 跳过普通代码块处理
-        }
-        
         // 创建代码块容器
         const codeContainer = document.createElement('div');
         codeContainer.className = 'modern-code-block';
@@ -167,6 +154,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 替换原始代码块
         figure.parentNode.replaceChild(codeContainer, figure);
+        
+        // 显示转换后的代码块，防止闪烁
+        setTimeout(() => {
+            codeContainer.style.opacity = '1';
+        }, 0);
         
         // 添加折叠功能
         const collapseBtn = codeContainer.querySelector('.code-collapse-btn');

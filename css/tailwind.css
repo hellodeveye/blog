@@ -139,6 +139,18 @@
     color: #e53e3e;
   }
   
+  /* 防止代码块闪烁的基础样式 */
+
+  figure.highlight {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mermaid {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
   /* 现代代码块样式 */
   .post-content .modern-code-block {
     @apply mb-6 rounded-xl;
@@ -151,6 +163,7 @@
     width: 100%;
     position: relative;
     transition: all 0.2s ease;
+    opacity: 0;
   }
   
   .post-content .modern-code-block:hover {
