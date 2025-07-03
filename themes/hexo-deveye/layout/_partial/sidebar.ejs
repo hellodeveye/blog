@@ -136,7 +136,7 @@
 				archives[key].count++;
 			});
 			
-			Object.keys(archives).slice(0, 6).forEach(function(key) {
+			Object.keys(archives).forEach(function(key) {
 				var archive = archives[key];
 			%>
 			<a href="/archives/<%= archive.year %>/<%= archive.month %>/" 
