@@ -1,88 +1,90 @@
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><%= config.title %></title>
-    <meta name="description" content="">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-    
-    <!-- Tailwind CSS -->
-    <%- css('css/main.css') %>
-	
-	<!-- Dark Mode Script -->
-	<script>
-		// 深色模式初始化
-		if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-			document.documentElement.classList.add('dark')
-		} else {
-			document.documentElement.classList.remove('dark')
-		}
-		
-		// 深色模式切换函数
-		function toggleDarkMode() {
-			if (document.documentElement.classList.contains('dark')) {
-				document.documentElement.classList.remove('dark')
-				localStorage.theme = 'light'
-			} else {
+	<title>
+		<%= config.title %>
+	</title>
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="/img/favicon.ico">
+
+	<!-- Tailwind CSS -->
+	<%- css('css/main.css') %>
+
+		<!-- Dark Mode Script -->
+		<script>
+			// 深色模式初始化
+			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 				document.documentElement.classList.add('dark')
-				localStorage.theme = 'dark'
+			} else {
+				document.documentElement.classList.remove('dark')
 			}
-		}
-		
-		// 搜索功能
-		function performSearch() {
-			const query = document.getElementById('search-input').value.toLowerCase();
-			const resultsContainer = document.getElementById('search-results');
-			const loadingElement = document.getElementById('search-loading');
-			const emptyElement = document.getElementById('search-empty');
-			
-			if (!query.trim()) {
-				resultsContainer.innerHTML = '';
+
+			// 深色模式切换函数
+			function toggleDarkMode() {
+				if (document.documentElement.classList.contains('dark')) {
+					document.documentElement.classList.remove('dark')
+					localStorage.theme = 'light'
+				} else {
+					document.documentElement.classList.add('dark')
+					localStorage.theme = 'dark'
+				}
+			}
+
+			// 搜索功能
+			function performSearch() {
+				const query = document.getElementById('search-input').value.toLowerCase();
+				const resultsContainer = document.getElementById('search-results');
+				const loadingElement = document.getElementById('search-loading');
+				const emptyElement = document.getElementById('search-empty');
+
+				if (!query.trim()) {
+					resultsContainer.innerHTML = '';
+					emptyElement.classList.add('hidden');
+					return;
+				}
+
+				loadingElement.classList.remove('hidden');
 				emptyElement.classList.add('hidden');
-				return;
-			}
-			
-			loadingElement.classList.remove('hidden');
-			emptyElement.classList.add('hidden');
-			
-			// 模拟搜索延迟
-			setTimeout(() => {
-				fetch('/search.json')
-					.then(response => response.json())
-					.then(data => {
-						const results = data.filter(post => 
-							post.title.toLowerCase().includes(query) ||
-							post.content.toLowerCase().includes(query) ||
-							(post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
-						);
-						
-						loadingElement.classList.add('hidden');
-						
-						if (results.length === 0) {
+
+				// 模拟搜索延迟
+				setTimeout(() => {
+					fetch('/search.json')
+						.then(response => response.json())
+						.then(data => {
+							const results = data.filter(post =>
+								post.title.toLowerCase().includes(query) ||
+								post.content.toLowerCase().includes(query) ||
+								(post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+							);
+
+							loadingElement.classList.add('hidden');
+
+							if (results.length === 0) {
+								emptyElement.classList.remove('hidden');
+								resultsContainer.innerHTML = '';
+							} else {
+								emptyElement.classList.add('hidden');
+								displaySearchResults(results, query);
+							}
+						})
+						.catch(error => {
+							console.error('搜索出错:', error);
+							loadingElement.classList.add('hidden');
 							emptyElement.classList.remove('hidden');
-							resultsContainer.innerHTML = '';
-						} else {
-							emptyElement.classList.add('hidden');
-							displaySearchResults(results, query);
-						}
-					})
-					.catch(error => {
-						console.error('搜索出错:', error);
-						loadingElement.classList.add('hidden');
-						emptyElement.classList.remove('hidden');
-					});
-			}, 300);
-		}
-		
-		function displaySearchResults(results, query) {
-			const resultsContainer = document.getElementById('search-results');
-			resultsContainer.innerHTML = results.map(post => {
-				const highlightedTitle = highlightText(post.title, query);
-				const excerpt = getExcerpt(post.content, query);
-				const highlightedExcerpt = highlightText(excerpt, query);
-				
-				return `
+						});
+				}, 300);
+			}
+
+			function displaySearchResults(results, query) {
+				const resultsContainer = document.getElementById('search-results');
+				resultsContainer.innerHTML = results.map(post => {
+					const highlightedTitle = highlightText(post.title, query);
+					const excerpt = getExcerpt(post.content, query);
+					const highlightedExcerpt = highlightText(excerpt, query);
+
+					return `
 					<article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-200 dark:border-gray-700">
 						<h3 class="text-xl font-semibold mb-2">
 							<a href="${post.url}" class="text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
@@ -98,29 +100,29 @@
 						</div>
 					</article>
 				`;
-			}).join('');
-		}
-		
-		function highlightText(text, query) {
-			if (!query) return text;
-			const regex = new RegExp(`(${query})`, 'gi');
-			return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
-		}
-		
-		function getExcerpt(content, query, maxLength = 200) {
-			const queryIndex = content.toLowerCase().indexOf(query.toLowerCase());
-			if (queryIndex === -1) {
-				return content.substring(0, maxLength) + (content.length > maxLength ? '...' : '');
+				}).join('');
 			}
-			
-			const start = Math.max(0, queryIndex - 50);
-			const end = Math.min(content.length, queryIndex + query.length + 150);
-			let excerpt = content.substring(start, end);
-			
-			if (start > 0) excerpt = '...' + excerpt;
-			if (end < content.length) excerpt = excerpt + '...';
-			
-			return excerpt;
-		}
-	</script>
+
+			function highlightText(text, query) {
+				if (!query) return text;
+				const regex = new RegExp(`(${query})`, 'gi');
+				return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+			}
+
+			function getExcerpt(content, query, maxLength = 200) {
+				const queryIndex = content.toLowerCase().indexOf(query.toLowerCase());
+				if (queryIndex === -1) {
+					return content.substring(0, maxLength) + (content.length > maxLength ? '...' : '');
+				}
+
+				const start = Math.max(0, queryIndex - 50);
+				const end = Math.min(content.length, queryIndex + query.length + 150);
+				let excerpt = content.substring(start, end);
+
+				if (start > 0) excerpt = '...' + excerpt;
+				if (end < content.length) excerpt = excerpt + '...';
+
+				return excerpt;
+			}
+		</script>
 </head>
