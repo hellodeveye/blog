@@ -26,8 +26,8 @@
     </h2>
     
     <div class="space-y-6">
-        <% page.posts.each(function(post) { %>
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+        <% page.posts.each(function(post, index) { %>
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -36,10 +36,34 @@
                             </a>
                         </h3>
                         
-                        <% if (post.excerpt) { %>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-                                <%- strip_html(post.excerpt) %>
-                            </p>
+                        <% 
+                        var content = post.excerpt || post.content || '';
+                        var showContent = content.length > 0;
+                        var strippedContent = strip_html(content);
+                        var previewLength = 300;
+                        var needsExpansion = strippedContent.length > previewLength;
+                        %>
+                        
+                        <% if (showContent) { %>
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-<%= index %>">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <%- content %>
+                                        </div>
+                                    </div>
+                                    <% if (needsExpansion) { %>
+                                        <div class="content-fade"></div>
+                                    <% } %>
+                                </div>
+                                <% if (needsExpansion) { %>
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed hidden" id="full-<%= index %>">
+                                        <div class="post-content" data-content-type="full">
+                                            <%- content %>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
                         <% } %>
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -61,10 +85,17 @@
                                 <% } %>
                             </div>
                             
-                            <a href="<%- url_for(post.path) %>" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <%- icon('arrow-right', 'w-4 h-4 ml-1') %>
-                            </a>
+                            <% if (needsExpansion) { %>
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="<%= index %>" id="btn-<%= index %>">
+                                    <span class="expand-text">显示更多</span>
+                                    <%- icon('chevron-down', 'w-4 h-4 ml-1 expand-icon') %>
+                                </button>
+                            <% } else { %>
+                                <a href="<%- url_for(post.path) %>" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <%- icon('arrow-right', 'w-4 h-4 ml-1') %>
+                                </a>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -97,3 +128,117 @@
         </nav>
     <% } %>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 阻止隐藏内容中的 mermaid 图表被自动渲染
+    // 通过修改类名，让 Mermaid 库忽略这些元素
+    document.querySelectorAll('.post-content-full .mermaid').forEach(mermaid => {
+        mermaid.className = mermaid.className.replace('mermaid', 'mermaid-hidden');
+    });
+
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (preview.classList.contains('hidden')) {
+        // 折叠内容
+        preview.classList.remove('hidden');
+        full.classList.add('hidden');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    } else {
+        // 展开内容
+        preview.classList.add('hidden');
+        full.classList.remove('hidden');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+        
+        // 激活新展开内容中的 mermaid 图表
+        setTimeout(() => {
+            const hiddenMermaidElements = full.querySelectorAll('.mermaid-hidden');
+            console.log('找到隐藏的 mermaid 元素:', hiddenMermaidElements.length);
+            
+            if (hiddenMermaidElements.length > 0) {
+                hiddenMermaidElements.forEach(element => {
+                    // 恢复 mermaid 类名
+                    element.className = element.className.replace('mermaid-hidden', 'mermaid');
+                    console.log('恢复类名:', element.className);
+                });
+                
+                // 等待一个额外的tick确保DOM更新
+                setTimeout(() => {
+                    // 手动触发 mermaid 渲染
+                    if (typeof mermaid !== 'undefined') {
+                        try {
+                            const newMermaidElements = full.querySelectorAll('.mermaid');
+                            console.log('准备渲染 mermaid 元素:', newMermaidElements.length);
+                            
+                            mermaid.init(undefined, newMermaidElements);
+                            console.log('Mermaid 渲染完成');
+                            
+                            // 渲染成功后设置可见性
+                            newMermaidElements.forEach(element => {
+                                element.style.opacity = '1';
+                            });
+                        } catch (error) {
+                            console.warn('Mermaid 渲染错误:', error);
+                            // 即使渲染失败也显示元素，这样至少能看到源码
+                            full.querySelectorAll('.mermaid').forEach(element => {
+                                element.style.opacity = '1';
+                            });
+                        }
+                    } else {
+                        console.warn('Mermaid 库未加载');
+                    }
+                }, 100);
+            }
+        }, 50);
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.hidden {
+    display: none;
+}
+.mermaid-hidden {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+</style>
