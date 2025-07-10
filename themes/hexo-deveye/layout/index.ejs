@@ -133,12 +133,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 阻止隐藏内容中的 mermaid 图表被自动渲染
-    // 通过修改类名，让 Mermaid 库忽略这些元素
-    document.querySelectorAll('.post-content-full .mermaid').forEach(mermaid => {
-        mermaid.className = mermaid.className.replace('mermaid', 'mermaid-hidden');
-    });
-
     // 绑定"显示更多"按钮事件
     document.querySelectorAll('.expand-btn').forEach(button => {
         button.addEventListener('click', function() {
@@ -155,54 +149,20 @@ function toggleContent(index) {
     const expandText = btn.querySelector('.expand-text');
     const expandIcon = btn.querySelector('.expand-icon');
 
-    if (preview.classList.contains('post-hidden')) {
-        // 折叠内容
-        preview.classList.remove('post-hidden');
-        full.classList.add('post-hidden');
-        expandText.textContent = '显示更多';
-        expandIcon.style.transform = 'rotate(0deg)';
-    } else {
+    if (full.classList.contains('post-hidden')) {
         // 展开内容
         preview.classList.add('post-hidden');
         full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
         expandText.textContent = '收起';
         expandIcon.style.transform = 'rotate(180deg)';
-        
-        // 激活新展开内容中的 mermaid 图表
-        setTimeout(() => {
-            const hiddenMermaidElements = full.querySelectorAll('.mermaid-hidden');
-            if (hiddenMermaidElements.length > 0) {
-                hiddenMermaidElements.forEach(element => {
-                    // 恢复 mermaid 类名
-                    element.className = element.className.replace('mermaid-hidden', 'mermaid');
-                });
-                
-                // 等待一个额外的tick确保DOM更新
-                setTimeout(() => {
-                    // 手动触发 mermaid 渲染
-                    if (typeof mermaid !== 'undefined') {
-                        try {
-                            const newMermaidElements = full.querySelectorAll('.mermaid');
-                            
-                            mermaid.init(undefined, newMermaidElements);
-                            
-                            // 渲染成功后设置可见性
-                            newMermaidElements.forEach(element => {
-                                element.style.opacity = '1';
-                            });
-                        } catch (error) {
-                            console.warn('Mermaid 渲染错误:', error);
-                            // 即使渲染失败也显示元素，这样至少能看到源码
-                            full.querySelectorAll('.mermaid').forEach(element => {
-                                element.style.opacity = '1';
-                            });
-                        }
-                    } else {
-                        console.warn('Mermaid 库未加载');
-                    }
-                }, 100);
-            }
-        }, 50);
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
     }
 }
 </script>
@@ -232,10 +192,14 @@ function toggleContent(index) {
     background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
 }
 .post-hidden {
-    display: none;
-}
-.mermaid-hidden {
+    max-height: 0;
+    overflow: hidden;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
 }
 </style>
