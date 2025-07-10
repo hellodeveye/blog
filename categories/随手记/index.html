@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,33 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="三个有启发的学习方法">三个有启发的学习方法</h3>
+<ul>
+<li>
+<p>看似最笨的学习方法----笔记和记忆力----偏偏造就了最高的开发效率。</p>
+</li>
+<li>
+<p>如果没有对旧事物进行大量练习，你不太可能发现新事物</p>
+</li>
+<li>
+<p>要想多学，就必须能在学习中得到快乐。做到这一点的唯一方法，就是努力学习你最感兴趣的东西。</p>
+</li>
+</ul>
+<p><a href="https://www.ruanyifeng.com/blog/2022/04/weekly-issue-202.html">https://www.ruanyifeng.com/blog/2022/04/weekly-issue-202.html</a></p>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,10 +296,12 @@
                                 
                             </div>
                             
-                            <a href="/2018/06/06/%E9%9A%8F%E6%89%8B%E8%AE%B0/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2018/06/06/%E9%9A%8F%E6%89%8B%E8%AE%B0/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -281,6 +312,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

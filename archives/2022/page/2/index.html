@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,21 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715px; height:245px;" src="https://www.processon.com/embed/629f20a77d9c08075a36bd94"></iframe>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +284,18 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/12/Netty/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2022/04/12/Netty/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +304,36 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>main.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;context&quot;</span><br><span class="line">	&quot;github.com/gorilla/mux&quot;</span><br><span class="line">	&quot;github.com/txn2/txeh&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;net/http/httputil&quot;</span><br><span class="line">	&quot;net/url&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;os/signal&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">	host     = &quot;api-dev.deveye.cn&quot;</span><br><span class="line">	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;</span><br><span class="line">	address  = &quot;127.0.0.1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	hosts, err := txeh.NewHostsDefault()</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	hosts.AddHosts(address, hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.Use(LoggingHandler, AuthHandler, RecoverHandler)</span><br><span class="line">		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr:    &quot;:80&quot;,</span><br><span class="line">		Handler: r,</span><br><span class="line">	&#125;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		if err := srv.ListenAndServe(); err != nil &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	c := make(chan os.Signal, 1)</span><br><span class="line">	signal.Notify(c, os.Interrupt)</span><br><span class="line">	&lt;-c</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	defer cancel()</span><br><span class="line">	log.Println(srv.Shutdown(ctx))</span><br><span class="line">	hosts.RemoveHosts(hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	log.Println(&quot;shutting down&quot;)</span><br><span class="line">	os.Exit(0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	u, err := url.Parse(proxyUrl)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	proxy := httputil.NewSingleHostReverseProxy(u)</span><br><span class="line">	r.Host = host</span><br><span class="line">	proxy.ServeHTTP(w, r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>middleware.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;bytes&quot;</span><br><span class="line">	&quot;encoding/json&quot;</span><br><span class="line">	&quot;errors&quot;</span><br><span class="line">	&quot;io/ioutil&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var loginUrl = proxyUrl + &quot;login/sms&quot;</span><br><span class="line"></span><br><span class="line">func LoggingHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		t1 := time.Now()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">		t2 := time.Now()</span><br><span class="line">		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func RecoverHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		defer func() &#123;</span><br><span class="line">			if err := recover(); err != nil &#123;</span><br><span class="line">				log.Printf(&quot;Recover from panic: %+v&quot;, err)</span><br><span class="line">				http.Error(w, http.StatusText(500), 500)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func AuthHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		token, err := getAccessToken()</span><br><span class="line">		if err != nil &#123;</span><br><span class="line">			log.Fatalln(err)</span><br><span class="line">		&#125;</span><br><span class="line">		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">		r.Header.Set(&quot;X-Auth-Token&quot;, token)</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getAccessToken() (string, error) &#123;</span><br><span class="line">	params := map[string]string&#123;</span><br><span class="line">		&quot;phone&quot;:      &quot;15555555551&quot;,</span><br><span class="line">		&quot;verifyCode&quot;: &quot;888888&quot;,</span><br><span class="line">		&quot;codeId&quot;:     &quot;111111&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	marshal, _ := json.Marshal(params)</span><br><span class="line">	reader := bytes.NewReader(marshal)</span><br><span class="line">	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)</span><br><span class="line">	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)</span><br><span class="line">	client := &amp;http.Client&#123;&#125;</span><br><span class="line">	do, err := client.Do(request)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	b, err := ioutil.ReadAll(do.Body)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	_ = do.Body.Close()</span><br><span class="line">	result := &amp;LoginResult&#123;&#125;</span><br><span class="line">	if err := json.Unmarshal(b, result); err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	if result.ErrCode != &quot;0&quot; &#123;</span><br><span class="line">		return &quot;&quot;, errors.New(result.Message)</span><br><span class="line">	&#125;</span><br><span class="line">	return result.Data.Token, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type LoginResult struct &#123;</span><br><span class="line">	ErrCode string</span><br><span class="line">	Message string</span><br><span class="line">	Data    struct &#123;</span><br><span class="line">		Name  string</span><br><span class="line">		Token string</span><br><span class="line">		Phone string</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
+                                        <div class="post-content" data-content-type="full">
+                                            <p>main.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;context&quot;</span><br><span class="line">	&quot;github.com/gorilla/mux&quot;</span><br><span class="line">	&quot;github.com/txn2/txeh&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;net/http/httputil&quot;</span><br><span class="line">	&quot;net/url&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;os/signal&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">	host     = &quot;api-dev.deveye.cn&quot;</span><br><span class="line">	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;</span><br><span class="line">	address  = &quot;127.0.0.1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	hosts, err := txeh.NewHostsDefault()</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	hosts.AddHosts(address, hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.Use(LoggingHandler, AuthHandler, RecoverHandler)</span><br><span class="line">		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr:    &quot;:80&quot;,</span><br><span class="line">		Handler: r,</span><br><span class="line">	&#125;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		if err := srv.ListenAndServe(); err != nil &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	c := make(chan os.Signal, 1)</span><br><span class="line">	signal.Notify(c, os.Interrupt)</span><br><span class="line">	&lt;-c</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	defer cancel()</span><br><span class="line">	log.Println(srv.Shutdown(ctx))</span><br><span class="line">	hosts.RemoveHosts(hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	log.Println(&quot;shutting down&quot;)</span><br><span class="line">	os.Exit(0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	u, err := url.Parse(proxyUrl)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	proxy := httputil.NewSingleHostReverseProxy(u)</span><br><span class="line">	r.Host = host</span><br><span class="line">	proxy.ServeHTTP(w, r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>middleware.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;bytes&quot;</span><br><span class="line">	&quot;encoding/json&quot;</span><br><span class="line">	&quot;errors&quot;</span><br><span class="line">	&quot;io/ioutil&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var loginUrl = proxyUrl + &quot;login/sms&quot;</span><br><span class="line"></span><br><span class="line">func LoggingHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		t1 := time.Now()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">		t2 := time.Now()</span><br><span class="line">		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func RecoverHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		defer func() &#123;</span><br><span class="line">			if err := recover(); err != nil &#123;</span><br><span class="line">				log.Printf(&quot;Recover from panic: %+v&quot;, err)</span><br><span class="line">				http.Error(w, http.StatusText(500), 500)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func AuthHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		token, err := getAccessToken()</span><br><span class="line">		if err != nil &#123;</span><br><span class="line">			log.Fatalln(err)</span><br><span class="line">		&#125;</span><br><span class="line">		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">		r.Header.Set(&quot;X-Auth-Token&quot;, token)</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getAccessToken() (string, error) &#123;</span><br><span class="line">	params := map[string]string&#123;</span><br><span class="line">		&quot;phone&quot;:      &quot;15555555551&quot;,</span><br><span class="line">		&quot;verifyCode&quot;: &quot;888888&quot;,</span><br><span class="line">		&quot;codeId&quot;:     &quot;111111&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	marshal, _ := json.Marshal(params)</span><br><span class="line">	reader := bytes.NewReader(marshal)</span><br><span class="line">	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)</span><br><span class="line">	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)</span><br><span class="line">	client := &amp;http.Client&#123;&#125;</span><br><span class="line">	do, err := client.Do(request)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	b, err := ioutil.ReadAll(do.Body)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	_ = do.Body.Close()</span><br><span class="line">	result := &amp;LoginResult&#123;&#125;</span><br><span class="line">	if err := json.Unmarshal(b, result); err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	if result.ErrCode != &quot;0&quot; &#123;</span><br><span class="line">		return &quot;&quot;, errors.New(result.Message)</span><br><span class="line">	&#125;</span><br><span class="line">	return result.Data.Token, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type LoginResult struct &#123;</span><br><span class="line">	ErrCode string</span><br><span class="line">	Message string</span><br><span class="line">	Data    struct &#123;</span><br><span class="line">		Name  string</span><br><span class="line">		Token string</span><br><span class="line">		Phone string</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,16 +355,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/07/golang%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86quickstart/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -324,6 +377,226 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h1>Prometheus快速入门</h1>
+<h2 id="一、背景">一、背景</h2>
+<p>我们日常开发和运维中，需要监控一些数据，根据这些数据进行分析或者应对策略，例如以下几个维度：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">场景                          </th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">硬件系统</td>
+<td>温度，硬件故障</td>
+</tr>
+<tr>
+<td style="text-align:left">系统监控</td>
+<td>CPU，内存，磁盘，网卡流量，TCP状态，进程数</td>
+</tr>
+<tr>
+<td style="text-align:left">应用监控</td>
+<td>Nginx，Tomcat，PHP，MySQL，Redis 等</td>
+</tr>
+<tr>
+<td style="text-align:left">日志监控</td>
+<td>系统日志，服务日志，访问日志，错误日志</td>
+</tr>
+<tr>
+<td style="text-align:left">安全监控</td>
+<td>WAF，敏感文件监控</td>
+</tr>
+<tr>
+<td style="text-align:left">API监控</td>
+<td>可用性，接口请求，响应时间</td>
+</tr>
+<tr>
+<td style="text-align:left">业务监控</td>
+<td>例如电商网站，每分钟产生多少订单，注册多少用户，多少活跃用户，推广活动效果</td>
+</tr>
+<tr>
+<td style="text-align:left">流量分析</td>
+<td>根据流量获取用户相关信息，例如用户地理位置，某页面访问状况，页面停留时间等</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二、Prometheus是什么">二、Prometheus是什么?</h2>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204837.png" alt=""></p>
+<p><a href="https://github.com/prometheus">Prometheus</a> 是由 SoundCloud 开发的开源监控报警系统和时序列数据库(TSDB)。</p>
+<p>Prometheus由Go语言编写而成，采用Pull方式获取监控信息，并提供了多维度的数据模型和灵活的查询接口。<br>
+Prometheus不仅可以通过静态文件配置监控对象，还支持自动发现机制，能通过Kubernetes、Consl、DNS等多种方式动态获取监控对象。<br>
+在数据采集方面，借助Go语言的高并发特性，单机Prometheus可以采取数百个节点的监控数据；在数据存储方面，随着本地时序数据库的不断优化，单机Prometheus每秒可以采集一千万个指标，如果需要存储大量的历史监控数据，则还支持远程存储。</p>
+<h2 id="三、为什么需要Prometheus">三、为什么需要Prometheus?</h2>
+<ul>
+<li>对于运维人员来说，他们需要监控机器的 CPU、内存、硬盘的使用情况，以此来保证运行在机器上的应用的稳定性。</li>
+<li>对于研发人员来说，他们关注某个异常指标的变化情况，从而来保证业务的稳定运行。</li>
+<li>对于产品或运营来说，他们更关心产品层面的事情，例如：某个活动参加人数的增长情况，活动积分的发放情况。</li>
+</ul>
+<p><strong>例如</strong>：运维希望在 CPU 达到 80% 的时候给值班的运维人员发送邮件，产品希望活动积分发放数量超过 10 万的时候发送告警邮件。这些都可以通过 Prometheus 实现。</p>
+<p>对于流量不是很大的系统来说，出现几分钟的故障可能造成不了多少损失。但是对于像淘宝、美团、字节跳动这样的巨无霸来说，<strong>宕机 1 分钟损失的金额可能就是几百万！</strong></p>
+<p>所以弄清楚此时此刻系统的运行是否正常？各项业务指标是否超过阈值？这些问题是每个经验丰富的研发人员所需要关注的事情！</p>
+<p>那么如何监控你的系统？如何得知系统目前是正常还是异常？甚至如何预知未来一段时间系统可能出问题？<strong>Prometheus 正是这么一套数据监控解决方案。它能让你随时掌控系统的运行状态，快速定位出现问题的位置，快速排除故障。</strong></p>
+<p>只要按照 Prometheus 的方式来做，按部就班地学习和部署，我们就可以监控机器的 CPU、内存等资源的使用情况、Java 应用的运行情况以及业务各项指标的实时数据。</p>
+<p>而通过 Prometheus 则可以直接部署使用，并且其与 Grafana 配套使用可以呈现出非常多样化的图表配置。<strong>对于中小规模的团队来说，可以极大地减少成本，加快研发速度。</strong></p>
+<p>而对于个人来讲，<strong>掌握 Prometheus 可以增加你当 leader 的竞争力。</strong> 毕竟如果一个研发对自己的系统运行状况都不了解，那么他怎么做 leader，怎么带领一个团队往前冲呢？</p>
+<h2 id="四、Prometheus-Quickly-Start">四、Prometheus Quickly Start</h2>
+<h3 id="1、实现目标">1、实现目标</h3>
+<p>实现一个Web服务接口请求速率状况的监控功能，当接口请求增长速率超出设定的阈值时，发送钉钉消息通知给研发运维人员。</p>
+<h3 id="2、服务搭建">2、服务搭建</h3>
+<p>这里使用<strong>Docker</strong> 搭建 <strong>prometheus、alertmanager和dingtalk.</strong></p>
+<p>① 创建对应文件目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/ &amp;&amp; <span class="built_in">touch</span> prometheus.yml</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/groups/nodegroups/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/groups/nodegroups/ &amp;&amp; <span class="built_in">touch</span> node.json</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/rules/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/rules/ &amp;&amp; <span class="built_in">touch</span> http-rate.rules</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/alertmanager &amp;&amp; /prometheus/alertmanager &amp;&amp; <span class="built_in">touch</span> alertmanager.yml</span><br></pre></td></tr></table></figure>
+<p>② 配置对应文件</p>
+<p><strong>prometheus.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">global:</span><br><span class="line">  scrape_interval:     15s <span class="comment"># By default, scrape targets every 15 seconds.</span></span><br><span class="line">  <span class="comment"># Attach these labels to any time series or alerts when communicating with</span></span><br><span class="line">  <span class="comment"># external systems (federation, remote storage, Alertmanager).</span></span><br><span class="line">  external_labels:</span><br><span class="line">    monitor: <span class="string">&#x27;codelab-monitor&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A scrape configuration containing exactly one endpoint to scrape:</span></span><br><span class="line"><span class="comment"># Here it&#x27;s Prometheus itself.</span></span><br><span class="line">scrape_configs:</span><br><span class="line">  <span class="comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span></span><br><span class="line">  - job_name: <span class="string">&#x27;prometheus&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Override the global default and scrape targets from this job every 5 seconds.</span></span><br><span class="line">    scrape_interval: 5s</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [<span class="string">&#x27;localhost:9090&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  - job_name: <span class="string">&#x27;prometheus-sample&#x27;</span></span><br><span class="line">		<span class="comment"># 可以在不用重启的情况下热加载配置文件</span></span><br><span class="line">    file_sd_configs:</span><br><span class="line">       - files: [<span class="string">&#x27;/usr/local/prometheus/groups/nodegroups/*.json&#x27;</span>]</span><br><span class="line"><span class="comment"># Alertmanager configuration</span></span><br><span class="line">alerting:</span><br><span class="line">  alertmanagers:</span><br><span class="line">  - static_configs:</span><br><span class="line">    - targets:</span><br><span class="line">      - 192.168.220.121:9093</span><br><span class="line">rule_files:</span><br><span class="line">  - <span class="string">&quot;/usr/local/prometheus/rules/*.rules&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>node.json</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;targets&quot;</span>: [<span class="string">&quot;192.168.220.121:8080&quot;</span>,<span class="string">&quot;192.168.220.121:8081&quot;</span>],</span><br><span class="line">        <span class="string">&quot;labels&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;instance&quot;</span>: <span class="string">&quot;vm-192.168.220.121&quot;</span>,</span><br><span class="line">            <span class="string">&quot;service&quot;</span>: <span class="string">&quot;node-service&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>http-rate.rules</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">groups</span>:</span><br><span class="line">  - name: http-rate</span><br><span class="line">    rules:</span><br><span class="line">      - alert: http-rate</span><br><span class="line">        <span class="built_in">expr</span>: rate(prometheus_sample_hello_world_count[1m]) &gt; 100</span><br><span class="line">        <span class="keyword">for</span>: 15s</span><br><span class="line">        labels:</span><br><span class="line">          severity: 1</span><br><span class="line">        annotations:</span><br><span class="line">          summary: <span class="string">&quot;&#123;&#123; <span class="variable">$labels</span>.instance &#125;&#125; HTTP 1min请求增长率超过100%&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>alertmanager.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局配置项</span></span><br><span class="line">global:</span><br><span class="line">  resolve_timeout: 5m <span class="comment"># 处理超时时间，默认为5min</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义路由树信息</span></span><br><span class="line">route:</span><br><span class="line">  group_by: [alertname]  <span class="comment"># 报警分组依据</span></span><br><span class="line">  receiver: ops_notify   <span class="comment"># 设置默认接收人</span></span><br><span class="line">  group_wait: 30s        <span class="comment"># 最初即第一次等待多久时间发送一组警报的通知</span></span><br><span class="line">  group_interval: 60s    <span class="comment"># 在发送新警报前的等待时间</span></span><br><span class="line">  repeat_interval: 1h    <span class="comment"># 重复发送告警时间。默认1h</span></span><br><span class="line">  routes:</span><br><span class="line"></span><br><span class="line">  - receiver: ops_notify  <span class="comment"># 基础告警通知</span></span><br><span class="line">    group_wait: 10s</span><br><span class="line">    match_re:</span><br><span class="line">      alertname: 实例存活告警|磁盘使用率告警   <span class="comment"># 匹配告警规则中的名称发送</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义基础告警接收者</span></span><br><span class="line">receivers:</span><br><span class="line">- name: ops_notify</span><br><span class="line">  webhook_configs:</span><br><span class="line">  - url: http://192.168.220.121:8060/dingtalk/webhook/send</span><br><span class="line">    send_resolved: <span class="literal">true</span>  <span class="comment"># 警报被解决之后是否通知</span></span><br><span class="line"><span class="comment"># 一个inhibition规则是在与另一组匹配器匹配的警报存在的条件下，使匹配一组匹配器的</span></span><br><span class="line">警报失效的规则。两个警报必须具有一组相同的标签。</span><br><span class="line">inhibit_rules:</span><br><span class="line">  - source_match:</span><br><span class="line">      severity: <span class="string">&#x27;critical&#x27;</span></span><br><span class="line">    target_match:</span><br><span class="line">      severity: <span class="string">&#x27;warning&#x27;</span></span><br><span class="line">    equal: [<span class="string">&#x27;alertname&#x27;</span>, <span class="string">&#x27;dev&#x27;</span>, <span class="string">&#x27;instance&#x27;</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>config.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">targets:</span><br><span class="line">  webhook:</span><br><span class="line">    url: https://oapi.dingtalk.com/robot/send?access_token=xxx</span><br><span class="line">    <span class="comment"># secret for signature</span></span><br><span class="line">    secret: SECxxx</span><br></pre></td></tr></table></figure>
+<p><strong>docker 创建服务</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker run --name prometheus -d -p 9090:9090 \</span><br><span class="line">        -v ~/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \</span><br><span class="line">        -v ~/prometheus/groups/:/usr/local/prometheus/groups/ \</span><br><span class="line">        -v ~/prometheus/rules/:/usr/local/prometheus/rules/ \</span><br><span class="line">        prom/prometheus:latest</span><br><span class="line"></span><br><span class="line">docker run --name alertmanager -d -p 9093:9093 \</span><br><span class="line">        -v ~/prometheus/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml \</span><br><span class="line">        prom/alertmanager:latest</span><br><span class="line"></span><br><span class="line">docker run --name dingtalk -d -p 8060:8060 \</span><br><span class="line">        -v ~/prometheus/dingtalk/config.yml:/etc/prometheus-webhook-dingtalk/config.yml \</span><br><span class="line">        timonwong/prometheus-webhook-dingtalk</span><br></pre></td></tr></table></figure>
+<h3 id="3、客户端代码">3、客户端代码</h3>
+<p>这里使用Go语言编写的一个简易的Web服务，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	<span class="string">&quot;flag&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/prometheus/client_golang/prometheus&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/prometheus/client_golang/prometheus/promhttp&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var port = flag.Int(<span class="string">&quot;p&quot;</span>, 8080, <span class="string">&quot;-port 8080&quot;</span>)</span><br><span class="line"></span><br><span class="line">func <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	flag.Parse()</span><br><span class="line">	prometheus.Register(httpCount)</span><br><span class="line">	http.Handle(<span class="string">&quot;/metrics&quot;</span>, promhttp.Handler())</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/hello&quot;</span>, HelloWorld)</span><br><span class="line">	log.Fatalln(http.ListenAndServe(fmt.Sprintf(<span class="string">&quot;:%d&quot;</span>, *port), nil))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var httpCount = prometheus.NewCounter(</span><br><span class="line">	prometheus.CounterOpts&#123;</span><br><span class="line">		Name: <span class="string">&quot;prometheus_sample_hello_world_count&quot;</span>,</span><br><span class="line">		Help: <span class="string">&quot;hello world count!&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func HelloWorld(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	httpCount.Inc()</span><br><span class="line">	w.Write([]byte(<span class="string">&quot;Hello World!&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们启动两个节点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go run main -p 8080</span><br><span class="line">go run main -p 8081</span><br></pre></td></tr></table></figure>
+<h3 id="4、Prometheus-Dashboard">4、Prometheus Dashboard</h3>
+<p>打开仪表盘：<a href="http://localhost:9090/targets">http://localhost:9090/targets</a>，我们可以看到我们的两个节点已经是up状态了。</p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204908.png" alt=""></p>
+<p>下面我们使用<strong>ab</strong> 工具模拟接口访问，使请求速度超过我们设定的阈值，此时alertmanages会给我们钉钉进行通知。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -n 1000  -c 5  http://localhost:8080/hello</span><br></pre></td></tr></table></figure>
+<p>我可以查看Prometheus控制台，查看消息警告发送情况，此时，我们的钉钉已经收到通知警告：</p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204941.png" alt=""></p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228205009.png" alt=""></p>
+<h3 id="5、总结">5、总结</h3>
+<p>我们通过一个简单的实验，实现了一个接口请求速率监控的例子，实际业务中我们还可以做更多服务监控的功能。也可以结合Grafana进行Dashbords数据报表展示等功能。同时可以监控服务器、JVM、k8s等等，当服务按照我们设置的规则达到阈值时通知到我们，我们可以在第一时间做应对处理，避免造成不必要的损失。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
+                                        <div class="post-content" data-content-type="full">
+                                            <h1>Prometheus快速入门</h1>
+<h2 id="一、背景">一、背景</h2>
+<p>我们日常开发和运维中，需要监控一些数据，根据这些数据进行分析或者应对策略，例如以下几个维度：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">场景                          </th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">硬件系统</td>
+<td>温度，硬件故障</td>
+</tr>
+<tr>
+<td style="text-align:left">系统监控</td>
+<td>CPU，内存，磁盘，网卡流量，TCP状态，进程数</td>
+</tr>
+<tr>
+<td style="text-align:left">应用监控</td>
+<td>Nginx，Tomcat，PHP，MySQL，Redis 等</td>
+</tr>
+<tr>
+<td style="text-align:left">日志监控</td>
+<td>系统日志，服务日志，访问日志，错误日志</td>
+</tr>
+<tr>
+<td style="text-align:left">安全监控</td>
+<td>WAF，敏感文件监控</td>
+</tr>
+<tr>
+<td style="text-align:left">API监控</td>
+<td>可用性，接口请求，响应时间</td>
+</tr>
+<tr>
+<td style="text-align:left">业务监控</td>
+<td>例如电商网站，每分钟产生多少订单，注册多少用户，多少活跃用户，推广活动效果</td>
+</tr>
+<tr>
+<td style="text-align:left">流量分析</td>
+<td>根据流量获取用户相关信息，例如用户地理位置，某页面访问状况，页面停留时间等</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二、Prometheus是什么">二、Prometheus是什么?</h2>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204837.png" alt=""></p>
+<p><a href="https://github.com/prometheus">Prometheus</a> 是由 SoundCloud 开发的开源监控报警系统和时序列数据库(TSDB)。</p>
+<p>Prometheus由Go语言编写而成，采用Pull方式获取监控信息，并提供了多维度的数据模型和灵活的查询接口。<br>
+Prometheus不仅可以通过静态文件配置监控对象，还支持自动发现机制，能通过Kubernetes、Consl、DNS等多种方式动态获取监控对象。<br>
+在数据采集方面，借助Go语言的高并发特性，单机Prometheus可以采取数百个节点的监控数据；在数据存储方面，随着本地时序数据库的不断优化，单机Prometheus每秒可以采集一千万个指标，如果需要存储大量的历史监控数据，则还支持远程存储。</p>
+<h2 id="三、为什么需要Prometheus">三、为什么需要Prometheus?</h2>
+<ul>
+<li>对于运维人员来说，他们需要监控机器的 CPU、内存、硬盘的使用情况，以此来保证运行在机器上的应用的稳定性。</li>
+<li>对于研发人员来说，他们关注某个异常指标的变化情况，从而来保证业务的稳定运行。</li>
+<li>对于产品或运营来说，他们更关心产品层面的事情，例如：某个活动参加人数的增长情况，活动积分的发放情况。</li>
+</ul>
+<p><strong>例如</strong>：运维希望在 CPU 达到 80% 的时候给值班的运维人员发送邮件，产品希望活动积分发放数量超过 10 万的时候发送告警邮件。这些都可以通过 Prometheus 实现。</p>
+<p>对于流量不是很大的系统来说，出现几分钟的故障可能造成不了多少损失。但是对于像淘宝、美团、字节跳动这样的巨无霸来说，<strong>宕机 1 分钟损失的金额可能就是几百万！</strong></p>
+<p>所以弄清楚此时此刻系统的运行是否正常？各项业务指标是否超过阈值？这些问题是每个经验丰富的研发人员所需要关注的事情！</p>
+<p>那么如何监控你的系统？如何得知系统目前是正常还是异常？甚至如何预知未来一段时间系统可能出问题？<strong>Prometheus 正是这么一套数据监控解决方案。它能让你随时掌控系统的运行状态，快速定位出现问题的位置，快速排除故障。</strong></p>
+<p>只要按照 Prometheus 的方式来做，按部就班地学习和部署，我们就可以监控机器的 CPU、内存等资源的使用情况、Java 应用的运行情况以及业务各项指标的实时数据。</p>
+<p>而通过 Prometheus 则可以直接部署使用，并且其与 Grafana 配套使用可以呈现出非常多样化的图表配置。<strong>对于中小规模的团队来说，可以极大地减少成本，加快研发速度。</strong></p>
+<p>而对于个人来讲，<strong>掌握 Prometheus 可以增加你当 leader 的竞争力。</strong> 毕竟如果一个研发对自己的系统运行状况都不了解，那么他怎么做 leader，怎么带领一个团队往前冲呢？</p>
+<h2 id="四、Prometheus-Quickly-Start">四、Prometheus Quickly Start</h2>
+<h3 id="1、实现目标">1、实现目标</h3>
+<p>实现一个Web服务接口请求速率状况的监控功能，当接口请求增长速率超出设定的阈值时，发送钉钉消息通知给研发运维人员。</p>
+<h3 id="2、服务搭建">2、服务搭建</h3>
+<p>这里使用<strong>Docker</strong> 搭建 <strong>prometheus、alertmanager和dingtalk.</strong></p>
+<p>① 创建对应文件目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/ &amp;&amp; <span class="built_in">touch</span> prometheus.yml</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/groups/nodegroups/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/groups/nodegroups/ &amp;&amp; <span class="built_in">touch</span> node.json</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/rules/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/rules/ &amp;&amp; <span class="built_in">touch</span> http-rate.rules</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/alertmanager &amp;&amp; /prometheus/alertmanager &amp;&amp; <span class="built_in">touch</span> alertmanager.yml</span><br></pre></td></tr></table></figure>
+<p>② 配置对应文件</p>
+<p><strong>prometheus.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">global:</span><br><span class="line">  scrape_interval:     15s <span class="comment"># By default, scrape targets every 15 seconds.</span></span><br><span class="line">  <span class="comment"># Attach these labels to any time series or alerts when communicating with</span></span><br><span class="line">  <span class="comment"># external systems (federation, remote storage, Alertmanager).</span></span><br><span class="line">  external_labels:</span><br><span class="line">    monitor: <span class="string">&#x27;codelab-monitor&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A scrape configuration containing exactly one endpoint to scrape:</span></span><br><span class="line"><span class="comment"># Here it&#x27;s Prometheus itself.</span></span><br><span class="line">scrape_configs:</span><br><span class="line">  <span class="comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span></span><br><span class="line">  - job_name: <span class="string">&#x27;prometheus&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Override the global default and scrape targets from this job every 5 seconds.</span></span><br><span class="line">    scrape_interval: 5s</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [<span class="string">&#x27;localhost:9090&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  - job_name: <span class="string">&#x27;prometheus-sample&#x27;</span></span><br><span class="line">		<span class="comment"># 可以在不用重启的情况下热加载配置文件</span></span><br><span class="line">    file_sd_configs:</span><br><span class="line">       - files: [<span class="string">&#x27;/usr/local/prometheus/groups/nodegroups/*.json&#x27;</span>]</span><br><span class="line"><span class="comment"># Alertmanager configuration</span></span><br><span class="line">alerting:</span><br><span class="line">  alertmanagers:</span><br><span class="line">  - static_configs:</span><br><span class="line">    - targets:</span><br><span class="line">      - 192.168.220.121:9093</span><br><span class="line">rule_files:</span><br><span class="line">  - <span class="string">&quot;/usr/local/prometheus/rules/*.rules&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>node.json</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;targets&quot;</span>: [<span class="string">&quot;192.168.220.121:8080&quot;</span>,<span class="string">&quot;192.168.220.121:8081&quot;</span>],</span><br><span class="line">        <span class="string">&quot;labels&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;instance&quot;</span>: <span class="string">&quot;vm-192.168.220.121&quot;</span>,</span><br><span class="line">            <span class="string">&quot;service&quot;</span>: <span class="string">&quot;node-service&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>http-rate.rules</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">groups</span>:</span><br><span class="line">  - name: http-rate</span><br><span class="line">    rules:</span><br><span class="line">      - alert: http-rate</span><br><span class="line">        <span class="built_in">expr</span>: rate(prometheus_sample_hello_world_count[1m]) &gt; 100</span><br><span class="line">        <span class="keyword">for</span>: 15s</span><br><span class="line">        labels:</span><br><span class="line">          severity: 1</span><br><span class="line">        annotations:</span><br><span class="line">          summary: <span class="string">&quot;&#123;&#123; <span class="variable">$labels</span>.instance &#125;&#125; HTTP 1min请求增长率超过100%&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>alertmanager.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局配置项</span></span><br><span class="line">global:</span><br><span class="line">  resolve_timeout: 5m <span class="comment"># 处理超时时间，默认为5min</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义路由树信息</span></span><br><span class="line">route:</span><br><span class="line">  group_by: [alertname]  <span class="comment"># 报警分组依据</span></span><br><span class="line">  receiver: ops_notify   <span class="comment"># 设置默认接收人</span></span><br><span class="line">  group_wait: 30s        <span class="comment"># 最初即第一次等待多久时间发送一组警报的通知</span></span><br><span class="line">  group_interval: 60s    <span class="comment"># 在发送新警报前的等待时间</span></span><br><span class="line">  repeat_interval: 1h    <span class="comment"># 重复发送告警时间。默认1h</span></span><br><span class="line">  routes:</span><br><span class="line"></span><br><span class="line">  - receiver: ops_notify  <span class="comment"># 基础告警通知</span></span><br><span class="line">    group_wait: 10s</span><br><span class="line">    match_re:</span><br><span class="line">      alertname: 实例存活告警|磁盘使用率告警   <span class="comment"># 匹配告警规则中的名称发送</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义基础告警接收者</span></span><br><span class="line">receivers:</span><br><span class="line">- name: ops_notify</span><br><span class="line">  webhook_configs:</span><br><span class="line">  - url: http://192.168.220.121:8060/dingtalk/webhook/send</span><br><span class="line">    send_resolved: <span class="literal">true</span>  <span class="comment"># 警报被解决之后是否通知</span></span><br><span class="line"><span class="comment"># 一个inhibition规则是在与另一组匹配器匹配的警报存在的条件下，使匹配一组匹配器的</span></span><br><span class="line">警报失效的规则。两个警报必须具有一组相同的标签。</span><br><span class="line">inhibit_rules:</span><br><span class="line">  - source_match:</span><br><span class="line">      severity: <span class="string">&#x27;critical&#x27;</span></span><br><span class="line">    target_match:</span><br><span class="line">      severity: <span class="string">&#x27;warning&#x27;</span></span><br><span class="line">    equal: [<span class="string">&#x27;alertname&#x27;</span>, <span class="string">&#x27;dev&#x27;</span>, <span class="string">&#x27;instance&#x27;</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>config.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">targets:</span><br><span class="line">  webhook:</span><br><span class="line">    url: https://oapi.dingtalk.com/robot/send?access_token=xxx</span><br><span class="line">    <span class="comment"># secret for signature</span></span><br><span class="line">    secret: SECxxx</span><br></pre></td></tr></table></figure>
+<p><strong>docker 创建服务</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker run --name prometheus -d -p 9090:9090 \</span><br><span class="line">        -v ~/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \</span><br><span class="line">        -v ~/prometheus/groups/:/usr/local/prometheus/groups/ \</span><br><span class="line">        -v ~/prometheus/rules/:/usr/local/prometheus/rules/ \</span><br><span class="line">        prom/prometheus:latest</span><br><span class="line"></span><br><span class="line">docker run --name alertmanager -d -p 9093:9093 \</span><br><span class="line">        -v ~/prometheus/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml \</span><br><span class="line">        prom/alertmanager:latest</span><br><span class="line"></span><br><span class="line">docker run --name dingtalk -d -p 8060:8060 \</span><br><span class="line">        -v ~/prometheus/dingtalk/config.yml:/etc/prometheus-webhook-dingtalk/config.yml \</span><br><span class="line">        timonwong/prometheus-webhook-dingtalk</span><br></pre></td></tr></table></figure>
+<h3 id="3、客户端代码">3、客户端代码</h3>
+<p>这里使用Go语言编写的一个简易的Web服务，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	<span class="string">&quot;flag&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/prometheus/client_golang/prometheus&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/prometheus/client_golang/prometheus/promhttp&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var port = flag.Int(<span class="string">&quot;p&quot;</span>, 8080, <span class="string">&quot;-port 8080&quot;</span>)</span><br><span class="line"></span><br><span class="line">func <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	flag.Parse()</span><br><span class="line">	prometheus.Register(httpCount)</span><br><span class="line">	http.Handle(<span class="string">&quot;/metrics&quot;</span>, promhttp.Handler())</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/hello&quot;</span>, HelloWorld)</span><br><span class="line">	log.Fatalln(http.ListenAndServe(fmt.Sprintf(<span class="string">&quot;:%d&quot;</span>, *port), nil))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var httpCount = prometheus.NewCounter(</span><br><span class="line">	prometheus.CounterOpts&#123;</span><br><span class="line">		Name: <span class="string">&quot;prometheus_sample_hello_world_count&quot;</span>,</span><br><span class="line">		Help: <span class="string">&quot;hello world count!&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func HelloWorld(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	httpCount.Inc()</span><br><span class="line">	w.Write([]byte(<span class="string">&quot;Hello World!&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们启动两个节点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go run main -p 8080</span><br><span class="line">go run main -p 8081</span><br></pre></td></tr></table></figure>
+<h3 id="4、Prometheus-Dashboard">4、Prometheus Dashboard</h3>
+<p>打开仪表盘：<a href="http://localhost:9090/targets">http://localhost:9090/targets</a>，我们可以看到我们的两个节点已经是up状态了。</p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204908.png" alt=""></p>
+<p>下面我们使用<strong>ab</strong> 工具模拟接口访问，使请求速度超过我们设定的阈值，此时alertmanages会给我们钉钉进行通知。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -n 1000  -c 5  http://localhost:8080/hello</span><br></pre></td></tr></table></figure>
+<p>我可以查看Prometheus控制台，查看消息警告发送情况，此时，我们的钉钉已经收到通知警告：</p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204941.png" alt=""></p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228205009.png" alt=""></p>
+<h3 id="5、总结">5、总结</h3>
+<p>我们通过一个简单的实验，实现了一个接口请求速率监控的例子，实际业务中我们还可以做更多服务监控的功能。也可以结合Grafana进行Dashbords数据报表展示等功能。同时可以监控服务器、JVM、k8s等等，当服务按照我们设置的规则达到阈值时通知到我们，我们可以在第一时间做应对处理，避免造成不必要的损失。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -345,16 +618,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/02/28/Prometheus%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -363,6 +640,46 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p><strong>坐中静</strong>，破焦虑之贼——可以用冥想打坐等方法让自己回到当下，人之所以会焦虑是基于过去的经验对未来产生的恐惧，能够活在当下的人不会焦虑。把每一天每一刻过好，人生自然就会好。<br>
+<strong>舍中得</strong>，破欲望之贼——人的痛苦多来自于欲望，即为贪婪和占有，也是一种匮乏的表现，如果能够学会舍，则内心越来越丰盛。没钱的时候把勤舍出去即为天道酬勤；有钱的时候把钱舍出去人就来了，是为轻财聚人；有人的时候，把爱舍出去，成功便有了；事业有成的时候，把智慧舍出去，喜悦就来了，这就是德行天下。<br>
+<strong>事上练</strong>，破犹豫之贼——这里讲的大概是王阳明的知行合一。光懂了很多道理是过不好这一生的，唯有践行其中的道理才能真正成事，只要想到就去做，犹豫纠结之贼就能破，达到知行合一的最高境界，则万事可成。</p>
+<blockquote>
+<p>作者：数中有术作者<br>
+链接：<a href="https://www.zhihu.com/question/448566584/answer/1898949098">https://www.zhihu.com/question/448566584/answer/1898949098</a><br>
+来源：知乎<br>
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-3">
+                                        <div class="post-content" data-content-type="full">
+                                            <p><strong>坐中静</strong>，破焦虑之贼——可以用冥想打坐等方法让自己回到当下，人之所以会焦虑是基于过去的经验对未来产生的恐惧，能够活在当下的人不会焦虑。把每一天每一刻过好，人生自然就会好。<br>
+<strong>舍中得</strong>，破欲望之贼——人的痛苦多来自于欲望，即为贪婪和占有，也是一种匮乏的表现，如果能够学会舍，则内心越来越丰盛。没钱的时候把勤舍出去即为天道酬勤；有钱的时候把钱舍出去人就来了，是为轻财聚人；有人的时候，把爱舍出去，成功便有了；事业有成的时候，把智慧舍出去，喜悦就来了，这就是德行天下。<br>
+<strong>事上练</strong>，破犹豫之贼——这里讲的大概是王阳明的知行合一。光懂了很多道理是过不好这一生的，唯有践行其中的道理才能真正成事，只要想到就去做，犹豫纠结之贼就能破，达到知行合一的最高境界，则万事可成。</p>
+<blockquote>
+<p>作者：数中有术作者<br>
+链接：<a href="https://www.zhihu.com/question/448566584/answer/1898949098">https://www.zhihu.com/question/448566584/answer/1898949098</a><br>
+来源：知乎<br>
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -384,10 +701,14 @@
                                 
                             </div>
                             
-                            <a href="/2022/02/21/%E5%BF%83%E4%B8%AD%E9%9C%80%E7%A0%B4%E9%99%A4%E7%9A%84%E4%B8%89%E7%A7%8D%E8%B4%BC/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="3" id="btn-3">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -415,6 +736,80 @@
         </nav>
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

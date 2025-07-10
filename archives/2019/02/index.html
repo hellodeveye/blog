@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,436 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p><img src="http://qiniu.deveye.cn/20210316200434.png" alt=""></p>
+<h3 id="一、新建代码库">一、新建代码库</h3>
+<blockquote>
+<p><font color=gray># 在当前目录新建一个Git代码库</font><br>
+$ git init</p>
+<p><font color=gray># 新建一个目录，将其初始化为Git代码库</font><br>
+$ git init [project-name]</p>
+<p><font color=gray># 下载一个项目和它的整个代码历史</font><br>
+$ git clone [url]</p>
+</blockquote>
+<h3 id="二、配置">二、配置</h3>
+<p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）</p>
+<blockquote>
+<p><font color=gray># 显示当前的Git配置</font><br>
+$ git config --list</p>
+<p><font color=gray># 编辑Git配置文件</font><br>
+$ git config -e [–global]</p>
+<p><font color=gray># 设置提交代码时的用户信息</font><br>
+$ git config [–global] <a href="http://user.name">user.name</a> &quot;[name]&quot;<br>
+$ git config [–global] user.email &quot;[email   address]&quot;</p>
+</blockquote>
+<h3 id="三、增加-删除文件">三、增加/删除文件</h3>
+<blockquote>
+<p><font color=gray># 添加指定文件到暂存区</font><br>
+$ git add [file1] [file2] …</p>
+<p><font color=gray># 添加指定目录到暂存区，包括子目录</font><br>
+$ git add [dir]</p>
+<p><font color=gray># 添加当前目录的所有文件到暂存区</font><br>
+$ git add .</p>
+<p><font color=gray># 添加每个变化前，都会要求确认</font><br>
+<font color=gray># 对于同一个文件的多处变化，可以实现分次提交</font><br>
+$ git add -p</p>
+<p><font color=gray># 删除工作区文件，并且将这次删除放入暂存区</font><br>
+$ git rm [file1] [file2] …</p>
+<p><font color=gray># 停止追踪指定文件，但该文件会保留在工作区</font><br>
+$ git rm --cached [file]</p>
+<p><font color=gray># 改名文件，并且将这个改名放入暂存区</font><br>
+$ git mv [file-original] [file-renamed]</p>
+</blockquote>
+<h3 id="四、代码提交">四、代码提交</h3>
+<blockquote>
+<p><font color=gray># 提交暂存区到仓库区</font><br>
+$ git commit -m [message]</p>
+<p><font color=gray># 提交暂存区的指定文件到仓库区</font><br>
+$ git commit [file1] [file2] … -m [message]</p>
+<p><font color=gray># 提交工作区自上次commit之后的变化，直接到仓库区</font><br>
+$ git commit -a</p>
+<p><font color=gray># 提交时显示所有diff信息</font><br>
+$ git commit -v</p>
+<p><font color=gray># 使用一次新的commit，替代上一次提交</font><br>
+<font color=gray># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</font><br>
+$ git commit --amend -m [message]</p>
+<p><font color=gray># 重做上一次commit，并包括指定文件的新变化</font><br>
+$ git commit --amend [file1] [file2] …</p>
+</blockquote>
+<h3 id="五、分支">五、分支</h3>
+<blockquote>
+<p><font color=gray># 列出所有本地分支</font><br>
+$ git branch</p>
+<p><font color=gray># 列出所有远程分支</font><br>
+$ git branch -r</p>
+<p><font color=gray># 列出所有本地分支和远程分支</font><br>
+$ git branch -a</p>
+<p><font color=gray># 新建一个分支，但依然停留在当前分支</font><br>
+$ git branch [branch-name]</p>
+<p><font color=gray># 新建一个分支，并切换到该分支</font><br>
+$ git checkout -b [branch]</p>
+<p><font color=gray># 新建一个分支，指向指定commit</font><br>
+$ git branch [branch] [commit]</p>
+<p><font color=gray># 新建一个分支，与指定的远程分支建立追踪关系</font><br>
+$ git branch --track [branch] [remote-branch]</p>
+<p><font color=gray># 切换到指定分支，并更新工作区</font><br>
+$ git checkout [branch-name]</p>
+<p><font color=gray># 切换到上一个分支</font><br>
+$ git checkout -</p>
+<p><font color=gray># 建立追踪关系，在现有分支与指定的远程分支之间</font><br>
+$ git branch --set-upstream [branch] [remote-branch]</p>
+<p><font color=gray># 合并指定分支到当前分支</font><br>
+$ git merge [branch]</p>
+<p><font color=gray># 选择一个commit，合并进当前分支</font><br>
+$ git cherry-pick [commit]</p>
+<p><font color=gray># 删除分支</font><br>
+$ git branch -d [branch-name]</p>
+<p><font color=gray># 删除远程分支</font><br>
+$ git push origin --delete [branch-name]<br>
+$ git branch -dr [remote/branch]</p>
+</blockquote>
+<h3 id="六、标签">六、标签</h3>
+<blockquote>
+<p><font color=gray># 列出所有tag</font><br>
+$ git tag</p>
+<p><font color=gray># 新建一个tag在当前commit</font><br>
+$ git tag [tag]</p>
+<p><font color=gray># 新建一个tag在指定commit</font><br>
+$ git tag [tag] [commit]</p>
+<p><font color=gray># 删除本地tag</font><br>
+$ git tag -d [tag]</p>
+<p><font color=gray># 删除远程tag</font><br>
+$ git push origin :refs/tags/[tagName]</p>
+<p><font color=gray># 查看tag信息</font><br>
+$ git show [tag]</p>
+<p><font color=gray># 提交指定tag</font><br>
+$ git push [remote] [tag]</p>
+<p><font color=gray># 提交所有tag</font><br>
+$ git push [remote] --tags</p>
+<p><font color=gray># 新建一个分支，指向某个tag</font><br>
+$ git checkout -b [branch] [tag]</p>
+</blockquote>
+<h3 id="七、查看信息">七、查看信息</h3>
+<blockquote>
+<p><font color=gray># 显示有变更的文件</font><br>
+$ git status</p>
+<p><font color=gray># 显示当前分支的版本历史</font><br>
+$ git log</p>
+<p><font color=gray># 显示commit历史，以及每次commit发生变更的文件</font><br>
+$ git log --stat</p>
+<p><font color=gray># 搜索提交历史，根据关键词</font><br>
+$ git log -S [keyword]</p>
+<p><font color=gray># 显示某个commit之后的所有变动，每个commit占据一行</font><br>
+$ git log [tag] HEAD --pretty=format:%s</p>
+<p><font color=gray># 显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件</font><br>
+$ git log [tag] HEAD --grep feature</p>
+<p><font color=gray># 显示某个文件的版本历史，包括文件改名</font><br>
+$ git log --follow [file]<br>
+$ git whatchanged [file]</p>
+<p><font color=gray># 显示指定文件相关的每一次diff</font><br>
+$ git log -p [file]</p>
+<p><font color=gray># 显示过去5次提交</font><br>
+$ git log -5 --pretty --oneline</p>
+<p><font color=gray># 显示所有提交过的用户，按提交次数排序</font><br>
+$ git shortlog -sn</p>
+<p><font color=gray># 显示指定文件是什么人在什么时间修改过</font><br>
+$ git blame [file]</p>
+<p><font color=gray># 显示暂存区和工作区的代码差异</font><br>
+$ git diff</p>
+<p><font color=gray># 显示暂存区和上一个commit的差异</font><br>
+$ git diff --cached [file]</p>
+<p><font color=gray># 显示工作区与当前分支最新commit之间的差异</font><br>
+$ git diff HEAD</p>
+<p><font color=gray># 显示两次提交之间的差异</font><br>
+$ git diff [first-branch]…[second-branch]</p>
+<p><font color=gray># 显示今天你写了多少行代码</font><br>
+$ git diff --shortstat &quot;@{0 day ago}&quot;</p>
+<p><font color=gray># 显示某次提交的元数据和内容变化</font><br>
+$ git show [commit]</p>
+<p><font color=gray># 显示某次提交发生变化的文件</font><br>
+$ git show --name-only [commit]</p>
+<p><font color=gray># 显示某次提交时，某个文件的内容</font><br>
+$ git show [commit]:[filename]</p>
+<p><font color=gray># 显示当前分支的最近几次提交</font><br>
+$ git reflog</p>
+<p><font color=gray># 从本地master拉取代码更新当前分支：branch 一般为master</font><br>
+$ git rebase [branch]</p>
+</blockquote>
+<h3 id="八、远程同步">八、远程同步</h3>
+<blockquote>
+<p>$ git remote update  --更新远程仓储<br>
+<font color=gray># 下载远程仓库的所有变动</font><br>
+$ git fetch [remote]</p>
+<p><font color=gray># 显示所有远程仓库</font><br>
+$ git remote -v</p>
+<p><font color=gray># 显示某个远程仓库的信息</font><br>
+$ git remote show [remote]</p>
+<p><font color=gray># 增加一个新的远程仓库，并命名</font><br>
+$ git remote add [shortname] [url]</p>
+<p><font color=gray># 取回远程仓库的变化，并与本地分支合并</font><br>
+$ git pull [remote] [branch]</p>
+<p><font color=gray># 上传本地指定分支到远程仓库</font><br>
+$ git push [remote] [branch]</p>
+<p><font color=gray># 强行推送当前分支到远程仓库，即使有冲突</font><br>
+$ git push [remote] --force</p>
+<p><font color=gray># 推送所有分支到远程仓库</font><br>
+$ git push [remote] --all</p>
+</blockquote>
+<h3 id="九、撤销">九、撤销</h3>
+<blockquote>
+<p><font color=gray># 恢复暂存区的指定文件到工作区</font><br>
+$ git checkout [file]</p>
+<p><font color=gray># 恢复某个commit的指定文件到暂存区和工作区</font><br>
+$ git checkout [commit] [file]</p>
+<p><font color=gray># 恢复暂存区的所有文件到工作区</font><br>
+$ git checkout .</p>
+<p><font color=gray># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</font><br>
+$ git reset [file]</p>
+<p><font color=gray># 重置暂存区与工作区，与上一次commit保持一致</font><br>
+$ git reset --hard</p>
+<p><font color=gray># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</font><br>
+$ git reset [commit]</p>
+<p><font color=gray># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</font><br>
+$ git reset --hard [commit]</p>
+<p><font color=gray># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</font><br>
+$ git reset --keep [commit]</p>
+<p><font color=gray># 新建一个commit，用来撤销指定commit<br>
+# 后者的所有变化都将被前者抵消，并且应用到当前分支</font><br>
+$ git revert [commit]</p>
+<p><font color=gray># 暂时将未提交的变化移除，稍后再移入</font><br>
+$ git stash<br>
+$ git stash pop</p>
+</blockquote>
+<h3 id="十、其他">十、其他</h3>
+<blockquote>
+<p><font color=gray># 生成一个可供发布的压缩包</font><br>
+$ git archive</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <p><img src="http://qiniu.deveye.cn/20210316200434.png" alt=""></p>
+<h3 id="一、新建代码库">一、新建代码库</h3>
+<blockquote>
+<p><font color=gray># 在当前目录新建一个Git代码库</font><br>
+$ git init</p>
+<p><font color=gray># 新建一个目录，将其初始化为Git代码库</font><br>
+$ git init [project-name]</p>
+<p><font color=gray># 下载一个项目和它的整个代码历史</font><br>
+$ git clone [url]</p>
+</blockquote>
+<h3 id="二、配置">二、配置</h3>
+<p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）</p>
+<blockquote>
+<p><font color=gray># 显示当前的Git配置</font><br>
+$ git config --list</p>
+<p><font color=gray># 编辑Git配置文件</font><br>
+$ git config -e [–global]</p>
+<p><font color=gray># 设置提交代码时的用户信息</font><br>
+$ git config [–global] <a href="http://user.name">user.name</a> &quot;[name]&quot;<br>
+$ git config [–global] user.email &quot;[email   address]&quot;</p>
+</blockquote>
+<h3 id="三、增加-删除文件">三、增加/删除文件</h3>
+<blockquote>
+<p><font color=gray># 添加指定文件到暂存区</font><br>
+$ git add [file1] [file2] …</p>
+<p><font color=gray># 添加指定目录到暂存区，包括子目录</font><br>
+$ git add [dir]</p>
+<p><font color=gray># 添加当前目录的所有文件到暂存区</font><br>
+$ git add .</p>
+<p><font color=gray># 添加每个变化前，都会要求确认</font><br>
+<font color=gray># 对于同一个文件的多处变化，可以实现分次提交</font><br>
+$ git add -p</p>
+<p><font color=gray># 删除工作区文件，并且将这次删除放入暂存区</font><br>
+$ git rm [file1] [file2] …</p>
+<p><font color=gray># 停止追踪指定文件，但该文件会保留在工作区</font><br>
+$ git rm --cached [file]</p>
+<p><font color=gray># 改名文件，并且将这个改名放入暂存区</font><br>
+$ git mv [file-original] [file-renamed]</p>
+</blockquote>
+<h3 id="四、代码提交">四、代码提交</h3>
+<blockquote>
+<p><font color=gray># 提交暂存区到仓库区</font><br>
+$ git commit -m [message]</p>
+<p><font color=gray># 提交暂存区的指定文件到仓库区</font><br>
+$ git commit [file1] [file2] … -m [message]</p>
+<p><font color=gray># 提交工作区自上次commit之后的变化，直接到仓库区</font><br>
+$ git commit -a</p>
+<p><font color=gray># 提交时显示所有diff信息</font><br>
+$ git commit -v</p>
+<p><font color=gray># 使用一次新的commit，替代上一次提交</font><br>
+<font color=gray># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</font><br>
+$ git commit --amend -m [message]</p>
+<p><font color=gray># 重做上一次commit，并包括指定文件的新变化</font><br>
+$ git commit --amend [file1] [file2] …</p>
+</blockquote>
+<h3 id="五、分支">五、分支</h3>
+<blockquote>
+<p><font color=gray># 列出所有本地分支</font><br>
+$ git branch</p>
+<p><font color=gray># 列出所有远程分支</font><br>
+$ git branch -r</p>
+<p><font color=gray># 列出所有本地分支和远程分支</font><br>
+$ git branch -a</p>
+<p><font color=gray># 新建一个分支，但依然停留在当前分支</font><br>
+$ git branch [branch-name]</p>
+<p><font color=gray># 新建一个分支，并切换到该分支</font><br>
+$ git checkout -b [branch]</p>
+<p><font color=gray># 新建一个分支，指向指定commit</font><br>
+$ git branch [branch] [commit]</p>
+<p><font color=gray># 新建一个分支，与指定的远程分支建立追踪关系</font><br>
+$ git branch --track [branch] [remote-branch]</p>
+<p><font color=gray># 切换到指定分支，并更新工作区</font><br>
+$ git checkout [branch-name]</p>
+<p><font color=gray># 切换到上一个分支</font><br>
+$ git checkout -</p>
+<p><font color=gray># 建立追踪关系，在现有分支与指定的远程分支之间</font><br>
+$ git branch --set-upstream [branch] [remote-branch]</p>
+<p><font color=gray># 合并指定分支到当前分支</font><br>
+$ git merge [branch]</p>
+<p><font color=gray># 选择一个commit，合并进当前分支</font><br>
+$ git cherry-pick [commit]</p>
+<p><font color=gray># 删除分支</font><br>
+$ git branch -d [branch-name]</p>
+<p><font color=gray># 删除远程分支</font><br>
+$ git push origin --delete [branch-name]<br>
+$ git branch -dr [remote/branch]</p>
+</blockquote>
+<h3 id="六、标签">六、标签</h3>
+<blockquote>
+<p><font color=gray># 列出所有tag</font><br>
+$ git tag</p>
+<p><font color=gray># 新建一个tag在当前commit</font><br>
+$ git tag [tag]</p>
+<p><font color=gray># 新建一个tag在指定commit</font><br>
+$ git tag [tag] [commit]</p>
+<p><font color=gray># 删除本地tag</font><br>
+$ git tag -d [tag]</p>
+<p><font color=gray># 删除远程tag</font><br>
+$ git push origin :refs/tags/[tagName]</p>
+<p><font color=gray># 查看tag信息</font><br>
+$ git show [tag]</p>
+<p><font color=gray># 提交指定tag</font><br>
+$ git push [remote] [tag]</p>
+<p><font color=gray># 提交所有tag</font><br>
+$ git push [remote] --tags</p>
+<p><font color=gray># 新建一个分支，指向某个tag</font><br>
+$ git checkout -b [branch] [tag]</p>
+</blockquote>
+<h3 id="七、查看信息">七、查看信息</h3>
+<blockquote>
+<p><font color=gray># 显示有变更的文件</font><br>
+$ git status</p>
+<p><font color=gray># 显示当前分支的版本历史</font><br>
+$ git log</p>
+<p><font color=gray># 显示commit历史，以及每次commit发生变更的文件</font><br>
+$ git log --stat</p>
+<p><font color=gray># 搜索提交历史，根据关键词</font><br>
+$ git log -S [keyword]</p>
+<p><font color=gray># 显示某个commit之后的所有变动，每个commit占据一行</font><br>
+$ git log [tag] HEAD --pretty=format:%s</p>
+<p><font color=gray># 显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件</font><br>
+$ git log [tag] HEAD --grep feature</p>
+<p><font color=gray># 显示某个文件的版本历史，包括文件改名</font><br>
+$ git log --follow [file]<br>
+$ git whatchanged [file]</p>
+<p><font color=gray># 显示指定文件相关的每一次diff</font><br>
+$ git log -p [file]</p>
+<p><font color=gray># 显示过去5次提交</font><br>
+$ git log -5 --pretty --oneline</p>
+<p><font color=gray># 显示所有提交过的用户，按提交次数排序</font><br>
+$ git shortlog -sn</p>
+<p><font color=gray># 显示指定文件是什么人在什么时间修改过</font><br>
+$ git blame [file]</p>
+<p><font color=gray># 显示暂存区和工作区的代码差异</font><br>
+$ git diff</p>
+<p><font color=gray># 显示暂存区和上一个commit的差异</font><br>
+$ git diff --cached [file]</p>
+<p><font color=gray># 显示工作区与当前分支最新commit之间的差异</font><br>
+$ git diff HEAD</p>
+<p><font color=gray># 显示两次提交之间的差异</font><br>
+$ git diff [first-branch]…[second-branch]</p>
+<p><font color=gray># 显示今天你写了多少行代码</font><br>
+$ git diff --shortstat &quot;@{0 day ago}&quot;</p>
+<p><font color=gray># 显示某次提交的元数据和内容变化</font><br>
+$ git show [commit]</p>
+<p><font color=gray># 显示某次提交发生变化的文件</font><br>
+$ git show --name-only [commit]</p>
+<p><font color=gray># 显示某次提交时，某个文件的内容</font><br>
+$ git show [commit]:[filename]</p>
+<p><font color=gray># 显示当前分支的最近几次提交</font><br>
+$ git reflog</p>
+<p><font color=gray># 从本地master拉取代码更新当前分支：branch 一般为master</font><br>
+$ git rebase [branch]</p>
+</blockquote>
+<h3 id="八、远程同步">八、远程同步</h3>
+<blockquote>
+<p>$ git remote update  --更新远程仓储<br>
+<font color=gray># 下载远程仓库的所有变动</font><br>
+$ git fetch [remote]</p>
+<p><font color=gray># 显示所有远程仓库</font><br>
+$ git remote -v</p>
+<p><font color=gray># 显示某个远程仓库的信息</font><br>
+$ git remote show [remote]</p>
+<p><font color=gray># 增加一个新的远程仓库，并命名</font><br>
+$ git remote add [shortname] [url]</p>
+<p><font color=gray># 取回远程仓库的变化，并与本地分支合并</font><br>
+$ git pull [remote] [branch]</p>
+<p><font color=gray># 上传本地指定分支到远程仓库</font><br>
+$ git push [remote] [branch]</p>
+<p><font color=gray># 强行推送当前分支到远程仓库，即使有冲突</font><br>
+$ git push [remote] --force</p>
+<p><font color=gray># 推送所有分支到远程仓库</font><br>
+$ git push [remote] --all</p>
+</blockquote>
+<h3 id="九、撤销">九、撤销</h3>
+<blockquote>
+<p><font color=gray># 恢复暂存区的指定文件到工作区</font><br>
+$ git checkout [file]</p>
+<p><font color=gray># 恢复某个commit的指定文件到暂存区和工作区</font><br>
+$ git checkout [commit] [file]</p>
+<p><font color=gray># 恢复暂存区的所有文件到工作区</font><br>
+$ git checkout .</p>
+<p><font color=gray># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</font><br>
+$ git reset [file]</p>
+<p><font color=gray># 重置暂存区与工作区，与上一次commit保持一致</font><br>
+$ git reset --hard</p>
+<p><font color=gray># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</font><br>
+$ git reset [commit]</p>
+<p><font color=gray># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</font><br>
+$ git reset --hard [commit]</p>
+<p><font color=gray># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</font><br>
+$ git reset --keep [commit]</p>
+<p><font color=gray># 新建一个commit，用来撤销指定commit<br>
+# 后者的所有变化都将被前者抵消，并且应用到当前分支</font><br>
+$ git revert [commit]</p>
+<p><font color=gray># 暂时将未提交的变化移除，稍后再移入</font><br>
+$ git stash<br>
+$ git stash pop</p>
+</blockquote>
+<h3 id="十、其他">十、其他</h3>
+<blockquote>
+<p><font color=gray># 生成一个可供发布的压缩包</font><br>
+$ git archive</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,10 +699,14 @@
                                 
                             </div>
                             
-                            <a href="/2019/02/18/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -281,6 +717,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

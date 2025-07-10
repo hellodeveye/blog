@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,78 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="场景">场景</h3>
+<p>一般情况下，我们写完代码后会执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;xxx&quot;</span><br></pre></td></tr></table></figure>
+<p>但是执行完后，想撤回怎么办？可以执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
+<p>这样就可以撤回你的提交，并且不会丢失提交前修改的内容.</p>
+<h3 id="理解">理解</h3>
+<p>HEAD^ 代表上一个版本，同等于HEAD<sub>1，如果进行了两次提交，可以写成HEAD</sub>2</p>
+<p><strong>参数</strong></p>
+<blockquote>
+<p>--mixed</p>
+</blockquote>
+<p>默认参数，不删除工作空间改动的代码，只撤回提交，并且撤回<code>git add .</code>操作</p>
+<blockquote>
+<p>--soft</p>
+</blockquote>
+<p>不删除工作空间改动的代码，撤销提交，但是不撤回<code>git add .</code> 操作</p>
+<blockquote>
+<p>--hard</p>
+</blockquote>
+<p>删除工作空间改动的代码，撤销commit，撤销<code>git add .</code>，直接回退到上次<code>commit</code></p>
+<h3 id="最后">最后</h3>
+<p>如果commit注释写错了，只是想改一下注释，只需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<p>此时会进入默认vim编辑器，修改注释完毕后保存就好了。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="场景">场景</h3>
+<p>一般情况下，我们写完代码后会执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;xxx&quot;</span><br></pre></td></tr></table></figure>
+<p>但是执行完后，想撤回怎么办？可以执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
+<p>这样就可以撤回你的提交，并且不会丢失提交前修改的内容.</p>
+<h3 id="理解">理解</h3>
+<p>HEAD^ 代表上一个版本，同等于HEAD<sub>1，如果进行了两次提交，可以写成HEAD</sub>2</p>
+<p><strong>参数</strong></p>
+<blockquote>
+<p>--mixed</p>
+</blockquote>
+<p>默认参数，不删除工作空间改动的代码，只撤回提交，并且撤回<code>git add .</code>操作</p>
+<blockquote>
+<p>--soft</p>
+</blockquote>
+<p>不删除工作空间改动的代码，撤销提交，但是不撤回<code>git add .</code> 操作</p>
+<blockquote>
+<p>--hard</p>
+</blockquote>
+<p>删除工作空间改动的代码，撤销commit，撤销<code>git add .</code>，直接回退到上次<code>commit</code></p>
+<h3 id="最后">最后</h3>
+<p>如果commit注释写错了，只是想改一下注释，只需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<p>此时会进入默认vim编辑器，修改注释完毕后保存就好了。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +341,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/08/21/git-commit%E4%B9%8B%E5%90%8E-%E6%92%A4%E9%94%80commit/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +363,128 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="Description">Description</h3>
+<p><code>git rebase</code> 和 <code>git merge</code> 一样都是用于从一个分支获取并且合并到当前分支，但是他们采取不同的工作方式，以下面的一个工作场景说明其区别.</p>
+<p>如图所示：你在一个feature分支进行新特性的开发，与此同时，master 分支的也有新的提交。</p>
+<p><img src="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png" alt="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png"><br>
+为了将master 上新的提交合并到你的feature分支上，你有两种选择：<code>merging or rebasing</code></p>
+<h3 id="merge">merge</h3>
+<p>执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git merge master</span><br></pre></td></tr></table></figure>
+<p>或者执行更简单的：<br>
+<code>git merge master feature</code></p>
+<p>那么此时在feature上git 自动会产生一个新的commit(merge commit)<br>
+look like this：</p>
+<p><img src="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png" alt="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png"></p>
+<p>**merge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit<br>
+**优点：**记录了真实的commit情况，包括每个分支的详情<br>
+**缺点：**因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。</p>
+<h3 id="rebase">rebase</h3>
+<p>本质是变基,执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png" alt="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png"><br>
+**rebase 特点：**会合并之前的commit历史<br>
+**优点：**得到更简洁的项目历史，去掉了merge commit<br>
+**缺点：**如果合并出现代码问题不容易定位，因为re-write了history<br>
+合并时如果出现冲突需要按照如下步骤解决</p>
+<ul>
+<li>修改冲突部分</li>
+<li>git add</li>
+<li>git rebase --continue</li>
+<li>（如果第三步无效可以执行 git rebase --skip）</li>
+</ul>
+<p>不要在git add 之后习惯性的执行 git commit命令<br>
+<em><strong>The Golden Rule of Rebasing rebase</strong></em> 的黄金法则:<br>
+<strong>never use it on public branches(不要在公共分支上使用)</strong><br>
+比如说如下场景：如图所示<br>
+<img src="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png" alt="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png"></p>
+<p>如果你rebase master 到你的feature分支：<br>
+rebase 将所有master的commit移动到你的feature 的顶端。问题是：其他人还在original master上开发，由于你使用了rebase移动了master，git 会认为你的主分支的历史与其他人的有分歧，会产生冲突。<br>
+所以在执行git rebase 之前 问问自己，</p>
+<p>会有其他人看这个分支么？<br>
+IF YES 不要采用这种带有破坏性的修改commit 历史的rebase命令<br>
+IF NO OK，随你便，可以使用rebase</p>
+<h3 id="Summary-总结">Summary 总结</h3>
+<p>如果你想要一个干净的，没有merge commit的线性历史树，那么你应该选择git rebase<br>
+如果你想保留完整的历史记录，并且想要避免重写commit history的风险，你应该选择使用git merge</p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<p><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview">https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">https://git-scm.com/book/zh/v2/Git-分支-变基</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6#_basic_merging">https://git-scm.com/book/zh/v2/Git-分支-分支的新建与合并#_basic_merging</a></p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="Description">Description</h3>
+<p><code>git rebase</code> 和 <code>git merge</code> 一样都是用于从一个分支获取并且合并到当前分支，但是他们采取不同的工作方式，以下面的一个工作场景说明其区别.</p>
+<p>如图所示：你在一个feature分支进行新特性的开发，与此同时，master 分支的也有新的提交。</p>
+<p><img src="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png" alt="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png"><br>
+为了将master 上新的提交合并到你的feature分支上，你有两种选择：<code>merging or rebasing</code></p>
+<h3 id="merge">merge</h3>
+<p>执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git merge master</span><br></pre></td></tr></table></figure>
+<p>或者执行更简单的：<br>
+<code>git merge master feature</code></p>
+<p>那么此时在feature上git 自动会产生一个新的commit(merge commit)<br>
+look like this：</p>
+<p><img src="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png" alt="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png"></p>
+<p>**merge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit<br>
+**优点：**记录了真实的commit情况，包括每个分支的详情<br>
+**缺点：**因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。</p>
+<h3 id="rebase">rebase</h3>
+<p>本质是变基,执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png" alt="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png"><br>
+**rebase 特点：**会合并之前的commit历史<br>
+**优点：**得到更简洁的项目历史，去掉了merge commit<br>
+**缺点：**如果合并出现代码问题不容易定位，因为re-write了history<br>
+合并时如果出现冲突需要按照如下步骤解决</p>
+<ul>
+<li>修改冲突部分</li>
+<li>git add</li>
+<li>git rebase --continue</li>
+<li>（如果第三步无效可以执行 git rebase --skip）</li>
+</ul>
+<p>不要在git add 之后习惯性的执行 git commit命令<br>
+<em><strong>The Golden Rule of Rebasing rebase</strong></em> 的黄金法则:<br>
+<strong>never use it on public branches(不要在公共分支上使用)</strong><br>
+比如说如下场景：如图所示<br>
+<img src="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png" alt="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png"></p>
+<p>如果你rebase master 到你的feature分支：<br>
+rebase 将所有master的commit移动到你的feature 的顶端。问题是：其他人还在original master上开发，由于你使用了rebase移动了master，git 会认为你的主分支的历史与其他人的有分歧，会产生冲突。<br>
+所以在执行git rebase 之前 问问自己，</p>
+<p>会有其他人看这个分支么？<br>
+IF YES 不要采用这种带有破坏性的修改commit 历史的rebase命令<br>
+IF NO OK，随你便，可以使用rebase</p>
+<h3 id="Summary-总结">Summary 总结</h3>
+<p>如果你想要一个干净的，没有merge commit的线性历史树，那么你应该选择git rebase<br>
+如果你想保留完整的历史记录，并且想要避免重写commit history的风险，你应该选择使用git merge</p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<p><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview">https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">https://git-scm.com/book/zh/v2/Git-分支-变基</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6#_basic_merging">https://git-scm.com/book/zh/v2/Git-分支-分支的新建与合并#_basic_merging</a></p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,16 +506,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/08/19/git-rebase%E5%92%8Cgit-merge%E7%9A%84%E5%8C%BA%E5%88%AB/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -324,6 +528,56 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
+<h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
+<h3 id="方法二：rewrite">方法二：rewrite</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>proxy_pass结尾没有/， rewrite重写了url。</p>
+<h3 id="location匹配命令">location匹配命令</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
+<h3 id="location-匹配的优先级-与location在配置文件中的顺序无关">location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
+<p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
+<p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
+<p><em><strong>^~</strong></em> 则只匹配该规则，nginx停止搜索其他匹配，否则nginx会继续处理其他location指令。</p>
+<p>最后匹配理带有&quot;<sub>&quot;和&quot;</sub>*&quot;的指令，如果找到相应的匹配，则nginx停止搜索其他匹配；当没有正则表达式或者没有正则表达式被匹配的情况下，那么匹配程度最高的逐字匹配指令会被使用。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
+                                        <div class="post-content" data-content-type="full">
+                                            <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
+<h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
+<h3 id="方法二：rewrite">方法二：rewrite</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>proxy_pass结尾没有/， rewrite重写了url。</p>
+<h3 id="location匹配命令">location匹配命令</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
+<h3 id="location-匹配的优先级-与location在配置文件中的顺序无关">location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
+<p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
+<p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
+<p><em><strong>^~</strong></em> 则只匹配该规则，nginx停止搜索其他匹配，否则nginx会继续处理其他location指令。</p>
+<p>最后匹配理带有&quot;<sub>&quot;和&quot;</sub>*&quot;的指令，如果找到相应的匹配，则nginx停止搜索其他匹配；当没有正则表达式或者没有正则表达式被匹配的情况下，那么匹配程度最高的逐字匹配指令会被使用。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -345,10 +599,14 @@
                                 
                             </div>
                             
-                            <a href="/2020/08/19/Nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -359,6 +617,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

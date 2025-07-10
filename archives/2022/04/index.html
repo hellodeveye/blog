@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,114 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <blockquote>
+<p>本文是为我的年轻人（或任何新手）准备的，他们可以有效地使用git命令行，并简要介绍了我如何使用这些命令。<br>
+<a href="https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb">https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb</a></p>
+</blockquote>
+<h3 id="1-git-fetch-origin">1. git fetch origin</h3>
+<p>从特定的仓库拉取所有的branchs/tags, 这里的仓库是“origin”, 我每天从这个命令开始, 它可以让本地和远程仓库状态保持一致.</p>
+<h3 id="2-git-status">2. git status</h3>
+<p>显示当前分支自上次提交到现在的文件改动列表,在切换分支、创建新分支、进行新更改或拉取更改之前, 此命令可以检查是否有文件需要被stash.</p>
+<h3 id="3-git-checkout">3. git checkout</h3>
+<p><code>git checkout -b &lt;new branch name&gt; origin/&lt;source branch name&gt;</code><br>
+从特定源分支创建一个新分支,这块的“origin”代表默认仓库.<br>
+<code>git checkout — — &lt;name of the file&gt;</code><br>
+当本地有文件变动时,可以使用这个命令丢弃当前改变,恢复文件到之前状态.<br>
+<code>git checkout &lt;branch name&gt;</code><br>
+切换本地到指定分支.</p>
+<h3 id="4-git-pull-origin-branch-name">4. git pull origin <branch name></h3>
+<p>将更改从远程分支拉到本地分支，并在更改兼容的情况下调用<code>git merge</code>。<br>
+<code>git pull 和 git fetch</code>的不同之处是:<code> git pull = git fetch + git merge</code></p>
+<h3 id="5-git-add-name-of-the-file">5. git add <name of the file></h3>
+<p>文件修改完成后,就可以使用<code>git add</code>命令将文件添加到特定提交中,使用<code>git status</code>命令可以很方便的获取到要添加指定提交的文件名.</p>
+<h3 id="6-git-commit">6. git commit</h3>
+<p><code>git commit -m &quot;&lt;提交内容的描述&gt;&quot;</code><br>
+提交本地改变,并指定和提交内容相关的描述.</p>
+<h3 id="7-git-push-origin-branch-name">7. git push origin <branch name></h3>
+<p>将本地提交推送到远程存储库,这里的仓库是“origin”.</p>
+<h3 id="8-git-cherry-pick">8. git cherry-pick</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d   Master</span><br><span class="line">         \</span><br><span class="line">           e - f - g Feature</span><br></pre></td></tr></table></figure>
+<p>现在将提交f应用到master分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 切换到 master 分支</span><br><span class="line">$ git checkout master</span><br><span class="line"> </span><br><span class="line"># Cherry pick 操作</span><br><span class="line">$ git cherry-pick f</span><br></pre></td></tr></table></figure>
+<p>上面的操作完成以后，代码库就变成了下面的样子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d - f   Master</span><br><span class="line">        \</span><br><span class="line">          e - f - g Feature</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick -m 1 &lt;commit_id&gt;</span><br></pre></td></tr></table></figure>
+<p>如果原始提交是一个合并节点，来自于两个分支的合并，那么 Cherry pick 默认将失败，因为它不知道应该采用哪个分支的代码变动。</p>
+<p><code>-m</code>配置项告诉 Git，应该采用哪个分支的变动。它的参数parent-number是一个从1开始的整数，代表原始提交的父分支编号。</p>
+<p>上面命令表示，Cherry pick 采用提交commitHash来自编号1的父分支的变动。<br>
+一般来说，1号父分支是接受变动的分支（the branch being merged into），2号父分支是作为变动来源的分支（the branch being merged from）。</p>
+<h3 id="9-git-revert-commit-id">9. git revert <commit id></h3>
+<p>引入一个新的提交来撤回已经push的提交.</p>
+<h3 id="10-git-reset-—-soft-HEAD-1">10. git reset — soft HEAD~1</h3>
+<p>撤消一次本地提交而不会丢失文件中的变更.</p>
+<h3 id="11-git-reset-—-hard-HEAD-1">11. git reset — hard HEAD~1</h3>
+<p>撤销一次本地提交并且丢弃文件中的变更.<br>
+希望对你有帮助. 感谢阅读😁</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <blockquote>
+<p>本文是为我的年轻人（或任何新手）准备的，他们可以有效地使用git命令行，并简要介绍了我如何使用这些命令。<br>
+<a href="https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb">https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb</a></p>
+</blockquote>
+<h3 id="1-git-fetch-origin">1. git fetch origin</h3>
+<p>从特定的仓库拉取所有的branchs/tags, 这里的仓库是“origin”, 我每天从这个命令开始, 它可以让本地和远程仓库状态保持一致.</p>
+<h3 id="2-git-status">2. git status</h3>
+<p>显示当前分支自上次提交到现在的文件改动列表,在切换分支、创建新分支、进行新更改或拉取更改之前, 此命令可以检查是否有文件需要被stash.</p>
+<h3 id="3-git-checkout">3. git checkout</h3>
+<p><code>git checkout -b &lt;new branch name&gt; origin/&lt;source branch name&gt;</code><br>
+从特定源分支创建一个新分支,这块的“origin”代表默认仓库.<br>
+<code>git checkout — — &lt;name of the file&gt;</code><br>
+当本地有文件变动时,可以使用这个命令丢弃当前改变,恢复文件到之前状态.<br>
+<code>git checkout &lt;branch name&gt;</code><br>
+切换本地到指定分支.</p>
+<h3 id="4-git-pull-origin-branch-name">4. git pull origin <branch name></h3>
+<p>将更改从远程分支拉到本地分支，并在更改兼容的情况下调用<code>git merge</code>。<br>
+<code>git pull 和 git fetch</code>的不同之处是:<code> git pull = git fetch + git merge</code></p>
+<h3 id="5-git-add-name-of-the-file">5. git add <name of the file></h3>
+<p>文件修改完成后,就可以使用<code>git add</code>命令将文件添加到特定提交中,使用<code>git status</code>命令可以很方便的获取到要添加指定提交的文件名.</p>
+<h3 id="6-git-commit">6. git commit</h3>
+<p><code>git commit -m &quot;&lt;提交内容的描述&gt;&quot;</code><br>
+提交本地改变,并指定和提交内容相关的描述.</p>
+<h3 id="7-git-push-origin-branch-name">7. git push origin <branch name></h3>
+<p>将本地提交推送到远程存储库,这里的仓库是“origin”.</p>
+<h3 id="8-git-cherry-pick">8. git cherry-pick</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d   Master</span><br><span class="line">         \</span><br><span class="line">           e - f - g Feature</span><br></pre></td></tr></table></figure>
+<p>现在将提交f应用到master分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 切换到 master 分支</span><br><span class="line">$ git checkout master</span><br><span class="line"> </span><br><span class="line"># Cherry pick 操作</span><br><span class="line">$ git cherry-pick f</span><br></pre></td></tr></table></figure>
+<p>上面的操作完成以后，代码库就变成了下面的样子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d - f   Master</span><br><span class="line">        \</span><br><span class="line">          e - f - g Feature</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick -m 1 &lt;commit_id&gt;</span><br></pre></td></tr></table></figure>
+<p>如果原始提交是一个合并节点，来自于两个分支的合并，那么 Cherry pick 默认将失败，因为它不知道应该采用哪个分支的代码变动。</p>
+<p><code>-m</code>配置项告诉 Git，应该采用哪个分支的变动。它的参数parent-number是一个从1开始的整数，代表原始提交的父分支编号。</p>
+<p>上面命令表示，Cherry pick 采用提交commitHash来自编号1的父分支的变动。<br>
+一般来说，1号父分支是接受变动的分支（the branch being merged into），2号父分支是作为变动来源的分支（the branch being merged from）。</p>
+<h3 id="9-git-revert-commit-id">9. git revert <commit id></h3>
+<p>引入一个新的提交来撤回已经push的提交.</p>
+<h3 id="10-git-reset-—-soft-HEAD-1">10. git reset — soft HEAD~1</h3>
+<p>撤消一次本地提交而不会丢失文件中的变更.</p>
+<h3 id="11-git-reset-—-hard-HEAD-1">11. git reset — hard HEAD~1</h3>
+<p>撤销一次本地提交并且丢弃文件中的变更.<br>
+希望对你有帮助. 感谢阅读😁</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +377,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/12/%E6%88%91%E6%AF%8F%E5%A4%A9%E4%BD%BF%E7%94%A8%E7%9A%8411%E4%B8%AAGitCommands/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +399,21 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715px; height:245px;" src="https://www.processon.com/embed/629f20a77d9c08075a36bd94"></iframe>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,16 +435,18 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/12/Netty/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2022/04/12/Netty/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -324,6 +455,36 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>main.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;context&quot;</span><br><span class="line">	&quot;github.com/gorilla/mux&quot;</span><br><span class="line">	&quot;github.com/txn2/txeh&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;net/http/httputil&quot;</span><br><span class="line">	&quot;net/url&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;os/signal&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">	host     = &quot;api-dev.deveye.cn&quot;</span><br><span class="line">	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;</span><br><span class="line">	address  = &quot;127.0.0.1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	hosts, err := txeh.NewHostsDefault()</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	hosts.AddHosts(address, hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.Use(LoggingHandler, AuthHandler, RecoverHandler)</span><br><span class="line">		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr:    &quot;:80&quot;,</span><br><span class="line">		Handler: r,</span><br><span class="line">	&#125;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		if err := srv.ListenAndServe(); err != nil &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	c := make(chan os.Signal, 1)</span><br><span class="line">	signal.Notify(c, os.Interrupt)</span><br><span class="line">	&lt;-c</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	defer cancel()</span><br><span class="line">	log.Println(srv.Shutdown(ctx))</span><br><span class="line">	hosts.RemoveHosts(hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	log.Println(&quot;shutting down&quot;)</span><br><span class="line">	os.Exit(0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	u, err := url.Parse(proxyUrl)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	proxy := httputil.NewSingleHostReverseProxy(u)</span><br><span class="line">	r.Host = host</span><br><span class="line">	proxy.ServeHTTP(w, r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>middleware.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;bytes&quot;</span><br><span class="line">	&quot;encoding/json&quot;</span><br><span class="line">	&quot;errors&quot;</span><br><span class="line">	&quot;io/ioutil&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var loginUrl = proxyUrl + &quot;login/sms&quot;</span><br><span class="line"></span><br><span class="line">func LoggingHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		t1 := time.Now()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">		t2 := time.Now()</span><br><span class="line">		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func RecoverHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		defer func() &#123;</span><br><span class="line">			if err := recover(); err != nil &#123;</span><br><span class="line">				log.Printf(&quot;Recover from panic: %+v&quot;, err)</span><br><span class="line">				http.Error(w, http.StatusText(500), 500)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func AuthHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		token, err := getAccessToken()</span><br><span class="line">		if err != nil &#123;</span><br><span class="line">			log.Fatalln(err)</span><br><span class="line">		&#125;</span><br><span class="line">		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">		r.Header.Set(&quot;X-Auth-Token&quot;, token)</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getAccessToken() (string, error) &#123;</span><br><span class="line">	params := map[string]string&#123;</span><br><span class="line">		&quot;phone&quot;:      &quot;15555555551&quot;,</span><br><span class="line">		&quot;verifyCode&quot;: &quot;888888&quot;,</span><br><span class="line">		&quot;codeId&quot;:     &quot;111111&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	marshal, _ := json.Marshal(params)</span><br><span class="line">	reader := bytes.NewReader(marshal)</span><br><span class="line">	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)</span><br><span class="line">	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)</span><br><span class="line">	client := &amp;http.Client&#123;&#125;</span><br><span class="line">	do, err := client.Do(request)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	b, err := ioutil.ReadAll(do.Body)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	_ = do.Body.Close()</span><br><span class="line">	result := &amp;LoginResult&#123;&#125;</span><br><span class="line">	if err := json.Unmarshal(b, result); err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	if result.ErrCode != &quot;0&quot; &#123;</span><br><span class="line">		return &quot;&quot;, errors.New(result.Message)</span><br><span class="line">	&#125;</span><br><span class="line">	return result.Data.Token, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type LoginResult struct &#123;</span><br><span class="line">	ErrCode string</span><br><span class="line">	Message string</span><br><span class="line">	Data    struct &#123;</span><br><span class="line">		Name  string</span><br><span class="line">		Token string</span><br><span class="line">		Phone string</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
+                                        <div class="post-content" data-content-type="full">
+                                            <p>main.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;context&quot;</span><br><span class="line">	&quot;github.com/gorilla/mux&quot;</span><br><span class="line">	&quot;github.com/txn2/txeh&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;net/http/httputil&quot;</span><br><span class="line">	&quot;net/url&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;os/signal&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">	host     = &quot;api-dev.deveye.cn&quot;</span><br><span class="line">	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;</span><br><span class="line">	address  = &quot;127.0.0.1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	hosts, err := txeh.NewHostsDefault()</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	hosts.AddHosts(address, hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.Use(LoggingHandler, AuthHandler, RecoverHandler)</span><br><span class="line">		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr:    &quot;:80&quot;,</span><br><span class="line">		Handler: r,</span><br><span class="line">	&#125;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		if err := srv.ListenAndServe(); err != nil &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	c := make(chan os.Signal, 1)</span><br><span class="line">	signal.Notify(c, os.Interrupt)</span><br><span class="line">	&lt;-c</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	defer cancel()</span><br><span class="line">	log.Println(srv.Shutdown(ctx))</span><br><span class="line">	hosts.RemoveHosts(hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	log.Println(&quot;shutting down&quot;)</span><br><span class="line">	os.Exit(0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	u, err := url.Parse(proxyUrl)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	proxy := httputil.NewSingleHostReverseProxy(u)</span><br><span class="line">	r.Host = host</span><br><span class="line">	proxy.ServeHTTP(w, r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>middleware.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;bytes&quot;</span><br><span class="line">	&quot;encoding/json&quot;</span><br><span class="line">	&quot;errors&quot;</span><br><span class="line">	&quot;io/ioutil&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var loginUrl = proxyUrl + &quot;login/sms&quot;</span><br><span class="line"></span><br><span class="line">func LoggingHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		t1 := time.Now()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">		t2 := time.Now()</span><br><span class="line">		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func RecoverHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		defer func() &#123;</span><br><span class="line">			if err := recover(); err != nil &#123;</span><br><span class="line">				log.Printf(&quot;Recover from panic: %+v&quot;, err)</span><br><span class="line">				http.Error(w, http.StatusText(500), 500)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func AuthHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		token, err := getAccessToken()</span><br><span class="line">		if err != nil &#123;</span><br><span class="line">			log.Fatalln(err)</span><br><span class="line">		&#125;</span><br><span class="line">		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">		r.Header.Set(&quot;X-Auth-Token&quot;, token)</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getAccessToken() (string, error) &#123;</span><br><span class="line">	params := map[string]string&#123;</span><br><span class="line">		&quot;phone&quot;:      &quot;15555555551&quot;,</span><br><span class="line">		&quot;verifyCode&quot;: &quot;888888&quot;,</span><br><span class="line">		&quot;codeId&quot;:     &quot;111111&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	marshal, _ := json.Marshal(params)</span><br><span class="line">	reader := bytes.NewReader(marshal)</span><br><span class="line">	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)</span><br><span class="line">	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)</span><br><span class="line">	client := &amp;http.Client&#123;&#125;</span><br><span class="line">	do, err := client.Do(request)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	b, err := ioutil.ReadAll(do.Body)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	_ = do.Body.Close()</span><br><span class="line">	result := &amp;LoginResult&#123;&#125;</span><br><span class="line">	if err := json.Unmarshal(b, result); err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	if result.ErrCode != &quot;0&quot; &#123;</span><br><span class="line">		return &quot;&quot;, errors.New(result.Message)</span><br><span class="line">	&#125;</span><br><span class="line">	return result.Data.Token, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type LoginResult struct &#123;</span><br><span class="line">	ErrCode string</span><br><span class="line">	Message string</span><br><span class="line">	Data    struct &#123;</span><br><span class="line">		Name  string</span><br><span class="line">		Token string</span><br><span class="line">		Phone string</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -345,10 +506,14 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/07/golang%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86quickstart/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -359,6 +524,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

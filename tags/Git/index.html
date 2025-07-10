@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,114 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <blockquote>
+<p>本文是为我的年轻人（或任何新手）准备的，他们可以有效地使用git命令行，并简要介绍了我如何使用这些命令。<br>
+<a href="https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb">https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb</a></p>
+</blockquote>
+<h3 id="1-git-fetch-origin">1. git fetch origin</h3>
+<p>从特定的仓库拉取所有的branchs/tags, 这里的仓库是“origin”, 我每天从这个命令开始, 它可以让本地和远程仓库状态保持一致.</p>
+<h3 id="2-git-status">2. git status</h3>
+<p>显示当前分支自上次提交到现在的文件改动列表,在切换分支、创建新分支、进行新更改或拉取更改之前, 此命令可以检查是否有文件需要被stash.</p>
+<h3 id="3-git-checkout">3. git checkout</h3>
+<p><code>git checkout -b &lt;new branch name&gt; origin/&lt;source branch name&gt;</code><br>
+从特定源分支创建一个新分支,这块的“origin”代表默认仓库.<br>
+<code>git checkout — — &lt;name of the file&gt;</code><br>
+当本地有文件变动时,可以使用这个命令丢弃当前改变,恢复文件到之前状态.<br>
+<code>git checkout &lt;branch name&gt;</code><br>
+切换本地到指定分支.</p>
+<h3 id="4-git-pull-origin-branch-name">4. git pull origin <branch name></h3>
+<p>将更改从远程分支拉到本地分支，并在更改兼容的情况下调用<code>git merge</code>。<br>
+<code>git pull 和 git fetch</code>的不同之处是:<code> git pull = git fetch + git merge</code></p>
+<h3 id="5-git-add-name-of-the-file">5. git add <name of the file></h3>
+<p>文件修改完成后,就可以使用<code>git add</code>命令将文件添加到特定提交中,使用<code>git status</code>命令可以很方便的获取到要添加指定提交的文件名.</p>
+<h3 id="6-git-commit">6. git commit</h3>
+<p><code>git commit -m &quot;&lt;提交内容的描述&gt;&quot;</code><br>
+提交本地改变,并指定和提交内容相关的描述.</p>
+<h3 id="7-git-push-origin-branch-name">7. git push origin <branch name></h3>
+<p>将本地提交推送到远程存储库,这里的仓库是“origin”.</p>
+<h3 id="8-git-cherry-pick">8. git cherry-pick</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d   Master</span><br><span class="line">         \</span><br><span class="line">           e - f - g Feature</span><br></pre></td></tr></table></figure>
+<p>现在将提交f应用到master分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 切换到 master 分支</span><br><span class="line">$ git checkout master</span><br><span class="line"> </span><br><span class="line"># Cherry pick 操作</span><br><span class="line">$ git cherry-pick f</span><br></pre></td></tr></table></figure>
+<p>上面的操作完成以后，代码库就变成了下面的样子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d - f   Master</span><br><span class="line">        \</span><br><span class="line">          e - f - g Feature</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick -m 1 &lt;commit_id&gt;</span><br></pre></td></tr></table></figure>
+<p>如果原始提交是一个合并节点，来自于两个分支的合并，那么 Cherry pick 默认将失败，因为它不知道应该采用哪个分支的代码变动。</p>
+<p><code>-m</code>配置项告诉 Git，应该采用哪个分支的变动。它的参数parent-number是一个从1开始的整数，代表原始提交的父分支编号。</p>
+<p>上面命令表示，Cherry pick 采用提交commitHash来自编号1的父分支的变动。<br>
+一般来说，1号父分支是接受变动的分支（the branch being merged into），2号父分支是作为变动来源的分支（the branch being merged from）。</p>
+<h3 id="9-git-revert-commit-id">9. git revert <commit id></h3>
+<p>引入一个新的提交来撤回已经push的提交.</p>
+<h3 id="10-git-reset-—-soft-HEAD-1">10. git reset — soft HEAD~1</h3>
+<p>撤消一次本地提交而不会丢失文件中的变更.</p>
+<h3 id="11-git-reset-—-hard-HEAD-1">11. git reset — hard HEAD~1</h3>
+<p>撤销一次本地提交并且丢弃文件中的变更.<br>
+希望对你有帮助. 感谢阅读😁</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <blockquote>
+<p>本文是为我的年轻人（或任何新手）准备的，他们可以有效地使用git命令行，并简要介绍了我如何使用这些命令。<br>
+<a href="https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb">https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb</a></p>
+</blockquote>
+<h3 id="1-git-fetch-origin">1. git fetch origin</h3>
+<p>从特定的仓库拉取所有的branchs/tags, 这里的仓库是“origin”, 我每天从这个命令开始, 它可以让本地和远程仓库状态保持一致.</p>
+<h3 id="2-git-status">2. git status</h3>
+<p>显示当前分支自上次提交到现在的文件改动列表,在切换分支、创建新分支、进行新更改或拉取更改之前, 此命令可以检查是否有文件需要被stash.</p>
+<h3 id="3-git-checkout">3. git checkout</h3>
+<p><code>git checkout -b &lt;new branch name&gt; origin/&lt;source branch name&gt;</code><br>
+从特定源分支创建一个新分支,这块的“origin”代表默认仓库.<br>
+<code>git checkout — — &lt;name of the file&gt;</code><br>
+当本地有文件变动时,可以使用这个命令丢弃当前改变,恢复文件到之前状态.<br>
+<code>git checkout &lt;branch name&gt;</code><br>
+切换本地到指定分支.</p>
+<h3 id="4-git-pull-origin-branch-name">4. git pull origin <branch name></h3>
+<p>将更改从远程分支拉到本地分支，并在更改兼容的情况下调用<code>git merge</code>。<br>
+<code>git pull 和 git fetch</code>的不同之处是:<code> git pull = git fetch + git merge</code></p>
+<h3 id="5-git-add-name-of-the-file">5. git add <name of the file></h3>
+<p>文件修改完成后,就可以使用<code>git add</code>命令将文件添加到特定提交中,使用<code>git status</code>命令可以很方便的获取到要添加指定提交的文件名.</p>
+<h3 id="6-git-commit">6. git commit</h3>
+<p><code>git commit -m &quot;&lt;提交内容的描述&gt;&quot;</code><br>
+提交本地改变,并指定和提交内容相关的描述.</p>
+<h3 id="7-git-push-origin-branch-name">7. git push origin <branch name></h3>
+<p>将本地提交推送到远程存储库,这里的仓库是“origin”.</p>
+<h3 id="8-git-cherry-pick">8. git cherry-pick</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d   Master</span><br><span class="line">         \</span><br><span class="line">           e - f - g Feature</span><br></pre></td></tr></table></figure>
+<p>现在将提交f应用到master分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 切换到 master 分支</span><br><span class="line">$ git checkout master</span><br><span class="line"> </span><br><span class="line"># Cherry pick 操作</span><br><span class="line">$ git cherry-pick f</span><br></pre></td></tr></table></figure>
+<p>上面的操作完成以后，代码库就变成了下面的样子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d - f   Master</span><br><span class="line">        \</span><br><span class="line">          e - f - g Feature</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick -m 1 &lt;commit_id&gt;</span><br></pre></td></tr></table></figure>
+<p>如果原始提交是一个合并节点，来自于两个分支的合并，那么 Cherry pick 默认将失败，因为它不知道应该采用哪个分支的代码变动。</p>
+<p><code>-m</code>配置项告诉 Git，应该采用哪个分支的变动。它的参数parent-number是一个从1开始的整数，代表原始提交的父分支编号。</p>
+<p>上面命令表示，Cherry pick 采用提交commitHash来自编号1的父分支的变动。<br>
+一般来说，1号父分支是接受变动的分支（the branch being merged into），2号父分支是作为变动来源的分支（the branch being merged from）。</p>
+<h3 id="9-git-revert-commit-id">9. git revert <commit id></h3>
+<p>引入一个新的提交来撤回已经push的提交.</p>
+<h3 id="10-git-reset-—-soft-HEAD-1">10. git reset — soft HEAD~1</h3>
+<p>撤消一次本地提交而不会丢失文件中的变更.</p>
+<h3 id="11-git-reset-—-hard-HEAD-1">11. git reset — hard HEAD~1</h3>
+<p>撤销一次本地提交并且丢弃文件中的变更.<br>
+希望对你有帮助. 感谢阅读😁</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +377,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/12/%E6%88%91%E6%AF%8F%E5%A4%A9%E4%BD%BF%E7%94%A8%E7%9A%8411%E4%B8%AAGitCommands/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +399,30 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h4 id="修改commit信息主要有这几种情况">修改commit信息主要有这几种情况:</h4>
+<ol>
+<li>刚刚commit，还没有push，使用<code>git commit --amend</code></li>
+<li>刚刚push，要修改最近一个push的commit信息，使用<code>git commit --amend</code></li>
+<li>修改历史push的commit信息，使用<code>git rebase -i HEAD~n</code>【其中的n为记录数】，配合2中的命令</li>
+</ol>
+<blockquote>
+<p><strong>注意：</strong><br>
+其中1、2两种情况的修改方式是一样的，但是git log的记录是不同的,第三种方式也是把需要修改的记录调整为最新的提交，然后使用2的方式修改。</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,16 +444,18 @@
                                 
                             </div>
                             
-                            <a href="/2020/10/23/Git%E4%BF%AE%E6%94%B9commit%E4%BF%A1%E6%81%AF/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2020/10/23/Git%E4%BF%AE%E6%94%B9commit%E4%BF%A1%E6%81%AF/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -324,6 +464,78 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="场景">场景</h3>
+<p>一般情况下，我们写完代码后会执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;xxx&quot;</span><br></pre></td></tr></table></figure>
+<p>但是执行完后，想撤回怎么办？可以执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
+<p>这样就可以撤回你的提交，并且不会丢失提交前修改的内容.</p>
+<h3 id="理解">理解</h3>
+<p>HEAD^ 代表上一个版本，同等于HEAD<sub>1，如果进行了两次提交，可以写成HEAD</sub>2</p>
+<p><strong>参数</strong></p>
+<blockquote>
+<p>--mixed</p>
+</blockquote>
+<p>默认参数，不删除工作空间改动的代码，只撤回提交，并且撤回<code>git add .</code>操作</p>
+<blockquote>
+<p>--soft</p>
+</blockquote>
+<p>不删除工作空间改动的代码，撤销提交，但是不撤回<code>git add .</code> 操作</p>
+<blockquote>
+<p>--hard</p>
+</blockquote>
+<p>删除工作空间改动的代码，撤销commit，撤销<code>git add .</code>，直接回退到上次<code>commit</code></p>
+<h3 id="最后">最后</h3>
+<p>如果commit注释写错了，只是想改一下注释，只需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<p>此时会进入默认vim编辑器，修改注释完毕后保存就好了。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="场景">场景</h3>
+<p>一般情况下，我们写完代码后会执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;xxx&quot;</span><br></pre></td></tr></table></figure>
+<p>但是执行完后，想撤回怎么办？可以执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
+<p>这样就可以撤回你的提交，并且不会丢失提交前修改的内容.</p>
+<h3 id="理解">理解</h3>
+<p>HEAD^ 代表上一个版本，同等于HEAD<sub>1，如果进行了两次提交，可以写成HEAD</sub>2</p>
+<p><strong>参数</strong></p>
+<blockquote>
+<p>--mixed</p>
+</blockquote>
+<p>默认参数，不删除工作空间改动的代码，只撤回提交，并且撤回<code>git add .</code>操作</p>
+<blockquote>
+<p>--soft</p>
+</blockquote>
+<p>不删除工作空间改动的代码，撤销提交，但是不撤回<code>git add .</code> 操作</p>
+<blockquote>
+<p>--hard</p>
+</blockquote>
+<p>删除工作空间改动的代码，撤销commit，撤销<code>git add .</code>，直接回退到上次<code>commit</code></p>
+<h3 id="最后">最后</h3>
+<p>如果commit注释写错了，只是想改一下注释，只需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<p>此时会进入默认vim编辑器，修改注释完毕后保存就好了。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -345,16 +557,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/08/21/git-commit%E4%B9%8B%E5%90%8E-%E6%92%A4%E9%94%80commit/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -363,6 +579,128 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="Description">Description</h3>
+<p><code>git rebase</code> 和 <code>git merge</code> 一样都是用于从一个分支获取并且合并到当前分支，但是他们采取不同的工作方式，以下面的一个工作场景说明其区别.</p>
+<p>如图所示：你在一个feature分支进行新特性的开发，与此同时，master 分支的也有新的提交。</p>
+<p><img src="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png" alt="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png"><br>
+为了将master 上新的提交合并到你的feature分支上，你有两种选择：<code>merging or rebasing</code></p>
+<h3 id="merge">merge</h3>
+<p>执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git merge master</span><br></pre></td></tr></table></figure>
+<p>或者执行更简单的：<br>
+<code>git merge master feature</code></p>
+<p>那么此时在feature上git 自动会产生一个新的commit(merge commit)<br>
+look like this：</p>
+<p><img src="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png" alt="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png"></p>
+<p>**merge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit<br>
+**优点：**记录了真实的commit情况，包括每个分支的详情<br>
+**缺点：**因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。</p>
+<h3 id="rebase">rebase</h3>
+<p>本质是变基,执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png" alt="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png"><br>
+**rebase 特点：**会合并之前的commit历史<br>
+**优点：**得到更简洁的项目历史，去掉了merge commit<br>
+**缺点：**如果合并出现代码问题不容易定位，因为re-write了history<br>
+合并时如果出现冲突需要按照如下步骤解决</p>
+<ul>
+<li>修改冲突部分</li>
+<li>git add</li>
+<li>git rebase --continue</li>
+<li>（如果第三步无效可以执行 git rebase --skip）</li>
+</ul>
+<p>不要在git add 之后习惯性的执行 git commit命令<br>
+<em><strong>The Golden Rule of Rebasing rebase</strong></em> 的黄金法则:<br>
+<strong>never use it on public branches(不要在公共分支上使用)</strong><br>
+比如说如下场景：如图所示<br>
+<img src="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png" alt="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png"></p>
+<p>如果你rebase master 到你的feature分支：<br>
+rebase 将所有master的commit移动到你的feature 的顶端。问题是：其他人还在original master上开发，由于你使用了rebase移动了master，git 会认为你的主分支的历史与其他人的有分歧，会产生冲突。<br>
+所以在执行git rebase 之前 问问自己，</p>
+<p>会有其他人看这个分支么？<br>
+IF YES 不要采用这种带有破坏性的修改commit 历史的rebase命令<br>
+IF NO OK，随你便，可以使用rebase</p>
+<h3 id="Summary-总结">Summary 总结</h3>
+<p>如果你想要一个干净的，没有merge commit的线性历史树，那么你应该选择git rebase<br>
+如果你想保留完整的历史记录，并且想要避免重写commit history的风险，你应该选择使用git merge</p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<p><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview">https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">https://git-scm.com/book/zh/v2/Git-分支-变基</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6#_basic_merging">https://git-scm.com/book/zh/v2/Git-分支-分支的新建与合并#_basic_merging</a></p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-3">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="Description">Description</h3>
+<p><code>git rebase</code> 和 <code>git merge</code> 一样都是用于从一个分支获取并且合并到当前分支，但是他们采取不同的工作方式，以下面的一个工作场景说明其区别.</p>
+<p>如图所示：你在一个feature分支进行新特性的开发，与此同时，master 分支的也有新的提交。</p>
+<p><img src="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png" alt="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png"><br>
+为了将master 上新的提交合并到你的feature分支上，你有两种选择：<code>merging or rebasing</code></p>
+<h3 id="merge">merge</h3>
+<p>执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git merge master</span><br></pre></td></tr></table></figure>
+<p>或者执行更简单的：<br>
+<code>git merge master feature</code></p>
+<p>那么此时在feature上git 自动会产生一个新的commit(merge commit)<br>
+look like this：</p>
+<p><img src="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png" alt="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png"></p>
+<p>**merge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit<br>
+**优点：**记录了真实的commit情况，包括每个分支的详情<br>
+**缺点：**因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。</p>
+<h3 id="rebase">rebase</h3>
+<p>本质是变基,执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png" alt="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png"><br>
+**rebase 特点：**会合并之前的commit历史<br>
+**优点：**得到更简洁的项目历史，去掉了merge commit<br>
+**缺点：**如果合并出现代码问题不容易定位，因为re-write了history<br>
+合并时如果出现冲突需要按照如下步骤解决</p>
+<ul>
+<li>修改冲突部分</li>
+<li>git add</li>
+<li>git rebase --continue</li>
+<li>（如果第三步无效可以执行 git rebase --skip）</li>
+</ul>
+<p>不要在git add 之后习惯性的执行 git commit命令<br>
+<em><strong>The Golden Rule of Rebasing rebase</strong></em> 的黄金法则:<br>
+<strong>never use it on public branches(不要在公共分支上使用)</strong><br>
+比如说如下场景：如图所示<br>
+<img src="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png" alt="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png"></p>
+<p>如果你rebase master 到你的feature分支：<br>
+rebase 将所有master的commit移动到你的feature 的顶端。问题是：其他人还在original master上开发，由于你使用了rebase移动了master，git 会认为你的主分支的历史与其他人的有分歧，会产生冲突。<br>
+所以在执行git rebase 之前 问问自己，</p>
+<p>会有其他人看这个分支么？<br>
+IF YES 不要采用这种带有破坏性的修改commit 历史的rebase命令<br>
+IF NO OK，随你便，可以使用rebase</p>
+<h3 id="Summary-总结">Summary 总结</h3>
+<p>如果你想要一个干净的，没有merge commit的线性历史树，那么你应该选择git rebase<br>
+如果你想保留完整的历史记录，并且想要避免重写commit history的风险，你应该选择使用git merge</p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<p><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview">https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">https://git-scm.com/book/zh/v2/Git-分支-变基</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6#_basic_merging">https://git-scm.com/book/zh/v2/Git-分支-分支的新建与合并#_basic_merging</a></p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -384,16 +722,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/08/19/git-rebase%E5%92%8Cgit-merge%E7%9A%84%E5%8C%BA%E5%88%AB/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="3" id="btn-3">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -402,6 +744,40 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-4">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;类型&gt;: (类型的值见下面描述) &lt;主题&gt; (最多50个字)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>feat (新特性)<br>
+fix (bug修复)<br>
+docs (文档改动)<br>
+style (格式化, 缺失分号等; 不包括生产代码变动)<br>
+refactor (重构代码)<br>
+test (添加缺失的测试, 重构测试, 不包括生产代码变动)<br>
+chore (更新grunt任务等; 不包括生产代码变动)</p>
+</blockquote>
+<ul>
+<li>主题和内容以一个空行分隔</li>
+<li>主题限制为最大50个字</li>
+<li>主题行大写</li>
+<li>主题行结束不用标点</li>
+<li>主题行使用祈使名</li>
+<li>内容每行72个字</li>
+<li>内容用于解释为什么和是什么,而不是怎么做</li>
+<li>内容多行时以’-'分隔</li>
+</ul>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -423,16 +799,18 @@
                                 
                             </div>
                             
-                            <a href="/2019/08/14/GitCommitTemplate/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2019/08/14/GitCommitTemplate/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -441,6 +819,436 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-5">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p><img src="http://qiniu.deveye.cn/20210316200434.png" alt=""></p>
+<h3 id="一、新建代码库">一、新建代码库</h3>
+<blockquote>
+<p><font color=gray># 在当前目录新建一个Git代码库</font><br>
+$ git init</p>
+<p><font color=gray># 新建一个目录，将其初始化为Git代码库</font><br>
+$ git init [project-name]</p>
+<p><font color=gray># 下载一个项目和它的整个代码历史</font><br>
+$ git clone [url]</p>
+</blockquote>
+<h3 id="二、配置">二、配置</h3>
+<p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）</p>
+<blockquote>
+<p><font color=gray># 显示当前的Git配置</font><br>
+$ git config --list</p>
+<p><font color=gray># 编辑Git配置文件</font><br>
+$ git config -e [–global]</p>
+<p><font color=gray># 设置提交代码时的用户信息</font><br>
+$ git config [–global] <a href="http://user.name">user.name</a> &quot;[name]&quot;<br>
+$ git config [–global] user.email &quot;[email   address]&quot;</p>
+</blockquote>
+<h3 id="三、增加-删除文件">三、增加/删除文件</h3>
+<blockquote>
+<p><font color=gray># 添加指定文件到暂存区</font><br>
+$ git add [file1] [file2] …</p>
+<p><font color=gray># 添加指定目录到暂存区，包括子目录</font><br>
+$ git add [dir]</p>
+<p><font color=gray># 添加当前目录的所有文件到暂存区</font><br>
+$ git add .</p>
+<p><font color=gray># 添加每个变化前，都会要求确认</font><br>
+<font color=gray># 对于同一个文件的多处变化，可以实现分次提交</font><br>
+$ git add -p</p>
+<p><font color=gray># 删除工作区文件，并且将这次删除放入暂存区</font><br>
+$ git rm [file1] [file2] …</p>
+<p><font color=gray># 停止追踪指定文件，但该文件会保留在工作区</font><br>
+$ git rm --cached [file]</p>
+<p><font color=gray># 改名文件，并且将这个改名放入暂存区</font><br>
+$ git mv [file-original] [file-renamed]</p>
+</blockquote>
+<h3 id="四、代码提交">四、代码提交</h3>
+<blockquote>
+<p><font color=gray># 提交暂存区到仓库区</font><br>
+$ git commit -m [message]</p>
+<p><font color=gray># 提交暂存区的指定文件到仓库区</font><br>
+$ git commit [file1] [file2] … -m [message]</p>
+<p><font color=gray># 提交工作区自上次commit之后的变化，直接到仓库区</font><br>
+$ git commit -a</p>
+<p><font color=gray># 提交时显示所有diff信息</font><br>
+$ git commit -v</p>
+<p><font color=gray># 使用一次新的commit，替代上一次提交</font><br>
+<font color=gray># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</font><br>
+$ git commit --amend -m [message]</p>
+<p><font color=gray># 重做上一次commit，并包括指定文件的新变化</font><br>
+$ git commit --amend [file1] [file2] …</p>
+</blockquote>
+<h3 id="五、分支">五、分支</h3>
+<blockquote>
+<p><font color=gray># 列出所有本地分支</font><br>
+$ git branch</p>
+<p><font color=gray># 列出所有远程分支</font><br>
+$ git branch -r</p>
+<p><font color=gray># 列出所有本地分支和远程分支</font><br>
+$ git branch -a</p>
+<p><font color=gray># 新建一个分支，但依然停留在当前分支</font><br>
+$ git branch [branch-name]</p>
+<p><font color=gray># 新建一个分支，并切换到该分支</font><br>
+$ git checkout -b [branch]</p>
+<p><font color=gray># 新建一个分支，指向指定commit</font><br>
+$ git branch [branch] [commit]</p>
+<p><font color=gray># 新建一个分支，与指定的远程分支建立追踪关系</font><br>
+$ git branch --track [branch] [remote-branch]</p>
+<p><font color=gray># 切换到指定分支，并更新工作区</font><br>
+$ git checkout [branch-name]</p>
+<p><font color=gray># 切换到上一个分支</font><br>
+$ git checkout -</p>
+<p><font color=gray># 建立追踪关系，在现有分支与指定的远程分支之间</font><br>
+$ git branch --set-upstream [branch] [remote-branch]</p>
+<p><font color=gray># 合并指定分支到当前分支</font><br>
+$ git merge [branch]</p>
+<p><font color=gray># 选择一个commit，合并进当前分支</font><br>
+$ git cherry-pick [commit]</p>
+<p><font color=gray># 删除分支</font><br>
+$ git branch -d [branch-name]</p>
+<p><font color=gray># 删除远程分支</font><br>
+$ git push origin --delete [branch-name]<br>
+$ git branch -dr [remote/branch]</p>
+</blockquote>
+<h3 id="六、标签">六、标签</h3>
+<blockquote>
+<p><font color=gray># 列出所有tag</font><br>
+$ git tag</p>
+<p><font color=gray># 新建一个tag在当前commit</font><br>
+$ git tag [tag]</p>
+<p><font color=gray># 新建一个tag在指定commit</font><br>
+$ git tag [tag] [commit]</p>
+<p><font color=gray># 删除本地tag</font><br>
+$ git tag -d [tag]</p>
+<p><font color=gray># 删除远程tag</font><br>
+$ git push origin :refs/tags/[tagName]</p>
+<p><font color=gray># 查看tag信息</font><br>
+$ git show [tag]</p>
+<p><font color=gray># 提交指定tag</font><br>
+$ git push [remote] [tag]</p>
+<p><font color=gray># 提交所有tag</font><br>
+$ git push [remote] --tags</p>
+<p><font color=gray># 新建一个分支，指向某个tag</font><br>
+$ git checkout -b [branch] [tag]</p>
+</blockquote>
+<h3 id="七、查看信息">七、查看信息</h3>
+<blockquote>
+<p><font color=gray># 显示有变更的文件</font><br>
+$ git status</p>
+<p><font color=gray># 显示当前分支的版本历史</font><br>
+$ git log</p>
+<p><font color=gray># 显示commit历史，以及每次commit发生变更的文件</font><br>
+$ git log --stat</p>
+<p><font color=gray># 搜索提交历史，根据关键词</font><br>
+$ git log -S [keyword]</p>
+<p><font color=gray># 显示某个commit之后的所有变动，每个commit占据一行</font><br>
+$ git log [tag] HEAD --pretty=format:%s</p>
+<p><font color=gray># 显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件</font><br>
+$ git log [tag] HEAD --grep feature</p>
+<p><font color=gray># 显示某个文件的版本历史，包括文件改名</font><br>
+$ git log --follow [file]<br>
+$ git whatchanged [file]</p>
+<p><font color=gray># 显示指定文件相关的每一次diff</font><br>
+$ git log -p [file]</p>
+<p><font color=gray># 显示过去5次提交</font><br>
+$ git log -5 --pretty --oneline</p>
+<p><font color=gray># 显示所有提交过的用户，按提交次数排序</font><br>
+$ git shortlog -sn</p>
+<p><font color=gray># 显示指定文件是什么人在什么时间修改过</font><br>
+$ git blame [file]</p>
+<p><font color=gray># 显示暂存区和工作区的代码差异</font><br>
+$ git diff</p>
+<p><font color=gray># 显示暂存区和上一个commit的差异</font><br>
+$ git diff --cached [file]</p>
+<p><font color=gray># 显示工作区与当前分支最新commit之间的差异</font><br>
+$ git diff HEAD</p>
+<p><font color=gray># 显示两次提交之间的差异</font><br>
+$ git diff [first-branch]…[second-branch]</p>
+<p><font color=gray># 显示今天你写了多少行代码</font><br>
+$ git diff --shortstat &quot;@{0 day ago}&quot;</p>
+<p><font color=gray># 显示某次提交的元数据和内容变化</font><br>
+$ git show [commit]</p>
+<p><font color=gray># 显示某次提交发生变化的文件</font><br>
+$ git show --name-only [commit]</p>
+<p><font color=gray># 显示某次提交时，某个文件的内容</font><br>
+$ git show [commit]:[filename]</p>
+<p><font color=gray># 显示当前分支的最近几次提交</font><br>
+$ git reflog</p>
+<p><font color=gray># 从本地master拉取代码更新当前分支：branch 一般为master</font><br>
+$ git rebase [branch]</p>
+</blockquote>
+<h3 id="八、远程同步">八、远程同步</h3>
+<blockquote>
+<p>$ git remote update  --更新远程仓储<br>
+<font color=gray># 下载远程仓库的所有变动</font><br>
+$ git fetch [remote]</p>
+<p><font color=gray># 显示所有远程仓库</font><br>
+$ git remote -v</p>
+<p><font color=gray># 显示某个远程仓库的信息</font><br>
+$ git remote show [remote]</p>
+<p><font color=gray># 增加一个新的远程仓库，并命名</font><br>
+$ git remote add [shortname] [url]</p>
+<p><font color=gray># 取回远程仓库的变化，并与本地分支合并</font><br>
+$ git pull [remote] [branch]</p>
+<p><font color=gray># 上传本地指定分支到远程仓库</font><br>
+$ git push [remote] [branch]</p>
+<p><font color=gray># 强行推送当前分支到远程仓库，即使有冲突</font><br>
+$ git push [remote] --force</p>
+<p><font color=gray># 推送所有分支到远程仓库</font><br>
+$ git push [remote] --all</p>
+</blockquote>
+<h3 id="九、撤销">九、撤销</h3>
+<blockquote>
+<p><font color=gray># 恢复暂存区的指定文件到工作区</font><br>
+$ git checkout [file]</p>
+<p><font color=gray># 恢复某个commit的指定文件到暂存区和工作区</font><br>
+$ git checkout [commit] [file]</p>
+<p><font color=gray># 恢复暂存区的所有文件到工作区</font><br>
+$ git checkout .</p>
+<p><font color=gray># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</font><br>
+$ git reset [file]</p>
+<p><font color=gray># 重置暂存区与工作区，与上一次commit保持一致</font><br>
+$ git reset --hard</p>
+<p><font color=gray># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</font><br>
+$ git reset [commit]</p>
+<p><font color=gray># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</font><br>
+$ git reset --hard [commit]</p>
+<p><font color=gray># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</font><br>
+$ git reset --keep [commit]</p>
+<p><font color=gray># 新建一个commit，用来撤销指定commit<br>
+# 后者的所有变化都将被前者抵消，并且应用到当前分支</font><br>
+$ git revert [commit]</p>
+<p><font color=gray># 暂时将未提交的变化移除，稍后再移入</font><br>
+$ git stash<br>
+$ git stash pop</p>
+</blockquote>
+<h3 id="十、其他">十、其他</h3>
+<blockquote>
+<p><font color=gray># 生成一个可供发布的压缩包</font><br>
+$ git archive</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-5">
+                                        <div class="post-content" data-content-type="full">
+                                            <p><img src="http://qiniu.deveye.cn/20210316200434.png" alt=""></p>
+<h3 id="一、新建代码库">一、新建代码库</h3>
+<blockquote>
+<p><font color=gray># 在当前目录新建一个Git代码库</font><br>
+$ git init</p>
+<p><font color=gray># 新建一个目录，将其初始化为Git代码库</font><br>
+$ git init [project-name]</p>
+<p><font color=gray># 下载一个项目和它的整个代码历史</font><br>
+$ git clone [url]</p>
+</blockquote>
+<h3 id="二、配置">二、配置</h3>
+<p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）</p>
+<blockquote>
+<p><font color=gray># 显示当前的Git配置</font><br>
+$ git config --list</p>
+<p><font color=gray># 编辑Git配置文件</font><br>
+$ git config -e [–global]</p>
+<p><font color=gray># 设置提交代码时的用户信息</font><br>
+$ git config [–global] <a href="http://user.name">user.name</a> &quot;[name]&quot;<br>
+$ git config [–global] user.email &quot;[email   address]&quot;</p>
+</blockquote>
+<h3 id="三、增加-删除文件">三、增加/删除文件</h3>
+<blockquote>
+<p><font color=gray># 添加指定文件到暂存区</font><br>
+$ git add [file1] [file2] …</p>
+<p><font color=gray># 添加指定目录到暂存区，包括子目录</font><br>
+$ git add [dir]</p>
+<p><font color=gray># 添加当前目录的所有文件到暂存区</font><br>
+$ git add .</p>
+<p><font color=gray># 添加每个变化前，都会要求确认</font><br>
+<font color=gray># 对于同一个文件的多处变化，可以实现分次提交</font><br>
+$ git add -p</p>
+<p><font color=gray># 删除工作区文件，并且将这次删除放入暂存区</font><br>
+$ git rm [file1] [file2] …</p>
+<p><font color=gray># 停止追踪指定文件，但该文件会保留在工作区</font><br>
+$ git rm --cached [file]</p>
+<p><font color=gray># 改名文件，并且将这个改名放入暂存区</font><br>
+$ git mv [file-original] [file-renamed]</p>
+</blockquote>
+<h3 id="四、代码提交">四、代码提交</h3>
+<blockquote>
+<p><font color=gray># 提交暂存区到仓库区</font><br>
+$ git commit -m [message]</p>
+<p><font color=gray># 提交暂存区的指定文件到仓库区</font><br>
+$ git commit [file1] [file2] … -m [message]</p>
+<p><font color=gray># 提交工作区自上次commit之后的变化，直接到仓库区</font><br>
+$ git commit -a</p>
+<p><font color=gray># 提交时显示所有diff信息</font><br>
+$ git commit -v</p>
+<p><font color=gray># 使用一次新的commit，替代上一次提交</font><br>
+<font color=gray># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</font><br>
+$ git commit --amend -m [message]</p>
+<p><font color=gray># 重做上一次commit，并包括指定文件的新变化</font><br>
+$ git commit --amend [file1] [file2] …</p>
+</blockquote>
+<h3 id="五、分支">五、分支</h3>
+<blockquote>
+<p><font color=gray># 列出所有本地分支</font><br>
+$ git branch</p>
+<p><font color=gray># 列出所有远程分支</font><br>
+$ git branch -r</p>
+<p><font color=gray># 列出所有本地分支和远程分支</font><br>
+$ git branch -a</p>
+<p><font color=gray># 新建一个分支，但依然停留在当前分支</font><br>
+$ git branch [branch-name]</p>
+<p><font color=gray># 新建一个分支，并切换到该分支</font><br>
+$ git checkout -b [branch]</p>
+<p><font color=gray># 新建一个分支，指向指定commit</font><br>
+$ git branch [branch] [commit]</p>
+<p><font color=gray># 新建一个分支，与指定的远程分支建立追踪关系</font><br>
+$ git branch --track [branch] [remote-branch]</p>
+<p><font color=gray># 切换到指定分支，并更新工作区</font><br>
+$ git checkout [branch-name]</p>
+<p><font color=gray># 切换到上一个分支</font><br>
+$ git checkout -</p>
+<p><font color=gray># 建立追踪关系，在现有分支与指定的远程分支之间</font><br>
+$ git branch --set-upstream [branch] [remote-branch]</p>
+<p><font color=gray># 合并指定分支到当前分支</font><br>
+$ git merge [branch]</p>
+<p><font color=gray># 选择一个commit，合并进当前分支</font><br>
+$ git cherry-pick [commit]</p>
+<p><font color=gray># 删除分支</font><br>
+$ git branch -d [branch-name]</p>
+<p><font color=gray># 删除远程分支</font><br>
+$ git push origin --delete [branch-name]<br>
+$ git branch -dr [remote/branch]</p>
+</blockquote>
+<h3 id="六、标签">六、标签</h3>
+<blockquote>
+<p><font color=gray># 列出所有tag</font><br>
+$ git tag</p>
+<p><font color=gray># 新建一个tag在当前commit</font><br>
+$ git tag [tag]</p>
+<p><font color=gray># 新建一个tag在指定commit</font><br>
+$ git tag [tag] [commit]</p>
+<p><font color=gray># 删除本地tag</font><br>
+$ git tag -d [tag]</p>
+<p><font color=gray># 删除远程tag</font><br>
+$ git push origin :refs/tags/[tagName]</p>
+<p><font color=gray># 查看tag信息</font><br>
+$ git show [tag]</p>
+<p><font color=gray># 提交指定tag</font><br>
+$ git push [remote] [tag]</p>
+<p><font color=gray># 提交所有tag</font><br>
+$ git push [remote] --tags</p>
+<p><font color=gray># 新建一个分支，指向某个tag</font><br>
+$ git checkout -b [branch] [tag]</p>
+</blockquote>
+<h3 id="七、查看信息">七、查看信息</h3>
+<blockquote>
+<p><font color=gray># 显示有变更的文件</font><br>
+$ git status</p>
+<p><font color=gray># 显示当前分支的版本历史</font><br>
+$ git log</p>
+<p><font color=gray># 显示commit历史，以及每次commit发生变更的文件</font><br>
+$ git log --stat</p>
+<p><font color=gray># 搜索提交历史，根据关键词</font><br>
+$ git log -S [keyword]</p>
+<p><font color=gray># 显示某个commit之后的所有变动，每个commit占据一行</font><br>
+$ git log [tag] HEAD --pretty=format:%s</p>
+<p><font color=gray># 显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件</font><br>
+$ git log [tag] HEAD --grep feature</p>
+<p><font color=gray># 显示某个文件的版本历史，包括文件改名</font><br>
+$ git log --follow [file]<br>
+$ git whatchanged [file]</p>
+<p><font color=gray># 显示指定文件相关的每一次diff</font><br>
+$ git log -p [file]</p>
+<p><font color=gray># 显示过去5次提交</font><br>
+$ git log -5 --pretty --oneline</p>
+<p><font color=gray># 显示所有提交过的用户，按提交次数排序</font><br>
+$ git shortlog -sn</p>
+<p><font color=gray># 显示指定文件是什么人在什么时间修改过</font><br>
+$ git blame [file]</p>
+<p><font color=gray># 显示暂存区和工作区的代码差异</font><br>
+$ git diff</p>
+<p><font color=gray># 显示暂存区和上一个commit的差异</font><br>
+$ git diff --cached [file]</p>
+<p><font color=gray># 显示工作区与当前分支最新commit之间的差异</font><br>
+$ git diff HEAD</p>
+<p><font color=gray># 显示两次提交之间的差异</font><br>
+$ git diff [first-branch]…[second-branch]</p>
+<p><font color=gray># 显示今天你写了多少行代码</font><br>
+$ git diff --shortstat &quot;@{0 day ago}&quot;</p>
+<p><font color=gray># 显示某次提交的元数据和内容变化</font><br>
+$ git show [commit]</p>
+<p><font color=gray># 显示某次提交发生变化的文件</font><br>
+$ git show --name-only [commit]</p>
+<p><font color=gray># 显示某次提交时，某个文件的内容</font><br>
+$ git show [commit]:[filename]</p>
+<p><font color=gray># 显示当前分支的最近几次提交</font><br>
+$ git reflog</p>
+<p><font color=gray># 从本地master拉取代码更新当前分支：branch 一般为master</font><br>
+$ git rebase [branch]</p>
+</blockquote>
+<h3 id="八、远程同步">八、远程同步</h3>
+<blockquote>
+<p>$ git remote update  --更新远程仓储<br>
+<font color=gray># 下载远程仓库的所有变动</font><br>
+$ git fetch [remote]</p>
+<p><font color=gray># 显示所有远程仓库</font><br>
+$ git remote -v</p>
+<p><font color=gray># 显示某个远程仓库的信息</font><br>
+$ git remote show [remote]</p>
+<p><font color=gray># 增加一个新的远程仓库，并命名</font><br>
+$ git remote add [shortname] [url]</p>
+<p><font color=gray># 取回远程仓库的变化，并与本地分支合并</font><br>
+$ git pull [remote] [branch]</p>
+<p><font color=gray># 上传本地指定分支到远程仓库</font><br>
+$ git push [remote] [branch]</p>
+<p><font color=gray># 强行推送当前分支到远程仓库，即使有冲突</font><br>
+$ git push [remote] --force</p>
+<p><font color=gray># 推送所有分支到远程仓库</font><br>
+$ git push [remote] --all</p>
+</blockquote>
+<h3 id="九、撤销">九、撤销</h3>
+<blockquote>
+<p><font color=gray># 恢复暂存区的指定文件到工作区</font><br>
+$ git checkout [file]</p>
+<p><font color=gray># 恢复某个commit的指定文件到暂存区和工作区</font><br>
+$ git checkout [commit] [file]</p>
+<p><font color=gray># 恢复暂存区的所有文件到工作区</font><br>
+$ git checkout .</p>
+<p><font color=gray># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</font><br>
+$ git reset [file]</p>
+<p><font color=gray># 重置暂存区与工作区，与上一次commit保持一致</font><br>
+$ git reset --hard</p>
+<p><font color=gray># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</font><br>
+$ git reset [commit]</p>
+<p><font color=gray># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</font><br>
+$ git reset --hard [commit]</p>
+<p><font color=gray># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</font><br>
+$ git reset --keep [commit]</p>
+<p><font color=gray># 新建一个commit，用来撤销指定commit<br>
+# 后者的所有变化都将被前者抵消，并且应用到当前分支</font><br>
+$ git revert [commit]</p>
+<p><font color=gray># 暂时将未提交的变化移除，稍后再移入</font><br>
+$ git stash<br>
+$ git stash pop</p>
+</blockquote>
+<h3 id="十、其他">十、其他</h3>
+<blockquote>
+<p><font color=gray># 生成一个可供发布的压缩包</font><br>
+$ git archive</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -462,10 +1270,14 @@
                                 
                             </div>
                             
-                            <a href="/2019/02/18/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="5" id="btn-5">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -476,6 +1288,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

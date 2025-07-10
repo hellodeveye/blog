@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,42 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="反转链表">反转链表</h3>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220302192225.gif" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	head := &amp;ListNode&#123;</span><br><span class="line">		1, &amp;ListNode&#123;</span><br><span class="line">			2, &amp;ListNode&#123;</span><br><span class="line">				3, &amp;ListNode&#123;</span><br><span class="line">					4, &amp;ListNode&#123;</span><br><span class="line">						5, nil&#125;&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	for list := reverseList(head); list != nil; list = list.Next &#123;</span><br><span class="line">		fmt.Println(list.Val)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type ListNode struct &#123;</span><br><span class="line">	Val  int</span><br><span class="line">	Next *ListNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func reverseList(head *ListNode) *ListNode &#123;</span><br><span class="line">	var cur, prev *ListNode = head, nil</span><br><span class="line">	for cur != nil &#123;</span><br><span class="line">		cur.Next, prev, cur = prev, cur, cur.Next</span><br><span class="line">	&#125;</span><br><span class="line">	return prev</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="交换相邻两个节点">交换相邻两个节点</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	head := &amp;ListNode&#123;</span><br><span class="line">		1, &amp;ListNode&#123;</span><br><span class="line">			2, &amp;ListNode&#123;</span><br><span class="line">				3, &amp;ListNode&#123;</span><br><span class="line">					4, nil&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	for list := swapPairs(head); list != nil; list = list.Next &#123;</span><br><span class="line">		fmt.Println(list.Val)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type ListNode struct &#123;</span><br><span class="line">	Val  int</span><br><span class="line">	Next *ListNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func swapPairs(head *ListNode) *ListNode &#123;</span><br><span class="line">	if head == nil || head.Next == nil &#123;</span><br><span class="line">		return head</span><br><span class="line">	&#125;</span><br><span class="line">	newHead := head.Next</span><br><span class="line">	head.Next = swapPairs(newHead.Next)</span><br><span class="line">	newHead.Next = head</span><br><span class="line">	return newHead</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="判断链表是否有环">判断链表是否有环</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	cycle := &amp;ListNode&#123;</span><br><span class="line">		2, &amp;ListNode&#123;</span><br><span class="line">			0, &amp;ListNode&#123;</span><br><span class="line">				-4, nil&#125;&#125;&#125;</span><br><span class="line">	cycle.Next.Next.Next = cycle</span><br><span class="line">	head := &amp;ListNode&#123;</span><br><span class="line">		3, cycle,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(hasCycle(head))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type ListNode struct &#123;</span><br><span class="line">	Val  int</span><br><span class="line">	Next *ListNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func hasCycle(head *ListNode) bool &#123;</span><br><span class="line">	if head == nil || head.Next == nil &#123;</span><br><span class="line">		return false</span><br><span class="line">	&#125;</span><br><span class="line">	slow, fast := head, head</span><br><span class="line">	for fast != nil &amp;&amp; fast.Next != nil &#123;</span><br><span class="line">		slow, fast = slow.Next, fast.Next.Next</span><br><span class="line">		if slow == fast &#123;</span><br><span class="line">			return true</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="反转链表">反转链表</h3>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220302192225.gif" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	head := &amp;ListNode&#123;</span><br><span class="line">		1, &amp;ListNode&#123;</span><br><span class="line">			2, &amp;ListNode&#123;</span><br><span class="line">				3, &amp;ListNode&#123;</span><br><span class="line">					4, &amp;ListNode&#123;</span><br><span class="line">						5, nil&#125;&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	for list := reverseList(head); list != nil; list = list.Next &#123;</span><br><span class="line">		fmt.Println(list.Val)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type ListNode struct &#123;</span><br><span class="line">	Val  int</span><br><span class="line">	Next *ListNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func reverseList(head *ListNode) *ListNode &#123;</span><br><span class="line">	var cur, prev *ListNode = head, nil</span><br><span class="line">	for cur != nil &#123;</span><br><span class="line">		cur.Next, prev, cur = prev, cur, cur.Next</span><br><span class="line">	&#125;</span><br><span class="line">	return prev</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="交换相邻两个节点">交换相邻两个节点</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	head := &amp;ListNode&#123;</span><br><span class="line">		1, &amp;ListNode&#123;</span><br><span class="line">			2, &amp;ListNode&#123;</span><br><span class="line">				3, &amp;ListNode&#123;</span><br><span class="line">					4, nil&#125;,</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	for list := swapPairs(head); list != nil; list = list.Next &#123;</span><br><span class="line">		fmt.Println(list.Val)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type ListNode struct &#123;</span><br><span class="line">	Val  int</span><br><span class="line">	Next *ListNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func swapPairs(head *ListNode) *ListNode &#123;</span><br><span class="line">	if head == nil || head.Next == nil &#123;</span><br><span class="line">		return head</span><br><span class="line">	&#125;</span><br><span class="line">	newHead := head.Next</span><br><span class="line">	head.Next = swapPairs(newHead.Next)</span><br><span class="line">	newHead.Next = head</span><br><span class="line">	return newHead</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="判断链表是否有环">判断链表是否有环</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line"></span><br><span class="line">	cycle := &amp;ListNode&#123;</span><br><span class="line">		2, &amp;ListNode&#123;</span><br><span class="line">			0, &amp;ListNode&#123;</span><br><span class="line">				-4, nil&#125;&#125;&#125;</span><br><span class="line">	cycle.Next.Next.Next = cycle</span><br><span class="line">	head := &amp;ListNode&#123;</span><br><span class="line">		3, cycle,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(hasCycle(head))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type ListNode struct &#123;</span><br><span class="line">	Val  int</span><br><span class="line">	Next *ListNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func hasCycle(head *ListNode) bool &#123;</span><br><span class="line">	if head == nil || head.Next == nil &#123;</span><br><span class="line">		return false</span><br><span class="line">	&#125;</span><br><span class="line">	slow, fast := head, head</span><br><span class="line">	for fast != nil &amp;&amp; fast.Next != nil &#123;</span><br><span class="line">		slow, fast = slow.Next, fast.Next.Next</span><br><span class="line">		if slow == fast &#123;</span><br><span class="line">			return true</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +305,20 @@
                                 
                             </div>
                             
-                            <a href="/2019/09/03/%E9%93%BE%E8%A1%A8/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +327,24 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <ul>
+<li><a href="/2019/09/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a></li>
+<li><a href="/2019/09/03/%E9%93%BE%E8%A1%A8/">链表</a></li>
+</ul>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,16 +366,18 @@
                                 
                             </div>
                             
-                            <a href="/2019/09/03/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%97%85/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2019/09/03/%E7%AE%97%E6%B3%95%E4%B9%8B%E6%97%85/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -324,6 +386,60 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="排序算法">排序算法</h3>
+<h4 id="冒泡排序">冒泡排序</h4>
+<p>双层循环,每次循环将最大的值放到数组的最后面,外层循环n次,内层循环n-i次完成排序,时间复杂度为O(n²)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func bubbleSort(arr []int) &#123;</span><br><span class="line">	for i := 0; i &lt; len(arr)-1; i++ &#123;</span><br><span class="line">		for j := 0; j &lt; len(arr)-i-1; j++ &#123;</span><br><span class="line">			if arr[j] &gt; arr[j+1] &#123;</span><br><span class="line">				arr[j], arr[j+1] = arr[j+1], arr[j]</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="选择排序">选择排序</h4>
+<p>双层循环,每次循环找出arr[n-i]中最小的数与当前数进行交换,时间复杂度为O(n²)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func selectSort(arr []int) &#123;</span><br><span class="line">	for i := 0; i &lt; len(arr)-1; i++ &#123;</span><br><span class="line">		var min = i</span><br><span class="line">		for j := i + 1; j &lt; len(arr); j++ &#123;</span><br><span class="line">			if arr[min] &gt; arr[j] &#123;</span><br><span class="line">				min = j</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		arr[i], arr[min] = arr[min], arr[i]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入排序">插入排序</h4>
+<p>双层循环,类似打扑克牌调整牌的顺序,每次循环对当前数字顺序进行插入调整,时间复杂度为O(n²)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func insertionSort(arr []int) &#123;</span><br><span class="line">	for i := range arr &#123;</span><br><span class="line">		preIndex := i - 1</span><br><span class="line">		current := arr[i]</span><br><span class="line">		for preIndex &gt;= 0 &amp;&amp; arr[preIndex] &gt; current &#123;</span><br><span class="line">			arr[preIndex+1] = arr[preIndex]</span><br><span class="line">			preIndex -= 1</span><br><span class="line">		&#125;</span><br><span class="line">		arr[preIndex+1] = current</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="归并排序">归并排序</h4>
+<p>分治的思想,时间复杂度O(N*logN)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">func mergeSort(arr []int) []int &#123;</span><br><span class="line">	if len(arr) &lt; 2 &#123;</span><br><span class="line">		return arr</span><br><span class="line">	&#125;</span><br><span class="line">	i := len(arr) / 2</span><br><span class="line">	left := mergeSort(arr[:i])</span><br><span class="line">	right := mergeSort(arr[i:])</span><br><span class="line">	result := merge(left, right)</span><br><span class="line">	return result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func merge(left, right []int) []int &#123;</span><br><span class="line">	result := make([]int, 0)</span><br><span class="line">	m, n := 0, 0</span><br><span class="line">	l, r := len(left), len(right)</span><br><span class="line">	for m &lt; l &amp;&amp; n &lt; r &#123;</span><br><span class="line">		if left[m] &gt; right[n] &#123;</span><br><span class="line">			result = append(result, right[n])</span><br><span class="line">			n++</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			result = append(result, left[m])</span><br><span class="line">			m++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	result = append(result, right[n:]...)</span><br><span class="line">	result = append(result, left[m:]...)</span><br><span class="line">	return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="堆排序">堆排序</h4>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220411162143.png" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">package heap</span><br><span class="line"></span><br><span class="line">func sink(array []int, parentIndex int, length int) &#123;</span><br><span class="line">	//保存父节点，用于最后的赋值</span><br><span class="line">	temp := array[parentIndex]</span><br><span class="line">	//左子节点</span><br><span class="line">	childIndex := 2*parentIndex + 1</span><br><span class="line">	//是否有左子节点</span><br><span class="line">	for childIndex &lt; length &#123;</span><br><span class="line">		//判断是否有右子节点，并且右子节点大于左子节点的值</span><br><span class="line">		if childIndex+1 &lt; length &amp;&amp; array[childIndex+1] &gt; array[childIndex] &#123;</span><br><span class="line">			childIndex++</span><br><span class="line">		&#125;</span><br><span class="line">		//如果父节点大于任何一个子节点的值直接跳出</span><br><span class="line">		if temp &gt;= array[childIndex] &#123;</span><br><span class="line">			break</span><br><span class="line">		&#125;</span><br><span class="line">		array[parentIndex] = array[childIndex]</span><br><span class="line">		parentIndex = childIndex</span><br><span class="line">		childIndex = 2*childIndex + 1</span><br><span class="line">	&#125;</span><br><span class="line">	array[parentIndex] = temp</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func heapSort(array []int) &#123;</span><br><span class="line">	//构建大顶堆</span><br><span class="line">	for i := (len(array) - 2) / 2; i &gt;= 0; i-- &#123;</span><br><span class="line">		sink(array, i, len(array))</span><br><span class="line">	&#125;</span><br><span class="line">	//将堆顶元素和最后一个元素交换，数组长度i--(相当于循环删除根顶部元素，然后sink 调整最大堆)</span><br><span class="line">	for i := len(array) - 1; i &gt; 0; i-- &#123;</span><br><span class="line">		array[i], array[0] = array[0], array[i]</span><br><span class="line">		sink(array, 0, i)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="排序算法">排序算法</h3>
+<h4 id="冒泡排序">冒泡排序</h4>
+<p>双层循环,每次循环将最大的值放到数组的最后面,外层循环n次,内层循环n-i次完成排序,时间复杂度为O(n²)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func bubbleSort(arr []int) &#123;</span><br><span class="line">	for i := 0; i &lt; len(arr)-1; i++ &#123;</span><br><span class="line">		for j := 0; j &lt; len(arr)-i-1; j++ &#123;</span><br><span class="line">			if arr[j] &gt; arr[j+1] &#123;</span><br><span class="line">				arr[j], arr[j+1] = arr[j+1], arr[j]</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="选择排序">选择排序</h4>
+<p>双层循环,每次循环找出arr[n-i]中最小的数与当前数进行交换,时间复杂度为O(n²)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func selectSort(arr []int) &#123;</span><br><span class="line">	for i := 0; i &lt; len(arr)-1; i++ &#123;</span><br><span class="line">		var min = i</span><br><span class="line">		for j := i + 1; j &lt; len(arr); j++ &#123;</span><br><span class="line">			if arr[min] &gt; arr[j] &#123;</span><br><span class="line">				min = j</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		arr[i], arr[min] = arr[min], arr[i]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入排序">插入排序</h4>
+<p>双层循环,类似打扑克牌调整牌的顺序,每次循环对当前数字顺序进行插入调整,时间复杂度为O(n²)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func insertionSort(arr []int) &#123;</span><br><span class="line">	for i := range arr &#123;</span><br><span class="line">		preIndex := i - 1</span><br><span class="line">		current := arr[i]</span><br><span class="line">		for preIndex &gt;= 0 &amp;&amp; arr[preIndex] &gt; current &#123;</span><br><span class="line">			arr[preIndex+1] = arr[preIndex]</span><br><span class="line">			preIndex -= 1</span><br><span class="line">		&#125;</span><br><span class="line">		arr[preIndex+1] = current</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="归并排序">归并排序</h4>
+<p>分治的思想,时间复杂度O(N*logN)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">func mergeSort(arr []int) []int &#123;</span><br><span class="line">	if len(arr) &lt; 2 &#123;</span><br><span class="line">		return arr</span><br><span class="line">	&#125;</span><br><span class="line">	i := len(arr) / 2</span><br><span class="line">	left := mergeSort(arr[:i])</span><br><span class="line">	right := mergeSort(arr[i:])</span><br><span class="line">	result := merge(left, right)</span><br><span class="line">	return result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func merge(left, right []int) []int &#123;</span><br><span class="line">	result := make([]int, 0)</span><br><span class="line">	m, n := 0, 0</span><br><span class="line">	l, r := len(left), len(right)</span><br><span class="line">	for m &lt; l &amp;&amp; n &lt; r &#123;</span><br><span class="line">		if left[m] &gt; right[n] &#123;</span><br><span class="line">			result = append(result, right[n])</span><br><span class="line">			n++</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			result = append(result, left[m])</span><br><span class="line">			m++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	result = append(result, right[n:]...)</span><br><span class="line">	result = append(result, left[m:]...)</span><br><span class="line">	return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="堆排序">堆排序</h4>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220411162143.png" alt=""></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">package heap</span><br><span class="line"></span><br><span class="line">func sink(array []int, parentIndex int, length int) &#123;</span><br><span class="line">	//保存父节点，用于最后的赋值</span><br><span class="line">	temp := array[parentIndex]</span><br><span class="line">	//左子节点</span><br><span class="line">	childIndex := 2*parentIndex + 1</span><br><span class="line">	//是否有左子节点</span><br><span class="line">	for childIndex &lt; length &#123;</span><br><span class="line">		//判断是否有右子节点，并且右子节点大于左子节点的值</span><br><span class="line">		if childIndex+1 &lt; length &amp;&amp; array[childIndex+1] &gt; array[childIndex] &#123;</span><br><span class="line">			childIndex++</span><br><span class="line">		&#125;</span><br><span class="line">		//如果父节点大于任何一个子节点的值直接跳出</span><br><span class="line">		if temp &gt;= array[childIndex] &#123;</span><br><span class="line">			break</span><br><span class="line">		&#125;</span><br><span class="line">		array[parentIndex] = array[childIndex]</span><br><span class="line">		parentIndex = childIndex</span><br><span class="line">		childIndex = 2*childIndex + 1</span><br><span class="line">	&#125;</span><br><span class="line">	array[parentIndex] = temp</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func heapSort(array []int) &#123;</span><br><span class="line">	//构建大顶堆</span><br><span class="line">	for i := (len(array) - 2) / 2; i &gt;= 0; i-- &#123;</span><br><span class="line">		sink(array, i, len(array))</span><br><span class="line">	&#125;</span><br><span class="line">	//将堆顶元素和最后一个元素交换，数组长度i--(相当于循环删除根顶部元素，然后sink 调整最大堆)</span><br><span class="line">	for i := len(array) - 1; i &gt; 0; i-- &#123;</span><br><span class="line">		array[i], array[0] = array[0], array[i]</span><br><span class="line">		sink(array, 0, i)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -345,16 +461,20 @@
                                 
                             </div>
                             
-                            <a href="/2019/09/03/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -363,6 +483,40 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;类型&gt;: (类型的值见下面描述) &lt;主题&gt; (最多50个字)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>feat (新特性)<br>
+fix (bug修复)<br>
+docs (文档改动)<br>
+style (格式化, 缺失分号等; 不包括生产代码变动)<br>
+refactor (重构代码)<br>
+test (添加缺失的测试, 重构测试, 不包括生产代码变动)<br>
+chore (更新grunt任务等; 不包括生产代码变动)</p>
+</blockquote>
+<ul>
+<li>主题和内容以一个空行分隔</li>
+<li>主题限制为最大50个字</li>
+<li>主题行大写</li>
+<li>主题行结束不用标点</li>
+<li>主题行使用祈使名</li>
+<li>内容每行72个字</li>
+<li>内容用于解释为什么和是什么,而不是怎么做</li>
+<li>内容多行时以’-'分隔</li>
+</ul>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -384,16 +538,18 @@
                                 
                             </div>
                             
-                            <a href="/2019/08/14/GitCommitTemplate/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2019/08/14/GitCommitTemplate/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -402,6 +558,436 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-4">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p><img src="http://qiniu.deveye.cn/20210316200434.png" alt=""></p>
+<h3 id="一、新建代码库">一、新建代码库</h3>
+<blockquote>
+<p><font color=gray># 在当前目录新建一个Git代码库</font><br>
+$ git init</p>
+<p><font color=gray># 新建一个目录，将其初始化为Git代码库</font><br>
+$ git init [project-name]</p>
+<p><font color=gray># 下载一个项目和它的整个代码历史</font><br>
+$ git clone [url]</p>
+</blockquote>
+<h3 id="二、配置">二、配置</h3>
+<p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）</p>
+<blockquote>
+<p><font color=gray># 显示当前的Git配置</font><br>
+$ git config --list</p>
+<p><font color=gray># 编辑Git配置文件</font><br>
+$ git config -e [–global]</p>
+<p><font color=gray># 设置提交代码时的用户信息</font><br>
+$ git config [–global] <a href="http://user.name">user.name</a> &quot;[name]&quot;<br>
+$ git config [–global] user.email &quot;[email   address]&quot;</p>
+</blockquote>
+<h3 id="三、增加-删除文件">三、增加/删除文件</h3>
+<blockquote>
+<p><font color=gray># 添加指定文件到暂存区</font><br>
+$ git add [file1] [file2] …</p>
+<p><font color=gray># 添加指定目录到暂存区，包括子目录</font><br>
+$ git add [dir]</p>
+<p><font color=gray># 添加当前目录的所有文件到暂存区</font><br>
+$ git add .</p>
+<p><font color=gray># 添加每个变化前，都会要求确认</font><br>
+<font color=gray># 对于同一个文件的多处变化，可以实现分次提交</font><br>
+$ git add -p</p>
+<p><font color=gray># 删除工作区文件，并且将这次删除放入暂存区</font><br>
+$ git rm [file1] [file2] …</p>
+<p><font color=gray># 停止追踪指定文件，但该文件会保留在工作区</font><br>
+$ git rm --cached [file]</p>
+<p><font color=gray># 改名文件，并且将这个改名放入暂存区</font><br>
+$ git mv [file-original] [file-renamed]</p>
+</blockquote>
+<h3 id="四、代码提交">四、代码提交</h3>
+<blockquote>
+<p><font color=gray># 提交暂存区到仓库区</font><br>
+$ git commit -m [message]</p>
+<p><font color=gray># 提交暂存区的指定文件到仓库区</font><br>
+$ git commit [file1] [file2] … -m [message]</p>
+<p><font color=gray># 提交工作区自上次commit之后的变化，直接到仓库区</font><br>
+$ git commit -a</p>
+<p><font color=gray># 提交时显示所有diff信息</font><br>
+$ git commit -v</p>
+<p><font color=gray># 使用一次新的commit，替代上一次提交</font><br>
+<font color=gray># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</font><br>
+$ git commit --amend -m [message]</p>
+<p><font color=gray># 重做上一次commit，并包括指定文件的新变化</font><br>
+$ git commit --amend [file1] [file2] …</p>
+</blockquote>
+<h3 id="五、分支">五、分支</h3>
+<blockquote>
+<p><font color=gray># 列出所有本地分支</font><br>
+$ git branch</p>
+<p><font color=gray># 列出所有远程分支</font><br>
+$ git branch -r</p>
+<p><font color=gray># 列出所有本地分支和远程分支</font><br>
+$ git branch -a</p>
+<p><font color=gray># 新建一个分支，但依然停留在当前分支</font><br>
+$ git branch [branch-name]</p>
+<p><font color=gray># 新建一个分支，并切换到该分支</font><br>
+$ git checkout -b [branch]</p>
+<p><font color=gray># 新建一个分支，指向指定commit</font><br>
+$ git branch [branch] [commit]</p>
+<p><font color=gray># 新建一个分支，与指定的远程分支建立追踪关系</font><br>
+$ git branch --track [branch] [remote-branch]</p>
+<p><font color=gray># 切换到指定分支，并更新工作区</font><br>
+$ git checkout [branch-name]</p>
+<p><font color=gray># 切换到上一个分支</font><br>
+$ git checkout -</p>
+<p><font color=gray># 建立追踪关系，在现有分支与指定的远程分支之间</font><br>
+$ git branch --set-upstream [branch] [remote-branch]</p>
+<p><font color=gray># 合并指定分支到当前分支</font><br>
+$ git merge [branch]</p>
+<p><font color=gray># 选择一个commit，合并进当前分支</font><br>
+$ git cherry-pick [commit]</p>
+<p><font color=gray># 删除分支</font><br>
+$ git branch -d [branch-name]</p>
+<p><font color=gray># 删除远程分支</font><br>
+$ git push origin --delete [branch-name]<br>
+$ git branch -dr [remote/branch]</p>
+</blockquote>
+<h3 id="六、标签">六、标签</h3>
+<blockquote>
+<p><font color=gray># 列出所有tag</font><br>
+$ git tag</p>
+<p><font color=gray># 新建一个tag在当前commit</font><br>
+$ git tag [tag]</p>
+<p><font color=gray># 新建一个tag在指定commit</font><br>
+$ git tag [tag] [commit]</p>
+<p><font color=gray># 删除本地tag</font><br>
+$ git tag -d [tag]</p>
+<p><font color=gray># 删除远程tag</font><br>
+$ git push origin :refs/tags/[tagName]</p>
+<p><font color=gray># 查看tag信息</font><br>
+$ git show [tag]</p>
+<p><font color=gray># 提交指定tag</font><br>
+$ git push [remote] [tag]</p>
+<p><font color=gray># 提交所有tag</font><br>
+$ git push [remote] --tags</p>
+<p><font color=gray># 新建一个分支，指向某个tag</font><br>
+$ git checkout -b [branch] [tag]</p>
+</blockquote>
+<h3 id="七、查看信息">七、查看信息</h3>
+<blockquote>
+<p><font color=gray># 显示有变更的文件</font><br>
+$ git status</p>
+<p><font color=gray># 显示当前分支的版本历史</font><br>
+$ git log</p>
+<p><font color=gray># 显示commit历史，以及每次commit发生变更的文件</font><br>
+$ git log --stat</p>
+<p><font color=gray># 搜索提交历史，根据关键词</font><br>
+$ git log -S [keyword]</p>
+<p><font color=gray># 显示某个commit之后的所有变动，每个commit占据一行</font><br>
+$ git log [tag] HEAD --pretty=format:%s</p>
+<p><font color=gray># 显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件</font><br>
+$ git log [tag] HEAD --grep feature</p>
+<p><font color=gray># 显示某个文件的版本历史，包括文件改名</font><br>
+$ git log --follow [file]<br>
+$ git whatchanged [file]</p>
+<p><font color=gray># 显示指定文件相关的每一次diff</font><br>
+$ git log -p [file]</p>
+<p><font color=gray># 显示过去5次提交</font><br>
+$ git log -5 --pretty --oneline</p>
+<p><font color=gray># 显示所有提交过的用户，按提交次数排序</font><br>
+$ git shortlog -sn</p>
+<p><font color=gray># 显示指定文件是什么人在什么时间修改过</font><br>
+$ git blame [file]</p>
+<p><font color=gray># 显示暂存区和工作区的代码差异</font><br>
+$ git diff</p>
+<p><font color=gray># 显示暂存区和上一个commit的差异</font><br>
+$ git diff --cached [file]</p>
+<p><font color=gray># 显示工作区与当前分支最新commit之间的差异</font><br>
+$ git diff HEAD</p>
+<p><font color=gray># 显示两次提交之间的差异</font><br>
+$ git diff [first-branch]…[second-branch]</p>
+<p><font color=gray># 显示今天你写了多少行代码</font><br>
+$ git diff --shortstat &quot;@{0 day ago}&quot;</p>
+<p><font color=gray># 显示某次提交的元数据和内容变化</font><br>
+$ git show [commit]</p>
+<p><font color=gray># 显示某次提交发生变化的文件</font><br>
+$ git show --name-only [commit]</p>
+<p><font color=gray># 显示某次提交时，某个文件的内容</font><br>
+$ git show [commit]:[filename]</p>
+<p><font color=gray># 显示当前分支的最近几次提交</font><br>
+$ git reflog</p>
+<p><font color=gray># 从本地master拉取代码更新当前分支：branch 一般为master</font><br>
+$ git rebase [branch]</p>
+</blockquote>
+<h3 id="八、远程同步">八、远程同步</h3>
+<blockquote>
+<p>$ git remote update  --更新远程仓储<br>
+<font color=gray># 下载远程仓库的所有变动</font><br>
+$ git fetch [remote]</p>
+<p><font color=gray># 显示所有远程仓库</font><br>
+$ git remote -v</p>
+<p><font color=gray># 显示某个远程仓库的信息</font><br>
+$ git remote show [remote]</p>
+<p><font color=gray># 增加一个新的远程仓库，并命名</font><br>
+$ git remote add [shortname] [url]</p>
+<p><font color=gray># 取回远程仓库的变化，并与本地分支合并</font><br>
+$ git pull [remote] [branch]</p>
+<p><font color=gray># 上传本地指定分支到远程仓库</font><br>
+$ git push [remote] [branch]</p>
+<p><font color=gray># 强行推送当前分支到远程仓库，即使有冲突</font><br>
+$ git push [remote] --force</p>
+<p><font color=gray># 推送所有分支到远程仓库</font><br>
+$ git push [remote] --all</p>
+</blockquote>
+<h3 id="九、撤销">九、撤销</h3>
+<blockquote>
+<p><font color=gray># 恢复暂存区的指定文件到工作区</font><br>
+$ git checkout [file]</p>
+<p><font color=gray># 恢复某个commit的指定文件到暂存区和工作区</font><br>
+$ git checkout [commit] [file]</p>
+<p><font color=gray># 恢复暂存区的所有文件到工作区</font><br>
+$ git checkout .</p>
+<p><font color=gray># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</font><br>
+$ git reset [file]</p>
+<p><font color=gray># 重置暂存区与工作区，与上一次commit保持一致</font><br>
+$ git reset --hard</p>
+<p><font color=gray># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</font><br>
+$ git reset [commit]</p>
+<p><font color=gray># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</font><br>
+$ git reset --hard [commit]</p>
+<p><font color=gray># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</font><br>
+$ git reset --keep [commit]</p>
+<p><font color=gray># 新建一个commit，用来撤销指定commit<br>
+# 后者的所有变化都将被前者抵消，并且应用到当前分支</font><br>
+$ git revert [commit]</p>
+<p><font color=gray># 暂时将未提交的变化移除，稍后再移入</font><br>
+$ git stash<br>
+$ git stash pop</p>
+</blockquote>
+<h3 id="十、其他">十、其他</h3>
+<blockquote>
+<p><font color=gray># 生成一个可供发布的压缩包</font><br>
+$ git archive</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-4">
+                                        <div class="post-content" data-content-type="full">
+                                            <p><img src="http://qiniu.deveye.cn/20210316200434.png" alt=""></p>
+<h3 id="一、新建代码库">一、新建代码库</h3>
+<blockquote>
+<p><font color=gray># 在当前目录新建一个Git代码库</font><br>
+$ git init</p>
+<p><font color=gray># 新建一个目录，将其初始化为Git代码库</font><br>
+$ git init [project-name]</p>
+<p><font color=gray># 下载一个项目和它的整个代码历史</font><br>
+$ git clone [url]</p>
+</blockquote>
+<h3 id="二、配置">二、配置</h3>
+<p>Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）</p>
+<blockquote>
+<p><font color=gray># 显示当前的Git配置</font><br>
+$ git config --list</p>
+<p><font color=gray># 编辑Git配置文件</font><br>
+$ git config -e [–global]</p>
+<p><font color=gray># 设置提交代码时的用户信息</font><br>
+$ git config [–global] <a href="http://user.name">user.name</a> &quot;[name]&quot;<br>
+$ git config [–global] user.email &quot;[email   address]&quot;</p>
+</blockquote>
+<h3 id="三、增加-删除文件">三、增加/删除文件</h3>
+<blockquote>
+<p><font color=gray># 添加指定文件到暂存区</font><br>
+$ git add [file1] [file2] …</p>
+<p><font color=gray># 添加指定目录到暂存区，包括子目录</font><br>
+$ git add [dir]</p>
+<p><font color=gray># 添加当前目录的所有文件到暂存区</font><br>
+$ git add .</p>
+<p><font color=gray># 添加每个变化前，都会要求确认</font><br>
+<font color=gray># 对于同一个文件的多处变化，可以实现分次提交</font><br>
+$ git add -p</p>
+<p><font color=gray># 删除工作区文件，并且将这次删除放入暂存区</font><br>
+$ git rm [file1] [file2] …</p>
+<p><font color=gray># 停止追踪指定文件，但该文件会保留在工作区</font><br>
+$ git rm --cached [file]</p>
+<p><font color=gray># 改名文件，并且将这个改名放入暂存区</font><br>
+$ git mv [file-original] [file-renamed]</p>
+</blockquote>
+<h3 id="四、代码提交">四、代码提交</h3>
+<blockquote>
+<p><font color=gray># 提交暂存区到仓库区</font><br>
+$ git commit -m [message]</p>
+<p><font color=gray># 提交暂存区的指定文件到仓库区</font><br>
+$ git commit [file1] [file2] … -m [message]</p>
+<p><font color=gray># 提交工作区自上次commit之后的变化，直接到仓库区</font><br>
+$ git commit -a</p>
+<p><font color=gray># 提交时显示所有diff信息</font><br>
+$ git commit -v</p>
+<p><font color=gray># 使用一次新的commit，替代上一次提交</font><br>
+<font color=gray># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</font><br>
+$ git commit --amend -m [message]</p>
+<p><font color=gray># 重做上一次commit，并包括指定文件的新变化</font><br>
+$ git commit --amend [file1] [file2] …</p>
+</blockquote>
+<h3 id="五、分支">五、分支</h3>
+<blockquote>
+<p><font color=gray># 列出所有本地分支</font><br>
+$ git branch</p>
+<p><font color=gray># 列出所有远程分支</font><br>
+$ git branch -r</p>
+<p><font color=gray># 列出所有本地分支和远程分支</font><br>
+$ git branch -a</p>
+<p><font color=gray># 新建一个分支，但依然停留在当前分支</font><br>
+$ git branch [branch-name]</p>
+<p><font color=gray># 新建一个分支，并切换到该分支</font><br>
+$ git checkout -b [branch]</p>
+<p><font color=gray># 新建一个分支，指向指定commit</font><br>
+$ git branch [branch] [commit]</p>
+<p><font color=gray># 新建一个分支，与指定的远程分支建立追踪关系</font><br>
+$ git branch --track [branch] [remote-branch]</p>
+<p><font color=gray># 切换到指定分支，并更新工作区</font><br>
+$ git checkout [branch-name]</p>
+<p><font color=gray># 切换到上一个分支</font><br>
+$ git checkout -</p>
+<p><font color=gray># 建立追踪关系，在现有分支与指定的远程分支之间</font><br>
+$ git branch --set-upstream [branch] [remote-branch]</p>
+<p><font color=gray># 合并指定分支到当前分支</font><br>
+$ git merge [branch]</p>
+<p><font color=gray># 选择一个commit，合并进当前分支</font><br>
+$ git cherry-pick [commit]</p>
+<p><font color=gray># 删除分支</font><br>
+$ git branch -d [branch-name]</p>
+<p><font color=gray># 删除远程分支</font><br>
+$ git push origin --delete [branch-name]<br>
+$ git branch -dr [remote/branch]</p>
+</blockquote>
+<h3 id="六、标签">六、标签</h3>
+<blockquote>
+<p><font color=gray># 列出所有tag</font><br>
+$ git tag</p>
+<p><font color=gray># 新建一个tag在当前commit</font><br>
+$ git tag [tag]</p>
+<p><font color=gray># 新建一个tag在指定commit</font><br>
+$ git tag [tag] [commit]</p>
+<p><font color=gray># 删除本地tag</font><br>
+$ git tag -d [tag]</p>
+<p><font color=gray># 删除远程tag</font><br>
+$ git push origin :refs/tags/[tagName]</p>
+<p><font color=gray># 查看tag信息</font><br>
+$ git show [tag]</p>
+<p><font color=gray># 提交指定tag</font><br>
+$ git push [remote] [tag]</p>
+<p><font color=gray># 提交所有tag</font><br>
+$ git push [remote] --tags</p>
+<p><font color=gray># 新建一个分支，指向某个tag</font><br>
+$ git checkout -b [branch] [tag]</p>
+</blockquote>
+<h3 id="七、查看信息">七、查看信息</h3>
+<blockquote>
+<p><font color=gray># 显示有变更的文件</font><br>
+$ git status</p>
+<p><font color=gray># 显示当前分支的版本历史</font><br>
+$ git log</p>
+<p><font color=gray># 显示commit历史，以及每次commit发生变更的文件</font><br>
+$ git log --stat</p>
+<p><font color=gray># 搜索提交历史，根据关键词</font><br>
+$ git log -S [keyword]</p>
+<p><font color=gray># 显示某个commit之后的所有变动，每个commit占据一行</font><br>
+$ git log [tag] HEAD --pretty=format:%s</p>
+<p><font color=gray># 显示某个commit之后的所有变动，其&quot;提交说明&quot;必须符合搜索条件</font><br>
+$ git log [tag] HEAD --grep feature</p>
+<p><font color=gray># 显示某个文件的版本历史，包括文件改名</font><br>
+$ git log --follow [file]<br>
+$ git whatchanged [file]</p>
+<p><font color=gray># 显示指定文件相关的每一次diff</font><br>
+$ git log -p [file]</p>
+<p><font color=gray># 显示过去5次提交</font><br>
+$ git log -5 --pretty --oneline</p>
+<p><font color=gray># 显示所有提交过的用户，按提交次数排序</font><br>
+$ git shortlog -sn</p>
+<p><font color=gray># 显示指定文件是什么人在什么时间修改过</font><br>
+$ git blame [file]</p>
+<p><font color=gray># 显示暂存区和工作区的代码差异</font><br>
+$ git diff</p>
+<p><font color=gray># 显示暂存区和上一个commit的差异</font><br>
+$ git diff --cached [file]</p>
+<p><font color=gray># 显示工作区与当前分支最新commit之间的差异</font><br>
+$ git diff HEAD</p>
+<p><font color=gray># 显示两次提交之间的差异</font><br>
+$ git diff [first-branch]…[second-branch]</p>
+<p><font color=gray># 显示今天你写了多少行代码</font><br>
+$ git diff --shortstat &quot;@{0 day ago}&quot;</p>
+<p><font color=gray># 显示某次提交的元数据和内容变化</font><br>
+$ git show [commit]</p>
+<p><font color=gray># 显示某次提交发生变化的文件</font><br>
+$ git show --name-only [commit]</p>
+<p><font color=gray># 显示某次提交时，某个文件的内容</font><br>
+$ git show [commit]:[filename]</p>
+<p><font color=gray># 显示当前分支的最近几次提交</font><br>
+$ git reflog</p>
+<p><font color=gray># 从本地master拉取代码更新当前分支：branch 一般为master</font><br>
+$ git rebase [branch]</p>
+</blockquote>
+<h3 id="八、远程同步">八、远程同步</h3>
+<blockquote>
+<p>$ git remote update  --更新远程仓储<br>
+<font color=gray># 下载远程仓库的所有变动</font><br>
+$ git fetch [remote]</p>
+<p><font color=gray># 显示所有远程仓库</font><br>
+$ git remote -v</p>
+<p><font color=gray># 显示某个远程仓库的信息</font><br>
+$ git remote show [remote]</p>
+<p><font color=gray># 增加一个新的远程仓库，并命名</font><br>
+$ git remote add [shortname] [url]</p>
+<p><font color=gray># 取回远程仓库的变化，并与本地分支合并</font><br>
+$ git pull [remote] [branch]</p>
+<p><font color=gray># 上传本地指定分支到远程仓库</font><br>
+$ git push [remote] [branch]</p>
+<p><font color=gray># 强行推送当前分支到远程仓库，即使有冲突</font><br>
+$ git push [remote] --force</p>
+<p><font color=gray># 推送所有分支到远程仓库</font><br>
+$ git push [remote] --all</p>
+</blockquote>
+<h3 id="九、撤销">九、撤销</h3>
+<blockquote>
+<p><font color=gray># 恢复暂存区的指定文件到工作区</font><br>
+$ git checkout [file]</p>
+<p><font color=gray># 恢复某个commit的指定文件到暂存区和工作区</font><br>
+$ git checkout [commit] [file]</p>
+<p><font color=gray># 恢复暂存区的所有文件到工作区</font><br>
+$ git checkout .</p>
+<p><font color=gray># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</font><br>
+$ git reset [file]</p>
+<p><font color=gray># 重置暂存区与工作区，与上一次commit保持一致</font><br>
+$ git reset --hard</p>
+<p><font color=gray># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</font><br>
+$ git reset [commit]</p>
+<p><font color=gray># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</font><br>
+$ git reset --hard [commit]</p>
+<p><font color=gray># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</font><br>
+$ git reset --keep [commit]</p>
+<p><font color=gray># 新建一个commit，用来撤销指定commit<br>
+# 后者的所有变化都将被前者抵消，并且应用到当前分支</font><br>
+$ git revert [commit]</p>
+<p><font color=gray># 暂时将未提交的变化移除，稍后再移入</font><br>
+$ git stash<br>
+$ git stash pop</p>
+</blockquote>
+<h3 id="十、其他">十、其他</h3>
+<blockquote>
+<p><font color=gray># 生成一个可供发布的压缩包</font><br>
+$ git archive</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -423,16 +1009,20 @@
                                 
                             </div>
                             
-                            <a href="/2019/02/18/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="4" id="btn-4">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -441,6 +1031,282 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-5">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="1-Nginx-常用操作整理">1. Nginx 常用操作整理</h3>
+<h4 id="1-1-启动-Nginx">1.1 启动 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-停止-Nginx">1.2 停止 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s stop</span><br><span class="line">./sbin/nginx -s quit</span><br><span class="line">-s 都是采用向 Nginx 发送信号的方式。</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-重载-Nginx">1.3 重载 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-指定配置文件">1.4 指定配置文件</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -c /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h4 id="1-5-配置语法检查">1.5 配置语法检查</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -t /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">常规用法： ./sbin/nginx -tc /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h3 id="2-配置文件详解">2. 配置文件详解</h3>
+<p>Nginx配置文件的分块下，基本就分为以下几块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">main # 全局设置</span><br><span class="line">events &#123; # Nginx工作模式</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br><span class="line">http &#123; # http设置</span><br><span class="line">    ....</span><br><span class="line">    upstream myproject &#123; # 负载均衡服务器设置</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123; # 主机设置</span><br><span class="line">        ....</span><br><span class="line">        location &#123; # URL匹配</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123;</span><br><span class="line">        ....</span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-main模块">2.1 main模块</h4>
+<p>下面是一个main区域，它是一个全局的设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log /usr/local/var/log/nginx/error.log notice;</span><br><span class="line">pid /usr/local/var/run/nginx/nginx.pid;</span><br><span class="line">worker_rlimit_nofile 1024;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>user 来指定Nginx Worker进程运行用户以及用户组，默认由nobody账号运行。</p>
+<p>worker_processes 来指定了Nginx要开启的子进程数。每个Nginx进程平均耗费10M~12M内存。根据经验，一般指定1个进程就足够了，如果是多核CPU，建议指定和CPU的数量一样的进程数即可。我这里写2，那么就会开启2个子进程，总共3个进程。</p>
+<p>error_log 来定义全局错误日志文件。日志输出级别有debug、info、notice、warn、error、crit可供选择，其中，debug输出日志最为最详细，而crit输出日志最少。</p>
+<p>pid 来指定进程id的存储文件位置。</p>
+<p>worker_rlimit_nofile 来指定一个nginx进程可以打开的最多文件描述符数目，这里是65535，需要使用命令“ulimit -n 65535”来设置。</p>
+</blockquote>
+<h4 id="2-2-events模块">2.2 events模块</h4>
+<p>events模块来用指定nginx的工作模式和工作模式及连接数上限，一般是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    use kqueue; #mac平台</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>use 用来指定Nginx的工作模式。Nginx支持的工作模式有select、poll、kqueue、epoll、rtsig和/dev/poll。其中select和poll都是标准的工作模式，kqueue和epoll是高效的工作模式，不同的是epoll用在Linux平台上，而kqueue用在BSD系统中，因为Mac基于BSD,所以Mac也得用这个模式，对于Linux系统，epoll工作模式是首选。</p>
+<p>worker_connections 用于定义Nginx每个进程的最大连接数，即接收前端的最大请求数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_clients = worker_processes * worker_connections，在作为反向代理时，Max_clients变为：Max_clients = worker_processes * worker_connections / 4。</p>
+<p>进程的最大连接数受Linux系统进程的最大打开文件数限制，在执行操作系统命令“ulimit -n 65536”后worker_connections的设置才能生效。</p>
+</blockquote>
+<h4 id="2-3-http模块">2.3 http模块</h4>
+<p>http模块可以说是最核心的模块了，它负责HTTP服务器相关属性的配置，它里面的server和upstream子模块，至关重要，等到反向代理和负载均衡以及虚拟目录等会仔细说。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include mime.types;</span><br><span class="line">    default_type application/octet-stream;</span><br><span class="line">    log_format main &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                    &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                    &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line">    access_log /usr/local/var/log/nginx/access.log  main;</span><br><span class="line">    sendfile on;</span><br><span class="line">    tcp_nopush on;</span><br><span class="line">    tcp_nodelay on;</span><br><span class="line">    keepalive_timeout 10;</span><br><span class="line">    #gzip on;</span><br><span class="line">    upstream myproject &#123;</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-1-include">2.3.1 include</h5>
+<blockquote>
+<p>用来设定文件的mime类型,类型在配置文件目录下的mime.type文件定义，来告诉nginx来识别文件类型。</p>
+</blockquote>
+<h5 id="2-3-2-default-type">2.3.2 default_type</h5>
+<blockquote>
+<p>设定了默认的类型为二进制流，也就是当文件类型未定义时使用这种方式，例如在没有配置asp的locate 环境时，Nginx是不予解析的，此时，用浏览器访问asp文件就会出现下载窗口了。</p>
+</blockquote>
+<h5 id="2-3-3-log-format">2.3.3 log_format</h5>
+<blockquote>
+<p>用于设置日志的格式，和记录哪些参数，这里设置为main，刚好用于access_log来纪录这种类型。</p>
+</blockquote>
+<h5 id="2-3-4-access-log">2.3.4 access_log</h5>
+<blockquote>
+<p>用来纪录每次的访问日志的文件地址，后面的main是日志的格式样式，对应于log_format的main。</p>
+</blockquote>
+<h5 id="2-3-5-sendfile">2.3.5 sendfile</h5>
+<blockquote>
+<p>用于开启高效文件传输模式。将tcp_nopush和tcp_nodelay两个指令设置为on用于防止网络阻塞。</p>
+</blockquote>
+<h5 id="2-3-6-keepalive-timeout">2.3.6 keepalive_timeout</h5>
+<blockquote>
+<p>设置客户端连接保持活动的超时时间。在超过这个时间之后，服务器会关闭该连接。</p>
+</blockquote>
+<h4 id="6-4-server模块">6.4 server模块</h4>
+<p>server模块是http的子模块，它用来定一个虚拟主机，我们先讲最基本的配置，这些在后面再讲。我们看一下一个简单的server是如何做的？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8080;</span><br><span class="line">    server_name localhost 192.168.12.10 www.yangyi.com;</span><br><span class="line">    # 全局定义，如果都是这一个目录，这样定义最简单。</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log  usr/local/var/log/host.access.log  main;</span><br><span class="line">    error_log  usr/local/var/log/host.error.log  error;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>server 标志定义虚拟主机开始。</p>
+<p>listen 用于指定虚拟主机的服务端口。</p>
+<p>server_name 用来指定IP地址或者域名，多个域名之间用空格分开。</p>
+<p>root 表示在这整个server虚拟主机内，全部的root web根目录。注意要和locate {}下面定义的区分开来。</p>
+<p>index 全局定义访问的默认首页地址。注意要和locate {}下面定义的区分开来。</p>
+<p>charset 用于设置网页的默认编码格式。</p>
+<p>access_log 用来指定此虚拟主机的访问日志存放路径，最后的main用于指定访问日志的输出格式。</p>
+</blockquote>
+<h4 id="2-5-location模块">2.5 location模块</h4>
+<p>location模块是nginx中用的最多的，也是最重要的模块了，什么负载均衡啊、反向代理啊、虚拟域名啊都与它相关。</p>
+<p>location根据它字面意思就知道是来定位的，定位URL，解析URL，所以，它也提供了强大的正则匹配功能，也支持条件判断匹配，用户可以通过location指令实现Nginx对动、静态网页进行过滤处理。像我们的php环境搭建就是用到了它。</p>
+<h5 id="2-5-1-我们先来看这个，设定默认首页和虚拟机目录">2.5.1 我们先来看这个，设定默认首页和虚拟机目录</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>location / 表示匹配访问根目录。</p>
+<p>root 指令用于指定访问根目录时，虚拟主机的web目录，这个目录可以是相对路径（相对路径是相对于nginx的安装目录）。也可以是绝对路径。</p>
+<p>index 用于设定我们只输入域名后访问的默认首页地址，有个先后顺序：index.php index.html index.htm，如果没有开启目录浏览权限，又找不到这些默认首页，就会报403错误。</p>
+</blockquote>
+<h5 id="2-5-2-location-还有一种方式就是正则匹配">2.5.2 location 还有一种方式就是正则匹配</h5>
+<p>下面这个例子是运用正则匹配来链接php。我们之前搭建环境也是这样做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    root           /Users/yangyi/www;</span><br><span class="line">    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">    fastcgi_index  index.php;</span><br><span class="line">    include        fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.php$ 熟悉正则的我们直到，这是匹配.php结尾的URL，用来解析php文件。里面的root也是一样，用来表示虚拟主机的根目录。<br>
+fastcgi_pass 链接的是php-fpm的地址。其他几个参数我们以后再说。</p>
+<p>location 还有其他用法，等讲到实例的时候，再看吧。</p>
+</blockquote>
+<h4 id="2-6-upstream模块">2.6 upstream模块</h4>
+<p>upstream 模块负责负载均衡模块，通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡。先学习怎么用，具体的使用实例以后再说。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream deveye.cn&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.12.1:80;</span><br><span class="line">    server 192.168.12.2:80 down;</span><br><span class="line">    server 192.168.12.3:8080  max_fails=3  fail_timeout=20s;</span><br><span class="line">    server 192.168.12.4:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<a href="http://xn--upstreamiyangyi-7e3xouw5c9yc706c1jlfyemo5arx4bba4380k2ktarn6g3z2ap3oc8b41d.com">通过upstream指令指定了一个负载均衡器的名称iyangyi.com</a>。这个名称可以任意指定，在后面需要的地方直接调用即可。里面是ip_hash这是其中的一种负载均衡调度算法，下面会着重介绍。紧接着就是各种服务器了。用server关键字表识，后面接ip。<br>
+<strong>Nginx的负载均衡模块目前支持4种调度算法：</strong></p>
+<ol>
+<li>
+<p>weight 轮询（默认）。每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某台服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight，指定轮询权值，weight值越大，分配到的访问机率越高，主要用于后端每个服务器性能不均的情况下。</p>
+</li>
+<li>
+<p>ip_hash。每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。</p>
+</li>
+<li>
+<p>fair（第三方）。比上面两个更加智能的负载均衡算法。此种算法可以依据页面大小和加载时间长短智能地进行负载均衡，也就是根据后端服务器的响应时间来分配请求，响应时间短的优先分配。Nginx本身是不支持fair的，如果需要使用这种调度算法，必须下载Nginx的upstream_fair模块。</p>
+</li>
+<li>
+<p>url_hash（第三方）。按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。Nginx本身是不支持url_hash的，如果需要使用这种调度算法，必须安装Nginx的hash软件包。</p>
+</li>
+</ol>
+<p>在HTTP Upstream模块中，可以通过server指令指定后端服务器的IP地址和端口，同时还可以设定每个后端服务器在负载均衡调度中的状态。常用的状态有：</p>
+<ol>
+<li>
+<p>down，表示当前的server暂时不参与负载均衡。</p>
+</li>
+<li>
+<p>backup，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。</p>
+</li>
+<li>
+<p>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。</p>
+</li>
+<li>
+<p>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。</p>
+</li>
+</ol>
+<p><em>注意：当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能是weight和backup。</em></p>
+<blockquote>
+<p>转载自 ：<a href="https://www.jianshu.com/p/f04733896a48">https://www.jianshu.com/p/f04733896a48</a></p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-5">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="1-Nginx-常用操作整理">1. Nginx 常用操作整理</h3>
+<h4 id="1-1-启动-Nginx">1.1 启动 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-停止-Nginx">1.2 停止 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s stop</span><br><span class="line">./sbin/nginx -s quit</span><br><span class="line">-s 都是采用向 Nginx 发送信号的方式。</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-重载-Nginx">1.3 重载 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-指定配置文件">1.4 指定配置文件</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -c /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h4 id="1-5-配置语法检查">1.5 配置语法检查</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -t /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">常规用法： ./sbin/nginx -tc /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h3 id="2-配置文件详解">2. 配置文件详解</h3>
+<p>Nginx配置文件的分块下，基本就分为以下几块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">main # 全局设置</span><br><span class="line">events &#123; # Nginx工作模式</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br><span class="line">http &#123; # http设置</span><br><span class="line">    ....</span><br><span class="line">    upstream myproject &#123; # 负载均衡服务器设置</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123; # 主机设置</span><br><span class="line">        ....</span><br><span class="line">        location &#123; # URL匹配</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123;</span><br><span class="line">        ....</span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-main模块">2.1 main模块</h4>
+<p>下面是一个main区域，它是一个全局的设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log /usr/local/var/log/nginx/error.log notice;</span><br><span class="line">pid /usr/local/var/run/nginx/nginx.pid;</span><br><span class="line">worker_rlimit_nofile 1024;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>user 来指定Nginx Worker进程运行用户以及用户组，默认由nobody账号运行。</p>
+<p>worker_processes 来指定了Nginx要开启的子进程数。每个Nginx进程平均耗费10M~12M内存。根据经验，一般指定1个进程就足够了，如果是多核CPU，建议指定和CPU的数量一样的进程数即可。我这里写2，那么就会开启2个子进程，总共3个进程。</p>
+<p>error_log 来定义全局错误日志文件。日志输出级别有debug、info、notice、warn、error、crit可供选择，其中，debug输出日志最为最详细，而crit输出日志最少。</p>
+<p>pid 来指定进程id的存储文件位置。</p>
+<p>worker_rlimit_nofile 来指定一个nginx进程可以打开的最多文件描述符数目，这里是65535，需要使用命令“ulimit -n 65535”来设置。</p>
+</blockquote>
+<h4 id="2-2-events模块">2.2 events模块</h4>
+<p>events模块来用指定nginx的工作模式和工作模式及连接数上限，一般是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    use kqueue; #mac平台</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>use 用来指定Nginx的工作模式。Nginx支持的工作模式有select、poll、kqueue、epoll、rtsig和/dev/poll。其中select和poll都是标准的工作模式，kqueue和epoll是高效的工作模式，不同的是epoll用在Linux平台上，而kqueue用在BSD系统中，因为Mac基于BSD,所以Mac也得用这个模式，对于Linux系统，epoll工作模式是首选。</p>
+<p>worker_connections 用于定义Nginx每个进程的最大连接数，即接收前端的最大请求数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_clients = worker_processes * worker_connections，在作为反向代理时，Max_clients变为：Max_clients = worker_processes * worker_connections / 4。</p>
+<p>进程的最大连接数受Linux系统进程的最大打开文件数限制，在执行操作系统命令“ulimit -n 65536”后worker_connections的设置才能生效。</p>
+</blockquote>
+<h4 id="2-3-http模块">2.3 http模块</h4>
+<p>http模块可以说是最核心的模块了，它负责HTTP服务器相关属性的配置，它里面的server和upstream子模块，至关重要，等到反向代理和负载均衡以及虚拟目录等会仔细说。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include mime.types;</span><br><span class="line">    default_type application/octet-stream;</span><br><span class="line">    log_format main &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                    &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                    &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line">    access_log /usr/local/var/log/nginx/access.log  main;</span><br><span class="line">    sendfile on;</span><br><span class="line">    tcp_nopush on;</span><br><span class="line">    tcp_nodelay on;</span><br><span class="line">    keepalive_timeout 10;</span><br><span class="line">    #gzip on;</span><br><span class="line">    upstream myproject &#123;</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-1-include">2.3.1 include</h5>
+<blockquote>
+<p>用来设定文件的mime类型,类型在配置文件目录下的mime.type文件定义，来告诉nginx来识别文件类型。</p>
+</blockquote>
+<h5 id="2-3-2-default-type">2.3.2 default_type</h5>
+<blockquote>
+<p>设定了默认的类型为二进制流，也就是当文件类型未定义时使用这种方式，例如在没有配置asp的locate 环境时，Nginx是不予解析的，此时，用浏览器访问asp文件就会出现下载窗口了。</p>
+</blockquote>
+<h5 id="2-3-3-log-format">2.3.3 log_format</h5>
+<blockquote>
+<p>用于设置日志的格式，和记录哪些参数，这里设置为main，刚好用于access_log来纪录这种类型。</p>
+</blockquote>
+<h5 id="2-3-4-access-log">2.3.4 access_log</h5>
+<blockquote>
+<p>用来纪录每次的访问日志的文件地址，后面的main是日志的格式样式，对应于log_format的main。</p>
+</blockquote>
+<h5 id="2-3-5-sendfile">2.3.5 sendfile</h5>
+<blockquote>
+<p>用于开启高效文件传输模式。将tcp_nopush和tcp_nodelay两个指令设置为on用于防止网络阻塞。</p>
+</blockquote>
+<h5 id="2-3-6-keepalive-timeout">2.3.6 keepalive_timeout</h5>
+<blockquote>
+<p>设置客户端连接保持活动的超时时间。在超过这个时间之后，服务器会关闭该连接。</p>
+</blockquote>
+<h4 id="6-4-server模块">6.4 server模块</h4>
+<p>server模块是http的子模块，它用来定一个虚拟主机，我们先讲最基本的配置，这些在后面再讲。我们看一下一个简单的server是如何做的？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8080;</span><br><span class="line">    server_name localhost 192.168.12.10 www.yangyi.com;</span><br><span class="line">    # 全局定义，如果都是这一个目录，这样定义最简单。</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log  usr/local/var/log/host.access.log  main;</span><br><span class="line">    error_log  usr/local/var/log/host.error.log  error;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>server 标志定义虚拟主机开始。</p>
+<p>listen 用于指定虚拟主机的服务端口。</p>
+<p>server_name 用来指定IP地址或者域名，多个域名之间用空格分开。</p>
+<p>root 表示在这整个server虚拟主机内，全部的root web根目录。注意要和locate {}下面定义的区分开来。</p>
+<p>index 全局定义访问的默认首页地址。注意要和locate {}下面定义的区分开来。</p>
+<p>charset 用于设置网页的默认编码格式。</p>
+<p>access_log 用来指定此虚拟主机的访问日志存放路径，最后的main用于指定访问日志的输出格式。</p>
+</blockquote>
+<h4 id="2-5-location模块">2.5 location模块</h4>
+<p>location模块是nginx中用的最多的，也是最重要的模块了，什么负载均衡啊、反向代理啊、虚拟域名啊都与它相关。</p>
+<p>location根据它字面意思就知道是来定位的，定位URL，解析URL，所以，它也提供了强大的正则匹配功能，也支持条件判断匹配，用户可以通过location指令实现Nginx对动、静态网页进行过滤处理。像我们的php环境搭建就是用到了它。</p>
+<h5 id="2-5-1-我们先来看这个，设定默认首页和虚拟机目录">2.5.1 我们先来看这个，设定默认首页和虚拟机目录</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>location / 表示匹配访问根目录。</p>
+<p>root 指令用于指定访问根目录时，虚拟主机的web目录，这个目录可以是相对路径（相对路径是相对于nginx的安装目录）。也可以是绝对路径。</p>
+<p>index 用于设定我们只输入域名后访问的默认首页地址，有个先后顺序：index.php index.html index.htm，如果没有开启目录浏览权限，又找不到这些默认首页，就会报403错误。</p>
+</blockquote>
+<h5 id="2-5-2-location-还有一种方式就是正则匹配">2.5.2 location 还有一种方式就是正则匹配</h5>
+<p>下面这个例子是运用正则匹配来链接php。我们之前搭建环境也是这样做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    root           /Users/yangyi/www;</span><br><span class="line">    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">    fastcgi_index  index.php;</span><br><span class="line">    include        fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.php$ 熟悉正则的我们直到，这是匹配.php结尾的URL，用来解析php文件。里面的root也是一样，用来表示虚拟主机的根目录。<br>
+fastcgi_pass 链接的是php-fpm的地址。其他几个参数我们以后再说。</p>
+<p>location 还有其他用法，等讲到实例的时候，再看吧。</p>
+</blockquote>
+<h4 id="2-6-upstream模块">2.6 upstream模块</h4>
+<p>upstream 模块负责负载均衡模块，通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡。先学习怎么用，具体的使用实例以后再说。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream deveye.cn&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.12.1:80;</span><br><span class="line">    server 192.168.12.2:80 down;</span><br><span class="line">    server 192.168.12.3:8080  max_fails=3  fail_timeout=20s;</span><br><span class="line">    server 192.168.12.4:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<a href="http://xn--upstreamiyangyi-7e3xouw5c9yc706c1jlfyemo5arx4bba4380k2ktarn6g3z2ap3oc8b41d.com">通过upstream指令指定了一个负载均衡器的名称iyangyi.com</a>。这个名称可以任意指定，在后面需要的地方直接调用即可。里面是ip_hash这是其中的一种负载均衡调度算法，下面会着重介绍。紧接着就是各种服务器了。用server关键字表识，后面接ip。<br>
+<strong>Nginx的负载均衡模块目前支持4种调度算法：</strong></p>
+<ol>
+<li>
+<p>weight 轮询（默认）。每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某台服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight，指定轮询权值，weight值越大，分配到的访问机率越高，主要用于后端每个服务器性能不均的情况下。</p>
+</li>
+<li>
+<p>ip_hash。每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。</p>
+</li>
+<li>
+<p>fair（第三方）。比上面两个更加智能的负载均衡算法。此种算法可以依据页面大小和加载时间长短智能地进行负载均衡，也就是根据后端服务器的响应时间来分配请求，响应时间短的优先分配。Nginx本身是不支持fair的，如果需要使用这种调度算法，必须下载Nginx的upstream_fair模块。</p>
+</li>
+<li>
+<p>url_hash（第三方）。按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。Nginx本身是不支持url_hash的，如果需要使用这种调度算法，必须安装Nginx的hash软件包。</p>
+</li>
+</ol>
+<p>在HTTP Upstream模块中，可以通过server指令指定后端服务器的IP地址和端口，同时还可以设定每个后端服务器在负载均衡调度中的状态。常用的状态有：</p>
+<ol>
+<li>
+<p>down，表示当前的server暂时不参与负载均衡。</p>
+</li>
+<li>
+<p>backup，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。</p>
+</li>
+<li>
+<p>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。</p>
+</li>
+<li>
+<p>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。</p>
+</li>
+</ol>
+<p><em>注意：当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能是weight和backup。</em></p>
+<blockquote>
+<p>转载自 ：<a href="https://www.jianshu.com/p/f04733896a48">https://www.jianshu.com/p/f04733896a48</a></p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -462,10 +1328,14 @@
                                 
                             </div>
                             
-                            <a href="/2019/01/18/Nginx%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="5" id="btn-5">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -476,6 +1346,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

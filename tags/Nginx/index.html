@@ -230,47 +230,103 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
-                            <a href="/2019/01/18/Nginx%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                Nginx基本配置
+                            <a href="/2020/08/19/Nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Nginx反向代理配置
                             </a>
                         </h3>
                         
                         
                         
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
+<h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
+<h3 id="方法二：rewrite">方法二：rewrite</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>proxy_pass结尾没有/， rewrite重写了url。</p>
+<h3 id="location匹配命令">location匹配命令</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
+<h3 id="location-匹配的优先级-与location在配置文件中的顺序无关">location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
+<p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
+<p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
+<p><em><strong>^~</strong></em> 则只匹配该规则，nginx停止搜索其他匹配，否则nginx会继续处理其他location指令。</p>
+<p>最后匹配理带有&quot;<sub>&quot;和&quot;</sub>*&quot;的指令，如果找到相应的匹配，则nginx停止搜索其他匹配；当没有正则表达式或者没有正则表达式被匹配的情况下，那么匹配程度最高的逐字匹配指令会被使用。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
+<h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
+<h3 id="方法二：rewrite">方法二：rewrite</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>proxy_pass结尾没有/， rewrite重写了url。</p>
+<h3 id="location匹配命令">location匹配命令</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
+<h3 id="location-匹配的优先级-与location在配置文件中的顺序无关">location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
+<p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
+<p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
+<p><em><strong>^~</strong></em> 则只匹配该规则，nginx停止搜索其他匹配，否则nginx会继续处理其他location指令。</p>
+<p>最后匹配理带有&quot;<sub>&quot;和&quot;</sub>*&quot;的指令，如果找到相应的匹配，则nginx停止搜索其他匹配；当没有正则表达式或者没有正则表达式被匹配的情况下，那么匹配程度最高的逐字匹配指令会被使用。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        
+                        
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                             <div class="flex items-center space-x-4">
-                                <time datetime="2019-01-18T02:50:25.000Z" class="flex items-center">
+                                <time datetime="2020-08-19T05:47:59.000Z" class="flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
-                                    2019-01-18
+                                    2020-08-19
                                 </time>
                                 
                                 
                                     <div class="flex items-center space-x-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
                                         
-                                            <a href="/categories/nginx/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                                nginx
+                                            <a href="/categories/Nginx/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                Nginx
                                             </a>
                                         
                                     </div>
                                 
                             </div>
                             
-                            <a href="/2019/01/18/Nginx%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -281,6 +337,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 
@@ -1266,7 +1396,605 @@
             </style>
             
 
-</html>            </style>
+</html>primary-800 transition-colors">
+				MySQL
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					9
+				</span>
+			</a>
+			
+			<a href="/tags/Netty/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Netty
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Nginx/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Nginx
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Redis/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Redis
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					6
+				</span>
+			</a>
+			
+			<a href="/tags/RocketMQ/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				RocketMQ
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/String/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				String
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/Tomcat/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				Tomcat
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/docker/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				docker
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/go/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				go
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/golang/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				golang
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/hexo/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				hexo
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/juc/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				juc
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/mermaid/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				mermaid
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/nginx/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				nginx
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/prometheus/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				prometheus
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/shell/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				shell
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				人生
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%85%B6%E4%BB%96/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				其他
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				分布式
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				分布式锁
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				多线程
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E5%AD%A6%E4%B9%A0/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				学习
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E6%91%98%E6%8A%84/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				摘抄
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E6%B5%8B%E8%AF%95/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				测试
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E7%AE%97%E6%B3%95/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				算法
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					3
+				</span>
+			</a>
+			
+			<a href="/tags/%E7%BF%BB%E8%AF%91/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				翻译
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%AF%BB%E4%B9%A6/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				读书
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%BD%AC%E8%BD%BD/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				转载
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					2
+				</span>
+			</a>
+			
+			<a href="/tags/%E8%BF%90%E7%BB%B4/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				运维
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+			<a href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/" 
+			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+				随手记
+				<span class="ml-1 text-primary-600 dark:text-primary-300">
+					1
+				</span>
+			</a>
+			
+		</div>
+	</div>
+	
+
+	<!-- 归档 -->
+	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"></path></svg>
+			归档
+		</h4>
+		<div class="space-y-1">
+			
+			<a href="/archives/2025/06/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2025年06月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2025/01/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2025年01月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2024/12/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2024年12月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2022/06/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年06月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					7
+				</span>
+			</a>
+			
+			<a href="/archives/2022/05/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年05月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2022/04/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年04月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/archives/2022/02/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2022年02月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2021/09/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2021年09月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2021/04/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2021年04月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					4
+				</span>
+			</a>
+			
+			<a href="/archives/2021/03/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2021年03月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					8
+				</span>
+			</a>
+			
+			<a href="/archives/2021/01/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2021年01月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2020/10/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2020年10月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2020/09/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2020年09月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2020/08/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2020年08月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/archives/2020/07/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2020年07月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2020/05/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2020年05月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					2
+				</span>
+			</a>
+			
+			<a href="/archives/2019/09/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2019年09月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/archives/2019/08/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2019年08月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2019/02/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2019年02月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2019/01/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2019年01月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+			<a href="/archives/2018/07/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2018年07月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					3
+				</span>
+			</a>
+			
+			<a href="/archives/2018/06/" 
+			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+				<span>2018年06月</span>
+				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+					1
+				</span>
+			</a>
+			
+		</div>
+	</div>
+</div>
+                                    </aside>
+                                    
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- 页脚 -->
+                    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+            <p class="text-gray-600 dark:text-gray-400 mb-2">
+                无常是常 @ All Rights Reserved 2025
+            </p>
+            
+                <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
+                
+        </div>
+    </div>
+</footer>
+
+<!-- 回到顶部按钮 -->
+<button id="back-to-top"
+    class="fixed bottom-8 right-8 bg-primary-600 hover:bg-primary-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible z-50">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path></svg>
+</button>
+            </div>
+        </body>
+        <!-- JavaScript -->
+        <script src="/js/plugins.js" defer></script>
+        <!-- Mermaid 支持 -->
+        
+            <script src="/js/mermaid.min.js"></script>
+            <script defer>
+                window.addEventListener('load', function () {
+                    // 初始化 Mermaid 并让其自动渲染
+                    mermaid.initialize({
+                        theme: 'default',
+                        startOnLoad: true, // 启用自动渲染
+                        securityLevel: 'loose',
+
+                        // 为各个图表类型配置自适应宽度
+                        flowchart: {
+                            htmlLabels: 'true',
+                            curve: 'linear',
+                            useMaxWidth: true
+                        },
+                        sequence: {
+                            diagramMarginX: '50',
+                            diagramMarginY: '10',
+                            actorMargin: '50',
+                            width: '150',
+                            height: '65',
+                            boxMargin: '10',
+                            boxTextMargin: '5',
+                            noteMargin: '10',
+                            messageMargin: '35',
+                            mirrorActors: 'true',
+                            bottomMarginAdj: '1',
+                            useMaxWidth: true
+                        },
+                        class: {
+                            useMaxWidth: true
+                        },
+                        state: {
+                            useMaxWidth: true
+                        },
+                        gantt: {
+                            useMaxWidth: true
+                        },
+                        journey: {
+                            useMaxWidth: true
+                        }
+                    });
+                });
+            </script>
+
+            <!-- Mermaid 样式 -->
+            <style>
+                .mermaid {
+                    text-align: center;
+                    margin: 1.5em 0;
+                    padding: 1rem;
+                    background: #f8f9fa;
+                    border-radius: 0.5rem;
+                    border: 1px solid #e9ecef;
+                    overflow-x: auto;
+                    overflow-y: visible;
+                    max-width: 100%;
+                    box-sizing: border-box;
+                }
+
+                .mermaid-rendered {
+                    background: transparent;
+                    border: none;
+                    padding: 0;
+                }
+
+                .mermaid-error {
+                    color: #dc3545;
+                    background-color: #f8d7da;
+                    border: 1px solid #f5c6cb;
+                    border-radius: 0.375rem;
+                    padding: 0.75rem;
+                    margin: 1rem 0;
+                    font-family: monospace;
+                    text-align: left;
+                }
+
+                /* 深色模式下的 Mermaid 样式 */
+                .dark .mermaid {
+                    background: #374151;
+                    border-color: #4b5563;
+                }
+
+                .dark .mermaid-error {
+                    color: #f8d7da;
+                    background-color: #2d1b1e;
+                    border-color: #842029;
+                }
+
+                /* 确保 Mermaid 图表在深색模式下可见 */
+                .dark .mermaid svg {
+                    background-color: transparent;
+                }
+
+                /* Mermaid 图表样式优化 */
+                .mermaid svg {
+                    max-width: 100%;
+                    height: auto;
+                    display: block;
+                    margin: 0 auto;
+                    /* 保持原始比例，但不超过容器 */
+                    width: auto;
+                }
+
+                /* Mermaid 图表容器已在上面定义，这里添加额外的响应式处理 */
+
+                /* 针对大型图表的滚动条样式 */
+                .mermaid::-webkit-scrollbar {
+                    height: 8px;
+                }
+
+                .mermaid::-webkit-scrollbar-track {
+                    background: #f1f1f1;
+                    border-radius: 4px;
+                }
+
+                .mermaid::-webkit-scrollbar-thumb {
+                    background: #c1c1c1;
+                    border-radius: 4px;
+                }
+
+                .mermaid::-webkit-scrollbar-thumb:hover {
+                    background: #a8a8a8;
+                }
+
+                /* 深色模式下的滚动条 */
+                .dark .mermaid::-webkit-scrollbar-track {
+                    background: #4b5563;
+                }
+
+                .dark .mermaid::-webkit-scrollbar-thumb {
+                    background: #6b7280;
+                }
+
+                .dark .mermaid::-webkit-scrollbar-thumb:hover {
+                    background: #9ca3af;
+                }
+            </style>
             
 
 </html>

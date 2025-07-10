@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,36 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h2 id="镜像构建脚本">镜像构建脚本</h2>
+<p>build-image-web.sh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">if [ &quot;$&#123;BUILD_DIR&#125;&quot; == &quot;&quot; ];then</span><br><span class="line">    echo &quot;env &#x27;BUILD_DIR&#x27; is not set&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">DOCKER_DIR=$&#123;BUILD_DIR&#125;/$&#123;JOB_NAME&#125;</span><br><span class="line"></span><br><span class="line">if [ ! -d $&#123;DOCKER_DIR&#125; ];then</span><br><span class="line">    mkdir -p $&#123;DOCKER_DIR&#125;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">echo &quot;docker workspace: $&#123;DOCKER_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line">JENKINS_DIR=$&#123;WORKSPACE&#125;/$&#123;MODULE&#125;</span><br><span class="line"></span><br><span class="line">echo &quot;jenkins workspace: $&#123;JENKINS_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line">PROJECT_DIR=$&#123;JENKINS_DIR&#125;$&#123;JOB_NAME&#125;-web</span><br><span class="line"></span><br><span class="line">echo &quot;project workspace: $&#123;PROJECT_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [ ! -f $&#123;PROJECT_DIR&#125;/target/*.jar ];then</span><br><span class="line">    echo &quot;target jar file not found $&#123;PROJECT_DIR&#125;/target/*.jar&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cd $&#123;DOCKER_DIR&#125;</span><br><span class="line">rm -fr *.jar Dockerfile</span><br><span class="line"></span><br><span class="line">DOCKER_FILE=/opt/script/Dockerfile</span><br><span class="line"></span><br><span class="line">cp $&#123;PROJECT_DIR&#125;/target/*.jar .</span><br><span class="line">cp $&#123;DOCKER_FILE&#125; .</span><br><span class="line"></span><br><span class="line">sed -i &quot;s,&#123;&#123;JOB_NAME&#125;&#125;,$&#123;JOB_NAME&#125;,g&quot; Dockerfile</span><br><span class="line"></span><br><span class="line">VERSION=$(date +%Y%m%d%H%M%S)</span><br><span class="line"></span><br><span class="line">IMAGE_NAME=harbor.merchant.com/kubernetes/$&#123;JOB_NAME&#125;:$&#123;VERSION&#125;</span><br><span class="line"></span><br><span class="line">echo &quot;$&#123;IMAGE_NAME&#125;&quot; &gt; $&#123;WORKSPACE&#125;/IMAGE</span><br><span class="line"></span><br><span class="line">echo &quot;building image: $&#123;IMAGE_NAME&#125;&quot;</span><br><span class="line">docker build -t $&#123;IMAGE_NAME&#125; .</span><br><span class="line"></span><br><span class="line">docker push $&#123;IMAGE_NAME&#125;</span><br><span class="line"></span><br><span class="line">helm list -n default</span><br><span class="line">helm upgrade $&#123;JOB_NAME&#125; --set name=$&#123;JOB_NAME&#125; --set version=$VERSION --set httpPorts=8080  -n default  /opt/charts/</span><br></pre></td></tr></table></figure>
+<h2 id="Dockerfile">Dockerfile</h2>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">11</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> LANG en_US.UTF-<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> LANGUAGE en_US:en</span><br><span class="line"><span class="keyword">ENV</span> LC_ALL en_US.UTF-<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="keyword">ENV</span> apollo.meta http://<span class="number">192.168</span>.<span class="number">3.183</span>:<span class="number">8080</span></span><br><span class="line"><span class="keyword">ENV</span> APOLLO_LABEL XianDevLabel</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> &#123;&#123;JOB_NAME&#125;&#125;.jar /&#123;&#123;JOB_NAME&#125;&#125;.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-Dapollo.label=XianDevLabel&quot;</span>,<span class="string">&quot;-Djava.security.egd=file:/dev/./urandom&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;&#123;&#123;JOB_NAME&#125;&#125;.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <h2 id="镜像构建脚本">镜像构建脚本</h2>
+<p>build-image-web.sh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">if [ &quot;$&#123;BUILD_DIR&#125;&quot; == &quot;&quot; ];then</span><br><span class="line">    echo &quot;env &#x27;BUILD_DIR&#x27; is not set&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">DOCKER_DIR=$&#123;BUILD_DIR&#125;/$&#123;JOB_NAME&#125;</span><br><span class="line"></span><br><span class="line">if [ ! -d $&#123;DOCKER_DIR&#125; ];then</span><br><span class="line">    mkdir -p $&#123;DOCKER_DIR&#125;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">echo &quot;docker workspace: $&#123;DOCKER_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line">JENKINS_DIR=$&#123;WORKSPACE&#125;/$&#123;MODULE&#125;</span><br><span class="line"></span><br><span class="line">echo &quot;jenkins workspace: $&#123;JENKINS_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line">PROJECT_DIR=$&#123;JENKINS_DIR&#125;$&#123;JOB_NAME&#125;-web</span><br><span class="line"></span><br><span class="line">echo &quot;project workspace: $&#123;PROJECT_DIR&#125;&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [ ! -f $&#123;PROJECT_DIR&#125;/target/*.jar ];then</span><br><span class="line">    echo &quot;target jar file not found $&#123;PROJECT_DIR&#125;/target/*.jar&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">cd $&#123;DOCKER_DIR&#125;</span><br><span class="line">rm -fr *.jar Dockerfile</span><br><span class="line"></span><br><span class="line">DOCKER_FILE=/opt/script/Dockerfile</span><br><span class="line"></span><br><span class="line">cp $&#123;PROJECT_DIR&#125;/target/*.jar .</span><br><span class="line">cp $&#123;DOCKER_FILE&#125; .</span><br><span class="line"></span><br><span class="line">sed -i &quot;s,&#123;&#123;JOB_NAME&#125;&#125;,$&#123;JOB_NAME&#125;,g&quot; Dockerfile</span><br><span class="line"></span><br><span class="line">VERSION=$(date +%Y%m%d%H%M%S)</span><br><span class="line"></span><br><span class="line">IMAGE_NAME=harbor.merchant.com/kubernetes/$&#123;JOB_NAME&#125;:$&#123;VERSION&#125;</span><br><span class="line"></span><br><span class="line">echo &quot;$&#123;IMAGE_NAME&#125;&quot; &gt; $&#123;WORKSPACE&#125;/IMAGE</span><br><span class="line"></span><br><span class="line">echo &quot;building image: $&#123;IMAGE_NAME&#125;&quot;</span><br><span class="line">docker build -t $&#123;IMAGE_NAME&#125; .</span><br><span class="line"></span><br><span class="line">docker push $&#123;IMAGE_NAME&#125;</span><br><span class="line"></span><br><span class="line">helm list -n default</span><br><span class="line">helm upgrade $&#123;JOB_NAME&#125; --set name=$&#123;JOB_NAME&#125; --set version=$VERSION --set httpPorts=8080  -n default  /opt/charts/</span><br></pre></td></tr></table></figure>
+<h2 id="Dockerfile">Dockerfile</h2>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">11</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> LANG en_US.UTF-<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> LANGUAGE en_US:en</span><br><span class="line"><span class="keyword">ENV</span> LC_ALL en_US.UTF-<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> TZ=Asia/Shanghai</span><br><span class="line"><span class="keyword">ENV</span> apollo.meta http://<span class="number">192.168</span>.<span class="number">3.183</span>:<span class="number">8080</span></span><br><span class="line"><span class="keyword">ENV</span> APOLLO_LABEL XianDevLabel</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="language-bash"> &#123;&#123;JOB_NAME&#125;&#125;.jar /&#123;&#123;JOB_NAME&#125;&#125;.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-Dapollo.label=XianDevLabel&quot;</span>,<span class="string">&quot;-Djava.security.egd=file:/dev/./urandom&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;&#123;&#123;JOB_NAME&#125;&#125;.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +299,20 @@
                                 
                             </div>
                             
-                            <a href="/2025/06/15/%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +321,402 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>Mermaid 图表展示</p>
+<p>这是一个展示Mermaid图表功能的文章，同时也演示了目录功能。</p>
+<h2 id="思维导图-mindmap">思维导图 (mindmap)</h2>
+<pre class="mermaid">mindmap
+  root((mindmap))
+    Origins
+      Long history
+      ::icon(fa fa-book)
+      Popularisation
+        British popular psychology author Tony Buzan
+    Research
+      On effectiveness<br/>and features
+      On Automatic creation
+        Uses
+            Creative techniques
+            Strategic planning
+            Argument mapping
+    Tools
+      Pen and paper
+      Mermaid</pre>
+<h2 id="状态图-stateDiagram">状态图 (stateDiagram)</h2>
+<pre class="mermaid">stateDiagram-v2
+    [*] --> Still
+    Still --> [*]
+    Still --> Moving
+    Moving --> Still
+    Moving --> Crash
+    Crash --> [*]</pre>
+<h2 id="类图-classDiagram">类图 (classDiagram)</h2>
+<pre class="mermaid">classDiagram
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal <|-- Zebra
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+      +String beakColor
+      +swim()
+      +quack()
+    }
+    class Fish{
+      -int sizeInFeet
+      -canEat()
+    }
+    class Zebra{
+      +bool is_wild
+      +run()
+    }</pre>
+<h2 id="象限图-quadrantChart">象限图 (quadrantChart)</h2>
+<pre class="mermaid">quadrantChart
+    title Reach and engagement of campaigns
+    x-axis Low Reach --> High Reach
+    y-axis Low Engagement --> High Engagement
+    quadrant-1 We should expand
+    quadrant-2 Need to promote
+    quadrant-3 Re-evaluate
+    quadrant-4 May be improved
+    Campaign A: [0.3, 0.6]
+    Campaign B: [0.45, 0.23]
+    Campaign C: [0.57, 0.69]
+    Campaign D: [0.78, 0.34]
+    Campaign E: [0.40, 0.34]
+    Campaign F: [0.35, 0.78]</pre>
+<h2 id="流程图示例">流程图示例</h2>
+<h2 id="简单流程图">简单流程图</h2>
+<pre class="mermaid">flowchart TD
+    A[开始] --> B{是否有条件}
+    B -->|是| C[执行操作A]
+    B -->|否| D[执行操作B]
+    C --> E[结束]
+    D --> E</pre>
+<h2 id="复杂流程图">复杂流程图</h2>
+<pre class="mermaid">flowchart LR
+    A[用户请求] --> B[身份验证]
+    B -->|成功| C[处理请求]
+    B -->|失败| D[返回错误]
+    C --> E[数据库查询]
+    E --> F[数据处理]
+    F --> G[返回结果]</pre>
+<h2 id="甘特图示例">甘特图示例</h2>
+<pre class="mermaid">gantt
+    section Section
+    Completed :done,    des1, 2014-01-06,2014-01-08
+    Active        :active,  des2, 2014-01-07, 3d
+    Parallel 1   :         des3, after des1, 1d
+    Parallel 2   :         des4, after des1, 1d
+    Parallel 3   :         des5, after des3, 1d
+    Parallel 4   :         des6, after des4, 1d</pre>
+<h2 id="时序图示例">时序图示例</h2>
+<pre class="mermaid">sequenceDiagram
+Alice->>John: Hello John, how are you?
+loop HealthCheck
+    John->>John: Fight against hypochondria
+end
+Note right of John: Rational thoughts!
+John-->>Alice: Great!
+John->>Bob: How about you?
+Bob-->>John: Jolly good!</pre>
+<h2 id="C4">C4</h2>
+<pre class="mermaid">C4Context
+title System Context diagram for Internet Banking System
+
+Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+Person(customerB, "Banking Customer B")
+Person_Ext(customerC, "Banking Customer C")
+System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+
+Enterprise_Boundary(b1, "BankBoundary") {
+
+  SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+  System_Boundary(b2, "BankBoundary2") {
+    System(SystemA, "Banking System A")
+    System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts.")
+  }
+
+  System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+  SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+
+  Boundary(b3, "BankBoundary3", "boundary") {
+    SystemQueue(SystemF, "Banking System F Queue", "A system of the bank, with personal bank accounts.")
+    SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+  }
+}
+
+BiRel(customerA, SystemAA, "Uses")
+BiRel(SystemAA, SystemE, "Uses")
+Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+Rel(SystemC, customerA, "Sends e-mails to")</pre>
+<h2 id="Journey">Journey</h2>
+<pre class="mermaid">  journey
+    title My working day
+    section Go to work
+      Make tea: 5: Me
+      Go upstairs: 3: Me
+      Do work: 1: Me, Cat
+    section Go home
+      Go downstairs: 5: Me
+      Sit down: 3: Me</pre>
+<h2 id="Bar-Chart">Bar Chart</h2>
+<pre class="mermaid">gantt
+    title Git Issues - days since last update
+    dateFormat  X
+    axisFormat %s
+
+    section Issue19062
+    71   : 0, 71
+    section Issue19401
+    36   : 0, 36
+    section Issue193
+    34   : 0, 34
+    section Issue7441
+    9    : 0, 9
+    section Issue1300
+    5    : 0, 5</pre>
+<h2 id="Git-Graph">Git Graph</h2>
+<pre class="mermaid">gitGraph
+  commit
+  commit
+  branch develop
+  checkout develop
+  commit
+  commit
+  checkout main
+  merge develop
+  commit
+  commit</pre>
+<h2 id="Pie">Pie</h2>
+<pre class="mermaid">pie
+"Dogs" : 386
+"Cats" : 85.9
+"Rats" : 15</pre>
+<h2 id="总结">总结</h2>
+<p>通过以上示例，我们可以看到Mermaid支持多种类型的图表：</p>
+<ul>
+<li>思维导图：用于整理思路和概念</li>
+<li>状态图：用于描述系统状态变化</li>
+<li>类图：用于展示类之间的关系</li>
+<li>象限图：用于分析和分类</li>
+<li>流程图：用于描述业务流程</li>
+<li>时序图：用于展示交互过程</li>
+</ul>
+<p>这些图表都可以通过简单的文本语法来创建，非常适合技术文档和博客文章。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
+                                        <div class="post-content" data-content-type="full">
+                                            <p>Mermaid 图表展示</p>
+<p>这是一个展示Mermaid图表功能的文章，同时也演示了目录功能。</p>
+<h2 id="思维导图-mindmap">思维导图 (mindmap)</h2>
+<pre class="mermaid">mindmap
+  root((mindmap))
+    Origins
+      Long history
+      ::icon(fa fa-book)
+      Popularisation
+        British popular psychology author Tony Buzan
+    Research
+      On effectiveness<br/>and features
+      On Automatic creation
+        Uses
+            Creative techniques
+            Strategic planning
+            Argument mapping
+    Tools
+      Pen and paper
+      Mermaid</pre>
+<h2 id="状态图-stateDiagram">状态图 (stateDiagram)</h2>
+<pre class="mermaid">stateDiagram-v2
+    [*] --> Still
+    Still --> [*]
+    Still --> Moving
+    Moving --> Still
+    Moving --> Crash
+    Crash --> [*]</pre>
+<h2 id="类图-classDiagram">类图 (classDiagram)</h2>
+<pre class="mermaid">classDiagram
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal <|-- Zebra
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+      +String beakColor
+      +swim()
+      +quack()
+    }
+    class Fish{
+      -int sizeInFeet
+      -canEat()
+    }
+    class Zebra{
+      +bool is_wild
+      +run()
+    }</pre>
+<h2 id="象限图-quadrantChart">象限图 (quadrantChart)</h2>
+<pre class="mermaid">quadrantChart
+    title Reach and engagement of campaigns
+    x-axis Low Reach --> High Reach
+    y-axis Low Engagement --> High Engagement
+    quadrant-1 We should expand
+    quadrant-2 Need to promote
+    quadrant-3 Re-evaluate
+    quadrant-4 May be improved
+    Campaign A: [0.3, 0.6]
+    Campaign B: [0.45, 0.23]
+    Campaign C: [0.57, 0.69]
+    Campaign D: [0.78, 0.34]
+    Campaign E: [0.40, 0.34]
+    Campaign F: [0.35, 0.78]</pre>
+<h2 id="流程图示例">流程图示例</h2>
+<h2 id="简单流程图">简单流程图</h2>
+<pre class="mermaid">flowchart TD
+    A[开始] --> B{是否有条件}
+    B -->|是| C[执行操作A]
+    B -->|否| D[执行操作B]
+    C --> E[结束]
+    D --> E</pre>
+<h2 id="复杂流程图">复杂流程图</h2>
+<pre class="mermaid">flowchart LR
+    A[用户请求] --> B[身份验证]
+    B -->|成功| C[处理请求]
+    B -->|失败| D[返回错误]
+    C --> E[数据库查询]
+    E --> F[数据处理]
+    F --> G[返回结果]</pre>
+<h2 id="甘特图示例">甘特图示例</h2>
+<pre class="mermaid">gantt
+    section Section
+    Completed :done,    des1, 2014-01-06,2014-01-08
+    Active        :active,  des2, 2014-01-07, 3d
+    Parallel 1   :         des3, after des1, 1d
+    Parallel 2   :         des4, after des1, 1d
+    Parallel 3   :         des5, after des3, 1d
+    Parallel 4   :         des6, after des4, 1d</pre>
+<h2 id="时序图示例">时序图示例</h2>
+<pre class="mermaid">sequenceDiagram
+Alice->>John: Hello John, how are you?
+loop HealthCheck
+    John->>John: Fight against hypochondria
+end
+Note right of John: Rational thoughts!
+John-->>Alice: Great!
+John->>Bob: How about you?
+Bob-->>John: Jolly good!</pre>
+<h2 id="C4">C4</h2>
+<pre class="mermaid">C4Context
+title System Context diagram for Internet Banking System
+
+Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+Person(customerB, "Banking Customer B")
+Person_Ext(customerC, "Banking Customer C")
+System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+
+Enterprise_Boundary(b1, "BankBoundary") {
+
+  SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+  System_Boundary(b2, "BankBoundary2") {
+    System(SystemA, "Banking System A")
+    System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts.")
+  }
+
+  System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+  SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+
+  Boundary(b3, "BankBoundary3", "boundary") {
+    SystemQueue(SystemF, "Banking System F Queue", "A system of the bank, with personal bank accounts.")
+    SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+  }
+}
+
+BiRel(customerA, SystemAA, "Uses")
+BiRel(SystemAA, SystemE, "Uses")
+Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+Rel(SystemC, customerA, "Sends e-mails to")</pre>
+<h2 id="Journey">Journey</h2>
+<pre class="mermaid">  journey
+    title My working day
+    section Go to work
+      Make tea: 5: Me
+      Go upstairs: 3: Me
+      Do work: 1: Me, Cat
+    section Go home
+      Go downstairs: 5: Me
+      Sit down: 3: Me</pre>
+<h2 id="Bar-Chart">Bar Chart</h2>
+<pre class="mermaid">gantt
+    title Git Issues - days since last update
+    dateFormat  X
+    axisFormat %s
+
+    section Issue19062
+    71   : 0, 71
+    section Issue19401
+    36   : 0, 36
+    section Issue193
+    34   : 0, 34
+    section Issue7441
+    9    : 0, 9
+    section Issue1300
+    5    : 0, 5</pre>
+<h2 id="Git-Graph">Git Graph</h2>
+<pre class="mermaid">gitGraph
+  commit
+  commit
+  branch develop
+  checkout develop
+  commit
+  commit
+  checkout main
+  merge develop
+  commit
+  commit</pre>
+<h2 id="Pie">Pie</h2>
+<pre class="mermaid">pie
+"Dogs" : 386
+"Cats" : 85.9
+"Rats" : 15</pre>
+<h2 id="总结">总结</h2>
+<p>通过以上示例，我们可以看到Mermaid支持多种类型的图表：</p>
+<ul>
+<li>思维导图：用于整理思路和概念</li>
+<li>状态图：用于描述系统状态变化</li>
+<li>类图：用于展示类之间的关系</li>
+<li>象限图：用于分析和分类</li>
+<li>流程图：用于描述业务流程</li>
+<li>时序图：用于展示交互过程</li>
+</ul>
+<p>这些图表都可以通过简单的文本语法来创建，非常适合技术文档和博客文章。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,10 +738,14 @@
                                 
                             </div>
                             
-                            <a href="/2025/06/11/mermaid/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -320,6 +756,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,72 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="Docker安装Nginx">Docker安装Nginx</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 8000:80 -d --privileged=true \ </span><br><span class="line">-v $PWD/log:/var/log/nginx \</span><br><span class="line">-v $PWD/html:/usr/share/nginx/html \</span><br><span class="line">-v $PWD/conf/conf.d:/etc/nginx/conf.d \</span><br><span class="line">-v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf --restart=always nginx</span><br></pre></td></tr></table></figure>
+<h3 id="Docker安装FTP">Docker安装FTP</h3>
+<ol>
+<li>docker search vsftpd #寻找vsftpd的镜像<br>
+#假如我们找到一个最多引用的，叫fauria/vsftpd</li>
+<li>docker pull fauria/vsftpd #把镜像pull到本地</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 21:21 -p 20:20 -p 21100-21110:21100-21110 --name vsftpd \</span><br><span class="line">-v /opt/ftp_file:/home/vsftpd \</span><br><span class="line">-e FTP_USER=username \</span><br><span class="line">-e FTP_PASS=password \</span><br><span class="line">-e PASV_ADDRESS=xxx.xxx.xxx.xxx \</span><br><span class="line">-e PASV_MIN_PORT=21100 \ </span><br><span class="line">-e PASV_MAX_PORT=21110  --restart=always fauria/vsftpd</span><br></pre></td></tr></table></figure>
+<p><code>-p</code>进行端口绑定映射<br>
+<code>-v</code>进行文件目录的映射 FTP_UESR 和FTP_PASS如果设定了会在container里面的<br>
+/etc/vsftpd/virtual_users.txt<br>
+<code>PASV_MIN_PORT</code>和<code>PASV_MAX_PORT</code>映射的是被动模式下端口使用范围<br>
+<code>PASV_ADDRESS</code>指的的宿主机地址</p>
+<p>1、我们先进入container里面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -i -t vsftpd bash </span><br></pre></td></tr></table></figure>
+<p>2、修改并生成虚拟用户模式下的用户db文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/vsftpd/virtual_users.txt #编辑配置文件写入用户跟密码</span><br></pre></td></tr></table></figure>
+<p>假如我们添加了user用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/vsftpd/user #建立新用户文件夹 </span><br><span class="line">/usr/bin/db_load -T -t hash</span><br><span class="line"> -f /etc/vsftpd/virtual_users.txt /etc/vsftpd/virtual_users.db</span><br></pre></td></tr></table></figure>
+<h3 id="Docker-配置阿里镜像">Docker 配置阿里镜像</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker </span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27; &#123; &quot;registry-mirrors&quot;: [&quot;https://2g2ux2e3.mirror.aliyuncs.com&quot;] &#125; EOF </span><br><span class="line">sudo systemctl daemon-reload </span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="Docker安装Nginx">Docker安装Nginx</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 8000:80 -d --privileged=true \ </span><br><span class="line">-v $PWD/log:/var/log/nginx \</span><br><span class="line">-v $PWD/html:/usr/share/nginx/html \</span><br><span class="line">-v $PWD/conf/conf.d:/etc/nginx/conf.d \</span><br><span class="line">-v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf --restart=always nginx</span><br></pre></td></tr></table></figure>
+<h3 id="Docker安装FTP">Docker安装FTP</h3>
+<ol>
+<li>docker search vsftpd #寻找vsftpd的镜像<br>
+#假如我们找到一个最多引用的，叫fauria/vsftpd</li>
+<li>docker pull fauria/vsftpd #把镜像pull到本地</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 21:21 -p 20:20 -p 21100-21110:21100-21110 --name vsftpd \</span><br><span class="line">-v /opt/ftp_file:/home/vsftpd \</span><br><span class="line">-e FTP_USER=username \</span><br><span class="line">-e FTP_PASS=password \</span><br><span class="line">-e PASV_ADDRESS=xxx.xxx.xxx.xxx \</span><br><span class="line">-e PASV_MIN_PORT=21100 \ </span><br><span class="line">-e PASV_MAX_PORT=21110  --restart=always fauria/vsftpd</span><br></pre></td></tr></table></figure>
+<p><code>-p</code>进行端口绑定映射<br>
+<code>-v</code>进行文件目录的映射 FTP_UESR 和FTP_PASS如果设定了会在container里面的<br>
+/etc/vsftpd/virtual_users.txt<br>
+<code>PASV_MIN_PORT</code>和<code>PASV_MAX_PORT</code>映射的是被动模式下端口使用范围<br>
+<code>PASV_ADDRESS</code>指的的宿主机地址</p>
+<p>1、我们先进入container里面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -i -t vsftpd bash </span><br></pre></td></tr></table></figure>
+<p>2、修改并生成虚拟用户模式下的用户db文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/vsftpd/virtual_users.txt #编辑配置文件写入用户跟密码</span><br></pre></td></tr></table></figure>
+<p>假如我们添加了user用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/vsftpd/user #建立新用户文件夹 </span><br><span class="line">/usr/bin/db_load -T -t hash</span><br><span class="line"> -f /etc/vsftpd/virtual_users.txt /etc/vsftpd/virtual_users.db</span><br></pre></td></tr></table></figure>
+<h3 id="Docker-配置阿里镜像">Docker 配置阿里镜像</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker </span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27; &#123; &quot;registry-mirrors&quot;: [&quot;https://2g2ux2e3.mirror.aliyuncs.com&quot;] &#125; EOF </span><br><span class="line">sudo systemctl daemon-reload </span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +335,20 @@
                                 
                             </div>
                             
-                            <a href="/2021/03/16/Docker%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E9%9B%86%E5%90%88/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +357,102 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <blockquote>
+<p>转载自: <a href="%E8%BD%AC%E8%BD%BD%E4%BA%8E:https://juejin.im/post/5c3ca16ff265da617573f9a4">https://juejin.im/post/5c3ca16ff265da617573f9a4</a></p>
+</blockquote>
+<p>《刻意练习》是一本神奇的魔法书，它用大量的事实案例和数据来证明了刻意练习能给一个人带来的巨大改变。更为难能可贵的是，它不仅仅只是介绍刻意练习的好处，还给读者介绍了刻意练习的方法和注意事项，可以说是干货满满的一本书。</p>
+<p>本文想以“学习编程”为例，结合《刻意练习》这本书教给我们的方式方法，阐述如何通过刻意练习来提高自己的编程水平。</p>
+<h3 id="关于练习">关于练习</h3>
+<p>**不断重复只是“天真的练习”，无法带来进步。“正确的练习”需要好导师、有目标、有反馈。**所以如果想要提高编程水平，光靠一味闷着头努力写代码是不够的，有些人写了几年的CRUD，可能整体的技术水平还不及刚毕业的同学。</p>
+<p>一个好的导师很难得，他不仅要自己在编程水平是有一定的成就，还应该具有一些教育方面的经验，才能更好的指导你。一般来说，大一点的公司都会有老人带新人的机制，可以利用这个来找一个比较好的前辈带一带。另外就是通过看书或看视频其实也是一种很不错的学习方式，写书和出视频的老师自然是具备上述条件的。</p>
+<p>有目标指的是应该要有明确的目标，而不是一个宽泛的目标。比如“我要提高Java水平”明显就是一个宽泛的目标，无法量化。明确的目标应该是什么样子呢？比如，我要学习JVM的基础知识，我要学完23种设计模式等等。一个好的目标还应该是可分解的，有时间或成果量化的。比如，我需要在一个月内学习完Java多线程技术，第一周学习多线程模型，第二周学习多线程基本的类和接口，第三周阅读JDK里面关于多线程方面的工具类的源码，第四周写多线程案例Demo，最后产出一个Java多线程系列笔记或者博客。</p>
+<p>有反馈指的是可以量化的反馈。比如写一篇技术博客，有多少阅读量，点赞量，评论量？写一个开源项目有多少star，做一个LeetCode有没有通过，耗时如何？</p>
+<p>上述算是对“有目的的练习”的一个阐述。刻意练习是在有目的的练习基础上的。总结起来，有目的的练习应该具有以下四个特点：</p>
+<p>1.有目的的练习具有定义明确的特定目标<br>
+2.有目的的练习是专注的<br>
+3.有目的的练习包含反馈<br>
+4.有目的的练习需要走出舒适区</p>
+<p>对于任何类型的练习，这是一条基本的真理：<strong>如果你从来不迫使自己走出舒适区，便永远无法进步。</strong></p>
+<h3 id="关于心理表征">关于心理表征</h3>
+<p>《刻意练习》这本书用了大量的篇幅来介绍心理表征。作者认为，刻意练习的核心之一在于通过练习来创建大量的心理表征，然后再使用这些心理表征反过来帮助练习。</p>
+<p>那心理表征到底是什么？</p>
+<p>我认为**它是一个人学习某样东西的时候，自己心中形成的一个体系架构。**比如我们学习算法，就会形成一个关于算法的体系架构，也就是心理表征。而当我们再学习到Mysql的底层索引原理的时候，就会想到算法关于平衡树方面的知识；当我们学习JDK源码里关于集合框架的时候，就会想到链表、栈与队列、红黑树等等。</p>
+<p>我们的知识形成了一个循环，学得越多，懂得越多。当我们积累了大量的知识以后，再学一样有关联的东西，就能快速学会。</p>
+<h3 id="刻意练习">刻意练习</h3>
+<p>刻意练习提倡“边干边学”，**它使人们熟悉练习的习惯，并思考如何练习。**这与我们学习编程的理念是一样的，几乎没有人会对你说：你只需要看书，看博客，看视频就能学会编程。有经验的前辈一般会告诉你，要有输入，也要有输出。学习了的东西，要通过写代码或者做笔记或者写博客的方式，让知识变成你自己的，更加牢固。</p>
+<p>你通过写代码，不断地写代码来提高自己的编程水平，然后通过思考，反思来决定该如何写代码才能写得更好。</p>
+<p>传统的方法也一直是先找出关于正确方法的信息，然后很大程度上让学生去运用那些知识。<strong>刻意练习则完全相反，它只聚焦于绩效和表现，以及怎样提高绩效和表现。</strong></p>
+<p>编程也是一样，老板和上级其实真正在意的并不是你懂多少理论，而是你写得代码质量好不好，你能不能快速地实现他们需要的功能，能不能解决技术难题。</p>
+<p><strong>你的代码写得比别人快，你的代码写得比别人漂亮，你能快速解决别人不能解决的难题，那你就牛逼。</strong></p>
+<h3 id="关于专注与坚持">关于专注与坚持</h3>
+<p>刻意练习里面有一个观点颠覆了我以前的认知。我一度认为，一个人能不能专注，能不能坚持做一件事，除了热爱，那必然是意志力越高的人越能专注和坚持。</p>
+<p>然而刻意练习告诉我，**意志力根本不存在！**所谓意志力，其实是保持动机与专注的结果。</p>
+<p>我们先来看看如何让自己保持专注，**不专注的练习是没有效果的。**刻意练习提供了一个观点，<strong>如果练习的时间更短，那就会有更好的注意力。</strong></p>
+<p>对于这个观点我是绝对认同的。比如看书，如果想一次性看完一本书，那对于一般人来说绝对是非常困难的。但是如果把它拆成一章一章，每天看一点，那就会好很多。而在日常的工作中或者学习中，我们可以使用“番茄钟”来管理自己的时间与保持专注。这里不具体介绍番茄钟，有兴趣的同学自己去了解一下，亲测有用！一个番茄钟25分钟，不多不少刚刚好。</p>
+<p>再来谈谈动机。对于一个程序员来说，动机是再明显不过的了：升职加薪变大佬。但有时候这个动机并不能转化为一种强有力的动力来促使我们去学习，去提高技术水平。而某些太强烈的动机（比如想跳槽）又很难持续保持。</p>
+<p>《刻意练习》告诉我们，<strong>我们要保持动机，要么强化继续前行的理由，要么弱化停下脚步的理由。</strong></p>
+<p>仍然以学习算法为例。要强化继续前行的理由，我们可以在学习到一定阶段给自己一些小的奖励，比如刷完100个算法题，给自己买个好的键盘或者耳机。还有来自朋友、同事、家人乃至默认人的鼓励也很重要。我在网上写博客分享给大家，如果读者的点赞或者好评，那也是非常能激励我们继续学习的！</p>
+<p>而弱化停下脚步的理由。比如练习累了就合理休息一下，学习累了就暂时玩一下，如果觉得自己一个人学技术太孤独，就找一群小伙伴一起学习或者加入一个技术社区。目标要精心设置且合理，这样才能得到达到目标的成就感，不会因为达不到目标而气馁放弃。</p>
+<p><strong>愿你以梦为马，剑指天涯。</strong></p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
+                                        <div class="post-content" data-content-type="full">
+                                            <blockquote>
+<p>转载自: <a href="%E8%BD%AC%E8%BD%BD%E4%BA%8E:https://juejin.im/post/5c3ca16ff265da617573f9a4">https://juejin.im/post/5c3ca16ff265da617573f9a4</a></p>
+</blockquote>
+<p>《刻意练习》是一本神奇的魔法书，它用大量的事实案例和数据来证明了刻意练习能给一个人带来的巨大改变。更为难能可贵的是，它不仅仅只是介绍刻意练习的好处，还给读者介绍了刻意练习的方法和注意事项，可以说是干货满满的一本书。</p>
+<p>本文想以“学习编程”为例，结合《刻意练习》这本书教给我们的方式方法，阐述如何通过刻意练习来提高自己的编程水平。</p>
+<h3 id="关于练习">关于练习</h3>
+<p>**不断重复只是“天真的练习”，无法带来进步。“正确的练习”需要好导师、有目标、有反馈。**所以如果想要提高编程水平，光靠一味闷着头努力写代码是不够的，有些人写了几年的CRUD，可能整体的技术水平还不及刚毕业的同学。</p>
+<p>一个好的导师很难得，他不仅要自己在编程水平是有一定的成就，还应该具有一些教育方面的经验，才能更好的指导你。一般来说，大一点的公司都会有老人带新人的机制，可以利用这个来找一个比较好的前辈带一带。另外就是通过看书或看视频其实也是一种很不错的学习方式，写书和出视频的老师自然是具备上述条件的。</p>
+<p>有目标指的是应该要有明确的目标，而不是一个宽泛的目标。比如“我要提高Java水平”明显就是一个宽泛的目标，无法量化。明确的目标应该是什么样子呢？比如，我要学习JVM的基础知识，我要学完23种设计模式等等。一个好的目标还应该是可分解的，有时间或成果量化的。比如，我需要在一个月内学习完Java多线程技术，第一周学习多线程模型，第二周学习多线程基本的类和接口，第三周阅读JDK里面关于多线程方面的工具类的源码，第四周写多线程案例Demo，最后产出一个Java多线程系列笔记或者博客。</p>
+<p>有反馈指的是可以量化的反馈。比如写一篇技术博客，有多少阅读量，点赞量，评论量？写一个开源项目有多少star，做一个LeetCode有没有通过，耗时如何？</p>
+<p>上述算是对“有目的的练习”的一个阐述。刻意练习是在有目的的练习基础上的。总结起来，有目的的练习应该具有以下四个特点：</p>
+<p>1.有目的的练习具有定义明确的特定目标<br>
+2.有目的的练习是专注的<br>
+3.有目的的练习包含反馈<br>
+4.有目的的练习需要走出舒适区</p>
+<p>对于任何类型的练习，这是一条基本的真理：<strong>如果你从来不迫使自己走出舒适区，便永远无法进步。</strong></p>
+<h3 id="关于心理表征">关于心理表征</h3>
+<p>《刻意练习》这本书用了大量的篇幅来介绍心理表征。作者认为，刻意练习的核心之一在于通过练习来创建大量的心理表征，然后再使用这些心理表征反过来帮助练习。</p>
+<p>那心理表征到底是什么？</p>
+<p>我认为**它是一个人学习某样东西的时候，自己心中形成的一个体系架构。**比如我们学习算法，就会形成一个关于算法的体系架构，也就是心理表征。而当我们再学习到Mysql的底层索引原理的时候，就会想到算法关于平衡树方面的知识；当我们学习JDK源码里关于集合框架的时候，就会想到链表、栈与队列、红黑树等等。</p>
+<p>我们的知识形成了一个循环，学得越多，懂得越多。当我们积累了大量的知识以后，再学一样有关联的东西，就能快速学会。</p>
+<h3 id="刻意练习">刻意练习</h3>
+<p>刻意练习提倡“边干边学”，**它使人们熟悉练习的习惯，并思考如何练习。**这与我们学习编程的理念是一样的，几乎没有人会对你说：你只需要看书，看博客，看视频就能学会编程。有经验的前辈一般会告诉你，要有输入，也要有输出。学习了的东西，要通过写代码或者做笔记或者写博客的方式，让知识变成你自己的，更加牢固。</p>
+<p>你通过写代码，不断地写代码来提高自己的编程水平，然后通过思考，反思来决定该如何写代码才能写得更好。</p>
+<p>传统的方法也一直是先找出关于正确方法的信息，然后很大程度上让学生去运用那些知识。<strong>刻意练习则完全相反，它只聚焦于绩效和表现，以及怎样提高绩效和表现。</strong></p>
+<p>编程也是一样，老板和上级其实真正在意的并不是你懂多少理论，而是你写得代码质量好不好，你能不能快速地实现他们需要的功能，能不能解决技术难题。</p>
+<p><strong>你的代码写得比别人快，你的代码写得比别人漂亮，你能快速解决别人不能解决的难题，那你就牛逼。</strong></p>
+<h3 id="关于专注与坚持">关于专注与坚持</h3>
+<p>刻意练习里面有一个观点颠覆了我以前的认知。我一度认为，一个人能不能专注，能不能坚持做一件事，除了热爱，那必然是意志力越高的人越能专注和坚持。</p>
+<p>然而刻意练习告诉我，**意志力根本不存在！**所谓意志力，其实是保持动机与专注的结果。</p>
+<p>我们先来看看如何让自己保持专注，**不专注的练习是没有效果的。**刻意练习提供了一个观点，<strong>如果练习的时间更短，那就会有更好的注意力。</strong></p>
+<p>对于这个观点我是绝对认同的。比如看书，如果想一次性看完一本书，那对于一般人来说绝对是非常困难的。但是如果把它拆成一章一章，每天看一点，那就会好很多。而在日常的工作中或者学习中，我们可以使用“番茄钟”来管理自己的时间与保持专注。这里不具体介绍番茄钟，有兴趣的同学自己去了解一下，亲测有用！一个番茄钟25分钟，不多不少刚刚好。</p>
+<p>再来谈谈动机。对于一个程序员来说，动机是再明显不过的了：升职加薪变大佬。但有时候这个动机并不能转化为一种强有力的动力来促使我们去学习，去提高技术水平。而某些太强烈的动机（比如想跳槽）又很难持续保持。</p>
+<p>《刻意练习》告诉我们，<strong>我们要保持动机，要么强化继续前行的理由，要么弱化停下脚步的理由。</strong></p>
+<p>仍然以学习算法为例。要强化继续前行的理由，我们可以在学习到一定阶段给自己一些小的奖励，比如刷完100个算法题，给自己买个好的键盘或者耳机。还有来自朋友、同事、家人乃至默认人的鼓励也很重要。我在网上写博客分享给大家，如果读者的点赞或者好评，那也是非常能激励我们继续学习的！</p>
+<p>而弱化停下脚步的理由。比如练习累了就合理休息一下，学习累了就暂时玩一下，如果觉得自己一个人学技术太孤独，就找一群小伙伴一起学习或者加入一个技术社区。目标要精心设置且合理，这样才能得到达到目标的成就感，不会因为达不到目标而气馁放弃。</p>
+<p><strong>愿你以梦为马，剑指天涯。</strong></p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,16 +474,20 @@
                                 
                             </div>
                             
-                            <a href="/2021/01/17/%E3%80%8A%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E3%80%8B%EF%BC%9A%E4%BB%A5%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E4%B8%BA%E4%BE%8B/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -324,6 +496,25 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="工作中常用到的Reids命令">工作中常用到的Reids命令</h3>
+<ul>
+<li>模糊匹配<em>key</em>并批量删除</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -u redis://password@ip:port/database keys &quot;business:data:10103*&quot; | xargs redis-cli -u redis://password@ip:port/database del</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -345,16 +536,18 @@
                                 
                             </div>
                             
-                            <a href="/2020/10/28/Redis%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2020/10/28/Redis%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -363,6 +556,30 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h4 id="修改commit信息主要有这几种情况">修改commit信息主要有这几种情况:</h4>
+<ol>
+<li>刚刚commit，还没有push，使用<code>git commit --amend</code></li>
+<li>刚刚push，要修改最近一个push的commit信息，使用<code>git commit --amend</code></li>
+<li>修改历史push的commit信息，使用<code>git rebase -i HEAD~n</code>【其中的n为记录数】，配合2中的命令</li>
+</ol>
+<blockquote>
+<p><strong>注意：</strong><br>
+其中1、2两种情况的修改方式是一样的，但是git log的记录是不同的,第三种方式也是把需要修改的记录调整为最新的提交，然后使用2的方式修改。</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -384,16 +601,18 @@
                                 
                             </div>
                             
-                            <a href="/2020/10/23/Git%E4%BF%AE%E6%94%B9commit%E4%BF%A1%E6%81%AF/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2020/10/23/Git%E4%BF%AE%E6%94%B9commit%E4%BF%A1%E6%81%AF/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -402,6 +621,48 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-4">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h2 id="grep">grep</h2>
+<p>查看配置文件只匹配不是以“#”开头的行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat .zshrc | grep -v &quot;^#&quot; &gt; profile.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep -A 200 -B 20 &quot;BadSqlGrammarException&quot; ai-server.log</span><br><span class="line">grep -B 20 &quot;BadSqlGrammarException&quot; ai-server.log</span><br></pre></td></tr></table></figure>
+<p>使用<code>tail</code>查看指定行以后的N行日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -n +358653 catalina.2021-01-12.out|head -n 20</span><br></pre></td></tr></table></figure>
+<h2 id="hash">hash</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hash 显示hash缓存</span><br><span class="line">hash –l 显示hash缓存，加参数-l既可以看到hash表命令的路径，也可以看到它的名字，说不定会有别名</span><br><span class="line">hash –p path name 将命令全路径path起别名为name</span><br><span class="line">hash –t name 显示指定命令的完整路径</span><br><span class="line">hash –d name 清除name缓存</span><br><span class="line">hash –r 清除缓存</span><br></pre></td></tr></table></figure>
+<h2 id="awk">awk</h2>
+<p>查询指定日志行数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk &#x27;/error/&#123;print; for(i=1; i&lt;=10; i++) &#123;getline; print&#125;&#125;&#x27; ai-server.log</span><br></pre></td></tr></table></figure>
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-4">
+                                        <div class="post-content" data-content-type="full">
+                                            <h2 id="grep">grep</h2>
+<p>查看配置文件只匹配不是以“#”开头的行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat .zshrc | grep -v &quot;^#&quot; &gt; profile.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep -A 200 -B 20 &quot;BadSqlGrammarException&quot; ai-server.log</span><br><span class="line">grep -B 20 &quot;BadSqlGrammarException&quot; ai-server.log</span><br></pre></td></tr></table></figure>
+<p>使用<code>tail</code>查看指定行以后的N行日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -n +358653 catalina.2021-01-12.out|head -n 20</span><br></pre></td></tr></table></figure>
+<h2 id="hash">hash</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hash 显示hash缓存</span><br><span class="line">hash –l 显示hash缓存，加参数-l既可以看到hash表命令的路径，也可以看到它的名字，说不定会有别名</span><br><span class="line">hash –p path name 将命令全路径path起别名为name</span><br><span class="line">hash –t name 显示指定命令的完整路径</span><br><span class="line">hash –d name 清除name缓存</span><br><span class="line">hash –r 清除缓存</span><br></pre></td></tr></table></figure>
+<h2 id="awk">awk</h2>
+<p>查询指定日志行数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk &#x27;/error/&#123;print; for(i=1; i&lt;=10; i++) &#123;getline; print&#125;&#125;&#x27; ai-server.log</span><br></pre></td></tr></table></figure>
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -423,16 +684,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/09/27/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="4" id="btn-4">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -441,6 +706,78 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-5">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="场景">场景</h3>
+<p>一般情况下，我们写完代码后会执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;xxx&quot;</span><br></pre></td></tr></table></figure>
+<p>但是执行完后，想撤回怎么办？可以执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
+<p>这样就可以撤回你的提交，并且不会丢失提交前修改的内容.</p>
+<h3 id="理解">理解</h3>
+<p>HEAD^ 代表上一个版本，同等于HEAD<sub>1，如果进行了两次提交，可以写成HEAD</sub>2</p>
+<p><strong>参数</strong></p>
+<blockquote>
+<p>--mixed</p>
+</blockquote>
+<p>默认参数，不删除工作空间改动的代码，只撤回提交，并且撤回<code>git add .</code>操作</p>
+<blockquote>
+<p>--soft</p>
+</blockquote>
+<p>不删除工作空间改动的代码，撤销提交，但是不撤回<code>git add .</code> 操作</p>
+<blockquote>
+<p>--hard</p>
+</blockquote>
+<p>删除工作空间改动的代码，撤销commit，撤销<code>git add .</code>，直接回退到上次<code>commit</code></p>
+<h3 id="最后">最后</h3>
+<p>如果commit注释写错了，只是想改一下注释，只需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<p>此时会进入默认vim编辑器，修改注释完毕后保存就好了。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-5">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="场景">场景</h3>
+<p>一般情况下，我们写完代码后会执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;xxx&quot;</span><br></pre></td></tr></table></figure>
+<p>但是执行完后，想撤回怎么办？可以执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
+<p>这样就可以撤回你的提交，并且不会丢失提交前修改的内容.</p>
+<h3 id="理解">理解</h3>
+<p>HEAD^ 代表上一个版本，同等于HEAD<sub>1，如果进行了两次提交，可以写成HEAD</sub>2</p>
+<p><strong>参数</strong></p>
+<blockquote>
+<p>--mixed</p>
+</blockquote>
+<p>默认参数，不删除工作空间改动的代码，只撤回提交，并且撤回<code>git add .</code>操作</p>
+<blockquote>
+<p>--soft</p>
+</blockquote>
+<p>不删除工作空间改动的代码，撤销提交，但是不撤回<code>git add .</code> 操作</p>
+<blockquote>
+<p>--hard</p>
+</blockquote>
+<p>删除工作空间改动的代码，撤销commit，撤销<code>git add .</code>，直接回退到上次<code>commit</code></p>
+<h3 id="最后">最后</h3>
+<p>如果commit注释写错了，只是想改一下注释，只需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<p>此时会进入默认vim编辑器，修改注释完毕后保存就好了。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -462,16 +799,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/08/21/git-commit%E4%B9%8B%E5%90%8E-%E6%92%A4%E9%94%80commit/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="5" id="btn-5">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -480,6 +821,128 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-6">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="Description">Description</h3>
+<p><code>git rebase</code> 和 <code>git merge</code> 一样都是用于从一个分支获取并且合并到当前分支，但是他们采取不同的工作方式，以下面的一个工作场景说明其区别.</p>
+<p>如图所示：你在一个feature分支进行新特性的开发，与此同时，master 分支的也有新的提交。</p>
+<p><img src="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png" alt="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png"><br>
+为了将master 上新的提交合并到你的feature分支上，你有两种选择：<code>merging or rebasing</code></p>
+<h3 id="merge">merge</h3>
+<p>执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git merge master</span><br></pre></td></tr></table></figure>
+<p>或者执行更简单的：<br>
+<code>git merge master feature</code></p>
+<p>那么此时在feature上git 自动会产生一个新的commit(merge commit)<br>
+look like this：</p>
+<p><img src="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png" alt="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png"></p>
+<p>**merge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit<br>
+**优点：**记录了真实的commit情况，包括每个分支的详情<br>
+**缺点：**因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。</p>
+<h3 id="rebase">rebase</h3>
+<p>本质是变基,执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png" alt="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png"><br>
+**rebase 特点：**会合并之前的commit历史<br>
+**优点：**得到更简洁的项目历史，去掉了merge commit<br>
+**缺点：**如果合并出现代码问题不容易定位，因为re-write了history<br>
+合并时如果出现冲突需要按照如下步骤解决</p>
+<ul>
+<li>修改冲突部分</li>
+<li>git add</li>
+<li>git rebase --continue</li>
+<li>（如果第三步无效可以执行 git rebase --skip）</li>
+</ul>
+<p>不要在git add 之后习惯性的执行 git commit命令<br>
+<em><strong>The Golden Rule of Rebasing rebase</strong></em> 的黄金法则:<br>
+<strong>never use it on public branches(不要在公共分支上使用)</strong><br>
+比如说如下场景：如图所示<br>
+<img src="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png" alt="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png"></p>
+<p>如果你rebase master 到你的feature分支：<br>
+rebase 将所有master的commit移动到你的feature 的顶端。问题是：其他人还在original master上开发，由于你使用了rebase移动了master，git 会认为你的主分支的历史与其他人的有分歧，会产生冲突。<br>
+所以在执行git rebase 之前 问问自己，</p>
+<p>会有其他人看这个分支么？<br>
+IF YES 不要采用这种带有破坏性的修改commit 历史的rebase命令<br>
+IF NO OK，随你便，可以使用rebase</p>
+<h3 id="Summary-总结">Summary 总结</h3>
+<p>如果你想要一个干净的，没有merge commit的线性历史树，那么你应该选择git rebase<br>
+如果你想保留完整的历史记录，并且想要避免重写commit history的风险，你应该选择使用git merge</p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<p><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview">https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">https://git-scm.com/book/zh/v2/Git-分支-变基</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6#_basic_merging">https://git-scm.com/book/zh/v2/Git-分支-分支的新建与合并#_basic_merging</a></p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-6">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="Description">Description</h3>
+<p><code>git rebase</code> 和 <code>git merge</code> 一样都是用于从一个分支获取并且合并到当前分支，但是他们采取不同的工作方式，以下面的一个工作场景说明其区别.</p>
+<p>如图所示：你在一个feature分支进行新特性的开发，与此同时，master 分支的也有新的提交。</p>
+<p><img src="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png" alt="http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png"><br>
+为了将master 上新的提交合并到你的feature分支上，你有两种选择：<code>merging or rebasing</code></p>
+<h3 id="merge">merge</h3>
+<p>执行以下命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git merge master</span><br></pre></td></tr></table></figure>
+<p>或者执行更简单的：<br>
+<code>git merge master feature</code></p>
+<p>那么此时在feature上git 自动会产生一个新的commit(merge commit)<br>
+look like this：</p>
+<p><img src="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png" alt="http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png"></p>
+<p>**merge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit<br>
+**优点：**记录了真实的commit情况，包括每个分支的详情<br>
+**缺点：**因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。</p>
+<h3 id="rebase">rebase</h3>
+<p>本质是变基,执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout feature</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png" alt="http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png"><br>
+**rebase 特点：**会合并之前的commit历史<br>
+**优点：**得到更简洁的项目历史，去掉了merge commit<br>
+**缺点：**如果合并出现代码问题不容易定位，因为re-write了history<br>
+合并时如果出现冲突需要按照如下步骤解决</p>
+<ul>
+<li>修改冲突部分</li>
+<li>git add</li>
+<li>git rebase --continue</li>
+<li>（如果第三步无效可以执行 git rebase --skip）</li>
+</ul>
+<p>不要在git add 之后习惯性的执行 git commit命令<br>
+<em><strong>The Golden Rule of Rebasing rebase</strong></em> 的黄金法则:<br>
+<strong>never use it on public branches(不要在公共分支上使用)</strong><br>
+比如说如下场景：如图所示<br>
+<img src="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png" alt="http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png"></p>
+<p>如果你rebase master 到你的feature分支：<br>
+rebase 将所有master的commit移动到你的feature 的顶端。问题是：其他人还在original master上开发，由于你使用了rebase移动了master，git 会认为你的主分支的历史与其他人的有分歧，会产生冲突。<br>
+所以在执行git rebase 之前 问问自己，</p>
+<p>会有其他人看这个分支么？<br>
+IF YES 不要采用这种带有破坏性的修改commit 历史的rebase命令<br>
+IF NO OK，随你便，可以使用rebase</p>
+<h3 id="Summary-总结">Summary 总结</h3>
+<p>如果你想要一个干净的，没有merge commit的线性历史树，那么你应该选择git rebase<br>
+如果你想保留完整的历史记录，并且想要避免重写commit history的风险，你应该选择使用git merge</p>
+<h3 id="参考资料">参考资料</h3>
+<blockquote>
+<p><a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview">https://www.atlassian.com/git/tutorials/merging-vs-rebasing/conceptual-overview</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA">https://git-scm.com/book/zh/v2/Git-分支-变基</a><br>
+<a href="https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E6%96%B0%E5%BB%BA%E4%B8%8E%E5%90%88%E5%B9%B6#_basic_merging">https://git-scm.com/book/zh/v2/Git-分支-分支的新建与合并#_basic_merging</a></p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -501,16 +964,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/08/19/git-rebase%E5%92%8Cgit-merge%E7%9A%84%E5%8C%BA%E5%88%AB/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="6" id="btn-6">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -519,6 +986,56 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-7">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
+<h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
+<h3 id="方法二：rewrite">方法二：rewrite</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>proxy_pass结尾没有/， rewrite重写了url。</p>
+<h3 id="location匹配命令">location匹配命令</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
+<h3 id="location-匹配的优先级-与location在配置文件中的顺序无关">location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
+<p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
+<p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
+<p><em><strong>^~</strong></em> 则只匹配该规则，nginx停止搜索其他匹配，否则nginx会继续处理其他location指令。</p>
+<p>最后匹配理带有&quot;<sub>&quot;和&quot;</sub>*&quot;的指令，如果找到相应的匹配，则nginx停止搜索其他匹配；当没有正则表达式或者没有正则表达式被匹配的情况下，那么匹配程度最高的逐字匹配指令会被使用。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-7">
+                                        <div class="post-content" data-content-type="full">
+                                            <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
+<h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
+<h3 id="方法二：rewrite">方法二：rewrite</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>proxy_pass结尾没有/， rewrite重写了url。</p>
+<h3 id="location匹配命令">location匹配命令</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
+<h3 id="location-匹配的优先级-与location在配置文件中的顺序无关">location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
+<p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
+<p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
+<p><em><strong>^~</strong></em> 则只匹配该规则，nginx停止搜索其他匹配，否则nginx会继续处理其他location指令。</p>
+<p>最后匹配理带有&quot;<sub>&quot;和&quot;</sub>*&quot;的指令，如果找到相应的匹配，则nginx停止搜索其他匹配；当没有正则表达式或者没有正则表达式被匹配的情况下，那么匹配程度最高的逐字匹配指令会被使用。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -540,16 +1057,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/08/19/Nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="7" id="btn-7">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -558,6 +1079,220 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-8">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="简介">简介</h3>
+<p>在一些分布式系统中，应用与应用之间是相互独立部署的，Java应用运行在不同的JVM中，所以，在操作一些共享资源的时候，使用JDK提供的Lock工具类时就有些力不从心，这时候就需要借助外力来实现分布式一致性问题。</p>
+<p>通常会使用以下三种方式进行实现：</p>
+<ul>
+<li>基于数据库实现分布式锁(悲观锁机制)</li>
+<li>Zookeeper分布式锁</li>
+<li>Redis分布式锁</li>
+</ul>
+<p>下面简单对比几种方式的优缺点：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据库</td>
+<td>实现简单、易于理解</td>
+<td>对数据库压力大</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>易于理解</td>
+<td>自己实现、不支持阻塞</td>
+</tr>
+<tr>
+<td>Zookeeper</td>
+<td>支持阻塞</td>
+<td>需要理解Zookeeper、程序复杂</td>
+</tr>
+<tr>
+<td>Curator</td>
+<td>提供锁的方法</td>
+<td>依赖Zookeeper、强一致</td>
+</tr>
+<tr>
+<td>Redisson</td>
+<td>提供锁的方法、可阻塞</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="安全和活性的保证">安全和活性的保证</h3>
+<p>Redis官方文档提出以下三点作为分布式锁的最低保证：</p>
+<ol>
+<li><strong>互斥</strong>，在任何给定时刻，只有一个客户端可以持有锁</li>
+<li><strong>无死锁</strong>，最终，即使锁定资源的客户端崩溃或分区，也始终可以获得锁</li>
+<li><strong>容错能力</strong>，只要大多数Redis节点都处于运行状态，客户端就可以获取和释放锁</li>
+</ol>
+<h3 id="基于主备架构实现的不足">基于主备架构实现的不足</h3>
+<p>使用Redis实现分布式锁最简单的方法就是加锁的时候创建一个带有过期时间Key(这样是为了防止出现死锁)，当客户端需要释放锁的时候删除这个Key。</p>
+<p>从表面上看没有什么问题，但是当Redis出现宕机的时候怎么办？为了解决单点故障问题，我们可以添加一个从节点，当主节点不可用的时候，切换到从节点，但是这样实际上是不可行的，因为Redis使用的是异步复制。</p>
+<p>该模型明显存在的竞争条件:</p>
+<ol>
+<li>客户端A获取主节点的锁</li>
+<li>主节点将Key同步到从节点之前发生宕机</li>
+<li>从节点切换成主节点</li>
+<li>客户端B获取到相同资源的锁，此时A和B同时持有锁，<strong>违反了安全性</strong></li>
+</ol>
+<h3 id="单实例方案">单实例方案</h3>
+<p>假设可以克服以上单节点不足的问题，我们可以使用以下命令实现分布式锁：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value NX PX 30000</span><br></pre></td></tr></table></figure>
+<p>该命令仅在Key不存在(NX)、且到期时间(PX)为30000毫秒的情况下才设置Key。Key的值为一个随机数，该值要求必须全局唯一，使用全局唯一值是为了在删除Key的时候，Key的值是我们之前设置的值时，才删除Key。(Tips:<strong>我们总不能删除其他客户端设置的Key吧？</strong>)</p>
+<p>可以使用以下Lua脚本完成，因为Lua脚本可以保证两个操作的原子性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if redis.call(&quot;get&quot;,KEYS[1]) == ARGV[1] then</span><br><span class="line">    return redis.call(&quot;del&quot;,KEYS[1])</span><br><span class="line">else</span><br><span class="line">    return 0</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<h3 id="RedLock算法">RedLock算法</h3>
+<p>在算法的分布式版本中，我们假设有5个Master节点，这些节点是完全独立的，我们将各个节点部署在不同的服务器中，以保证他们同时出现故障的概率。</p>
+<p>为了获取锁，客户端执行以下操作：</p>
+<ol>
+<li>客户端获取当前时间的时间戳</li>
+<li>客户端尝试在N（N=5）个节点上以相同的Key和Value获取一个锁(此处和单实例方式相同)</li>
+<li>客户端通过从当前时间中减去在步骤1中获得的时间戳，来计算获取锁所花费的时间，当客户端能够在大多数实例（至少3个）中获取锁时 ，并且获取锁所花费的总时间小于锁有效时间，则认为已获取锁。</li>
+<li>如果获取了锁，则将其有效时间视为初始有效时间减去经过的时间</li>
+<li>如果客户端由于某种原因（无法锁定N / 2 + 1实例或有效时间为负数）而未能获得该锁，它将尝试解锁所有实例</li>
+</ol>
+<h3 id="释放锁">释放锁</h3>
+<p>释放锁很简单，只需在所有实例中释放锁（即使之前在某个实例中没有获取到锁）。</p>
+<h3 id="RedLock注意点">RedLock注意点</h3>
+<ol>
+<li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移</li>
+<li>对于以N/2+ 1(也就是一半以 上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况，从而使锁失效</li>
+<li>一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效</li>
+</ol>
+<h3 id="系统具有活性的三大特征">系统具有活性的三大特征</h3>
+<ol>
+<li>能够自动释放锁</li>
+<li>再获取锁失败（不到一半以上），或任务完成后能够释放锁，不用等到其自动过期</li>
+<li>再客户端重试获取锁之前（第一次失败到第二次失败之间的间隔时间）大于获取锁消耗的时间</li>
+</ol>
+<blockquote>
+<p>参考Redis官方文档 <a href="https://redis.io/topics/distlock">https://redis.io/topics/distlock</a><br>
+RedLock分析      [<a href="http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html">http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html</a>][<a href="http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html">http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html</a>]</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-8">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="简介">简介</h3>
+<p>在一些分布式系统中，应用与应用之间是相互独立部署的，Java应用运行在不同的JVM中，所以，在操作一些共享资源的时候，使用JDK提供的Lock工具类时就有些力不从心，这时候就需要借助外力来实现分布式一致性问题。</p>
+<p>通常会使用以下三种方式进行实现：</p>
+<ul>
+<li>基于数据库实现分布式锁(悲观锁机制)</li>
+<li>Zookeeper分布式锁</li>
+<li>Redis分布式锁</li>
+</ul>
+<p>下面简单对比几种方式的优缺点：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据库</td>
+<td>实现简单、易于理解</td>
+<td>对数据库压力大</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>易于理解</td>
+<td>自己实现、不支持阻塞</td>
+</tr>
+<tr>
+<td>Zookeeper</td>
+<td>支持阻塞</td>
+<td>需要理解Zookeeper、程序复杂</td>
+</tr>
+<tr>
+<td>Curator</td>
+<td>提供锁的方法</td>
+<td>依赖Zookeeper、强一致</td>
+</tr>
+<tr>
+<td>Redisson</td>
+<td>提供锁的方法、可阻塞</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="安全和活性的保证">安全和活性的保证</h3>
+<p>Redis官方文档提出以下三点作为分布式锁的最低保证：</p>
+<ol>
+<li><strong>互斥</strong>，在任何给定时刻，只有一个客户端可以持有锁</li>
+<li><strong>无死锁</strong>，最终，即使锁定资源的客户端崩溃或分区，也始终可以获得锁</li>
+<li><strong>容错能力</strong>，只要大多数Redis节点都处于运行状态，客户端就可以获取和释放锁</li>
+</ol>
+<h3 id="基于主备架构实现的不足">基于主备架构实现的不足</h3>
+<p>使用Redis实现分布式锁最简单的方法就是加锁的时候创建一个带有过期时间Key(这样是为了防止出现死锁)，当客户端需要释放锁的时候删除这个Key。</p>
+<p>从表面上看没有什么问题，但是当Redis出现宕机的时候怎么办？为了解决单点故障问题，我们可以添加一个从节点，当主节点不可用的时候，切换到从节点，但是这样实际上是不可行的，因为Redis使用的是异步复制。</p>
+<p>该模型明显存在的竞争条件:</p>
+<ol>
+<li>客户端A获取主节点的锁</li>
+<li>主节点将Key同步到从节点之前发生宕机</li>
+<li>从节点切换成主节点</li>
+<li>客户端B获取到相同资源的锁，此时A和B同时持有锁，<strong>违反了安全性</strong></li>
+</ol>
+<h3 id="单实例方案">单实例方案</h3>
+<p>假设可以克服以上单节点不足的问题，我们可以使用以下命令实现分布式锁：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value NX PX 30000</span><br></pre></td></tr></table></figure>
+<p>该命令仅在Key不存在(NX)、且到期时间(PX)为30000毫秒的情况下才设置Key。Key的值为一个随机数，该值要求必须全局唯一，使用全局唯一值是为了在删除Key的时候，Key的值是我们之前设置的值时，才删除Key。(Tips:<strong>我们总不能删除其他客户端设置的Key吧？</strong>)</p>
+<p>可以使用以下Lua脚本完成，因为Lua脚本可以保证两个操作的原子性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if redis.call(&quot;get&quot;,KEYS[1]) == ARGV[1] then</span><br><span class="line">    return redis.call(&quot;del&quot;,KEYS[1])</span><br><span class="line">else</span><br><span class="line">    return 0</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<h3 id="RedLock算法">RedLock算法</h3>
+<p>在算法的分布式版本中，我们假设有5个Master节点，这些节点是完全独立的，我们将各个节点部署在不同的服务器中，以保证他们同时出现故障的概率。</p>
+<p>为了获取锁，客户端执行以下操作：</p>
+<ol>
+<li>客户端获取当前时间的时间戳</li>
+<li>客户端尝试在N（N=5）个节点上以相同的Key和Value获取一个锁(此处和单实例方式相同)</li>
+<li>客户端通过从当前时间中减去在步骤1中获得的时间戳，来计算获取锁所花费的时间，当客户端能够在大多数实例（至少3个）中获取锁时 ，并且获取锁所花费的总时间小于锁有效时间，则认为已获取锁。</li>
+<li>如果获取了锁，则将其有效时间视为初始有效时间减去经过的时间</li>
+<li>如果客户端由于某种原因（无法锁定N / 2 + 1实例或有效时间为负数）而未能获得该锁，它将尝试解锁所有实例</li>
+</ol>
+<h3 id="释放锁">释放锁</h3>
+<p>释放锁很简单，只需在所有实例中释放锁（即使之前在某个实例中没有获取到锁）。</p>
+<h3 id="RedLock注意点">RedLock注意点</h3>
+<ol>
+<li>先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移</li>
+<li>对于以N/2+ 1(也就是一半以 上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况，从而使锁失效</li>
+<li>一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效</li>
+</ol>
+<h3 id="系统具有活性的三大特征">系统具有活性的三大特征</h3>
+<ol>
+<li>能够自动释放锁</li>
+<li>再获取锁失败（不到一半以上），或任务完成后能够释放锁，不用等到其自动过期</li>
+<li>再客户端重试获取锁之前（第一次失败到第二次失败之间的间隔时间）大于获取锁消耗的时间</li>
+</ol>
+<blockquote>
+<p>参考Redis官方文档 <a href="https://redis.io/topics/distlock">https://redis.io/topics/distlock</a><br>
+RedLock分析      [<a href="http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html">http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html</a>][<a href="http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html">http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html</a>]</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -579,16 +1314,20 @@
                                 
                             </div>
                             
-                            <a href="/2020/07/09/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="8" id="btn-8">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -597,6 +1336,116 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-9">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="Sentinel的分布式特征">Sentinel的分布式特征</h3>
+<p>Redis Sentinel是一个分布式系统：<br>
+Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运行。</p>
+<ul>
+<li>当多个哨兵就给定的主机不再可用的事实达成共识时，将执行故障检测，降低了误报的可能性。</li>
+<li>即使不是所有的Sentinel进程都在工作，Sentinel仍可正常工作，从而使系统能够应对故障。毕竟，拥有故障转移系统本身就是一个单点故障，</li>
+</ul>
+<h3 id="运行哨兵">运行哨兵</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel /path/to/sentinel.conf</span><br></pre></td></tr></table></figure>
+<p><code>redis-sentinel</code>是<code>redis-server</code>的一个软链接，所以也可以使用以下方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /path/to/sentinel.conf --sentinel</span><br></pre></td></tr></table></figure>
+<p>两种方法的工作原理相同。</p>
+<p>但是，再运行<code>Sentinel</code>时<strong>必须</strong>指定配置文件，因为系统将使用此文件来保存当前状态，以便在重新启动时重新加载。如果未指定文件，则会启动失败。</p>
+<p>Sentinels默认情况下会<strong>监听TCP端口26379连接</strong>，因此必须打开26379端口。</p>
+<h3 id="Sentinel的基础知识">Sentinel的基础知识</h3>
+<ol>
+<li>一个健壮的集群至少需要三个Sentinel实例</li>
+<li>应该将三个Sentinel实例部署在不同的机器上</li>
+<li>因为Redis使用的是异步复制，所以不能保证在故障转移期间保证数据的写入。</li>
+</ol>
+<h3 id="配置哨兵">配置哨兵</h3>
+<p>Redis的源码包包含一个sentinel.conf文件可用于配置Sentinel，典型的最小配置如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor mymaster 127.0.0.1 6379 2</span><br><span class="line">sentinel down-after-milliseconds mymaster 60000</span><br><span class="line">sentinel failover-timeout mymaster 180000</span><br><span class="line">sentinel parallel-syncs mymaster 1</span><br></pre></td></tr></table></figure>
+<p>sentinel monitor含义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;</span><br></pre></td></tr></table></figure>
+<p><code>&lt;master-group-name&gt;</code> 指主节点名称，<code>&lt;ip&gt;</code> IP地址 <code>&lt;port&gt;</code>端口号，重点说一下<code>&lt;quorum&gt;</code>：<br>
+假如有5个Sentinel进程，并且给定主服务器的quorum置为2，则将发生以下情况：</p>
+<ul>
+<li>如果有两个哨兵同时发现主节点不可访问，则其中一个哨兵将尝试启动故障转移。</li>
+<li>如果有三个哨兵同时发现主节点不可访问，则将启动故障转移。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel down-after-milliseconds</span><br></pre></td></tr></table></figure>
+<p><code>down-after-milliseconds</code>是指Sentinel在指定的时间内没有获得实例的响应，则认为实例已关闭。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel parallel-syncs</span><br></pre></td></tr></table></figure>
+<p><code>parallel-syncs</code> 设置每次可以对几个副本进行同步数据</p>
+<h3 id="Redis-哨兵部署示例">Redis 哨兵部署示例</h3>
+<h4 id="经典三节点最小部署">经典三节点最小部署</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        +----+</span><br><span class="line">        | M1 |</span><br><span class="line">        | S1 |</span><br><span class="line">        +----+</span><br><span class="line">           |</span><br><span class="line"> +----+    |    +----+</span><br><span class="line"> | R2 |----+----| R3 |</span><br><span class="line"> | S2 |         | S3 |</span><br><span class="line"> +----+         +----+</span><br><span class="line"></span><br><span class="line">Configuration: quorum = 2</span><br></pre></td></tr></table></figure>
+<p>如果主M1发生故障，则S2和S3将达成协议，并能够开启故障转移，从而使客户端能够继续使用。</p>
+<h4 id="模拟发生网络分区">模拟发生网络分区</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">         +----+</span><br><span class="line">         | M1 |</span><br><span class="line">         | S1 | &lt;- C1 (writes will be lost)</span><br><span class="line">         +----+</span><br><span class="line">            |</span><br><span class="line">            /</span><br><span class="line">            /</span><br><span class="line">+------+    |    +----+</span><br><span class="line">| [M2] |----+----| R3 |</span><br><span class="line">| S2   |         | S3 |</span><br><span class="line">+------+         +----+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在这种情况下，网络分区隔离了旧的主数据库M1，因此副本R2被提升为主数据库。但是，与旧主服务器位于同一分区中的客户端（例如C1）可能会继续向旧主服务器写入数据。该数据将永远丢失，因为当分区恢复正常时，主服务器将被重新配置为新主服务器的副本，从而造成数据丢失。</p>
+<p>使用以下Redis复制功能可以缓解此问题，如果主服务器检测到副本数量没有达到指定的副本数据，则停止接受数据写入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 最小副本数量</span><br><span class="line">min-replicas-to-write 1</span><br><span class="line"># 发送异步确认的最大时间</span><br><span class="line">min-replicas-max-lag 10</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-9">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="Sentinel的分布式特征">Sentinel的分布式特征</h3>
+<p>Redis Sentinel是一个分布式系统：<br>
+Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运行。</p>
+<ul>
+<li>当多个哨兵就给定的主机不再可用的事实达成共识时，将执行故障检测，降低了误报的可能性。</li>
+<li>即使不是所有的Sentinel进程都在工作，Sentinel仍可正常工作，从而使系统能够应对故障。毕竟，拥有故障转移系统本身就是一个单点故障，</li>
+</ul>
+<h3 id="运行哨兵">运行哨兵</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel /path/to/sentinel.conf</span><br></pre></td></tr></table></figure>
+<p><code>redis-sentinel</code>是<code>redis-server</code>的一个软链接，所以也可以使用以下方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /path/to/sentinel.conf --sentinel</span><br></pre></td></tr></table></figure>
+<p>两种方法的工作原理相同。</p>
+<p>但是，再运行<code>Sentinel</code>时<strong>必须</strong>指定配置文件，因为系统将使用此文件来保存当前状态，以便在重新启动时重新加载。如果未指定文件，则会启动失败。</p>
+<p>Sentinels默认情况下会<strong>监听TCP端口26379连接</strong>，因此必须打开26379端口。</p>
+<h3 id="Sentinel的基础知识">Sentinel的基础知识</h3>
+<ol>
+<li>一个健壮的集群至少需要三个Sentinel实例</li>
+<li>应该将三个Sentinel实例部署在不同的机器上</li>
+<li>因为Redis使用的是异步复制，所以不能保证在故障转移期间保证数据的写入。</li>
+</ol>
+<h3 id="配置哨兵">配置哨兵</h3>
+<p>Redis的源码包包含一个sentinel.conf文件可用于配置Sentinel，典型的最小配置如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor mymaster 127.0.0.1 6379 2</span><br><span class="line">sentinel down-after-milliseconds mymaster 60000</span><br><span class="line">sentinel failover-timeout mymaster 180000</span><br><span class="line">sentinel parallel-syncs mymaster 1</span><br></pre></td></tr></table></figure>
+<p>sentinel monitor含义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;</span><br></pre></td></tr></table></figure>
+<p><code>&lt;master-group-name&gt;</code> 指主节点名称，<code>&lt;ip&gt;</code> IP地址 <code>&lt;port&gt;</code>端口号，重点说一下<code>&lt;quorum&gt;</code>：<br>
+假如有5个Sentinel进程，并且给定主服务器的quorum置为2，则将发生以下情况：</p>
+<ul>
+<li>如果有两个哨兵同时发现主节点不可访问，则其中一个哨兵将尝试启动故障转移。</li>
+<li>如果有三个哨兵同时发现主节点不可访问，则将启动故障转移。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel down-after-milliseconds</span><br></pre></td></tr></table></figure>
+<p><code>down-after-milliseconds</code>是指Sentinel在指定的时间内没有获得实例的响应，则认为实例已关闭。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel parallel-syncs</span><br></pre></td></tr></table></figure>
+<p><code>parallel-syncs</code> 设置每次可以对几个副本进行同步数据</p>
+<h3 id="Redis-哨兵部署示例">Redis 哨兵部署示例</h3>
+<h4 id="经典三节点最小部署">经典三节点最小部署</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">        +----+</span><br><span class="line">        | M1 |</span><br><span class="line">        | S1 |</span><br><span class="line">        +----+</span><br><span class="line">           |</span><br><span class="line"> +----+    |    +----+</span><br><span class="line"> | R2 |----+----| R3 |</span><br><span class="line"> | S2 |         | S3 |</span><br><span class="line"> +----+         +----+</span><br><span class="line"></span><br><span class="line">Configuration: quorum = 2</span><br></pre></td></tr></table></figure>
+<p>如果主M1发生故障，则S2和S3将达成协议，并能够开启故障转移，从而使客户端能够继续使用。</p>
+<h4 id="模拟发生网络分区">模拟发生网络分区</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">         +----+</span><br><span class="line">         | M1 |</span><br><span class="line">         | S1 | &lt;- C1 (writes will be lost)</span><br><span class="line">         +----+</span><br><span class="line">            |</span><br><span class="line">            /</span><br><span class="line">            /</span><br><span class="line">+------+    |    +----+</span><br><span class="line">| [M2] |----+----| R3 |</span><br><span class="line">| S2   |         | S3 |</span><br><span class="line">+------+         +----+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在这种情况下，网络分区隔离了旧的主数据库M1，因此副本R2被提升为主数据库。但是，与旧主服务器位于同一分区中的客户端（例如C1）可能会继续向旧主服务器写入数据。该数据将永远丢失，因为当分区恢复正常时，主服务器将被重新配置为新主服务器的副本，从而造成数据丢失。</p>
+<p>使用以下Redis复制功能可以缓解此问题，如果主服务器检测到副本数量没有达到指定的副本数据，则停止接受数据写入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 最小副本数量</span><br><span class="line">min-replicas-to-write 1</span><br><span class="line"># 发送异步确认的最大时间</span><br><span class="line">min-replicas-max-lag 10</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -618,10 +1467,14 @@
                                 
                             </div>
                             
-                            <a href="/2020/07/07/Redis%E5%93%A8%E5%85%B5/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="9" id="btn-9">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -654,6 +1507,80 @@
         </nav>
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

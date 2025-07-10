@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,110 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="Replication">Replication</h3>
+<p>Redis使用主从复制非常简单，它允许从实例成为主实例的副本，每当链接断开时，从节点将自动重新连接到主服务器上。并且无论主服务器发生什么情况，从节点都尝试完全复制所有数据。</p>
+<h3 id="Redis主从复制使用以下三种机制：">Redis主从复制使用以下三种机制：</h3>
+<ul>
+<li>当主从实例连接良好时，主节点向从节点发送<strong>命令流</strong>来进行更新，是为了复制由于Key过期或回收等其他操作对数据产生影响。</li>
+<li>当主从实例断开时，从节点重新连接后只会尝试获取链接断开期间错开的命令流。</li>
+<li>如果无法进行部分重新同步，则会要求完全重新同步。</li>
+</ul>
+<blockquote>
+<p>默认情况下，Redis会使用<em><strong>异步复制</strong></em>，Redis从节点会异步地确认接收的数据。因此，主节点不会等待从节点处理完成。但是，如果需要知道从节点都处理了那些命令，也可以选择同步复制。</p>
+</blockquote>
+<h3 id="Redis-复制的几个特征：">Redis 复制的几个特征：</h3>
+<ol>
+<li>Redis是使用异步复制</li>
+<li>一个主节点可以有多个从节点</li>
+<li>从节点还可以有子节点，从Redis 4.0开始，所有子节点将从主节点接收完全相同的复制流。</li>
+<li>Redis主从复制是无阻塞的，意味着在进行复制或同步是仍然可以进行数据查询</li>
+<li>复制既可以用于可伸缩性，也可以用于只读查询的多个副本（读写分离）</li>
+<li>可以配置主节点不进行数据保存或只启用AOF，然后将数据保存到副本，但是注意:当服务器重启后，从节点服务器重新同步数据时，同时会清空从节点数据。</li>
+</ol>
+<h3 id="Redis-复制的原理：">Redis 复制的原理：</h3>
+<p>每个Redis Master 节点都有一个replication ID:这是一个较大的伪随机字符串，用于标记当前数据集。每个Master 还有一个偏移量，该偏移量会针对复制流中要发送到副本的每个字节的增量而增加。<br>
+以便更新副本的状态。即使未连接任何副本，复制偏移也会增加。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># Replication</span><br><span class="line">role:master</span><br><span class="line">connected_slaves:1</span><br><span class="line">slave0:ip=39.105.157.176,port=6379,state=online,offset=61238,lag=0</span><br><span class="line"># 主 Replication ID</span><br><span class="line">master_replid:649255ffb2183786d00203aa51715169b06f4f47</span><br><span class="line"># 副 Replication ID</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:61238</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:61238</span><br></pre></td></tr></table></figure>
+<p>当从节点连接主节点时，会使用<code>PSYNC</code>命令来发送当前旧的主节点的Replication ID和offset，这样主节点只会同步相差的数据量，如果主节点缓冲区的副本引用（Replication ID）不存在，则会进行全量同步。</p>
+<h4 id="全量同步的工作流程如下：">全量同步的工作流程如下：</h4>
+<p>主节点开始后台生成RDB文件。同时，它开始缓冲从客户端收到的所有新写入命令。后台保存完成后，主数据库将数据库文件传输到从节点，从节点将其保存在磁盘上，然后将其加载到内存中。然后，主服务器将所有缓冲的命令发送到副本。</p>
+<h3 id="Replication-ID-说明：">Replication ID 说明：</h3>
+<p>如果两个实例具有相同的Replication ID和offset，则它们具有完全相同的数据。但是为什么会有两个Replication ID(主和副)？</p>
+<p style="text-indent:2em">因为两个实例A和B具有相同的Replication ID，但一个实例的offset为1000，另一个实例的offset为1023，则意味着第一个实例缺少应用于数据集的某些命令。这也意味着，仅通过应用一些命令，A即可达到与B完全相同的状态。</p>
+<p style="text-indent:2em">Redis实例具有两个Replication ID的原因是由于副本被提升为主副本。故障转移后，升级后的副本仍需要记住其过去的Replication ID，因为该Replication ID是以前的主副本之一。这样，当其他副本将与新的主副本同步时，它们将尝试使用旧的主Replication ID执行部分重新同步。因为将副本提升为主副本时，它会将其辅助ID设置为其主ID，并记住发生此ID切换时的offset。稍后它将选择一个新的随机Replication ID，因为新的历史记录开始了。处理新的副本连接时，主机将其ID和offset与当前ID和辅助ID相匹配（为安全起见，直到给定的偏移量）。简而言之，这意味着在故障转移后，连接到新提升的主服务器的副本不必执行完全同步。</p>
+<h3 id="无盘复制">无盘复制</h3>
+<p>通常，完全重新同步需要在磁盘上创建RDB文件，然后从磁盘重新加载相同的RDB，以便为副本提供数据。<br>
+但是对于硬盘速度慢，但是在内网环境下，可以采用无盘复制，这样可以直接通过Socket将RDB发送给从节点，而无需使用硬盘作为中间存储。</p>
+<h3 id="配置">配置</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof 192.168.1.1 6379</span><br></pre></td></tr></table></figure>
+<p>也可以使用<code>REPLICAOF</code>命令进行同步。<br>
+可以使用<code>repl-diskless-sync</code>配置参数启用无盘复制。在<code>repl-diskless-sync-delay </code>参数控制第一个副本之后，为了等待更多副本到达而开始传输的延迟。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterauth &lt;password&gt;</span><br></pre></td></tr></table></figure>
+<p>设置主节点的密码，也可以使用redis-cli输入<code>config set masterauth &lt;password&gt;</code>进行设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 在当前至少有N个副本连接到主服务器时才接受写查询</span><br><span class="line">min-replicas-to-write &lt;number of replicas&gt;</span><br><span class="line"># 在有N个副本延迟少于M秒时，则接受写入</span><br><span class="line">min-replicas-max-lag &lt;number of seconds&gt;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="Replication">Replication</h3>
+<p>Redis使用主从复制非常简单，它允许从实例成为主实例的副本，每当链接断开时，从节点将自动重新连接到主服务器上。并且无论主服务器发生什么情况，从节点都尝试完全复制所有数据。</p>
+<h3 id="Redis主从复制使用以下三种机制：">Redis主从复制使用以下三种机制：</h3>
+<ul>
+<li>当主从实例连接良好时，主节点向从节点发送<strong>命令流</strong>来进行更新，是为了复制由于Key过期或回收等其他操作对数据产生影响。</li>
+<li>当主从实例断开时，从节点重新连接后只会尝试获取链接断开期间错开的命令流。</li>
+<li>如果无法进行部分重新同步，则会要求完全重新同步。</li>
+</ul>
+<blockquote>
+<p>默认情况下，Redis会使用<em><strong>异步复制</strong></em>，Redis从节点会异步地确认接收的数据。因此，主节点不会等待从节点处理完成。但是，如果需要知道从节点都处理了那些命令，也可以选择同步复制。</p>
+</blockquote>
+<h3 id="Redis-复制的几个特征：">Redis 复制的几个特征：</h3>
+<ol>
+<li>Redis是使用异步复制</li>
+<li>一个主节点可以有多个从节点</li>
+<li>从节点还可以有子节点，从Redis 4.0开始，所有子节点将从主节点接收完全相同的复制流。</li>
+<li>Redis主从复制是无阻塞的，意味着在进行复制或同步是仍然可以进行数据查询</li>
+<li>复制既可以用于可伸缩性，也可以用于只读查询的多个副本（读写分离）</li>
+<li>可以配置主节点不进行数据保存或只启用AOF，然后将数据保存到副本，但是注意:当服务器重启后，从节点服务器重新同步数据时，同时会清空从节点数据。</li>
+</ol>
+<h3 id="Redis-复制的原理：">Redis 复制的原理：</h3>
+<p>每个Redis Master 节点都有一个replication ID:这是一个较大的伪随机字符串，用于标记当前数据集。每个Master 还有一个偏移量，该偏移量会针对复制流中要发送到副本的每个字节的增量而增加。<br>
+以便更新副本的状态。即使未连接任何副本，复制偏移也会增加。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># Replication</span><br><span class="line">role:master</span><br><span class="line">connected_slaves:1</span><br><span class="line">slave0:ip=39.105.157.176,port=6379,state=online,offset=61238,lag=0</span><br><span class="line"># 主 Replication ID</span><br><span class="line">master_replid:649255ffb2183786d00203aa51715169b06f4f47</span><br><span class="line"># 副 Replication ID</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:61238</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:61238</span><br></pre></td></tr></table></figure>
+<p>当从节点连接主节点时，会使用<code>PSYNC</code>命令来发送当前旧的主节点的Replication ID和offset，这样主节点只会同步相差的数据量，如果主节点缓冲区的副本引用（Replication ID）不存在，则会进行全量同步。</p>
+<h4 id="全量同步的工作流程如下：">全量同步的工作流程如下：</h4>
+<p>主节点开始后台生成RDB文件。同时，它开始缓冲从客户端收到的所有新写入命令。后台保存完成后，主数据库将数据库文件传输到从节点，从节点将其保存在磁盘上，然后将其加载到内存中。然后，主服务器将所有缓冲的命令发送到副本。</p>
+<h3 id="Replication-ID-说明：">Replication ID 说明：</h3>
+<p>如果两个实例具有相同的Replication ID和offset，则它们具有完全相同的数据。但是为什么会有两个Replication ID(主和副)？</p>
+<p style="text-indent:2em">因为两个实例A和B具有相同的Replication ID，但一个实例的offset为1000，另一个实例的offset为1023，则意味着第一个实例缺少应用于数据集的某些命令。这也意味着，仅通过应用一些命令，A即可达到与B完全相同的状态。</p>
+<p style="text-indent:2em">Redis实例具有两个Replication ID的原因是由于副本被提升为主副本。故障转移后，升级后的副本仍需要记住其过去的Replication ID，因为该Replication ID是以前的主副本之一。这样，当其他副本将与新的主副本同步时，它们将尝试使用旧的主Replication ID执行部分重新同步。因为将副本提升为主副本时，它会将其辅助ID设置为其主ID，并记住发生此ID切换时的offset。稍后它将选择一个新的随机Replication ID，因为新的历史记录开始了。处理新的副本连接时，主机将其ID和offset与当前ID和辅助ID相匹配（为安全起见，直到给定的偏移量）。简而言之，这意味着在故障转移后，连接到新提升的主服务器的副本不必执行完全同步。</p>
+<h3 id="无盘复制">无盘复制</h3>
+<p>通常，完全重新同步需要在磁盘上创建RDB文件，然后从磁盘重新加载相同的RDB，以便为副本提供数据。<br>
+但是对于硬盘速度慢，但是在内网环境下，可以采用无盘复制，这样可以直接通过Socket将RDB发送给从节点，而无需使用硬盘作为中间存储。</p>
+<h3 id="配置">配置</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicaof 192.168.1.1 6379</span><br></pre></td></tr></table></figure>
+<p>也可以使用<code>REPLICAOF</code>命令进行同步。<br>
+可以使用<code>repl-diskless-sync</code>配置参数启用无盘复制。在<code>repl-diskless-sync-delay </code>参数控制第一个副本之后，为了等待更多副本到达而开始传输的延迟。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterauth &lt;password&gt;</span><br></pre></td></tr></table></figure>
+<p>设置主节点的密码，也可以使用redis-cli输入<code>config set masterauth &lt;password&gt;</code>进行设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 在当前至少有N个副本连接到主服务器时才接受写查询</span><br><span class="line">min-replicas-to-write &lt;number of replicas&gt;</span><br><span class="line"># 在有N个副本延迟少于M秒时，则接受写入</span><br><span class="line">min-replicas-max-lag &lt;number of seconds&gt;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +373,20 @@
                                 
                             </div>
                             
-                            <a href="/2018/07/07/Redis%E5%A4%8D%E5%88%B6/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +395,198 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h2 id="Redis的持久化机制-RDB">Redis的持久化机制-RDB</h2>
+<h3 id="1-什么是RDB">1.什么是RDB</h3>
+<p>The RDB persistence performs point-in-time snapshots of your dataset at specified intervals.(RDB持久化是以指定的时间间隔执行数据集的时间点快照。)<br>
+简单来说，RDB是每隔一段时间，会把内存中的数据写入磁盘的临时文件作为快照，恢复时把快照文件读取到内存中。如果机器宕机，那么内存中的数据就会丢失，使用RDB机制后，重启后数据会恢复。</p>
+<h3 id="2-备份与恢复">2.备份与恢复</h3>
+<p>内存备份 --&gt; <font color="#e58484">磁盘临时文件</font><br>
+临时文件 --&gt; <font color="#e58484">恢复到内存</font></p>
+<h3 id="3-RDB优劣势">3.RDB优劣势</h3>
+<ul>
+<li>
+<p><strong>优势</strong></p>
+<ol>
+<li>每隔一段时间全量备份</li>
+<li>容灾简单，适合进行远程冷备份</li>
+<li>子进程备份的时候，主进程不会有任何IO操作（不会有写入或修改），保证备份数据的完整性</li>
+<li>相对AOF来说，当有更大的文件时候可以快速重启恢复</li>
+</ol>
+</li>
+<li>
+<p><strong>劣势</strong></p>
+<ol>
+<li>发生故障时，可能会丢失最后一次备份数据</li>
+<li>子进程所占用的内存会和父进程一模一样，会造成CPU负担</li>
+<li>由于定时全量备份是重量级操作，所以对于实时备份，就无法处理了</li>
+</ol>
+</li>
+</ul>
+<h3 id="4-RDB的配置">4.RDB的配置</h3>
+<ol>
+<li>保存位置可以自定义配置:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir /var/redis/6379/dump.rdb</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>保存机制</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#   save &lt;seconds&gt; &lt;changes&gt;</span><br><span class="line">#   900秒（15分钟）后，如果至少有 1 个Key发生改变</span><br><span class="line">#   300秒（5分钟）后，如果至少有 10 个Key发生改变</span><br><span class="line">#   60秒（1分钟）后，如果至少有 10000 个Key发生改变</span><br><span class="line"></span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
+<h2 id="Redis的持久化机制-AOF">Redis的持久化机制-AOF</h2>
+<h3 id="1-什么是AOF">1.什么是AOF</h3>
+<p>The AOF persistence logs every write operation received by the server, that will be played again at server startup, reconstructing the original dataset. Commands are logged using the same format as the Redis protocol itself, in an append-only fashion. Redis is able to rewrite the log in the background when it gets too big.</p>
+<p>AOF持久化会记录服务器接收到的每个写入操作，这些操作将在服务器启动时再次执行，以重新构建原始的数据。命令记录的格式与Redis协议本身的格式相同，采用追加方式。当日志文件过大时，Redis可以在后台进行<code>rewrite</code>。</p>
+<h3 id="2-备份与恢复-v2">2.备份与恢复</h3>
+<p>日志备份 --&gt; <font color="#e58484">命令追加方式</font><br>
+日志文件 --&gt; <font color="#e58484">根据命令日志文件重新构建</font></p>
+<h3 id="3-AOF优劣势">3.AOF优劣势</h3>
+<ul>
+<li><strong>优势</strong>
+<ol>
+<li>使用AOF数据持久化更加完整</li>
+<li>可以使用不同的fsync策略，使用默认策略fsync时，每秒的写入性能仍然很好（fsync是使用后台线程执行的，并且在没有进行fsync的情况下，主线程将尽力执行写入操作）但是会损失一秒的写入时间</li>
+<li>AOF是使用日志追加的方式，如果断电或其他原因导致日志只写了一半，可以使用<code>redis-check-aof</code>工具进行修复</li>
+<li>Redis太大时，Redis可以在后台自动重写AOF。 Redis继续追加到旧文件时，会生成一个新的文件，其中包含创建当前数据集<strong>所需的最少操作集</strong>，一旦准备好第二个文件，Redis会切换这两个文件并开始追加到新的那一个</li>
+<li>即使使用<code>FLUSHALL</code>命令清空了所有数据，也可以通过修改AOF文件进行数据恢复</li>
+</ol>
+</li>
+<li><strong>劣势</strong>
+<ol>
+<li>AOF相比RDB占用空间更大</li>
+<li>使用fsync策略后，相比RDB性能差一些</li>
+<li>当服务器宕机后，使用AOF恢复的数据可能不完整</li>
+</ol>
+</li>
+</ul>
+<h3 id="4-AOF的配置">4.AOF的配置</h3>
+<ol>
+<li>开启AOF</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>配置fsync策略</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># If unsure, use &quot;everysec&quot;.</span><br><span class="line"># 如果不确定，推荐使用 &quot;everysec&quot;</span><br><span class="line"></span><br><span class="line"># appendfsync always</span><br><span class="line">appendfsync everysec</span><br><span class="line"># appendfsync no</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>AOF rewrite配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 设置一个百分比</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line"># 设置AOF 的最小大小</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>Redis 启动加载配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 优先加载AOF 文件</span><br><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
+<h2 id="两种持久化方式改如何选择">两种持久化方式改如何选择</h2>
+<ul>
+<li>如果对数据可靠性要求很高，则应同时使用两种持久性方式。</li>
+<li>如果在灾难情况下仍然可以承受几分钟的数据丢失，则可以仅使用RDB。</li>
+<li>不推荐单独使用AOF，因为AOF在数据恢复时，有时候会出现Bugs。</li>
+</ul>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
+                                        <div class="post-content" data-content-type="full">
+                                            <h2 id="Redis的持久化机制-RDB">Redis的持久化机制-RDB</h2>
+<h3 id="1-什么是RDB">1.什么是RDB</h3>
+<p>The RDB persistence performs point-in-time snapshots of your dataset at specified intervals.(RDB持久化是以指定的时间间隔执行数据集的时间点快照。)<br>
+简单来说，RDB是每隔一段时间，会把内存中的数据写入磁盘的临时文件作为快照，恢复时把快照文件读取到内存中。如果机器宕机，那么内存中的数据就会丢失，使用RDB机制后，重启后数据会恢复。</p>
+<h3 id="2-备份与恢复">2.备份与恢复</h3>
+<p>内存备份 --&gt; <font color="#e58484">磁盘临时文件</font><br>
+临时文件 --&gt; <font color="#e58484">恢复到内存</font></p>
+<h3 id="3-RDB优劣势">3.RDB优劣势</h3>
+<ul>
+<li>
+<p><strong>优势</strong></p>
+<ol>
+<li>每隔一段时间全量备份</li>
+<li>容灾简单，适合进行远程冷备份</li>
+<li>子进程备份的时候，主进程不会有任何IO操作（不会有写入或修改），保证备份数据的完整性</li>
+<li>相对AOF来说，当有更大的文件时候可以快速重启恢复</li>
+</ol>
+</li>
+<li>
+<p><strong>劣势</strong></p>
+<ol>
+<li>发生故障时，可能会丢失最后一次备份数据</li>
+<li>子进程所占用的内存会和父进程一模一样，会造成CPU负担</li>
+<li>由于定时全量备份是重量级操作，所以对于实时备份，就无法处理了</li>
+</ol>
+</li>
+</ul>
+<h3 id="4-RDB的配置">4.RDB的配置</h3>
+<ol>
+<li>保存位置可以自定义配置:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir /var/redis/6379/dump.rdb</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>保存机制</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#   save &lt;seconds&gt; &lt;changes&gt;</span><br><span class="line">#   900秒（15分钟）后，如果至少有 1 个Key发生改变</span><br><span class="line">#   300秒（5分钟）后，如果至少有 10 个Key发生改变</span><br><span class="line">#   60秒（1分钟）后，如果至少有 10000 个Key发生改变</span><br><span class="line"></span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br></pre></td></tr></table></figure>
+<h2 id="Redis的持久化机制-AOF">Redis的持久化机制-AOF</h2>
+<h3 id="1-什么是AOF">1.什么是AOF</h3>
+<p>The AOF persistence logs every write operation received by the server, that will be played again at server startup, reconstructing the original dataset. Commands are logged using the same format as the Redis protocol itself, in an append-only fashion. Redis is able to rewrite the log in the background when it gets too big.</p>
+<p>AOF持久化会记录服务器接收到的每个写入操作，这些操作将在服务器启动时再次执行，以重新构建原始的数据。命令记录的格式与Redis协议本身的格式相同，采用追加方式。当日志文件过大时，Redis可以在后台进行<code>rewrite</code>。</p>
+<h3 id="2-备份与恢复-v2">2.备份与恢复</h3>
+<p>日志备份 --&gt; <font color="#e58484">命令追加方式</font><br>
+日志文件 --&gt; <font color="#e58484">根据命令日志文件重新构建</font></p>
+<h3 id="3-AOF优劣势">3.AOF优劣势</h3>
+<ul>
+<li><strong>优势</strong>
+<ol>
+<li>使用AOF数据持久化更加完整</li>
+<li>可以使用不同的fsync策略，使用默认策略fsync时，每秒的写入性能仍然很好（fsync是使用后台线程执行的，并且在没有进行fsync的情况下，主线程将尽力执行写入操作）但是会损失一秒的写入时间</li>
+<li>AOF是使用日志追加的方式，如果断电或其他原因导致日志只写了一半，可以使用<code>redis-check-aof</code>工具进行修复</li>
+<li>Redis太大时，Redis可以在后台自动重写AOF。 Redis继续追加到旧文件时，会生成一个新的文件，其中包含创建当前数据集<strong>所需的最少操作集</strong>，一旦准备好第二个文件，Redis会切换这两个文件并开始追加到新的那一个</li>
+<li>即使使用<code>FLUSHALL</code>命令清空了所有数据，也可以通过修改AOF文件进行数据恢复</li>
+</ol>
+</li>
+<li><strong>劣势</strong>
+<ol>
+<li>AOF相比RDB占用空间更大</li>
+<li>使用fsync策略后，相比RDB性能差一些</li>
+<li>当服务器宕机后，使用AOF恢复的数据可能不完整</li>
+</ol>
+</li>
+</ul>
+<h3 id="4-AOF的配置">4.AOF的配置</h3>
+<ol>
+<li>开启AOF</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>配置fsync策略</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># If unsure, use &quot;everysec&quot;.</span><br><span class="line"># 如果不确定，推荐使用 &quot;everysec&quot;</span><br><span class="line"></span><br><span class="line"># appendfsync always</span><br><span class="line">appendfsync everysec</span><br><span class="line"># appendfsync no</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>AOF rewrite配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 设置一个百分比</span><br><span class="line">auto-aof-rewrite-percentage 100</span><br><span class="line"># 设置AOF 的最小大小</span><br><span class="line">auto-aof-rewrite-min-size 64mb</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>Redis 启动加载配置</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 优先加载AOF 文件</span><br><span class="line">aof-use-rdb-preamble yes</span><br></pre></td></tr></table></figure>
+<h2 id="两种持久化方式改如何选择">两种持久化方式改如何选择</h2>
+<ul>
+<li>如果对数据可靠性要求很高，则应同时使用两种持久性方式。</li>
+<li>如果在灾难情况下仍然可以承受几分钟的数据丢失，则可以仅使用RDB。</li>
+<li>不推荐单独使用AOF，因为AOF在数据恢复时，有时候会出现Bugs。</li>
+</ul>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,16 +608,20 @@
                                 
                             </div>
                             
-                            <a href="/2018/07/06/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -324,6 +630,266 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="下载">下载</h3>
+<ol>
+<li>从<a href="http://www.redis.io">Redis官网</a>下载redis 最新稳定版本</li>
+<li>解压到 /usr/local/ 目录下</li>
+</ol>
+<h3 id="安装">安装</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make test &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>make时报如下错误:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zmalloc.h:50:31: error: jemalloc/jemalloc.h: No such file or directory</span><br><span class="line">zmalloc.h:55:2: error: #error &quot;Newer version of jemalloc required&quot;</span><br><span class="line">make[1]: *** [adlist.o] Error 1</span><br><span class="line">make[1]: Leaving directory `/data0/src/redis-2.6.2/src&#x27;</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
+<p>原因是jemalloc重载了Linux下的ANSI C的malloc和free函数。<br>
+解决办法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make MALLOC=libc</span><br></pre></td></tr></table></figure>
+<h3 id="redis-生产环境启动方案">redis 生产环境启动方案</h3>
+<ol>
+<li>redis utils 目录下，有个redis_init_script脚本</li>
+<li>将redis_init_script脚本拷贝到linux的/etc/init.d 目录中，将redis_init_script重命名为redis_6379,   6379是我们希望redis 的实例端口号</li>
+<li>创建两个目录 /etc/redis (存放redis 配置的目录), /var/redis/6379 (存放redis的持久文件)</li>
+<li>修改redis.conf配置文件（默认在根目录下），拷贝到/etc/redis目录下，修改名称为6379.conf</li>
+<li>修改redis.conf中的部分配置为生产环境</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>daemonize</td>
+<td>yes</td>
+<td>让redis以daemon进程运行</td>
+</tr>
+<tr>
+<td>pidfile</td>
+<td>/var/run/redis_6379.pid</td>
+<td>设置redis的pid文件位置</td>
+</tr>
+<tr>
+<td>port</td>
+<td>6379</td>
+<td>设置redis的监听端口号</td>
+</tr>
+<tr>
+<td>dir</td>
+<td>/var/redis/6379</td>
+<td>设置持久化文件的存储位置</td>
+</tr>
+</tbody>
+</table>
+<ol start="6">
+<li>启动redis:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/init.d </span><br><span class="line">chmod 777 redis_6379 </span><br><span class="line">./redis_6379 start</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>确认redis 进程是否启动: <code>ps -ef  |  grep redis</code></li>
+<li>让redis跟随系统启动自动启动，在redis_6379 脚本中，最上面加入两行注释</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig:    2345 90 10</span><br><span class="line"># description: Redis is a persistent key-value database</span><br><span class="line">chkconfig redis_6379 on   </span><br></pre></td></tr></table></figure>
+<h3 id="主从架构（主节点和从节点最好保证一致的版本）">主从架构（主节点和从节点最好保证一致的版本）</h3>
+<ol>
+<li>在 slave node 上配置:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">slaveof 192.168.1.1 6379</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>强制读写分离</li>
+</ol>
+<p>基于主从复制架构，实现读写分离<br>
+redis slave node 只读，默认开启，<code>slave-read-only</code><br>
+开启了只读的redis slave node，会拒绝所有的写操作，这样可以强制搭建成读写分离架构</p>
+<ol start="3">
+<li>
+<p>集成安全认证<br>
+master 上启用安全认证策略，<code>requirepass</code><br>
+master 连接口令 <code>masterauth</code></p>
+</li>
+<li>
+<p>读写分离架构的测试<br>
+先启动主节点，再启动从节点，在搭建生产环境的时候，不要忘记修改一个配置：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p>每个redis.conf 中的bind <code>127.0.0.1</code> -&gt; bind自己的ip，并且防火墙打开6379端口</p>
+<h3 id="redis-cli的使用">redis-cli的使用</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>redis-cli shutdown</td>
+<td>连接本机的6379端口停止redis进程</td>
+</tr>
+<tr>
+<td>redis-cli -h 127.0.0.1 -p 6379</td>
+<td>指定要连接的ip和端口号</td>
+</tr>
+<tr>
+<td>redis-cli ping</td>
+<td>ping redis的端口，看是否正常</td>
+</tr>
+<tr>
+<td>redis-cli</td>
+<td>进入交互式命令行</td>
+</tr>
+<tr>
+<td>set k1 v1</td>
+<td>设置一个key:value</td>
+</tr>
+<tr>
+<td>get k1</td>
+<td>获取key的值</td>
+</tr>
+</tbody>
+</table>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="下载">下载</h3>
+<ol>
+<li>从<a href="http://www.redis.io">Redis官网</a>下载redis 最新稳定版本</li>
+<li>解压到 /usr/local/ 目录下</li>
+</ol>
+<h3 id="安装">安装</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make test &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>make时报如下错误:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zmalloc.h:50:31: error: jemalloc/jemalloc.h: No such file or directory</span><br><span class="line">zmalloc.h:55:2: error: #error &quot;Newer version of jemalloc required&quot;</span><br><span class="line">make[1]: *** [adlist.o] Error 1</span><br><span class="line">make[1]: Leaving directory `/data0/src/redis-2.6.2/src&#x27;</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
+<p>原因是jemalloc重载了Linux下的ANSI C的malloc和free函数。<br>
+解决办法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make MALLOC=libc</span><br></pre></td></tr></table></figure>
+<h3 id="redis-生产环境启动方案">redis 生产环境启动方案</h3>
+<ol>
+<li>redis utils 目录下，有个redis_init_script脚本</li>
+<li>将redis_init_script脚本拷贝到linux的/etc/init.d 目录中，将redis_init_script重命名为redis_6379,   6379是我们希望redis 的实例端口号</li>
+<li>创建两个目录 /etc/redis (存放redis 配置的目录), /var/redis/6379 (存放redis的持久文件)</li>
+<li>修改redis.conf配置文件（默认在根目录下），拷贝到/etc/redis目录下，修改名称为6379.conf</li>
+<li>修改redis.conf中的部分配置为生产环境</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>daemonize</td>
+<td>yes</td>
+<td>让redis以daemon进程运行</td>
+</tr>
+<tr>
+<td>pidfile</td>
+<td>/var/run/redis_6379.pid</td>
+<td>设置redis的pid文件位置</td>
+</tr>
+<tr>
+<td>port</td>
+<td>6379</td>
+<td>设置redis的监听端口号</td>
+</tr>
+<tr>
+<td>dir</td>
+<td>/var/redis/6379</td>
+<td>设置持久化文件的存储位置</td>
+</tr>
+</tbody>
+</table>
+<ol start="6">
+<li>启动redis:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/init.d </span><br><span class="line">chmod 777 redis_6379 </span><br><span class="line">./redis_6379 start</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>确认redis 进程是否启动: <code>ps -ef  |  grep redis</code></li>
+<li>让redis跟随系统启动自动启动，在redis_6379 脚本中，最上面加入两行注释</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig:    2345 90 10</span><br><span class="line"># description: Redis is a persistent key-value database</span><br><span class="line">chkconfig redis_6379 on   </span><br></pre></td></tr></table></figure>
+<h3 id="主从架构（主节点和从节点最好保证一致的版本）">主从架构（主节点和从节点最好保证一致的版本）</h3>
+<ol>
+<li>在 slave node 上配置:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">slaveof 192.168.1.1 6379</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>强制读写分离</li>
+</ol>
+<p>基于主从复制架构，实现读写分离<br>
+redis slave node 只读，默认开启，<code>slave-read-only</code><br>
+开启了只读的redis slave node，会拒绝所有的写操作，这样可以强制搭建成读写分离架构</p>
+<ol start="3">
+<li>
+<p>集成安全认证<br>
+master 上启用安全认证策略，<code>requirepass</code><br>
+master 连接口令 <code>masterauth</code></p>
+</li>
+<li>
+<p>读写分离架构的测试<br>
+先启动主节点，再启动从节点，在搭建生产环境的时候，不要忘记修改一个配置：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p>每个redis.conf 中的bind <code>127.0.0.1</code> -&gt; bind自己的ip，并且防火墙打开6379端口</p>
+<h3 id="redis-cli的使用">redis-cli的使用</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>redis-cli shutdown</td>
+<td>连接本机的6379端口停止redis进程</td>
+</tr>
+<tr>
+<td>redis-cli -h 127.0.0.1 -p 6379</td>
+<td>指定要连接的ip和端口号</td>
+</tr>
+<tr>
+<td>redis-cli ping</td>
+<td>ping redis的端口，看是否正常</td>
+</tr>
+<tr>
+<td>redis-cli</td>
+<td>进入交互式命令行</td>
+</tr>
+<tr>
+<td>set k1 v1</td>
+<td>设置一个key:value</td>
+</tr>
+<tr>
+<td>get k1</td>
+<td>获取key的值</td>
+</tr>
+</tbody>
+</table>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -345,10 +911,14 @@
                                 
                             </div>
                             
-                            <a href="/2018/07/06/Redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -359,6 +929,80 @@
     <!-- 分页 -->
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 

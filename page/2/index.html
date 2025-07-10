@@ -230,14 +230,16 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -246,6 +248,90 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h2 id="一条SQL语句是如何执行的">一条SQL语句是如何执行的?</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10；</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220605212825.png" alt=""></p>
+<p><strong>MySQL 分为Server层和存储引擎两部分。</strong></p>
+<p>Server 层包括连接器、查询缓存、分析器、优化器、执行器等。涵盖MySQL的大多数核心服务功能，以及所有内置函数（如日期、时间、数字和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
+<p>存储引擎是插件式的，支持InnoDB、MyISAM、Memory等。从MySQL5.5.5版本以后默认存储引擎为InnoDB。</p>
+<h3 id="连接器">连接器</h3>
+<p>连接器主要负责客户端和MySQL服务端进行连接的。可以通过<code>show processlist</code>查看连接信息，客户端和服务端默认连接超时为8小时，可以通过过<code>wait_timeout</code>参数配置。</p>
+<p>长连接使用一段时间后会导致MySQL内存长得很快，主要是因为MySQL在执行过程中临时使用的内存是管理在连接对象里面。这些资源会在连接重新断开的时候才释放。<br>
+解决方案如下:</p>
+<ul>
+<li>
+<p>定期断开长连接，使用一段时间，或者程序里面判断执行过一个占用内存大的查询后，断开连接，之后要查询再重连。</p>
+</li>
+<li>
+<p>MySQL5.7以后，可以在每次执行一个比较大的操作后，通过执行<code>mysql_reset_connection</code>来重新初始化连接资源。这个过程不需要重连和重新做权限验证，但是会将连接恢复到刚刚创建完时的状态。</p>
+</li>
+</ul>
+<h3 id="查询缓存">查询缓存</h3>
+<p>之前执行的查询结果可能会以key-value对的形式缓存在内存中，如果查询能够直接在缓存中找到key，那么会直接把value返回给客户端。</p>
+<p>*** 大多数情况下不建议使用查询缓存。***</p>
+<p>如果表中的数据修改的比较频繁，查询缓存的命中率就会非常的低。MySQL提供了以下方式使用查询缓存：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select SQL_CACHE * from T where ID=10；</span><br></pre></td></tr></table></figure>
+<p><em><strong>注意： MySQL8.0版本直接将查询缓存的整块功能删掉了。</strong></em></p>
+<h3 id="分析器">分析器</h3>
+<p>分析器主要是分析语法是否正确，如果不正确就会收到“You have an error in your SQL syntax”的错误提醒,一般语法错误会提示第一个出现错误的位置，所以你要关注的是紧接“use near”的内容。如果查询语句中包含表中不存在的字段，也是在这一步分析。</p>
+<h3 id="优化器">优化器</h3>
+<p>优化器的作用主要是决定使用那个索引，或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。</p>
+<h3 id="执行器">执行器</h3>
+<p>开始执行的时候，要先判断你对这个表有没有执行的查询权限，如果没有，就会返回没有权限的错误。使用慢SQL查询日志中看到<code>rows_examined</code>字段，表示执行过程中扫描了多少行，但有些情况下执行器调用一次，在引擎内部则扫描多行，因此<strong>引擎扫描行数跟rows_examined并不是完全相同</strong>。</p>
+<iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715.781px; height:245px;" src="https://www.processon.com/embed/629cb777e401fd1c3857b913"></iframe>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
+                                        <div class="post-content" data-content-type="full">
+                                            <h2 id="一条SQL语句是如何执行的">一条SQL语句是如何执行的?</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10；</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220605212825.png" alt=""></p>
+<p><strong>MySQL 分为Server层和存储引擎两部分。</strong></p>
+<p>Server 层包括连接器、查询缓存、分析器、优化器、执行器等。涵盖MySQL的大多数核心服务功能，以及所有内置函数（如日期、时间、数字和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
+<p>存储引擎是插件式的，支持InnoDB、MyISAM、Memory等。从MySQL5.5.5版本以后默认存储引擎为InnoDB。</p>
+<h3 id="连接器">连接器</h3>
+<p>连接器主要负责客户端和MySQL服务端进行连接的。可以通过<code>show processlist</code>查看连接信息，客户端和服务端默认连接超时为8小时，可以通过过<code>wait_timeout</code>参数配置。</p>
+<p>长连接使用一段时间后会导致MySQL内存长得很快，主要是因为MySQL在执行过程中临时使用的内存是管理在连接对象里面。这些资源会在连接重新断开的时候才释放。<br>
+解决方案如下:</p>
+<ul>
+<li>
+<p>定期断开长连接，使用一段时间，或者程序里面判断执行过一个占用内存大的查询后，断开连接，之后要查询再重连。</p>
+</li>
+<li>
+<p>MySQL5.7以后，可以在每次执行一个比较大的操作后，通过执行<code>mysql_reset_connection</code>来重新初始化连接资源。这个过程不需要重连和重新做权限验证，但是会将连接恢复到刚刚创建完时的状态。</p>
+</li>
+</ul>
+<h3 id="查询缓存">查询缓存</h3>
+<p>之前执行的查询结果可能会以key-value对的形式缓存在内存中，如果查询能够直接在缓存中找到key，那么会直接把value返回给客户端。</p>
+<p>*** 大多数情况下不建议使用查询缓存。***</p>
+<p>如果表中的数据修改的比较频繁，查询缓存的命中率就会非常的低。MySQL提供了以下方式使用查询缓存：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select SQL_CACHE * from T where ID=10；</span><br></pre></td></tr></table></figure>
+<p><em><strong>注意： MySQL8.0版本直接将查询缓存的整块功能删掉了。</strong></em></p>
+<h3 id="分析器">分析器</h3>
+<p>分析器主要是分析语法是否正确，如果不正确就会收到“You have an error in your SQL syntax”的错误提醒,一般语法错误会提示第一个出现错误的位置，所以你要关注的是紧接“use near”的内容。如果查询语句中包含表中不存在的字段，也是在这一步分析。</p>
+<h3 id="优化器">优化器</h3>
+<p>优化器的作用主要是决定使用那个索引，或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。</p>
+<h3 id="执行器">执行器</h3>
+<p>开始执行的时候，要先判断你对这个表有没有执行的查询权限，如果没有，就会返回没有权限的错误。使用慢SQL查询日志中看到<code>rows_examined</code>字段，表示执行过程中扫描了多少行，但有些情况下执行器调用一次，在引擎内部则扫描多行，因此<strong>引擎扫描行数跟rows_examined并不是完全相同</strong>。</p>
+<iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715.781px; height:245px;" src="https://www.processon.com/embed/629cb777e401fd1c3857b913"></iframe>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -267,16 +353,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/06/05/%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84%E4%B9%8B%E4%B8%80%E6%9D%A1SQL%E6%9B%B4%E6%96%B0%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -285,6 +375,296 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>数据复制方案，人们通常希望达到以下几个目的：</p>
+<ul>
+<li>使数据在地理位置上更接近用户，从而降低访问延迟。</li>
+<li>当部分组件出现故障，系统依然可以继续工作，从而提升可用性。</li>
+<li>扩展至多台机器以同时提供数据访问服务，从而提高吞吐量。</li>
+</ul>
+<p>三种比较流行的复制数据变化的方法：</p>
+<ul>
+<li>主从复制</li>
+<li>多主节点复制</li>
+<li>无主节点复制</li>
+</ul>
+<p>复制技术存在很多折中的方案，例如：同步复制和异步复制，一般情况数据库会采用配置的形式来处理这些策略。</p>
+<h3 id="主节点与从节点">主节点与从节点</h3>
+<p>主从复制的工作原理如下：</p>
+<ol>
+<li>指定一个副本为主节点，当客户写数据库时，只能通过主节点进行写入。</li>
+<li>其他副本作为从副本，主副本将数据写入本地存储后，将数据更改作为复制日志或更改流发送到从副本。每个副本获取到更改数据后将其应用到本地，并且严格保持与主副本相同的写入顺序。</li>
+<li>客户端读取数据时从主副本或者从副本进行读取，从客户端的角度看，从副本都是只读的。</li>
+</ol>
+<h3 id="同步复制与异步复制">同步复制与异步复制</h3>
+<p>同步复制是需要等从节点确认完成了写入之后，才会向用户报告完成。并将最新的写入对其他客户端可见。异步复制是主节点发送完消息之后立即返回，不需要等待从节点完成确认。</p>
+<h4 id="同步复制的优点">同步复制的优点</h4>
+<p>一旦向用户确认，从节点可以明确保证完成了与主节点的更新同步，数据已处于最新版本。万一主节点发生故障，总是可以在从节点继续访问最新数据。</p>
+<h4 id="同步复制的缺点">同步复制的缺点</h4>
+<p>如果同步的从节点无法完成确认（例如由于从节点发送崩溃、网络故障或其他原因），写入就不能视为成功。主节点会阻塞其后面所有的写操作，直到同步副本确认完成。</p>
+<blockquote>
+<p>把所有从节点都设置为同步复制有些不切实际，实践中，可以将某一个节点设置为同步复制，其他节点设置为异步复制。万一同步复制的节点变得不可用或者性能下降，则将另外一个节点从异步模式提升为同步模式，这样可以保证至少有两个节点拥有最新的数据副本。这种配置有时称为<strong>半同步</strong>。</p>
+</blockquote>
+<h4 id="异步复制的优点">异步复制的优点</h4>
+<p>不管从节点的数据多么滞后，主节点总是可以继续响应客户端的写请求，系统的吞吐性能更好。</p>
+<h4 id="异步复制的缺点">异步复制的缺点</h4>
+<p>如果主节点发生故障并且不可恢复，则所有尚未复制到从节点的数据将会丢失，这就意味着向客户端确认了写请求，但是却无法保证数据的持久化。</p>
+<h3 id="配置新的从节点">配置新的从节点</h3>
+<p>如何考虑添加新的从节点，怎么保证主从数据一致性呢？</p>
+<ol>
+<li>在某个时间节点对主节点的数据副本生成一个一致性快照。</li>
+<li>将快照拷贝到新的从节点。</li>
+<li>从节点连接到主节点并请求快照点之后所发生的数据更改日志。因为在第一步创建快照时，快照与系统复制日志的某个确定的位置相关联。</li>
+<li>获得日志之后，从节点应用这些快照点之后的所有数据变更，这个过程称之为<strong>追赶</strong>。接下来，他可以继续处理主节点上的新的数据变化。并重复1~4步骤。</li>
+</ol>
+<h3 id="从节点失效：追赶式恢复">从节点失效：追赶式恢复</h3>
+<p>从节点如果发生了崩溃或者网络闪断，则根据最后一笔事务的处理日志，从主节点拉取之后的所有数据的变更，收到所有数据的变更后，将其应用到本地用于追赶主节点，之后就和正常情况一样持续接收来自主节点数据流的变化。</p>
+<h3 id="主节点失效：节点切换">主节点失效：节点切换</h3>
+<ol>
+<li>确定主节点失效。大部分系统都采用了基于超时的机制判断节点是否失效，节点间频繁地互相发送心跳存活信息，如果某一个节点在一段时间内（例如30s）没有响应，则认为该节点发生了实效。</li>
+<li>选举新的主节点。可以通过选举的方式来选举主节点，候选节点最好与主节点的数据差异最小，这样可以最小化数据丢失的风险。</li>
+<li>重新配置系统使新的主节点生效。如果原主节点重新上线后，可能仍然认为自己是主节点，这是系统要确保原主节点降级为从节点，并认可新的主节点。</li>
+</ol>
+<h4 id="以上切换过程可能会发生很多变数">以上切换过程可能会发生很多变数</h4>
+<ul>
+<li>
+<p>如果使用了异步复制，且失效之前，新的主节点并未收到原主节点的所有数据；在选举之后，原主节点很快又重新上线加入到集群，这是可能原主节点并未意识到角色的变化，还会尝试同步其他从节点，但其中的一个现在已经接管成为现任主节点。<strong>常见的解决方案是：原主节点上未完成复制的写请求就此丢弃，但这可能会违背数据更新持久化的承诺。</strong></p>
+</li>
+<li>
+<p>如果数据库依赖于外部系统（例如Redis）一起协同使用，丢弃数据的方案就特别危险。例如，在GithHub的一次事故中，某个数据并完全的MySQL从节点提升为主节点，数据库使用了基于自增计数器将主键分配给新创建的行，但是因为新的主节点计数器落后于原主节点（即二者并非完全同步），它重新使用了已被原主节点分配出去的某些主键，而恰好这些主键已被外部Redis所引用，结果出现MySQL和Redis之间的不一致，最后导致了某些私有数据被错误的泄露给了其它用户。</p>
+</li>
+<li>
+<p>某些情况下，可能会发生两个节点同时认为自己是主节点，这种情况下被称为<strong>脑裂</strong>，它非常危险：<strong>两个主节点都可能接收写请求，并且没有很好解决冲突的办法，最后数据可能会丢失或者破坏，一种安全应急方案会强制关闭其中的一个节点。</strong></p>
+</li>
+<li>
+<p>如何设置合适的超时来检查主节点失效？主节点失效后，超时时间设置的越长，也就意味着数据恢复的时间越长。如果设置的太短，可能会导致很多不必要的节点切换。例如：突然的负载峰值会导致节点的响应时间变长甚至超时，或者由于网络故障导致延迟增加。如果系统本身已经处于高负载或网络严重拥塞的情况下，不必要的切换只会导致系统的情况变得更糟。</p>
+</li>
+</ul>
+<h2 id="复制日志的实现">复制日志的实现</h2>
+<h4 id="基于语句的复制">基于语句的复制</h4>
+<p>一些不适用的场景：</p>
+<ul>
+<li>
+<p>任何调用非确定性的语句，如<code>NOW()</code>获取当前时间，或<code>RAND()</code>获取一个随机数等，可能会在不同副本产生不同的值。</p>
+</li>
+<li>
+<p>如果语句中使用自增列，或者依赖数据库的现有数据（例如：UPDATE … WHERE … &lt;某些条件&gt;），则所有副本必须按照相同的顺序执行，否则可能会带来不同的结果。</p>
+</li>
+<li>
+<p>有副作用的语句（例如：触发器、存储过程、用户自定义的函数等），可能会在每个副本产生不同的副作用。</p>
+</li>
+</ul>
+<blockquote>
+<p>可能解决的方案是将不确定的函数替换成确定的结果，不过这种方式仍有许多地方需要考虑。</p>
+</blockquote>
+<h4 id="基于预写日志（WAL）传输">基于预写日志（WAL）传输</h4>
+<ul>
+<li>
+<p>对于日志结构的存储引擎（例如：SSTables和LSM-trees），日志是主要的存储方式。日志段在后台压缩并支持垃圾回收。</p>
+</li>
+<li>
+<p>对于采用覆盖写磁盘的Btree结构，每次修改会预先写入日志，如果系统崩溃，通过索引更新的方式迅速恢复到此前一直状态。</p>
+</li>
+</ul>
+<p>缺点：</p>
+<p>WAL包含了哪些磁盘块的哪些字节发生了改变，诸如此类细节，这使得复制方案和存储引擎紧密耦合。如果数据库的存储格式从一个版本改为另一个版本，那么系统通常无法支持主从节点上运行不同版本的软件。</p>
+<h4 id="基于行的逻辑日志复制">基于行的逻辑日志复制</h4>
+<p>关系数据库的逻辑日志通常是指一些列记录数据行级别的写请求：</p>
+<ul>
+<li>
+<p>对行的插入，日志包含所有相关列的新值。</p>
+</li>
+<li>
+<p>对于行的删除，日志有足够的的信息来唯一标识已删除的行。</p>
+</li>
+<li>
+<p>对于行的更新，日志包含足够的信息来唯一标识更新的行，以及所有列的新值。</p>
+</li>
+</ul>
+<blockquote>
+<p>MySQL的二进制日志binlog（当配置基于行的复制时）使用该方式。</p>
+</blockquote>
+<h4 id="基于触发器的复制">基于触发器的复制</h4>
+<p>基于触发器复制支持更高的灵活性。例如将一种数据库的数据复制到另外一种数据库。触发器支持注册自己的应用层代码，使数据库发生数据更改时自动执行自定义代码。 基于触发器的复制通常比其他方式复制开销更高，也比数据库内置复制更容易出错或者暴露一些限制。</p>
+<h2 id="复制滞后的问题">复制滞后的问题</h2>
+<p>由于并非所有写入都反映到副本上，如果同时对主节点和从节点发起相同的查询，可能会得到不同的接口，这种不一致的状态只是暂时的，可能经过一段时间后，从节点最终会赶上主节点并与主节点保持一致。<strong>这种效应也被称为最终一致性。</strong></p>
+<h3 id="读自己的写">读自己的写</h3>
+<p>读自己的写也被称为<strong>读写一致性</strong>。实现读写一致性有多重可行方案：</p>
+<ul>
+<li>
+<p>总是从主节点读取当前用户自己的数据，而从从节点读取其他用户的数据。</p>
+</li>
+<li>
+<p>跟踪数据最近更新时间，如果数据更新后一分钟内总是从主节点读取数据，并监控从节点复制之后的程度，避免从那些滞后时间超过一分钟的从节点读取。</p>
+</li>
+<li>
+<p>客户端记住最近更新时的时间戳，并附带到请求中，根据此信息，系统可以保证对该用户提供读服务时都应该至少包含了该时间戳的更新。如果不够新，则交给其他副本进行处理，要么等待直到副本接收到了最近的更新。</p>
+</li>
+<li>
+<p>如果副本分布在多数据中心，必须先把请求路由到主节点所在的数据中心。</p>
+</li>
+</ul>
+<h3 id="单调读">单调读</h3>
+<p>主要是解决用户看到了最新内容之后又读到了过期的内容，好像时间被回拨，此时需要单调读一致性。（出现这种情况主要是因为主从节点数据不一致或同步滞后导致的）</p>
+<p>解决方案：确保每个用户总是从固定的同一副本执行读取。（例如：基于用户Id进行哈希的方式选择副本，而不是随机选择）</p>
+<h3 id="前缀一致性">前缀一致性</h3>
+<p>在许多分布式数据库中，不同分区独立运行，因此不存在写入顺序。这就导致当用户从数据库中读取数据时，可能会看到数据库的某部分新值和另一部分旧值。</p>
+<p><strong>一个解决方案是确保任何具有因果顺序关系的写入都交给一个分区来完成，但这种方案真是实现效率会大打折扣。</strong></p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
+                                        <div class="post-content" data-content-type="full">
+                                            <p>数据复制方案，人们通常希望达到以下几个目的：</p>
+<ul>
+<li>使数据在地理位置上更接近用户，从而降低访问延迟。</li>
+<li>当部分组件出现故障，系统依然可以继续工作，从而提升可用性。</li>
+<li>扩展至多台机器以同时提供数据访问服务，从而提高吞吐量。</li>
+</ul>
+<p>三种比较流行的复制数据变化的方法：</p>
+<ul>
+<li>主从复制</li>
+<li>多主节点复制</li>
+<li>无主节点复制</li>
+</ul>
+<p>复制技术存在很多折中的方案，例如：同步复制和异步复制，一般情况数据库会采用配置的形式来处理这些策略。</p>
+<h3 id="主节点与从节点">主节点与从节点</h3>
+<p>主从复制的工作原理如下：</p>
+<ol>
+<li>指定一个副本为主节点，当客户写数据库时，只能通过主节点进行写入。</li>
+<li>其他副本作为从副本，主副本将数据写入本地存储后，将数据更改作为复制日志或更改流发送到从副本。每个副本获取到更改数据后将其应用到本地，并且严格保持与主副本相同的写入顺序。</li>
+<li>客户端读取数据时从主副本或者从副本进行读取，从客户端的角度看，从副本都是只读的。</li>
+</ol>
+<h3 id="同步复制与异步复制">同步复制与异步复制</h3>
+<p>同步复制是需要等从节点确认完成了写入之后，才会向用户报告完成。并将最新的写入对其他客户端可见。异步复制是主节点发送完消息之后立即返回，不需要等待从节点完成确认。</p>
+<h4 id="同步复制的优点">同步复制的优点</h4>
+<p>一旦向用户确认，从节点可以明确保证完成了与主节点的更新同步，数据已处于最新版本。万一主节点发生故障，总是可以在从节点继续访问最新数据。</p>
+<h4 id="同步复制的缺点">同步复制的缺点</h4>
+<p>如果同步的从节点无法完成确认（例如由于从节点发送崩溃、网络故障或其他原因），写入就不能视为成功。主节点会阻塞其后面所有的写操作，直到同步副本确认完成。</p>
+<blockquote>
+<p>把所有从节点都设置为同步复制有些不切实际，实践中，可以将某一个节点设置为同步复制，其他节点设置为异步复制。万一同步复制的节点变得不可用或者性能下降，则将另外一个节点从异步模式提升为同步模式，这样可以保证至少有两个节点拥有最新的数据副本。这种配置有时称为<strong>半同步</strong>。</p>
+</blockquote>
+<h4 id="异步复制的优点">异步复制的优点</h4>
+<p>不管从节点的数据多么滞后，主节点总是可以继续响应客户端的写请求，系统的吞吐性能更好。</p>
+<h4 id="异步复制的缺点">异步复制的缺点</h4>
+<p>如果主节点发生故障并且不可恢复，则所有尚未复制到从节点的数据将会丢失，这就意味着向客户端确认了写请求，但是却无法保证数据的持久化。</p>
+<h3 id="配置新的从节点">配置新的从节点</h3>
+<p>如何考虑添加新的从节点，怎么保证主从数据一致性呢？</p>
+<ol>
+<li>在某个时间节点对主节点的数据副本生成一个一致性快照。</li>
+<li>将快照拷贝到新的从节点。</li>
+<li>从节点连接到主节点并请求快照点之后所发生的数据更改日志。因为在第一步创建快照时，快照与系统复制日志的某个确定的位置相关联。</li>
+<li>获得日志之后，从节点应用这些快照点之后的所有数据变更，这个过程称之为<strong>追赶</strong>。接下来，他可以继续处理主节点上的新的数据变化。并重复1~4步骤。</li>
+</ol>
+<h3 id="从节点失效：追赶式恢复">从节点失效：追赶式恢复</h3>
+<p>从节点如果发生了崩溃或者网络闪断，则根据最后一笔事务的处理日志，从主节点拉取之后的所有数据的变更，收到所有数据的变更后，将其应用到本地用于追赶主节点，之后就和正常情况一样持续接收来自主节点数据流的变化。</p>
+<h3 id="主节点失效：节点切换">主节点失效：节点切换</h3>
+<ol>
+<li>确定主节点失效。大部分系统都采用了基于超时的机制判断节点是否失效，节点间频繁地互相发送心跳存活信息，如果某一个节点在一段时间内（例如30s）没有响应，则认为该节点发生了实效。</li>
+<li>选举新的主节点。可以通过选举的方式来选举主节点，候选节点最好与主节点的数据差异最小，这样可以最小化数据丢失的风险。</li>
+<li>重新配置系统使新的主节点生效。如果原主节点重新上线后，可能仍然认为自己是主节点，这是系统要确保原主节点降级为从节点，并认可新的主节点。</li>
+</ol>
+<h4 id="以上切换过程可能会发生很多变数">以上切换过程可能会发生很多变数</h4>
+<ul>
+<li>
+<p>如果使用了异步复制，且失效之前，新的主节点并未收到原主节点的所有数据；在选举之后，原主节点很快又重新上线加入到集群，这是可能原主节点并未意识到角色的变化，还会尝试同步其他从节点，但其中的一个现在已经接管成为现任主节点。<strong>常见的解决方案是：原主节点上未完成复制的写请求就此丢弃，但这可能会违背数据更新持久化的承诺。</strong></p>
+</li>
+<li>
+<p>如果数据库依赖于外部系统（例如Redis）一起协同使用，丢弃数据的方案就特别危险。例如，在GithHub的一次事故中，某个数据并完全的MySQL从节点提升为主节点，数据库使用了基于自增计数器将主键分配给新创建的行，但是因为新的主节点计数器落后于原主节点（即二者并非完全同步），它重新使用了已被原主节点分配出去的某些主键，而恰好这些主键已被外部Redis所引用，结果出现MySQL和Redis之间的不一致，最后导致了某些私有数据被错误的泄露给了其它用户。</p>
+</li>
+<li>
+<p>某些情况下，可能会发生两个节点同时认为自己是主节点，这种情况下被称为<strong>脑裂</strong>，它非常危险：<strong>两个主节点都可能接收写请求，并且没有很好解决冲突的办法，最后数据可能会丢失或者破坏，一种安全应急方案会强制关闭其中的一个节点。</strong></p>
+</li>
+<li>
+<p>如何设置合适的超时来检查主节点失效？主节点失效后，超时时间设置的越长，也就意味着数据恢复的时间越长。如果设置的太短，可能会导致很多不必要的节点切换。例如：突然的负载峰值会导致节点的响应时间变长甚至超时，或者由于网络故障导致延迟增加。如果系统本身已经处于高负载或网络严重拥塞的情况下，不必要的切换只会导致系统的情况变得更糟。</p>
+</li>
+</ul>
+<h2 id="复制日志的实现">复制日志的实现</h2>
+<h4 id="基于语句的复制">基于语句的复制</h4>
+<p>一些不适用的场景：</p>
+<ul>
+<li>
+<p>任何调用非确定性的语句，如<code>NOW()</code>获取当前时间，或<code>RAND()</code>获取一个随机数等，可能会在不同副本产生不同的值。</p>
+</li>
+<li>
+<p>如果语句中使用自增列，或者依赖数据库的现有数据（例如：UPDATE … WHERE … &lt;某些条件&gt;），则所有副本必须按照相同的顺序执行，否则可能会带来不同的结果。</p>
+</li>
+<li>
+<p>有副作用的语句（例如：触发器、存储过程、用户自定义的函数等），可能会在每个副本产生不同的副作用。</p>
+</li>
+</ul>
+<blockquote>
+<p>可能解决的方案是将不确定的函数替换成确定的结果，不过这种方式仍有许多地方需要考虑。</p>
+</blockquote>
+<h4 id="基于预写日志（WAL）传输">基于预写日志（WAL）传输</h4>
+<ul>
+<li>
+<p>对于日志结构的存储引擎（例如：SSTables和LSM-trees），日志是主要的存储方式。日志段在后台压缩并支持垃圾回收。</p>
+</li>
+<li>
+<p>对于采用覆盖写磁盘的Btree结构，每次修改会预先写入日志，如果系统崩溃，通过索引更新的方式迅速恢复到此前一直状态。</p>
+</li>
+</ul>
+<p>缺点：</p>
+<p>WAL包含了哪些磁盘块的哪些字节发生了改变，诸如此类细节，这使得复制方案和存储引擎紧密耦合。如果数据库的存储格式从一个版本改为另一个版本，那么系统通常无法支持主从节点上运行不同版本的软件。</p>
+<h4 id="基于行的逻辑日志复制">基于行的逻辑日志复制</h4>
+<p>关系数据库的逻辑日志通常是指一些列记录数据行级别的写请求：</p>
+<ul>
+<li>
+<p>对行的插入，日志包含所有相关列的新值。</p>
+</li>
+<li>
+<p>对于行的删除，日志有足够的的信息来唯一标识已删除的行。</p>
+</li>
+<li>
+<p>对于行的更新，日志包含足够的信息来唯一标识更新的行，以及所有列的新值。</p>
+</li>
+</ul>
+<blockquote>
+<p>MySQL的二进制日志binlog（当配置基于行的复制时）使用该方式。</p>
+</blockquote>
+<h4 id="基于触发器的复制">基于触发器的复制</h4>
+<p>基于触发器复制支持更高的灵活性。例如将一种数据库的数据复制到另外一种数据库。触发器支持注册自己的应用层代码，使数据库发生数据更改时自动执行自定义代码。 基于触发器的复制通常比其他方式复制开销更高，也比数据库内置复制更容易出错或者暴露一些限制。</p>
+<h2 id="复制滞后的问题">复制滞后的问题</h2>
+<p>由于并非所有写入都反映到副本上，如果同时对主节点和从节点发起相同的查询，可能会得到不同的接口，这种不一致的状态只是暂时的，可能经过一段时间后，从节点最终会赶上主节点并与主节点保持一致。<strong>这种效应也被称为最终一致性。</strong></p>
+<h3 id="读自己的写">读自己的写</h3>
+<p>读自己的写也被称为<strong>读写一致性</strong>。实现读写一致性有多重可行方案：</p>
+<ul>
+<li>
+<p>总是从主节点读取当前用户自己的数据，而从从节点读取其他用户的数据。</p>
+</li>
+<li>
+<p>跟踪数据最近更新时间，如果数据更新后一分钟内总是从主节点读取数据，并监控从节点复制之后的程度，避免从那些滞后时间超过一分钟的从节点读取。</p>
+</li>
+<li>
+<p>客户端记住最近更新时的时间戳，并附带到请求中，根据此信息，系统可以保证对该用户提供读服务时都应该至少包含了该时间戳的更新。如果不够新，则交给其他副本进行处理，要么等待直到副本接收到了最近的更新。</p>
+</li>
+<li>
+<p>如果副本分布在多数据中心，必须先把请求路由到主节点所在的数据中心。</p>
+</li>
+</ul>
+<h3 id="单调读">单调读</h3>
+<p>主要是解决用户看到了最新内容之后又读到了过期的内容，好像时间被回拨，此时需要单调读一致性。（出现这种情况主要是因为主从节点数据不一致或同步滞后导致的）</p>
+<p>解决方案：确保每个用户总是从固定的同一副本执行读取。（例如：基于用户Id进行哈希的方式选择副本，而不是随机选择）</p>
+<h3 id="前缀一致性">前缀一致性</h3>
+<p>在许多分布式数据库中，不同分区独立运行，因此不存在写入顺序。这就导致当用户从数据库中读取数据时，可能会看到数据库的某部分新值和另一部分旧值。</p>
+<p><strong>一个解决方案是确保任何具有因果顺序关系的写入都交给一个分区来完成，但这种方案真是实现效率会大打折扣。</strong></p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -306,16 +686,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/05/31/%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -324,6 +708,130 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="时代在要求我们写测试">时代在要求我们写测试</h3>
+<p>因为软件变得越来越复杂，测试可以让我们在复杂的软件开发中稳步前行。另一方面软件测试可以让我们在长期的过程中不断回归，让每一步走的更稳。</p>
+<p>程序员圈子流传着一个关于测试的段子：** 每个程序员在修改代码时都希望有测试，而在写代码时，都不想写测试。**</p>
+<h3 id="大部分程序员都不会写测试">大部分程序员都不会写测试</h3>
+<p>很多程序员反对写测试，本质上的原因是因为他们不会写测试。</p>
+<h3 id="你的代码质量真的高吗？">你的代码质量真的高吗？</h3>
+<ul>
+<li>经过测试的代码，质量会更高；</li>
+<li>要想写好测试，代码本身质量也要高。</li>
+</ul>
+<p><strong>如果你连测试都做不好，你对自己代码的信心从何而来呢？</strong></p>
+<h3 id="学习写测试">学习写测试</h3>
+<p><strong>最好的办法就是跟着会写测试的人一起写一段时间</strong></p>
+<p>思考：可以查阅优秀的开源代码是如何写测试的。</p>
+<hr>
+<h3 id="ToDo项目的一些基本准备工作">ToDo项目的一些基本准备工作</h3>
+<ul>
+<li>一个项目的自动化；</li>
+<li>对需求进行简单设计。</li>
+</ul>
+<p>为什么需要自动化呢？简单来说是为了防止一些低级错误。</p>
+<p><strong>把核心的业务部分和命令行呈现的部分分开。</strong></p>
+<h3 id="任务分解">任务分解</h3>
+<p>从离我们需求最近的入口开始。</p>
+<p><strong>要想测试一个函数，一个函数最好是可测的。什么是可测的？就是通过函数的接口设计，我们给出特定的输入，它能给我们相应的输出。所以，一个函数最好是有返回值的。</strong></p>
+<p><a href="https://time.geekbang.org/column/article/84374">Fail Fast 原则</a><br>
+<strong>一条设计规范：对于输入参数的检测，由入口部分代码进行处理。</strong><br>
+<strong>一条设计规范：Repository 的问题以运行时异常的形式抛出，业务层不需要做任何处理。</strong></p>
+<p>项目刚开始时，我们要准备哪些内容：</p>
+<ul>
+<li>项目的自动化；</li>
+<li>针对需求进行初步的设计。</li>
+</ul>
+<p>着手编写代码时，我们要怎么做呢？</p>
+<ul>
+<li>对要实现的需求进行任务分解；</li>
+<li>在一个具体的需求任务中，我们可以从需求入口开始入手；</li>
+<li>设计一个可测试的函数；</li>
+<li>针对具体的函数，考虑测试场景；</li>
+<li>针对具体的测试场景，将场景具象化成测试用例。</li>
+</ul>
+<p>在梳理的过程中，我们还会针对一些统一的情况作出一些约定，成为项目整体的设计规范，比如，在这里我们约定：</p>
+<ul>
+<li>对于输入参数的检测，由入口部分代码进行处理；</li>
+<li>Repository 的问题以运行时异常的形式抛出，业务层不需要做任何处理。</li>
+</ul>
+<p>在编码的过程中，我们也看到了：</p>
+<ul>
+<li>根据不断增加的需求，逐渐改动我们的设计，这就是演化式设计的基本做法；</li>
+<li>我们对待测试也像对待代码一样，会消除代码中存在的一些坏味道。</li>
+</ul>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
+                                        <div class="post-content" data-content-type="full">
+                                            <h3 id="时代在要求我们写测试">时代在要求我们写测试</h3>
+<p>因为软件变得越来越复杂，测试可以让我们在复杂的软件开发中稳步前行。另一方面软件测试可以让我们在长期的过程中不断回归，让每一步走的更稳。</p>
+<p>程序员圈子流传着一个关于测试的段子：** 每个程序员在修改代码时都希望有测试，而在写代码时，都不想写测试。**</p>
+<h3 id="大部分程序员都不会写测试">大部分程序员都不会写测试</h3>
+<p>很多程序员反对写测试，本质上的原因是因为他们不会写测试。</p>
+<h3 id="你的代码质量真的高吗？">你的代码质量真的高吗？</h3>
+<ul>
+<li>经过测试的代码，质量会更高；</li>
+<li>要想写好测试，代码本身质量也要高。</li>
+</ul>
+<p><strong>如果你连测试都做不好，你对自己代码的信心从何而来呢？</strong></p>
+<h3 id="学习写测试">学习写测试</h3>
+<p><strong>最好的办法就是跟着会写测试的人一起写一段时间</strong></p>
+<p>思考：可以查阅优秀的开源代码是如何写测试的。</p>
+<hr>
+<h3 id="ToDo项目的一些基本准备工作">ToDo项目的一些基本准备工作</h3>
+<ul>
+<li>一个项目的自动化；</li>
+<li>对需求进行简单设计。</li>
+</ul>
+<p>为什么需要自动化呢？简单来说是为了防止一些低级错误。</p>
+<p><strong>把核心的业务部分和命令行呈现的部分分开。</strong></p>
+<h3 id="任务分解">任务分解</h3>
+<p>从离我们需求最近的入口开始。</p>
+<p><strong>要想测试一个函数，一个函数最好是可测的。什么是可测的？就是通过函数的接口设计，我们给出特定的输入，它能给我们相应的输出。所以，一个函数最好是有返回值的。</strong></p>
+<p><a href="https://time.geekbang.org/column/article/84374">Fail Fast 原则</a><br>
+<strong>一条设计规范：对于输入参数的检测，由入口部分代码进行处理。</strong><br>
+<strong>一条设计规范：Repository 的问题以运行时异常的形式抛出，业务层不需要做任何处理。</strong></p>
+<p>项目刚开始时，我们要准备哪些内容：</p>
+<ul>
+<li>项目的自动化；</li>
+<li>针对需求进行初步的设计。</li>
+</ul>
+<p>着手编写代码时，我们要怎么做呢？</p>
+<ul>
+<li>对要实现的需求进行任务分解；</li>
+<li>在一个具体的需求任务中，我们可以从需求入口开始入手；</li>
+<li>设计一个可测试的函数；</li>
+<li>针对具体的函数，考虑测试场景；</li>
+<li>针对具体的测试场景，将场景具象化成测试用例。</li>
+</ul>
+<p>在梳理的过程中，我们还会针对一些统一的情况作出一些约定，成为项目整体的设计规范，比如，在这里我们约定：</p>
+<ul>
+<li>对于输入参数的检测，由入口部分代码进行处理；</li>
+<li>Repository 的问题以运行时异常的形式抛出，业务层不需要做任何处理。</li>
+</ul>
+<p>在编码的过程中，我们也看到了：</p>
+<ul>
+<li>根据不断增加的需求，逐渐改动我们的设计，这就是演化式设计的基本做法；</li>
+<li>我们对待测试也像对待代码一样，会消除代码中存在的一些坏味道。</li>
+</ul>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -345,16 +853,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/05/30/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AF%BE/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -363,6 +875,114 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <blockquote>
+<p>本文是为我的年轻人（或任何新手）准备的，他们可以有效地使用git命令行，并简要介绍了我如何使用这些命令。<br>
+<a href="https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb">https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb</a></p>
+</blockquote>
+<h3 id="1-git-fetch-origin">1. git fetch origin</h3>
+<p>从特定的仓库拉取所有的branchs/tags, 这里的仓库是“origin”, 我每天从这个命令开始, 它可以让本地和远程仓库状态保持一致.</p>
+<h3 id="2-git-status">2. git status</h3>
+<p>显示当前分支自上次提交到现在的文件改动列表,在切换分支、创建新分支、进行新更改或拉取更改之前, 此命令可以检查是否有文件需要被stash.</p>
+<h3 id="3-git-checkout">3. git checkout</h3>
+<p><code>git checkout -b &lt;new branch name&gt; origin/&lt;source branch name&gt;</code><br>
+从特定源分支创建一个新分支,这块的“origin”代表默认仓库.<br>
+<code>git checkout — — &lt;name of the file&gt;</code><br>
+当本地有文件变动时,可以使用这个命令丢弃当前改变,恢复文件到之前状态.<br>
+<code>git checkout &lt;branch name&gt;</code><br>
+切换本地到指定分支.</p>
+<h3 id="4-git-pull-origin-branch-name">4. git pull origin <branch name></h3>
+<p>将更改从远程分支拉到本地分支，并在更改兼容的情况下调用<code>git merge</code>。<br>
+<code>git pull 和 git fetch</code>的不同之处是:<code> git pull = git fetch + git merge</code></p>
+<h3 id="5-git-add-name-of-the-file">5. git add <name of the file></h3>
+<p>文件修改完成后,就可以使用<code>git add</code>命令将文件添加到特定提交中,使用<code>git status</code>命令可以很方便的获取到要添加指定提交的文件名.</p>
+<h3 id="6-git-commit">6. git commit</h3>
+<p><code>git commit -m &quot;&lt;提交内容的描述&gt;&quot;</code><br>
+提交本地改变,并指定和提交内容相关的描述.</p>
+<h3 id="7-git-push-origin-branch-name">7. git push origin <branch name></h3>
+<p>将本地提交推送到远程存储库,这里的仓库是“origin”.</p>
+<h3 id="8-git-cherry-pick">8. git cherry-pick</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d   Master</span><br><span class="line">         \</span><br><span class="line">           e - f - g Feature</span><br></pre></td></tr></table></figure>
+<p>现在将提交f应用到master分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 切换到 master 分支</span><br><span class="line">$ git checkout master</span><br><span class="line"> </span><br><span class="line"># Cherry pick 操作</span><br><span class="line">$ git cherry-pick f</span><br></pre></td></tr></table></figure>
+<p>上面的操作完成以后，代码库就变成了下面的样子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d - f   Master</span><br><span class="line">        \</span><br><span class="line">          e - f - g Feature</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick -m 1 &lt;commit_id&gt;</span><br></pre></td></tr></table></figure>
+<p>如果原始提交是一个合并节点，来自于两个分支的合并，那么 Cherry pick 默认将失败，因为它不知道应该采用哪个分支的代码变动。</p>
+<p><code>-m</code>配置项告诉 Git，应该采用哪个分支的变动。它的参数parent-number是一个从1开始的整数，代表原始提交的父分支编号。</p>
+<p>上面命令表示，Cherry pick 采用提交commitHash来自编号1的父分支的变动。<br>
+一般来说，1号父分支是接受变动的分支（the branch being merged into），2号父分支是作为变动来源的分支（the branch being merged from）。</p>
+<h3 id="9-git-revert-commit-id">9. git revert <commit id></h3>
+<p>引入一个新的提交来撤回已经push的提交.</p>
+<h3 id="10-git-reset-—-soft-HEAD-1">10. git reset — soft HEAD~1</h3>
+<p>撤消一次本地提交而不会丢失文件中的变更.</p>
+<h3 id="11-git-reset-—-hard-HEAD-1">11. git reset — hard HEAD~1</h3>
+<p>撤销一次本地提交并且丢弃文件中的变更.<br>
+希望对你有帮助. 感谢阅读😁</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-3">
+                                        <div class="post-content" data-content-type="full">
+                                            <blockquote>
+<p>本文是为我的年轻人（或任何新手）准备的，他们可以有效地使用git命令行，并简要介绍了我如何使用这些命令。<br>
+<a href="https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb">https://medium.com/@mmpatil34/11-git-commands-i-use-daily-9bbd7590c8eb</a></p>
+</blockquote>
+<h3 id="1-git-fetch-origin">1. git fetch origin</h3>
+<p>从特定的仓库拉取所有的branchs/tags, 这里的仓库是“origin”, 我每天从这个命令开始, 它可以让本地和远程仓库状态保持一致.</p>
+<h3 id="2-git-status">2. git status</h3>
+<p>显示当前分支自上次提交到现在的文件改动列表,在切换分支、创建新分支、进行新更改或拉取更改之前, 此命令可以检查是否有文件需要被stash.</p>
+<h3 id="3-git-checkout">3. git checkout</h3>
+<p><code>git checkout -b &lt;new branch name&gt; origin/&lt;source branch name&gt;</code><br>
+从特定源分支创建一个新分支,这块的“origin”代表默认仓库.<br>
+<code>git checkout — — &lt;name of the file&gt;</code><br>
+当本地有文件变动时,可以使用这个命令丢弃当前改变,恢复文件到之前状态.<br>
+<code>git checkout &lt;branch name&gt;</code><br>
+切换本地到指定分支.</p>
+<h3 id="4-git-pull-origin-branch-name">4. git pull origin <branch name></h3>
+<p>将更改从远程分支拉到本地分支，并在更改兼容的情况下调用<code>git merge</code>。<br>
+<code>git pull 和 git fetch</code>的不同之处是:<code> git pull = git fetch + git merge</code></p>
+<h3 id="5-git-add-name-of-the-file">5. git add <name of the file></h3>
+<p>文件修改完成后,就可以使用<code>git add</code>命令将文件添加到特定提交中,使用<code>git status</code>命令可以很方便的获取到要添加指定提交的文件名.</p>
+<h3 id="6-git-commit">6. git commit</h3>
+<p><code>git commit -m &quot;&lt;提交内容的描述&gt;&quot;</code><br>
+提交本地改变,并指定和提交内容相关的描述.</p>
+<h3 id="7-git-push-origin-branch-name">7. git push origin <branch name></h3>
+<p>将本地提交推送到远程存储库,这里的仓库是“origin”.</p>
+<h3 id="8-git-cherry-pick">8. git cherry-pick</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d   Master</span><br><span class="line">         \</span><br><span class="line">           e - f - g Feature</span><br></pre></td></tr></table></figure>
+<p>现在将提交f应用到master分支。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 切换到 master 分支</span><br><span class="line">$ git checkout master</span><br><span class="line"> </span><br><span class="line"># Cherry pick 操作</span><br><span class="line">$ git cherry-pick f</span><br></pre></td></tr></table></figure>
+<p>上面的操作完成以后，代码库就变成了下面的样子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a - b - c - d - f   Master</span><br><span class="line">        \</span><br><span class="line">          e - f - g Feature</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick -m 1 &lt;commit_id&gt;</span><br></pre></td></tr></table></figure>
+<p>如果原始提交是一个合并节点，来自于两个分支的合并，那么 Cherry pick 默认将失败，因为它不知道应该采用哪个分支的代码变动。</p>
+<p><code>-m</code>配置项告诉 Git，应该采用哪个分支的变动。它的参数parent-number是一个从1开始的整数，代表原始提交的父分支编号。</p>
+<p>上面命令表示，Cherry pick 采用提交commitHash来自编号1的父分支的变动。<br>
+一般来说，1号父分支是接受变动的分支（the branch being merged into），2号父分支是作为变动来源的分支（the branch being merged from）。</p>
+<h3 id="9-git-revert-commit-id">9. git revert <commit id></h3>
+<p>引入一个新的提交来撤回已经push的提交.</p>
+<h3 id="10-git-reset-—-soft-HEAD-1">10. git reset — soft HEAD~1</h3>
+<p>撤消一次本地提交而不会丢失文件中的变更.</p>
+<h3 id="11-git-reset-—-hard-HEAD-1">11. git reset — hard HEAD~1</h3>
+<p>撤销一次本地提交并且丢弃文件中的变更.<br>
+希望对你有帮助. 感谢阅读😁</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -384,16 +1004,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/12/%E6%88%91%E6%AF%8F%E5%A4%A9%E4%BD%BF%E7%94%A8%E7%9A%8411%E4%B8%AAGitCommands/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="3" id="btn-3">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -402,6 +1026,21 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-4">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715px; height:245px;" src="https://www.processon.com/embed/629f20a77d9c08075a36bd94"></iframe>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -423,16 +1062,18 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/12/Netty/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2022/04/12/Netty/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -441,6 +1082,36 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-5">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>main.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;context&quot;</span><br><span class="line">	&quot;github.com/gorilla/mux&quot;</span><br><span class="line">	&quot;github.com/txn2/txeh&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;net/http/httputil&quot;</span><br><span class="line">	&quot;net/url&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;os/signal&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">	host     = &quot;api-dev.deveye.cn&quot;</span><br><span class="line">	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;</span><br><span class="line">	address  = &quot;127.0.0.1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	hosts, err := txeh.NewHostsDefault()</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	hosts.AddHosts(address, hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.Use(LoggingHandler, AuthHandler, RecoverHandler)</span><br><span class="line">		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr:    &quot;:80&quot;,</span><br><span class="line">		Handler: r,</span><br><span class="line">	&#125;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		if err := srv.ListenAndServe(); err != nil &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	c := make(chan os.Signal, 1)</span><br><span class="line">	signal.Notify(c, os.Interrupt)</span><br><span class="line">	&lt;-c</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	defer cancel()</span><br><span class="line">	log.Println(srv.Shutdown(ctx))</span><br><span class="line">	hosts.RemoveHosts(hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	log.Println(&quot;shutting down&quot;)</span><br><span class="line">	os.Exit(0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	u, err := url.Parse(proxyUrl)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	proxy := httputil.NewSingleHostReverseProxy(u)</span><br><span class="line">	r.Host = host</span><br><span class="line">	proxy.ServeHTTP(w, r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>middleware.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;bytes&quot;</span><br><span class="line">	&quot;encoding/json&quot;</span><br><span class="line">	&quot;errors&quot;</span><br><span class="line">	&quot;io/ioutil&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var loginUrl = proxyUrl + &quot;login/sms&quot;</span><br><span class="line"></span><br><span class="line">func LoggingHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		t1 := time.Now()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">		t2 := time.Now()</span><br><span class="line">		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func RecoverHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		defer func() &#123;</span><br><span class="line">			if err := recover(); err != nil &#123;</span><br><span class="line">				log.Printf(&quot;Recover from panic: %+v&quot;, err)</span><br><span class="line">				http.Error(w, http.StatusText(500), 500)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func AuthHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		token, err := getAccessToken()</span><br><span class="line">		if err != nil &#123;</span><br><span class="line">			log.Fatalln(err)</span><br><span class="line">		&#125;</span><br><span class="line">		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">		r.Header.Set(&quot;X-Auth-Token&quot;, token)</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getAccessToken() (string, error) &#123;</span><br><span class="line">	params := map[string]string&#123;</span><br><span class="line">		&quot;phone&quot;:      &quot;15555555551&quot;,</span><br><span class="line">		&quot;verifyCode&quot;: &quot;888888&quot;,</span><br><span class="line">		&quot;codeId&quot;:     &quot;111111&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	marshal, _ := json.Marshal(params)</span><br><span class="line">	reader := bytes.NewReader(marshal)</span><br><span class="line">	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)</span><br><span class="line">	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)</span><br><span class="line">	client := &amp;http.Client&#123;&#125;</span><br><span class="line">	do, err := client.Do(request)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	b, err := ioutil.ReadAll(do.Body)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	_ = do.Body.Close()</span><br><span class="line">	result := &amp;LoginResult&#123;&#125;</span><br><span class="line">	if err := json.Unmarshal(b, result); err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	if result.ErrCode != &quot;0&quot; &#123;</span><br><span class="line">		return &quot;&quot;, errors.New(result.Message)</span><br><span class="line">	&#125;</span><br><span class="line">	return result.Data.Token, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type LoginResult struct &#123;</span><br><span class="line">	ErrCode string</span><br><span class="line">	Message string</span><br><span class="line">	Data    struct &#123;</span><br><span class="line">		Name  string</span><br><span class="line">		Token string</span><br><span class="line">		Phone string</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-5">
+                                        <div class="post-content" data-content-type="full">
+                                            <p>main.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;context&quot;</span><br><span class="line">	&quot;github.com/gorilla/mux&quot;</span><br><span class="line">	&quot;github.com/txn2/txeh&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;net/http/httputil&quot;</span><br><span class="line">	&quot;net/url&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;os/signal&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">	host     = &quot;api-dev.deveye.cn&quot;</span><br><span class="line">	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;</span><br><span class="line">	address  = &quot;127.0.0.1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	hosts, err := txeh.NewHostsDefault()</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	hosts.AddHosts(address, hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.Use(LoggingHandler, AuthHandler, RecoverHandler)</span><br><span class="line">		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr:    &quot;:80&quot;,</span><br><span class="line">		Handler: r,</span><br><span class="line">	&#125;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		if err := srv.ListenAndServe(); err != nil &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	c := make(chan os.Signal, 1)</span><br><span class="line">	signal.Notify(c, os.Interrupt)</span><br><span class="line">	&lt;-c</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	defer cancel()</span><br><span class="line">	log.Println(srv.Shutdown(ctx))</span><br><span class="line">	hosts.RemoveHosts(hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	log.Println(&quot;shutting down&quot;)</span><br><span class="line">	os.Exit(0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	u, err := url.Parse(proxyUrl)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	proxy := httputil.NewSingleHostReverseProxy(u)</span><br><span class="line">	r.Host = host</span><br><span class="line">	proxy.ServeHTTP(w, r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>middleware.go</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;bytes&quot;</span><br><span class="line">	&quot;encoding/json&quot;</span><br><span class="line">	&quot;errors&quot;</span><br><span class="line">	&quot;io/ioutil&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;time&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var loginUrl = proxyUrl + &quot;login/sms&quot;</span><br><span class="line"></span><br><span class="line">func LoggingHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		t1 := time.Now()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">		t2 := time.Now()</span><br><span class="line">		log.Printf(&quot;[%s] %q %v&quot;, r.Method, r.URL.String(), t2.Sub(t1))</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func RecoverHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	fn := func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		defer func() &#123;</span><br><span class="line">			if err := recover(); err != nil &#123;</span><br><span class="line">				log.Printf(&quot;Recover from panic: %+v&quot;, err)</span><br><span class="line">				http.Error(w, http.StatusText(500), 500)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;</span><br><span class="line">	return http.HandlerFunc(fn)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func AuthHandler(next http.Handler) http.Handler &#123;</span><br><span class="line">	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">		token, err := getAccessToken()</span><br><span class="line">		if err != nil &#123;</span><br><span class="line">			log.Fatalln(err)</span><br><span class="line">		&#125;</span><br><span class="line">		r.Header.Set(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">		r.Header.Set(&quot;X-Auth-Token&quot;, token)</span><br><span class="line">		next.ServeHTTP(w, r)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getAccessToken() (string, error) &#123;</span><br><span class="line">	params := map[string]string&#123;</span><br><span class="line">		&quot;phone&quot;:      &quot;15555555551&quot;,</span><br><span class="line">		&quot;verifyCode&quot;: &quot;888888&quot;,</span><br><span class="line">		&quot;codeId&quot;:     &quot;111111&quot;,</span><br><span class="line">	&#125;</span><br><span class="line">	marshal, _ := json.Marshal(params)</span><br><span class="line">	reader := bytes.NewReader(marshal)</span><br><span class="line">	request, _ := http.NewRequest(&quot;POST&quot;, loginUrl, reader)</span><br><span class="line">	request.Header.Add(&quot;X-Auth-AppId&quot;, &quot;10003&quot;)</span><br><span class="line">	request.Header.Set(&quot;content-type&quot;, &quot;application/json&quot;)</span><br><span class="line">	client := &amp;http.Client&#123;&#125;</span><br><span class="line">	do, err := client.Do(request)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	b, err := ioutil.ReadAll(do.Body)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	_ = do.Body.Close()</span><br><span class="line">	result := &amp;LoginResult&#123;&#125;</span><br><span class="line">	if err := json.Unmarshal(b, result); err != nil &#123;</span><br><span class="line">		return &quot;&quot;, err</span><br><span class="line">	&#125;</span><br><span class="line">	if result.ErrCode != &quot;0&quot; &#123;</span><br><span class="line">		return &quot;&quot;, errors.New(result.Message)</span><br><span class="line">	&#125;</span><br><span class="line">	return result.Data.Token, nil</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type LoginResult struct &#123;</span><br><span class="line">	ErrCode string</span><br><span class="line">	Message string</span><br><span class="line">	Data    struct &#123;</span><br><span class="line">		Name  string</span><br><span class="line">		Token string</span><br><span class="line">		Phone string</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -462,16 +1133,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/04/07/golang%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86quickstart/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="5" id="btn-5">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -480,6 +1155,226 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-6">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h1>Prometheus快速入门</h1>
+<h2 id="一、背景">一、背景</h2>
+<p>我们日常开发和运维中，需要监控一些数据，根据这些数据进行分析或者应对策略，例如以下几个维度：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">场景                          </th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">硬件系统</td>
+<td>温度，硬件故障</td>
+</tr>
+<tr>
+<td style="text-align:left">系统监控</td>
+<td>CPU，内存，磁盘，网卡流量，TCP状态，进程数</td>
+</tr>
+<tr>
+<td style="text-align:left">应用监控</td>
+<td>Nginx，Tomcat，PHP，MySQL，Redis 等</td>
+</tr>
+<tr>
+<td style="text-align:left">日志监控</td>
+<td>系统日志，服务日志，访问日志，错误日志</td>
+</tr>
+<tr>
+<td style="text-align:left">安全监控</td>
+<td>WAF，敏感文件监控</td>
+</tr>
+<tr>
+<td style="text-align:left">API监控</td>
+<td>可用性，接口请求，响应时间</td>
+</tr>
+<tr>
+<td style="text-align:left">业务监控</td>
+<td>例如电商网站，每分钟产生多少订单，注册多少用户，多少活跃用户，推广活动效果</td>
+</tr>
+<tr>
+<td style="text-align:left">流量分析</td>
+<td>根据流量获取用户相关信息，例如用户地理位置，某页面访问状况，页面停留时间等</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二、Prometheus是什么">二、Prometheus是什么?</h2>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204837.png" alt=""></p>
+<p><a href="https://github.com/prometheus">Prometheus</a> 是由 SoundCloud 开发的开源监控报警系统和时序列数据库(TSDB)。</p>
+<p>Prometheus由Go语言编写而成，采用Pull方式获取监控信息，并提供了多维度的数据模型和灵活的查询接口。<br>
+Prometheus不仅可以通过静态文件配置监控对象，还支持自动发现机制，能通过Kubernetes、Consl、DNS等多种方式动态获取监控对象。<br>
+在数据采集方面，借助Go语言的高并发特性，单机Prometheus可以采取数百个节点的监控数据；在数据存储方面，随着本地时序数据库的不断优化，单机Prometheus每秒可以采集一千万个指标，如果需要存储大量的历史监控数据，则还支持远程存储。</p>
+<h2 id="三、为什么需要Prometheus">三、为什么需要Prometheus?</h2>
+<ul>
+<li>对于运维人员来说，他们需要监控机器的 CPU、内存、硬盘的使用情况，以此来保证运行在机器上的应用的稳定性。</li>
+<li>对于研发人员来说，他们关注某个异常指标的变化情况，从而来保证业务的稳定运行。</li>
+<li>对于产品或运营来说，他们更关心产品层面的事情，例如：某个活动参加人数的增长情况，活动积分的发放情况。</li>
+</ul>
+<p><strong>例如</strong>：运维希望在 CPU 达到 80% 的时候给值班的运维人员发送邮件，产品希望活动积分发放数量超过 10 万的时候发送告警邮件。这些都可以通过 Prometheus 实现。</p>
+<p>对于流量不是很大的系统来说，出现几分钟的故障可能造成不了多少损失。但是对于像淘宝、美团、字节跳动这样的巨无霸来说，<strong>宕机 1 分钟损失的金额可能就是几百万！</strong></p>
+<p>所以弄清楚此时此刻系统的运行是否正常？各项业务指标是否超过阈值？这些问题是每个经验丰富的研发人员所需要关注的事情！</p>
+<p>那么如何监控你的系统？如何得知系统目前是正常还是异常？甚至如何预知未来一段时间系统可能出问题？<strong>Prometheus 正是这么一套数据监控解决方案。它能让你随时掌控系统的运行状态，快速定位出现问题的位置，快速排除故障。</strong></p>
+<p>只要按照 Prometheus 的方式来做，按部就班地学习和部署，我们就可以监控机器的 CPU、内存等资源的使用情况、Java 应用的运行情况以及业务各项指标的实时数据。</p>
+<p>而通过 Prometheus 则可以直接部署使用，并且其与 Grafana 配套使用可以呈现出非常多样化的图表配置。<strong>对于中小规模的团队来说，可以极大地减少成本，加快研发速度。</strong></p>
+<p>而对于个人来讲，<strong>掌握 Prometheus 可以增加你当 leader 的竞争力。</strong> 毕竟如果一个研发对自己的系统运行状况都不了解，那么他怎么做 leader，怎么带领一个团队往前冲呢？</p>
+<h2 id="四、Prometheus-Quickly-Start">四、Prometheus Quickly Start</h2>
+<h3 id="1、实现目标">1、实现目标</h3>
+<p>实现一个Web服务接口请求速率状况的监控功能，当接口请求增长速率超出设定的阈值时，发送钉钉消息通知给研发运维人员。</p>
+<h3 id="2、服务搭建">2、服务搭建</h3>
+<p>这里使用<strong>Docker</strong> 搭建 <strong>prometheus、alertmanager和dingtalk.</strong></p>
+<p>① 创建对应文件目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/ &amp;&amp; <span class="built_in">touch</span> prometheus.yml</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/groups/nodegroups/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/groups/nodegroups/ &amp;&amp; <span class="built_in">touch</span> node.json</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/rules/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/rules/ &amp;&amp; <span class="built_in">touch</span> http-rate.rules</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/alertmanager &amp;&amp; /prometheus/alertmanager &amp;&amp; <span class="built_in">touch</span> alertmanager.yml</span><br></pre></td></tr></table></figure>
+<p>② 配置对应文件</p>
+<p><strong>prometheus.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">global:</span><br><span class="line">  scrape_interval:     15s <span class="comment"># By default, scrape targets every 15 seconds.</span></span><br><span class="line">  <span class="comment"># Attach these labels to any time series or alerts when communicating with</span></span><br><span class="line">  <span class="comment"># external systems (federation, remote storage, Alertmanager).</span></span><br><span class="line">  external_labels:</span><br><span class="line">    monitor: <span class="string">&#x27;codelab-monitor&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A scrape configuration containing exactly one endpoint to scrape:</span></span><br><span class="line"><span class="comment"># Here it&#x27;s Prometheus itself.</span></span><br><span class="line">scrape_configs:</span><br><span class="line">  <span class="comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span></span><br><span class="line">  - job_name: <span class="string">&#x27;prometheus&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Override the global default and scrape targets from this job every 5 seconds.</span></span><br><span class="line">    scrape_interval: 5s</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [<span class="string">&#x27;localhost:9090&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  - job_name: <span class="string">&#x27;prometheus-sample&#x27;</span></span><br><span class="line">		<span class="comment"># 可以在不用重启的情况下热加载配置文件</span></span><br><span class="line">    file_sd_configs:</span><br><span class="line">       - files: [<span class="string">&#x27;/usr/local/prometheus/groups/nodegroups/*.json&#x27;</span>]</span><br><span class="line"><span class="comment"># Alertmanager configuration</span></span><br><span class="line">alerting:</span><br><span class="line">  alertmanagers:</span><br><span class="line">  - static_configs:</span><br><span class="line">    - targets:</span><br><span class="line">      - 192.168.220.121:9093</span><br><span class="line">rule_files:</span><br><span class="line">  - <span class="string">&quot;/usr/local/prometheus/rules/*.rules&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>node.json</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;targets&quot;</span>: [<span class="string">&quot;192.168.220.121:8080&quot;</span>,<span class="string">&quot;192.168.220.121:8081&quot;</span>],</span><br><span class="line">        <span class="string">&quot;labels&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;instance&quot;</span>: <span class="string">&quot;vm-192.168.220.121&quot;</span>,</span><br><span class="line">            <span class="string">&quot;service&quot;</span>: <span class="string">&quot;node-service&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>http-rate.rules</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">groups</span>:</span><br><span class="line">  - name: http-rate</span><br><span class="line">    rules:</span><br><span class="line">      - alert: http-rate</span><br><span class="line">        <span class="built_in">expr</span>: rate(prometheus_sample_hello_world_count[1m]) &gt; 100</span><br><span class="line">        <span class="keyword">for</span>: 15s</span><br><span class="line">        labels:</span><br><span class="line">          severity: 1</span><br><span class="line">        annotations:</span><br><span class="line">          summary: <span class="string">&quot;&#123;&#123; <span class="variable">$labels</span>.instance &#125;&#125; HTTP 1min请求增长率超过100%&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>alertmanager.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局配置项</span></span><br><span class="line">global:</span><br><span class="line">  resolve_timeout: 5m <span class="comment"># 处理超时时间，默认为5min</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义路由树信息</span></span><br><span class="line">route:</span><br><span class="line">  group_by: [alertname]  <span class="comment"># 报警分组依据</span></span><br><span class="line">  receiver: ops_notify   <span class="comment"># 设置默认接收人</span></span><br><span class="line">  group_wait: 30s        <span class="comment"># 最初即第一次等待多久时间发送一组警报的通知</span></span><br><span class="line">  group_interval: 60s    <span class="comment"># 在发送新警报前的等待时间</span></span><br><span class="line">  repeat_interval: 1h    <span class="comment"># 重复发送告警时间。默认1h</span></span><br><span class="line">  routes:</span><br><span class="line"></span><br><span class="line">  - receiver: ops_notify  <span class="comment"># 基础告警通知</span></span><br><span class="line">    group_wait: 10s</span><br><span class="line">    match_re:</span><br><span class="line">      alertname: 实例存活告警|磁盘使用率告警   <span class="comment"># 匹配告警规则中的名称发送</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义基础告警接收者</span></span><br><span class="line">receivers:</span><br><span class="line">- name: ops_notify</span><br><span class="line">  webhook_configs:</span><br><span class="line">  - url: http://192.168.220.121:8060/dingtalk/webhook/send</span><br><span class="line">    send_resolved: <span class="literal">true</span>  <span class="comment"># 警报被解决之后是否通知</span></span><br><span class="line"><span class="comment"># 一个inhibition规则是在与另一组匹配器匹配的警报存在的条件下，使匹配一组匹配器的</span></span><br><span class="line">警报失效的规则。两个警报必须具有一组相同的标签。</span><br><span class="line">inhibit_rules:</span><br><span class="line">  - source_match:</span><br><span class="line">      severity: <span class="string">&#x27;critical&#x27;</span></span><br><span class="line">    target_match:</span><br><span class="line">      severity: <span class="string">&#x27;warning&#x27;</span></span><br><span class="line">    equal: [<span class="string">&#x27;alertname&#x27;</span>, <span class="string">&#x27;dev&#x27;</span>, <span class="string">&#x27;instance&#x27;</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>config.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">targets:</span><br><span class="line">  webhook:</span><br><span class="line">    url: https://oapi.dingtalk.com/robot/send?access_token=xxx</span><br><span class="line">    <span class="comment"># secret for signature</span></span><br><span class="line">    secret: SECxxx</span><br></pre></td></tr></table></figure>
+<p><strong>docker 创建服务</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker run --name prometheus -d -p 9090:9090 \</span><br><span class="line">        -v ~/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \</span><br><span class="line">        -v ~/prometheus/groups/:/usr/local/prometheus/groups/ \</span><br><span class="line">        -v ~/prometheus/rules/:/usr/local/prometheus/rules/ \</span><br><span class="line">        prom/prometheus:latest</span><br><span class="line"></span><br><span class="line">docker run --name alertmanager -d -p 9093:9093 \</span><br><span class="line">        -v ~/prometheus/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml \</span><br><span class="line">        prom/alertmanager:latest</span><br><span class="line"></span><br><span class="line">docker run --name dingtalk -d -p 8060:8060 \</span><br><span class="line">        -v ~/prometheus/dingtalk/config.yml:/etc/prometheus-webhook-dingtalk/config.yml \</span><br><span class="line">        timonwong/prometheus-webhook-dingtalk</span><br></pre></td></tr></table></figure>
+<h3 id="3、客户端代码">3、客户端代码</h3>
+<p>这里使用Go语言编写的一个简易的Web服务，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	<span class="string">&quot;flag&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/prometheus/client_golang/prometheus&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/prometheus/client_golang/prometheus/promhttp&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var port = flag.Int(<span class="string">&quot;p&quot;</span>, 8080, <span class="string">&quot;-port 8080&quot;</span>)</span><br><span class="line"></span><br><span class="line">func <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	flag.Parse()</span><br><span class="line">	prometheus.Register(httpCount)</span><br><span class="line">	http.Handle(<span class="string">&quot;/metrics&quot;</span>, promhttp.Handler())</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/hello&quot;</span>, HelloWorld)</span><br><span class="line">	log.Fatalln(http.ListenAndServe(fmt.Sprintf(<span class="string">&quot;:%d&quot;</span>, *port), nil))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var httpCount = prometheus.NewCounter(</span><br><span class="line">	prometheus.CounterOpts&#123;</span><br><span class="line">		Name: <span class="string">&quot;prometheus_sample_hello_world_count&quot;</span>,</span><br><span class="line">		Help: <span class="string">&quot;hello world count!&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func HelloWorld(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	httpCount.Inc()</span><br><span class="line">	w.Write([]byte(<span class="string">&quot;Hello World!&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们启动两个节点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go run main -p 8080</span><br><span class="line">go run main -p 8081</span><br></pre></td></tr></table></figure>
+<h3 id="4、Prometheus-Dashboard">4、Prometheus Dashboard</h3>
+<p>打开仪表盘：<a href="http://localhost:9090/targets">http://localhost:9090/targets</a>，我们可以看到我们的两个节点已经是up状态了。</p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204908.png" alt=""></p>
+<p>下面我们使用<strong>ab</strong> 工具模拟接口访问，使请求速度超过我们设定的阈值，此时alertmanages会给我们钉钉进行通知。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -n 1000  -c 5  http://localhost:8080/hello</span><br></pre></td></tr></table></figure>
+<p>我可以查看Prometheus控制台，查看消息警告发送情况，此时，我们的钉钉已经收到通知警告：</p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204941.png" alt=""></p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228205009.png" alt=""></p>
+<h3 id="5、总结">5、总结</h3>
+<p>我们通过一个简单的实验，实现了一个接口请求速率监控的例子，实际业务中我们还可以做更多服务监控的功能。也可以结合Grafana进行Dashbords数据报表展示等功能。同时可以监控服务器、JVM、k8s等等，当服务按照我们设置的规则达到阈值时通知到我们，我们可以在第一时间做应对处理，避免造成不必要的损失。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-6">
+                                        <div class="post-content" data-content-type="full">
+                                            <h1>Prometheus快速入门</h1>
+<h2 id="一、背景">一、背景</h2>
+<p>我们日常开发和运维中，需要监控一些数据，根据这些数据进行分析或者应对策略，例如以下几个维度：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">场景                          </th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">硬件系统</td>
+<td>温度，硬件故障</td>
+</tr>
+<tr>
+<td style="text-align:left">系统监控</td>
+<td>CPU，内存，磁盘，网卡流量，TCP状态，进程数</td>
+</tr>
+<tr>
+<td style="text-align:left">应用监控</td>
+<td>Nginx，Tomcat，PHP，MySQL，Redis 等</td>
+</tr>
+<tr>
+<td style="text-align:left">日志监控</td>
+<td>系统日志，服务日志，访问日志，错误日志</td>
+</tr>
+<tr>
+<td style="text-align:left">安全监控</td>
+<td>WAF，敏感文件监控</td>
+</tr>
+<tr>
+<td style="text-align:left">API监控</td>
+<td>可用性，接口请求，响应时间</td>
+</tr>
+<tr>
+<td style="text-align:left">业务监控</td>
+<td>例如电商网站，每分钟产生多少订单，注册多少用户，多少活跃用户，推广活动效果</td>
+</tr>
+<tr>
+<td style="text-align:left">流量分析</td>
+<td>根据流量获取用户相关信息，例如用户地理位置，某页面访问状况，页面停留时间等</td>
+</tr>
+</tbody>
+</table>
+<h2 id="二、Prometheus是什么">二、Prometheus是什么?</h2>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204837.png" alt=""></p>
+<p><a href="https://github.com/prometheus">Prometheus</a> 是由 SoundCloud 开发的开源监控报警系统和时序列数据库(TSDB)。</p>
+<p>Prometheus由Go语言编写而成，采用Pull方式获取监控信息，并提供了多维度的数据模型和灵活的查询接口。<br>
+Prometheus不仅可以通过静态文件配置监控对象，还支持自动发现机制，能通过Kubernetes、Consl、DNS等多种方式动态获取监控对象。<br>
+在数据采集方面，借助Go语言的高并发特性，单机Prometheus可以采取数百个节点的监控数据；在数据存储方面，随着本地时序数据库的不断优化，单机Prometheus每秒可以采集一千万个指标，如果需要存储大量的历史监控数据，则还支持远程存储。</p>
+<h2 id="三、为什么需要Prometheus">三、为什么需要Prometheus?</h2>
+<ul>
+<li>对于运维人员来说，他们需要监控机器的 CPU、内存、硬盘的使用情况，以此来保证运行在机器上的应用的稳定性。</li>
+<li>对于研发人员来说，他们关注某个异常指标的变化情况，从而来保证业务的稳定运行。</li>
+<li>对于产品或运营来说，他们更关心产品层面的事情，例如：某个活动参加人数的增长情况，活动积分的发放情况。</li>
+</ul>
+<p><strong>例如</strong>：运维希望在 CPU 达到 80% 的时候给值班的运维人员发送邮件，产品希望活动积分发放数量超过 10 万的时候发送告警邮件。这些都可以通过 Prometheus 实现。</p>
+<p>对于流量不是很大的系统来说，出现几分钟的故障可能造成不了多少损失。但是对于像淘宝、美团、字节跳动这样的巨无霸来说，<strong>宕机 1 分钟损失的金额可能就是几百万！</strong></p>
+<p>所以弄清楚此时此刻系统的运行是否正常？各项业务指标是否超过阈值？这些问题是每个经验丰富的研发人员所需要关注的事情！</p>
+<p>那么如何监控你的系统？如何得知系统目前是正常还是异常？甚至如何预知未来一段时间系统可能出问题？<strong>Prometheus 正是这么一套数据监控解决方案。它能让你随时掌控系统的运行状态，快速定位出现问题的位置，快速排除故障。</strong></p>
+<p>只要按照 Prometheus 的方式来做，按部就班地学习和部署，我们就可以监控机器的 CPU、内存等资源的使用情况、Java 应用的运行情况以及业务各项指标的实时数据。</p>
+<p>而通过 Prometheus 则可以直接部署使用，并且其与 Grafana 配套使用可以呈现出非常多样化的图表配置。<strong>对于中小规模的团队来说，可以极大地减少成本，加快研发速度。</strong></p>
+<p>而对于个人来讲，<strong>掌握 Prometheus 可以增加你当 leader 的竞争力。</strong> 毕竟如果一个研发对自己的系统运行状况都不了解，那么他怎么做 leader，怎么带领一个团队往前冲呢？</p>
+<h2 id="四、Prometheus-Quickly-Start">四、Prometheus Quickly Start</h2>
+<h3 id="1、实现目标">1、实现目标</h3>
+<p>实现一个Web服务接口请求速率状况的监控功能，当接口请求增长速率超出设定的阈值时，发送钉钉消息通知给研发运维人员。</p>
+<h3 id="2、服务搭建">2、服务搭建</h3>
+<p>这里使用<strong>Docker</strong> 搭建 <strong>prometheus、alertmanager和dingtalk.</strong></p>
+<p>① 创建对应文件目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/ &amp;&amp; <span class="built_in">touch</span> prometheus.yml</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/groups/nodegroups/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/groups/nodegroups/ &amp;&amp; <span class="built_in">touch</span> node.json</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/rules/ &amp;&amp; <span class="built_in">cd</span> ~/prometheus/rules/ &amp;&amp; <span class="built_in">touch</span> http-rate.rules</span><br><span class="line"><span class="built_in">mkdir</span> -p ~/prometheus/alertmanager &amp;&amp; /prometheus/alertmanager &amp;&amp; <span class="built_in">touch</span> alertmanager.yml</span><br></pre></td></tr></table></figure>
+<p>② 配置对应文件</p>
+<p><strong>prometheus.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">global:</span><br><span class="line">  scrape_interval:     15s <span class="comment"># By default, scrape targets every 15 seconds.</span></span><br><span class="line">  <span class="comment"># Attach these labels to any time series or alerts when communicating with</span></span><br><span class="line">  <span class="comment"># external systems (federation, remote storage, Alertmanager).</span></span><br><span class="line">  external_labels:</span><br><span class="line">    monitor: <span class="string">&#x27;codelab-monitor&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A scrape configuration containing exactly one endpoint to scrape:</span></span><br><span class="line"><span class="comment"># Here it&#x27;s Prometheus itself.</span></span><br><span class="line">scrape_configs:</span><br><span class="line">  <span class="comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span></span><br><span class="line">  - job_name: <span class="string">&#x27;prometheus&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Override the global default and scrape targets from this job every 5 seconds.</span></span><br><span class="line">    scrape_interval: 5s</span><br><span class="line">    static_configs:</span><br><span class="line">      - targets: [<span class="string">&#x27;localhost:9090&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  - job_name: <span class="string">&#x27;prometheus-sample&#x27;</span></span><br><span class="line">		<span class="comment"># 可以在不用重启的情况下热加载配置文件</span></span><br><span class="line">    file_sd_configs:</span><br><span class="line">       - files: [<span class="string">&#x27;/usr/local/prometheus/groups/nodegroups/*.json&#x27;</span>]</span><br><span class="line"><span class="comment"># Alertmanager configuration</span></span><br><span class="line">alerting:</span><br><span class="line">  alertmanagers:</span><br><span class="line">  - static_configs:</span><br><span class="line">    - targets:</span><br><span class="line">      - 192.168.220.121:9093</span><br><span class="line">rule_files:</span><br><span class="line">  - <span class="string">&quot;/usr/local/prometheus/rules/*.rules&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>node.json</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;targets&quot;</span>: [<span class="string">&quot;192.168.220.121:8080&quot;</span>,<span class="string">&quot;192.168.220.121:8081&quot;</span>],</span><br><span class="line">        <span class="string">&quot;labels&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;instance&quot;</span>: <span class="string">&quot;vm-192.168.220.121&quot;</span>,</span><br><span class="line">            <span class="string">&quot;service&quot;</span>: <span class="string">&quot;node-service&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>http-rate.rules</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">groups</span>:</span><br><span class="line">  - name: http-rate</span><br><span class="line">    rules:</span><br><span class="line">      - alert: http-rate</span><br><span class="line">        <span class="built_in">expr</span>: rate(prometheus_sample_hello_world_count[1m]) &gt; 100</span><br><span class="line">        <span class="keyword">for</span>: 15s</span><br><span class="line">        labels:</span><br><span class="line">          severity: 1</span><br><span class="line">        annotations:</span><br><span class="line">          summary: <span class="string">&quot;&#123;&#123; <span class="variable">$labels</span>.instance &#125;&#125; HTTP 1min请求增长率超过100%&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>alertmanager.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局配置项</span></span><br><span class="line">global:</span><br><span class="line">  resolve_timeout: 5m <span class="comment"># 处理超时时间，默认为5min</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义路由树信息</span></span><br><span class="line">route:</span><br><span class="line">  group_by: [alertname]  <span class="comment"># 报警分组依据</span></span><br><span class="line">  receiver: ops_notify   <span class="comment"># 设置默认接收人</span></span><br><span class="line">  group_wait: 30s        <span class="comment"># 最初即第一次等待多久时间发送一组警报的通知</span></span><br><span class="line">  group_interval: 60s    <span class="comment"># 在发送新警报前的等待时间</span></span><br><span class="line">  repeat_interval: 1h    <span class="comment"># 重复发送告警时间。默认1h</span></span><br><span class="line">  routes:</span><br><span class="line"></span><br><span class="line">  - receiver: ops_notify  <span class="comment"># 基础告警通知</span></span><br><span class="line">    group_wait: 10s</span><br><span class="line">    match_re:</span><br><span class="line">      alertname: 实例存活告警|磁盘使用率告警   <span class="comment"># 匹配告警规则中的名称发送</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义基础告警接收者</span></span><br><span class="line">receivers:</span><br><span class="line">- name: ops_notify</span><br><span class="line">  webhook_configs:</span><br><span class="line">  - url: http://192.168.220.121:8060/dingtalk/webhook/send</span><br><span class="line">    send_resolved: <span class="literal">true</span>  <span class="comment"># 警报被解决之后是否通知</span></span><br><span class="line"><span class="comment"># 一个inhibition规则是在与另一组匹配器匹配的警报存在的条件下，使匹配一组匹配器的</span></span><br><span class="line">警报失效的规则。两个警报必须具有一组相同的标签。</span><br><span class="line">inhibit_rules:</span><br><span class="line">  - source_match:</span><br><span class="line">      severity: <span class="string">&#x27;critical&#x27;</span></span><br><span class="line">    target_match:</span><br><span class="line">      severity: <span class="string">&#x27;warning&#x27;</span></span><br><span class="line">    equal: [<span class="string">&#x27;alertname&#x27;</span>, <span class="string">&#x27;dev&#x27;</span>, <span class="string">&#x27;instance&#x27;</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>config.yml</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">targets:</span><br><span class="line">  webhook:</span><br><span class="line">    url: https://oapi.dingtalk.com/robot/send?access_token=xxx</span><br><span class="line">    <span class="comment"># secret for signature</span></span><br><span class="line">    secret: SECxxx</span><br></pre></td></tr></table></figure>
+<p><strong>docker 创建服务</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker run --name prometheus -d -p 9090:9090 \</span><br><span class="line">        -v ~/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \</span><br><span class="line">        -v ~/prometheus/groups/:/usr/local/prometheus/groups/ \</span><br><span class="line">        -v ~/prometheus/rules/:/usr/local/prometheus/rules/ \</span><br><span class="line">        prom/prometheus:latest</span><br><span class="line"></span><br><span class="line">docker run --name alertmanager -d -p 9093:9093 \</span><br><span class="line">        -v ~/prometheus/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml \</span><br><span class="line">        prom/alertmanager:latest</span><br><span class="line"></span><br><span class="line">docker run --name dingtalk -d -p 8060:8060 \</span><br><span class="line">        -v ~/prometheus/dingtalk/config.yml:/etc/prometheus-webhook-dingtalk/config.yml \</span><br><span class="line">        timonwong/prometheus-webhook-dingtalk</span><br></pre></td></tr></table></figure>
+<h3 id="3、客户端代码">3、客户端代码</h3>
+<p>这里使用Go语言编写的一个简易的Web服务，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	<span class="string">&quot;flag&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/prometheus/client_golang/prometheus&quot;</span></span><br><span class="line">	<span class="string">&quot;github.com/prometheus/client_golang/prometheus/promhttp&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var port = flag.Int(<span class="string">&quot;p&quot;</span>, 8080, <span class="string">&quot;-port 8080&quot;</span>)</span><br><span class="line"></span><br><span class="line">func <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">	flag.Parse()</span><br><span class="line">	prometheus.Register(httpCount)</span><br><span class="line">	http.Handle(<span class="string">&quot;/metrics&quot;</span>, promhttp.Handler())</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/hello&quot;</span>, HelloWorld)</span><br><span class="line">	log.Fatalln(http.ListenAndServe(fmt.Sprintf(<span class="string">&quot;:%d&quot;</span>, *port), nil))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var httpCount = prometheus.NewCounter(</span><br><span class="line">	prometheus.CounterOpts&#123;</span><br><span class="line">		Name: <span class="string">&quot;prometheus_sample_hello_world_count&quot;</span>,</span><br><span class="line">		Help: <span class="string">&quot;hello world count!&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func HelloWorld(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	httpCount.Inc()</span><br><span class="line">	w.Write([]byte(<span class="string">&quot;Hello World!&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们启动两个节点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go run main -p 8080</span><br><span class="line">go run main -p 8081</span><br></pre></td></tr></table></figure>
+<h3 id="4、Prometheus-Dashboard">4、Prometheus Dashboard</h3>
+<p>打开仪表盘：<a href="http://localhost:9090/targets">http://localhost:9090/targets</a>，我们可以看到我们的两个节点已经是up状态了。</p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204908.png" alt=""></p>
+<p>下面我们使用<strong>ab</strong> 工具模拟接口访问，使请求速度超过我们设定的阈值，此时alertmanages会给我们钉钉进行通知。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -n 1000  -c 5  http://localhost:8080/hello</span><br></pre></td></tr></table></figure>
+<p>我可以查看Prometheus控制台，查看消息警告发送情况，此时，我们的钉钉已经收到通知警告：</p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228204941.png" alt=""></p>
+<p><img src="http://qiniu.deveye.cn/blog/img/20220228205009.png" alt=""></p>
+<h3 id="5、总结">5、总结</h3>
+<p>我们通过一个简单的实验，实现了一个接口请求速率监控的例子，实际业务中我们还可以做更多服务监控的功能。也可以结合Grafana进行Dashbords数据报表展示等功能。同时可以监控服务器、JVM、k8s等等，当服务按照我们设置的规则达到阈值时通知到我们，我们可以在第一时间做应对处理，避免造成不必要的损失。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -501,16 +1396,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/02/28/Prometheus%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="6" id="btn-6">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -519,6 +1418,46 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-7">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p><strong>坐中静</strong>，破焦虑之贼——可以用冥想打坐等方法让自己回到当下，人之所以会焦虑是基于过去的经验对未来产生的恐惧，能够活在当下的人不会焦虑。把每一天每一刻过好，人生自然就会好。<br>
+<strong>舍中得</strong>，破欲望之贼——人的痛苦多来自于欲望，即为贪婪和占有，也是一种匮乏的表现，如果能够学会舍，则内心越来越丰盛。没钱的时候把勤舍出去即为天道酬勤；有钱的时候把钱舍出去人就来了，是为轻财聚人；有人的时候，把爱舍出去，成功便有了；事业有成的时候，把智慧舍出去，喜悦就来了，这就是德行天下。<br>
+<strong>事上练</strong>，破犹豫之贼——这里讲的大概是王阳明的知行合一。光懂了很多道理是过不好这一生的，唯有践行其中的道理才能真正成事，只要想到就去做，犹豫纠结之贼就能破，达到知行合一的最高境界，则万事可成。</p>
+<blockquote>
+<p>作者：数中有术作者<br>
+链接：<a href="https://www.zhihu.com/question/448566584/answer/1898949098">https://www.zhihu.com/question/448566584/answer/1898949098</a><br>
+来源：知乎<br>
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-7">
+                                        <div class="post-content" data-content-type="full">
+                                            <p><strong>坐中静</strong>，破焦虑之贼——可以用冥想打坐等方法让自己回到当下，人之所以会焦虑是基于过去的经验对未来产生的恐惧，能够活在当下的人不会焦虑。把每一天每一刻过好，人生自然就会好。<br>
+<strong>舍中得</strong>，破欲望之贼——人的痛苦多来自于欲望，即为贪婪和占有，也是一种匮乏的表现，如果能够学会舍，则内心越来越丰盛。没钱的时候把勤舍出去即为天道酬勤；有钱的时候把钱舍出去人就来了，是为轻财聚人；有人的时候，把爱舍出去，成功便有了；事业有成的时候，把智慧舍出去，喜悦就来了，这就是德行天下。<br>
+<strong>事上练</strong>，破犹豫之贼——这里讲的大概是王阳明的知行合一。光懂了很多道理是过不好这一生的，唯有践行其中的道理才能真正成事，只要想到就去做，犹豫纠结之贼就能破，达到知行合一的最高境界，则万事可成。</p>
+<blockquote>
+<p>作者：数中有术作者<br>
+链接：<a href="https://www.zhihu.com/question/448566584/answer/1898949098">https://www.zhihu.com/question/448566584/answer/1898949098</a><br>
+来源：知乎<br>
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</blockquote>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -540,16 +1479,20 @@
                                 
                             </div>
                             
-                            <a href="/2022/02/21/%E5%BF%83%E4%B8%AD%E9%9C%80%E7%A0%B4%E9%99%A4%E7%9A%84%E4%B8%89%E7%A7%8D%E8%B4%BC/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="7" id="btn-7">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -558,6 +1501,24 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-8">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <ul>
+<li>关于MySQL出现<code>lock wait timeout exceeded; try restarting transaction</code> 的解决方案。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from information_schema.innodb_trx;</span><br><span class="line"></span><br><span class="line">kill $trx_mysql_thread_id;</span><br></pre></td></tr></table></figure>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -579,16 +1540,18 @@
                                 
                             </div>
                             
-                            <a href="/2021/09/26/MySQL%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2021/09/26/MySQL%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
             </article>
         
-            <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
@@ -597,6 +1560,36 @@
                             </a>
                         </h3>
                         
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-9">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <h3 id="以终为始">以终为始</h3>
+<p>遇到问题不妨倒着去思考</p>
+<h3 id="任务分解">任务分解</h3>
+<ul>
+<li>埃隆马斯克SpaceX 的计划，本质上就是把一件很困难实现的事情去做任务分解，使每件任务可执行化。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如何降低火箭发射成本</span><br><span class="line">1. 造一个能容纳100人的火箭</span><br><span class="line">2. 实现火箭回收</span><br><span class="line">3. ....</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>大师程序员都是懂的去做任务分解，分解的力度是可执行</p>
+</li>
+<li>
+<p>多写单元测试，代码小步提交</p>
+</li>
+</ul>
+<p><img src="http://qiniu.deveye.cn/blog/img/20210514103356.png" alt=""></p>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
                         
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
@@ -618,10 +1611,12 @@
                                 
                             </div>
                             
-                            <a href="/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
-                                阅读更多
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
-                            </a>
+                            
+                                <a href="/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -654,6 +1649,80 @@
         </nav>
     
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 绑定"显示更多"按钮事件
+    document.querySelectorAll('.expand-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const index = this.getAttribute('data-index');
+            toggleContent(index);
+        });
+    });
+});
+
+function toggleContent(index) {
+    const preview = document.getElementById('preview-' + index);
+    const full = document.getElementById('full-' + index);
+    const btn = document.getElementById('btn-' + index);
+    const expandText = btn.querySelector('.expand-text');
+    const expandIcon = btn.querySelector('.expand-icon');
+
+    if (full.classList.contains('post-hidden')) {
+        // 展开内容
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
+        full.classList.add('post-visible');
+        expandText.textContent = '收起';
+        expandIcon.style.transform = 'rotate(180deg)';
+    } else {
+        // 折叠内容
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
+        full.classList.remove('post-visible');
+        expandText.textContent = '显示更多';
+        expandIcon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+
+<style>
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.post-content-preview {
+    position: relative;
+}
+.post-content-preview-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+.content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
+    pointer-events: none;
+}
+.dark .content-fade {
+    background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
+}
+.post-hidden {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-visible {
+    max-height: none;
+    opacity: 1;
+}
+</style>
+
                                     </div>
                                 </div>
 
