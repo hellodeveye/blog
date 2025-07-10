@@ -20,10 +20,12 @@
 
 <!-- 最新文章列表 -->
 <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-        <%- icon('document', 'w-6 h-6 mr-2 text-primary-600') %>
-        最新文章
-    </h2>
+    <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+            最新文章
+        </h2>
+    </div>
     
     <div class="space-y-6">
         <% page.posts.each(function(post, index) { %>
@@ -57,7 +59,7 @@
                                     <% } %>
                                 </div>
                                 <% if (needsExpansion) { %>
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed hidden" id="full-<%= index %>">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-<%= index %>">
                                         <div class="post-content" data-content-type="full">
                                             <%- content %>
                                         </div>
@@ -153,29 +155,26 @@ function toggleContent(index) {
     const expandText = btn.querySelector('.expand-text');
     const expandIcon = btn.querySelector('.expand-icon');
 
-    if (preview.classList.contains('hidden')) {
+    if (preview.classList.contains('post-hidden')) {
         // 折叠内容
-        preview.classList.remove('hidden');
-        full.classList.add('hidden');
+        preview.classList.remove('post-hidden');
+        full.classList.add('post-hidden');
         expandText.textContent = '显示更多';
         expandIcon.style.transform = 'rotate(0deg)';
     } else {
         // 展开内容
-        preview.classList.add('hidden');
-        full.classList.remove('hidden');
+        preview.classList.add('post-hidden');
+        full.classList.remove('post-hidden');
         expandText.textContent = '收起';
         expandIcon.style.transform = 'rotate(180deg)';
         
         // 激活新展开内容中的 mermaid 图表
         setTimeout(() => {
             const hiddenMermaidElements = full.querySelectorAll('.mermaid-hidden');
-            console.log('找到隐藏的 mermaid 元素:', hiddenMermaidElements.length);
-            
             if (hiddenMermaidElements.length > 0) {
                 hiddenMermaidElements.forEach(element => {
                     // 恢复 mermaid 类名
                     element.className = element.className.replace('mermaid-hidden', 'mermaid');
-                    console.log('恢复类名:', element.className);
                 });
                 
                 // 等待一个额外的tick确保DOM更新
@@ -184,10 +183,8 @@ function toggleContent(index) {
                     if (typeof mermaid !== 'undefined') {
                         try {
                             const newMermaidElements = full.querySelectorAll('.mermaid');
-                            console.log('准备渲染 mermaid 元素:', newMermaidElements.length);
                             
                             mermaid.init(undefined, newMermaidElements);
-                            console.log('Mermaid 渲染完成');
                             
                             // 渲染成功后设置可见性
                             newMermaidElements.forEach(element => {
@@ -234,7 +231,7 @@ function toggleContent(index) {
 .dark .content-fade {
     background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
 }
-.hidden {
+.post-hidden {
     display: none;
 }
 .mermaid-hidden {
