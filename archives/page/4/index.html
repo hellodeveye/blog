@@ -243,115 +243,6 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
-                            <a href="/2021/03/16/Docker%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E9%9B%86%E5%90%88/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                Docker安装软件集合
-                            </a>
-                        </h3>
-                        
-                        
-                        
-                        
-                            <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
-                                    <div class="post-content-preview-wrapper">
-                                        <div class="post-content" data-content-type="preview">
-                                            <h3 id="Docker安装Nginx">Docker安装Nginx</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 8000:80 -d --privileged=true \ </span><br><span class="line">-v $PWD/log:/var/log/nginx \</span><br><span class="line">-v $PWD/html:/usr/share/nginx/html \</span><br><span class="line">-v $PWD/conf/conf.d:/etc/nginx/conf.d \</span><br><span class="line">-v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf --restart=always nginx</span><br></pre></td></tr></table></figure>
-<h3 id="Docker安装FTP">Docker安装FTP</h3>
-<ol>
-<li>docker search vsftpd #寻找vsftpd的镜像<br>
-#假如我们找到一个最多引用的，叫fauria/vsftpd</li>
-<li>docker pull fauria/vsftpd #把镜像pull到本地</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 21:21 -p 20:20 -p 21100-21110:21100-21110 --name vsftpd \</span><br><span class="line">-v /opt/ftp_file:/home/vsftpd \</span><br><span class="line">-e FTP_USER=username \</span><br><span class="line">-e FTP_PASS=password \</span><br><span class="line">-e PASV_ADDRESS=xxx.xxx.xxx.xxx \</span><br><span class="line">-e PASV_MIN_PORT=21100 \ </span><br><span class="line">-e PASV_MAX_PORT=21110  --restart=always fauria/vsftpd</span><br></pre></td></tr></table></figure>
-<p><code>-p</code>进行端口绑定映射<br>
-<code>-v</code>进行文件目录的映射 FTP_UESR 和FTP_PASS如果设定了会在container里面的<br>
-/etc/vsftpd/virtual_users.txt<br>
-<code>PASV_MIN_PORT</code>和<code>PASV_MAX_PORT</code>映射的是被动模式下端口使用范围<br>
-<code>PASV_ADDRESS</code>指的的宿主机地址</p>
-<p>1、我们先进入container里面</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -i -t vsftpd bash </span><br></pre></td></tr></table></figure>
-<p>2、修改并生成虚拟用户模式下的用户db文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/vsftpd/virtual_users.txt #编辑配置文件写入用户跟密码</span><br></pre></td></tr></table></figure>
-<p>假如我们添加了user用户</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/vsftpd/user #建立新用户文件夹 </span><br><span class="line">/usr/bin/db_load -T -t hash</span><br><span class="line"> -f /etc/vsftpd/virtual_users.txt /etc/vsftpd/virtual_users.db</span><br></pre></td></tr></table></figure>
-<h3 id="Docker-配置阿里镜像">Docker 配置阿里镜像</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker </span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27; &#123; &quot;registry-mirrors&quot;: [&quot;https://2g2ux2e3.mirror.aliyuncs.com&quot;] &#125; EOF </span><br><span class="line">sudo systemctl daemon-reload </span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-                                        </div>
-                                    </div>
-                                    
-                                        <div class="content-fade"></div>
-                                    
-                                </div>
-                                
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
-                                        <div class="post-content" data-content-type="full">
-                                            <h3 id="Docker安装Nginx">Docker安装Nginx</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 8000:80 -d --privileged=true \ </span><br><span class="line">-v $PWD/log:/var/log/nginx \</span><br><span class="line">-v $PWD/html:/usr/share/nginx/html \</span><br><span class="line">-v $PWD/conf/conf.d:/etc/nginx/conf.d \</span><br><span class="line">-v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf --restart=always nginx</span><br></pre></td></tr></table></figure>
-<h3 id="Docker安装FTP">Docker安装FTP</h3>
-<ol>
-<li>docker search vsftpd #寻找vsftpd的镜像<br>
-#假如我们找到一个最多引用的，叫fauria/vsftpd</li>
-<li>docker pull fauria/vsftpd #把镜像pull到本地</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 21:21 -p 20:20 -p 21100-21110:21100-21110 --name vsftpd \</span><br><span class="line">-v /opt/ftp_file:/home/vsftpd \</span><br><span class="line">-e FTP_USER=username \</span><br><span class="line">-e FTP_PASS=password \</span><br><span class="line">-e PASV_ADDRESS=xxx.xxx.xxx.xxx \</span><br><span class="line">-e PASV_MIN_PORT=21100 \ </span><br><span class="line">-e PASV_MAX_PORT=21110  --restart=always fauria/vsftpd</span><br></pre></td></tr></table></figure>
-<p><code>-p</code>进行端口绑定映射<br>
-<code>-v</code>进行文件目录的映射 FTP_UESR 和FTP_PASS如果设定了会在container里面的<br>
-/etc/vsftpd/virtual_users.txt<br>
-<code>PASV_MIN_PORT</code>和<code>PASV_MAX_PORT</code>映射的是被动模式下端口使用范围<br>
-<code>PASV_ADDRESS</code>指的的宿主机地址</p>
-<p>1、我们先进入container里面</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -i -t vsftpd bash </span><br></pre></td></tr></table></figure>
-<p>2、修改并生成虚拟用户模式下的用户db文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/vsftpd/virtual_users.txt #编辑配置文件写入用户跟密码</span><br></pre></td></tr></table></figure>
-<p>假如我们添加了user用户</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/vsftpd/user #建立新用户文件夹 </span><br><span class="line">/usr/bin/db_load -T -t hash</span><br><span class="line"> -f /etc/vsftpd/virtual_users.txt /etc/vsftpd/virtual_users.db</span><br></pre></td></tr></table></figure>
-<h3 id="Docker-配置阿里镜像">Docker 配置阿里镜像</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker </span><br><span class="line">sudo tee /etc/docker/daemon.json &lt;&lt;-&#x27;EOF&#x27; &#123; &quot;registry-mirrors&quot;: [&quot;https://2g2ux2e3.mirror.aliyuncs.com&quot;] &#125; EOF </span><br><span class="line">sudo systemctl daemon-reload </span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-                                        </div>
-                                    </div>
-                                
-                            </div>
-                        
-                        
-                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                            <div class="flex items-center space-x-4">
-                                <time datetime="2021-03-16T11:53:27.000Z" class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
-                                    2021-03-16
-                                </time>
-                                
-                                
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
-                                        
-                                            <a href="/categories/docker/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                                docker
-                                            </a>
-                                        
-                                    </div>
-                                
-                            </div>
-                            
-                            
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
-                                    <span class="expand-text">显示更多</span>
-                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                    </svg>
-                                </button>
-                            
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
-                <div class="flex flex-col">
-                    <div class="flex-1">
-                        <h3 class="text-xl font-semibold mb-3">
                             <a href="/2021/01/17/%E3%80%8A%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E3%80%8B%EF%BC%9A%E4%BB%A5%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E4%B8%BA%E4%BE%8B/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 《刻意练习》：以学习编程为例
                             </a>
@@ -361,7 +252,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <blockquote>
@@ -409,7 +300,7 @@
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
                                         <div class="post-content" data-content-type="full">
                                             <blockquote>
 <p>转载自: <a href="%E8%BD%AC%E8%BD%BD%E4%BA%8E:https://juejin.im/post/5c3ca16ff265da617573f9a4">https://juejin.im/post/5c3ca16ff265da617573f9a4</a></p>
@@ -475,7 +366,7 @@
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -500,7 +391,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h3 id="工作中常用到的Reids命令">工作中常用到的Reids命令</h3>
@@ -560,7 +451,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h4 id="修改commit信息主要有这几种情况">修改commit信息主要有这几种情况:</h4>
@@ -625,7 +516,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h2 id="grep">grep</h2>
@@ -646,7 +537,7 @@
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-4">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-3">
                                         <div class="post-content" data-content-type="full">
                                             <h2 id="grep">grep</h2>
 <p>查看配置文件只匹配不是以“#”开头的行</p>
@@ -685,7 +576,7 @@
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="4" id="btn-4">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="3" id="btn-3">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -710,7 +601,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-5">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-4">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h3 id="场景">场景</h3>
@@ -746,7 +637,7 @@
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-5">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-4">
                                         <div class="post-content" data-content-type="full">
                                             <h3 id="场景">场景</h3>
 <p>一般情况下，我们写完代码后会执行:</p>
@@ -800,7 +691,7 @@
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="5" id="btn-5">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="4" id="btn-4">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -825,7 +716,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-6">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-5">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h3 id="Description">Description</h3>
@@ -886,7 +777,7 @@ IF NO OK，随你便，可以使用rebase</p>
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-6">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-5">
                                         <div class="post-content" data-content-type="full">
                                             <h3 id="Description">Description</h3>
 <p><code>git rebase</code> 和 <code>git merge</code> 一样都是用于从一个分支获取并且合并到当前分支，但是他们采取不同的工作方式，以下面的一个工作场景说明其区别.</p>
@@ -965,7 +856,7 @@ IF NO OK，随你便，可以使用rebase</p>
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="6" id="btn-6">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="5" id="btn-5">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -990,7 +881,7 @@ IF NO OK，随你便，可以使用rebase</p>
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-7">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-6">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
@@ -1015,7 +906,7 @@ IF NO OK，随你便，可以使用rebase</p>
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-7">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-6">
                                         <div class="post-content" data-content-type="full">
                                             <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
 <h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
@@ -1058,7 +949,7 @@ IF NO OK，随你便，可以使用rebase</p>
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="7" id="btn-7">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="6" id="btn-6">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -1083,7 +974,7 @@ IF NO OK，随你便，可以使用rebase</p>
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-8">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-7">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h3 id="简介">简介</h3>
@@ -1190,7 +1081,7 @@ RedLock分析      [<a href="http://martin.kleppmann.com/2016/02/08/how-to-do-di
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-8">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-7">
                                         <div class="post-content" data-content-type="full">
                                             <h3 id="简介">简介</h3>
 <p>在一些分布式系统中，应用与应用之间是相互独立部署的，Java应用运行在不同的JVM中，所以，在操作一些共享资源的时候，使用JDK提供的Lock工具类时就有些力不从心，这时候就需要借助外力来实现分布式一致性问题。</p>
@@ -1315,7 +1206,7 @@ RedLock分析      [<a href="http://martin.kleppmann.com/2016/02/08/how-to-do-di
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="8" id="btn-8">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="7" id="btn-7">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -1340,7 +1231,7 @@ RedLock分析      [<a href="http://martin.kleppmann.com/2016/02/08/how-to-do-di
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-9">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-8">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h3 id="Sentinel的分布式特征">Sentinel的分布式特征</h3>
@@ -1395,7 +1286,7 @@ Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运�
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-9">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-8">
                                         <div class="post-content" data-content-type="full">
                                             <h3 id="Sentinel的分布式特征">Sentinel的分布式特征</h3>
 <p>Redis Sentinel是一个分布式系统：<br>
@@ -1461,6 +1352,167 @@ Sentinel本身的设计是在为多个Sentinel进程协同合作的配置中运�
                                         
                                             <a href="/categories/Redis/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                                 Redis
+                                            </a>
+                                        
+                                    </div>
+                                
+                            </div>
+                            
+                            
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="8" id="btn-8">
+                                    <span class="expand-text">显示更多</span>
+                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                </button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2020/05/14/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E9%80%89%E5%9E%8B/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                消息中间件选型
+                            </a>
+                        </h3>
+                        
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-9">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p><strong>本文主要对比常用的三种中间件优劣势，包含RocketMQ、Kafka、RabbitMQ。</strong></p>
+<h2 id="Kafka">Kafka</h2>
+<h4 id="优势">优势</h4>
+<ul>
+<li>Kafka的吞吐量几乎是行业里最优秀的，在常规的机器配置下，一台机器可以达到每秒十几万的QPS，相当的强悍。</li>
+<li>Kafka性能也很高，基本上发送消息给Kafka都是毫秒级的性能。可用性也很高，Kafka是可以支持集群部署的，其中部分机器宕机是可以继续运行的。</li>
+<li>Kafka技术在各大公司里的使用，基本行业里的一个标准，是把Kafka用在用户行为日志的采集和传输上，比如大数据团队要收集APP上用户的一些行为日志，这种日志就是用Kafka来收集和传输的。</li>
+</ul>
+<h4 id="劣势">劣势</h4>
+<ul>
+<li>Kafka比较为人诟病的一点，似乎是丢数据方面的问题，因为Kafka收到消息之后会写入一个磁盘缓冲区里，并没有直接落地到物理磁盘上去，所以要是机器本身故障了，可能会导致磁盘缓冲区里的数据丢失。</li>
+<li>Kafka另外一个比较大的缺点，就是功能非常的单一，主要是支持发送消息给他，然后从里面消费消息，其他就没有什么额外的高级功能了。所以基于Kafka有限的功能，可能适用的场景并不是很多。</li>
+</ul>
+<h4 id="总结">总结</h4>
+<p>Kafka适用于那种日志适当丢失数据是没有关系的，而且一般量特别大，要求吞吐量要高，一般就是收发消息，不需要太多的高级功能，所以Kafka是非常适合这种场景的。</p>
+<h2 id="RabbitMQ">RabbitMQ</h2>
+<h4 id="优势-v2">优势</h4>
+<ul>
+<li>RabbitMQ的优势在于可以保证数据不丢失，也能保证高可用性，即集群部署的时候部分机器宕机可以继续运行，然后支持部分高级功能，比如说死信队列，消息重试之类的，这些是他的优点。</li>
+<li>在RocketMQ出现之前，国内大部分公司都从ActiveMQ切换到RabbitMQ来使用，包括很多一线互联网大厂，而且直到现在都有很多中小型公司在使用RabbitMQ，所以说RabbitMQ网上的资料相对多，而且社区非常活跃，更新频率非常快。</li>
+</ul>
+<h4 id="劣势-v2">劣势</h4>
+<ul>
+<li>RabbitMQ的吞吐量是比较低，一般就是每秒几万的级别，所以如果遇到特别特别高并发的情况下，支撑起来是有点困难的。</li>
+<li>RabbitMQ进行集群扩展的时候（也就是加机器部署），比较麻烦。</li>
+<li>另外还有一个较为致命的缺陷，就是他的开发语言是erlang，国内很少有精通erlang语言的工程师，因此也没办法去阅读他的源代码，甚至修改他的源代码。</li>
+</ul>
+<h4 id="总结-v2">总结</h4>
+<p>现在行业里的一个情况是，很多BAT等一线互联网大厂都切换到使用更加优秀的RocketMQ了，但是很多中小型公司觉得RabbitMQ基本可以满足自己的需求还在继续使用中，因为中小型公司并不需要特别高的吞吐量，RabbitMQ已经足以满足他们的需求了，而且也不需要部署特别大规模的集群，也没必要去阅读和修改RabbitMQ的源码。</p>
+<h2 id="RocketMQ">RocketMQ</h2>
+<h4 id="优势-v3">优势</h4>
+<ul>
+<li>
+<p>RocketMQ的吞吐量很高，单机可以达到10万QPS以上，而且可以保证高可用性，性能很高，而且支持通过配置保证数据绝对不丢失，可以部署大规模的集群，还支持各种高级的功能，比如说延迟消息、事务消息、消息回溯、死信队列、消息积压，等等。</p>
+</li>
+<li>
+<p>RocketMQ是基于Java开发的，符合国内大多数公司的技术栈，很容易就可以阅读他的源码，甚至是修改他的源码。</p>
+</li>
+<li>
+<p>RocketMQ是非常适合用在Java业务系统架构中的，因为他很高的性能表现，还有他的高阶功能的支持，可以让我们解决各种业务问题。</p>
+</li>
+</ul>
+<h4 id="劣势-v3">劣势</h4>
+<ul>
+<li>RocketMQ也有一点美中不足的地方，就是经过调查发现，RocketMQ的官方文档相对简单一些，但是Kafka和RabbitMQ的官方文档就非常的全面和详细，这可能是RocketMQ目前唯一的缺点。</li>
+</ul>
+<h4 id="总结-v3">总结</h4>
+<p>RocketMQ相对来说比较完美的一个消息中间件，在支撑高吞吐量的同时，而且还支持很多高阶的功能，很适合以Java为技术栈的公司使用。</p>
+
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="content-fade"></div>
+                                    
+                                </div>
+                                
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-9">
+                                        <div class="post-content" data-content-type="full">
+                                            <p><strong>本文主要对比常用的三种中间件优劣势，包含RocketMQ、Kafka、RabbitMQ。</strong></p>
+<h2 id="Kafka">Kafka</h2>
+<h4 id="优势">优势</h4>
+<ul>
+<li>Kafka的吞吐量几乎是行业里最优秀的，在常规的机器配置下，一台机器可以达到每秒十几万的QPS，相当的强悍。</li>
+<li>Kafka性能也很高，基本上发送消息给Kafka都是毫秒级的性能。可用性也很高，Kafka是可以支持集群部署的，其中部分机器宕机是可以继续运行的。</li>
+<li>Kafka技术在各大公司里的使用，基本行业里的一个标准，是把Kafka用在用户行为日志的采集和传输上，比如大数据团队要收集APP上用户的一些行为日志，这种日志就是用Kafka来收集和传输的。</li>
+</ul>
+<h4 id="劣势">劣势</h4>
+<ul>
+<li>Kafka比较为人诟病的一点，似乎是丢数据方面的问题，因为Kafka收到消息之后会写入一个磁盘缓冲区里，并没有直接落地到物理磁盘上去，所以要是机器本身故障了，可能会导致磁盘缓冲区里的数据丢失。</li>
+<li>Kafka另外一个比较大的缺点，就是功能非常的单一，主要是支持发送消息给他，然后从里面消费消息，其他就没有什么额外的高级功能了。所以基于Kafka有限的功能，可能适用的场景并不是很多。</li>
+</ul>
+<h4 id="总结">总结</h4>
+<p>Kafka适用于那种日志适当丢失数据是没有关系的，而且一般量特别大，要求吞吐量要高，一般就是收发消息，不需要太多的高级功能，所以Kafka是非常适合这种场景的。</p>
+<h2 id="RabbitMQ">RabbitMQ</h2>
+<h4 id="优势-v2">优势</h4>
+<ul>
+<li>RabbitMQ的优势在于可以保证数据不丢失，也能保证高可用性，即集群部署的时候部分机器宕机可以继续运行，然后支持部分高级功能，比如说死信队列，消息重试之类的，这些是他的优点。</li>
+<li>在RocketMQ出现之前，国内大部分公司都从ActiveMQ切换到RabbitMQ来使用，包括很多一线互联网大厂，而且直到现在都有很多中小型公司在使用RabbitMQ，所以说RabbitMQ网上的资料相对多，而且社区非常活跃，更新频率非常快。</li>
+</ul>
+<h4 id="劣势-v2">劣势</h4>
+<ul>
+<li>RabbitMQ的吞吐量是比较低，一般就是每秒几万的级别，所以如果遇到特别特别高并发的情况下，支撑起来是有点困难的。</li>
+<li>RabbitMQ进行集群扩展的时候（也就是加机器部署），比较麻烦。</li>
+<li>另外还有一个较为致命的缺陷，就是他的开发语言是erlang，国内很少有精通erlang语言的工程师，因此也没办法去阅读他的源代码，甚至修改他的源代码。</li>
+</ul>
+<h4 id="总结-v2">总结</h4>
+<p>现在行业里的一个情况是，很多BAT等一线互联网大厂都切换到使用更加优秀的RocketMQ了，但是很多中小型公司觉得RabbitMQ基本可以满足自己的需求还在继续使用中，因为中小型公司并不需要特别高的吞吐量，RabbitMQ已经足以满足他们的需求了，而且也不需要部署特别大规模的集群，也没必要去阅读和修改RabbitMQ的源码。</p>
+<h2 id="RocketMQ">RocketMQ</h2>
+<h4 id="优势-v3">优势</h4>
+<ul>
+<li>
+<p>RocketMQ的吞吐量很高，单机可以达到10万QPS以上，而且可以保证高可用性，性能很高，而且支持通过配置保证数据绝对不丢失，可以部署大规模的集群，还支持各种高级的功能，比如说延迟消息、事务消息、消息回溯、死信队列、消息积压，等等。</p>
+</li>
+<li>
+<p>RocketMQ是基于Java开发的，符合国内大多数公司的技术栈，很容易就可以阅读他的源码，甚至是修改他的源码。</p>
+</li>
+<li>
+<p>RocketMQ是非常适合用在Java业务系统架构中的，因为他很高的性能表现，还有他的高阶功能的支持，可以让我们解决各种业务问题。</p>
+</li>
+</ul>
+<h4 id="劣势-v3">劣势</h4>
+<ul>
+<li>RocketMQ也有一点美中不足的地方，就是经过调查发现，RocketMQ的官方文档相对简单一些，但是Kafka和RabbitMQ的官方文档就非常的全面和详细，这可能是RocketMQ目前唯一的缺点。</li>
+</ul>
+<h4 id="总结-v3">总结</h4>
+<p>RocketMQ相对来说比较完美的一个消息中间件，在支撑高吞吐量的同时，而且还支持很多高阶的功能，很适合以Java为技术栈的公司使用。</p>
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="2020-05-14T08:18:19.000Z" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                                    2020-05-14
+                                </time>
+                                
+                                
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                                        
+                                            <a href="/categories/RocketMQ/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                RocketMQ
                                             </a>
                                         
                                     </div>
@@ -1641,16 +1693,6 @@ function toggleContent(index) {
 		<ul class="space-y-2">
 			
 			<li>
-				<a href="/2025/06/15/%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					常用构建脚本
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					06-15
-				</time>
-			</li>
-			
-			<li>
 				<a href="/2025/06/11/mermaid/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					mermaid
@@ -1684,6 +1726,16 @@ function toggleContent(index) {
 				<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					事务到底是隔离的还是不隔离的？
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-12
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					行锁功过：怎么减少行锁对性能的影响？
 				</a>
 				<time class="text-xs text-gray-400 dark:text-gray-500">
 					06-12
@@ -1903,14 +1955,6 @@ function toggleContent(index) {
 				</span>
 			</a>
 			
-			<a href="/categories/%E8%84%9A%E6%9C%AC/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>脚本</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
 			<a href="/categories/%E8%AF%BB%E4%B9%A6/" 
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>读书</span>
@@ -2084,14 +2128,6 @@ function toggleContent(index) {
 				</span>
 			</a>
 			
-			<a href="/tags/shell/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				shell
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
 			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
 			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 				人生
@@ -2220,7 +2256,7 @@ function toggleContent(index) {
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>2025年06月</span>
 				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
+					1
 				</span>
 			</a>
 			

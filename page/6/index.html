@@ -243,309 +243,6 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
-                            <a href="/2018/07/06/Redis%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                Redis安装与配置
-                            </a>
-                        </h3>
-                        
-                        
-                        
-                        
-                            <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
-                                    <div class="post-content-preview-wrapper">
-                                        <div class="post-content" data-content-type="preview">
-                                            <h3 id="下载">下载</h3>
-<ol>
-<li>从<a href="http://www.redis.io">Redis官网</a>下载redis 最新稳定版本</li>
-<li>解压到 /usr/local/ 目录下</li>
-</ol>
-<h3 id="安装">安装</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make test &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<p>make时报如下错误:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zmalloc.h:50:31: error: jemalloc/jemalloc.h: No such file or directory</span><br><span class="line">zmalloc.h:55:2: error: #error &quot;Newer version of jemalloc required&quot;</span><br><span class="line">make[1]: *** [adlist.o] Error 1</span><br><span class="line">make[1]: Leaving directory `/data0/src/redis-2.6.2/src&#x27;</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
-<p>原因是jemalloc重载了Linux下的ANSI C的malloc和free函数。<br>
-解决办法：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make MALLOC=libc</span><br></pre></td></tr></table></figure>
-<h3 id="redis-生产环境启动方案">redis 生产环境启动方案</h3>
-<ol>
-<li>redis utils 目录下，有个redis_init_script脚本</li>
-<li>将redis_init_script脚本拷贝到linux的/etc/init.d 目录中，将redis_init_script重命名为redis_6379,   6379是我们希望redis 的实例端口号</li>
-<li>创建两个目录 /etc/redis (存放redis 配置的目录), /var/redis/6379 (存放redis的持久文件)</li>
-<li>修改redis.conf配置文件（默认在根目录下），拷贝到/etc/redis目录下，修改名称为6379.conf</li>
-<li>修改redis.conf中的部分配置为生产环境</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>值</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>daemonize</td>
-<td>yes</td>
-<td>让redis以daemon进程运行</td>
-</tr>
-<tr>
-<td>pidfile</td>
-<td>/var/run/redis_6379.pid</td>
-<td>设置redis的pid文件位置</td>
-</tr>
-<tr>
-<td>port</td>
-<td>6379</td>
-<td>设置redis的监听端口号</td>
-</tr>
-<tr>
-<td>dir</td>
-<td>/var/redis/6379</td>
-<td>设置持久化文件的存储位置</td>
-</tr>
-</tbody>
-</table>
-<ol start="6">
-<li>启动redis:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/init.d </span><br><span class="line">chmod 777 redis_6379 </span><br><span class="line">./redis_6379 start</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>确认redis 进程是否启动: <code>ps -ef  |  grep redis</code></li>
-<li>让redis跟随系统启动自动启动，在redis_6379 脚本中，最上面加入两行注释</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig:    2345 90 10</span><br><span class="line"># description: Redis is a persistent key-value database</span><br><span class="line">chkconfig redis_6379 on   </span><br></pre></td></tr></table></figure>
-<h3 id="主从架构（主节点和从节点最好保证一致的版本）">主从架构（主节点和从节点最好保证一致的版本）</h3>
-<ol>
-<li>在 slave node 上配置:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">slaveof 192.168.1.1 6379</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>强制读写分离</li>
-</ol>
-<p>基于主从复制架构，实现读写分离<br>
-redis slave node 只读，默认开启，<code>slave-read-only</code><br>
-开启了只读的redis slave node，会拒绝所有的写操作，这样可以强制搭建成读写分离架构</p>
-<ol start="3">
-<li>
-<p>集成安全认证<br>
-master 上启用安全认证策略，<code>requirepass</code><br>
-master 连接口令 <code>masterauth</code></p>
-</li>
-<li>
-<p>读写分离架构的测试<br>
-先启动主节点，再启动从节点，在搭建生产环境的时候，不要忘记修改一个配置：</p>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1</span><br></pre></td></tr></table></figure>
-<p>每个redis.conf 中的bind <code>127.0.0.1</code> -&gt; bind自己的ip，并且防火墙打开6379端口</p>
-<h3 id="redis-cli的使用">redis-cli的使用</h3>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>redis-cli shutdown</td>
-<td>连接本机的6379端口停止redis进程</td>
-</tr>
-<tr>
-<td>redis-cli -h 127.0.0.1 -p 6379</td>
-<td>指定要连接的ip和端口号</td>
-</tr>
-<tr>
-<td>redis-cli ping</td>
-<td>ping redis的端口，看是否正常</td>
-</tr>
-<tr>
-<td>redis-cli</td>
-<td>进入交互式命令行</td>
-</tr>
-<tr>
-<td>set k1 v1</td>
-<td>设置一个key:value</td>
-</tr>
-<tr>
-<td>get k1</td>
-<td>获取key的值</td>
-</tr>
-</tbody>
-</table>
-
-                                        </div>
-                                    </div>
-                                    
-                                        <div class="content-fade"></div>
-                                    
-                                </div>
-                                
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
-                                        <div class="post-content" data-content-type="full">
-                                            <h3 id="下载">下载</h3>
-<ol>
-<li>从<a href="http://www.redis.io">Redis官网</a>下载redis 最新稳定版本</li>
-<li>解压到 /usr/local/ 目录下</li>
-</ol>
-<h3 id="安装">安装</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make test &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<p>make时报如下错误:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zmalloc.h:50:31: error: jemalloc/jemalloc.h: No such file or directory</span><br><span class="line">zmalloc.h:55:2: error: #error &quot;Newer version of jemalloc required&quot;</span><br><span class="line">make[1]: *** [adlist.o] Error 1</span><br><span class="line">make[1]: Leaving directory `/data0/src/redis-2.6.2/src&#x27;</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
-<p>原因是jemalloc重载了Linux下的ANSI C的malloc和free函数。<br>
-解决办法：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make MALLOC=libc</span><br></pre></td></tr></table></figure>
-<h3 id="redis-生产环境启动方案">redis 生产环境启动方案</h3>
-<ol>
-<li>redis utils 目录下，有个redis_init_script脚本</li>
-<li>将redis_init_script脚本拷贝到linux的/etc/init.d 目录中，将redis_init_script重命名为redis_6379,   6379是我们希望redis 的实例端口号</li>
-<li>创建两个目录 /etc/redis (存放redis 配置的目录), /var/redis/6379 (存放redis的持久文件)</li>
-<li>修改redis.conf配置文件（默认在根目录下），拷贝到/etc/redis目录下，修改名称为6379.conf</li>
-<li>修改redis.conf中的部分配置为生产环境</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>值</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>daemonize</td>
-<td>yes</td>
-<td>让redis以daemon进程运行</td>
-</tr>
-<tr>
-<td>pidfile</td>
-<td>/var/run/redis_6379.pid</td>
-<td>设置redis的pid文件位置</td>
-</tr>
-<tr>
-<td>port</td>
-<td>6379</td>
-<td>设置redis的监听端口号</td>
-</tr>
-<tr>
-<td>dir</td>
-<td>/var/redis/6379</td>
-<td>设置持久化文件的存储位置</td>
-</tr>
-</tbody>
-</table>
-<ol start="6">
-<li>启动redis:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/init.d </span><br><span class="line">chmod 777 redis_6379 </span><br><span class="line">./redis_6379 start</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>确认redis 进程是否启动: <code>ps -ef  |  grep redis</code></li>
-<li>让redis跟随系统启动自动启动，在redis_6379 脚本中，最上面加入两行注释</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig:    2345 90 10</span><br><span class="line"># description: Redis is a persistent key-value database</span><br><span class="line">chkconfig redis_6379 on   </span><br></pre></td></tr></table></figure>
-<h3 id="主从架构（主节点和从节点最好保证一致的版本）">主从架构（主节点和从节点最好保证一致的版本）</h3>
-<ol>
-<li>在 slave node 上配置:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">slaveof 192.168.1.1 6379</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>强制读写分离</li>
-</ol>
-<p>基于主从复制架构，实现读写分离<br>
-redis slave node 只读，默认开启，<code>slave-read-only</code><br>
-开启了只读的redis slave node，会拒绝所有的写操作，这样可以强制搭建成读写分离架构</p>
-<ol start="3">
-<li>
-<p>集成安全认证<br>
-master 上启用安全认证策略，<code>requirepass</code><br>
-master 连接口令 <code>masterauth</code></p>
-</li>
-<li>
-<p>读写分离架构的测试<br>
-先启动主节点，再启动从节点，在搭建生产环境的时候，不要忘记修改一个配置：</p>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1</span><br></pre></td></tr></table></figure>
-<p>每个redis.conf 中的bind <code>127.0.0.1</code> -&gt; bind自己的ip，并且防火墙打开6379端口</p>
-<h3 id="redis-cli的使用">redis-cli的使用</h3>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>redis-cli shutdown</td>
-<td>连接本机的6379端口停止redis进程</td>
-</tr>
-<tr>
-<td>redis-cli -h 127.0.0.1 -p 6379</td>
-<td>指定要连接的ip和端口号</td>
-</tr>
-<tr>
-<td>redis-cli ping</td>
-<td>ping redis的端口，看是否正常</td>
-</tr>
-<tr>
-<td>redis-cli</td>
-<td>进入交互式命令行</td>
-</tr>
-<tr>
-<td>set k1 v1</td>
-<td>设置一个key:value</td>
-</tr>
-<tr>
-<td>get k1</td>
-<td>获取key的值</td>
-</tr>
-</tbody>
-</table>
-
-                                        </div>
-                                    </div>
-                                
-                            </div>
-                        
-                        
-                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                            <div class="flex items-center space-x-4">
-                                <time datetime="2018-07-06T14:22:42.000Z" class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
-                                    2018-07-06
-                                </time>
-                                
-                                
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
-                                        
-                                            <a href="/categories/Redis/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                                Redis
-                                            </a>
-                                        
-                                    </div>
-                                
-                            </div>
-                            
-                            
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
-                                    <span class="expand-text">显示更多</span>
-                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                    </svg>
-                                </button>
-                            
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
-                <div class="flex flex-col">
-                    <div class="flex-1">
-                        <h3 class="text-xl font-semibold mb-3">
                             <a href="/2018/06/06/%E9%9A%8F%E6%89%8B%E8%AE%B0/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 随手记
                             </a>
@@ -555,7 +252,7 @@ master 连接口令 <code>masterauth</code></p>
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h3 id="三个有启发的学习方法">三个有启发的学习方法</h3>
@@ -766,16 +463,6 @@ function toggleContent(index) {
 		<ul class="space-y-2">
 			
 			<li>
-				<a href="/2025/06/15/%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					常用构建脚本
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					06-15
-				</time>
-			</li>
-			
-			<li>
 				<a href="/2025/06/11/mermaid/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					mermaid
@@ -809,6 +496,16 @@ function toggleContent(index) {
 				<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					事务到底是隔离的还是不隔离的？
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-12
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					行锁功过：怎么减少行锁对性能的影响？
 				</a>
 				<time class="text-xs text-gray-400 dark:text-gray-500">
 					06-12
@@ -1028,14 +725,6 @@ function toggleContent(index) {
 				</span>
 			</a>
 			
-			<a href="/categories/%E8%84%9A%E6%9C%AC/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>脚本</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
 			<a href="/categories/%E8%AF%BB%E4%B9%A6/" 
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>读书</span>
@@ -1209,14 +898,6 @@ function toggleContent(index) {
 				</span>
 			</a>
 			
-			<a href="/tags/shell/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				shell
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
 			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
 			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 				人生
@@ -1345,7 +1026,7 @@ function toggleContent(index) {
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>2025年06月</span>
 				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
+					1
 				</span>
 			</a>
 			

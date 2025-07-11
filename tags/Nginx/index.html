@@ -243,8 +243,8 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
-                            <a href="/2020/08/19/Nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                Nginx反向代理配置
+                            <a href="/2019/01/18/Nginx%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Nginx基本配置
                             </a>
                         </h3>
                         
@@ -255,20 +255,133 @@
                                 <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
-                                            <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
-<h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
-<h3 id="方法二：rewrite">方法二：rewrite</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>proxy_pass结尾没有/， rewrite重写了url。</p>
-<h3 id="location匹配命令">location匹配命令</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
-<h3 id="location-匹配的优先级-与location在配置文件中的顺序无关">location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
-<p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
-<p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
-<p><em><strong>^~</strong></em> 则只匹配该规则，nginx停止搜索其他匹配，否则nginx会继续处理其他location指令。</p>
-<p>最后匹配理带有&quot;<sub>&quot;和&quot;</sub>*&quot;的指令，如果找到相应的匹配，则nginx停止搜索其他匹配；当没有正则表达式或者没有正则表达式被匹配的情况下，那么匹配程度最高的逐字匹配指令会被使用。</p>
+                                            <h3 id="1-Nginx-常用操作整理">1. Nginx 常用操作整理</h3>
+<h4 id="1-1-启动-Nginx">1.1 启动 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-停止-Nginx">1.2 停止 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s stop</span><br><span class="line">./sbin/nginx -s quit</span><br><span class="line">-s 都是采用向 Nginx 发送信号的方式。</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-重载-Nginx">1.3 重载 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-指定配置文件">1.4 指定配置文件</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -c /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h4 id="1-5-配置语法检查">1.5 配置语法检查</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -t /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">常规用法： ./sbin/nginx -tc /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h3 id="2-配置文件详解">2. 配置文件详解</h3>
+<p>Nginx配置文件的分块下，基本就分为以下几块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">main # 全局设置</span><br><span class="line">events &#123; # Nginx工作模式</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br><span class="line">http &#123; # http设置</span><br><span class="line">    ....</span><br><span class="line">    upstream myproject &#123; # 负载均衡服务器设置</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123; # 主机设置</span><br><span class="line">        ....</span><br><span class="line">        location &#123; # URL匹配</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123;</span><br><span class="line">        ....</span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-main模块">2.1 main模块</h4>
+<p>下面是一个main区域，它是一个全局的设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log /usr/local/var/log/nginx/error.log notice;</span><br><span class="line">pid /usr/local/var/run/nginx/nginx.pid;</span><br><span class="line">worker_rlimit_nofile 1024;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>user 来指定Nginx Worker进程运行用户以及用户组，默认由nobody账号运行。</p>
+<p>worker_processes 来指定了Nginx要开启的子进程数。每个Nginx进程平均耗费10M~12M内存。根据经验，一般指定1个进程就足够了，如果是多核CPU，建议指定和CPU的数量一样的进程数即可。我这里写2，那么就会开启2个子进程，总共3个进程。</p>
+<p>error_log 来定义全局错误日志文件。日志输出级别有debug、info、notice、warn、error、crit可供选择，其中，debug输出日志最为最详细，而crit输出日志最少。</p>
+<p>pid 来指定进程id的存储文件位置。</p>
+<p>worker_rlimit_nofile 来指定一个nginx进程可以打开的最多文件描述符数目，这里是65535，需要使用命令“ulimit -n 65535”来设置。</p>
+</blockquote>
+<h4 id="2-2-events模块">2.2 events模块</h4>
+<p>events模块来用指定nginx的工作模式和工作模式及连接数上限，一般是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    use kqueue; #mac平台</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>use 用来指定Nginx的工作模式。Nginx支持的工作模式有select、poll、kqueue、epoll、rtsig和/dev/poll。其中select和poll都是标准的工作模式，kqueue和epoll是高效的工作模式，不同的是epoll用在Linux平台上，而kqueue用在BSD系统中，因为Mac基于BSD,所以Mac也得用这个模式，对于Linux系统，epoll工作模式是首选。</p>
+<p>worker_connections 用于定义Nginx每个进程的最大连接数，即接收前端的最大请求数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_clients = worker_processes * worker_connections，在作为反向代理时，Max_clients变为：Max_clients = worker_processes * worker_connections / 4。</p>
+<p>进程的最大连接数受Linux系统进程的最大打开文件数限制，在执行操作系统命令“ulimit -n 65536”后worker_connections的设置才能生效。</p>
+</blockquote>
+<h4 id="2-3-http模块">2.3 http模块</h4>
+<p>http模块可以说是最核心的模块了，它负责HTTP服务器相关属性的配置，它里面的server和upstream子模块，至关重要，等到反向代理和负载均衡以及虚拟目录等会仔细说。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include mime.types;</span><br><span class="line">    default_type application/octet-stream;</span><br><span class="line">    log_format main &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                    &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                    &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line">    access_log /usr/local/var/log/nginx/access.log  main;</span><br><span class="line">    sendfile on;</span><br><span class="line">    tcp_nopush on;</span><br><span class="line">    tcp_nodelay on;</span><br><span class="line">    keepalive_timeout 10;</span><br><span class="line">    #gzip on;</span><br><span class="line">    upstream myproject &#123;</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-1-include">2.3.1 include</h5>
+<blockquote>
+<p>用来设定文件的mime类型,类型在配置文件目录下的mime.type文件定义，来告诉nginx来识别文件类型。</p>
+</blockquote>
+<h5 id="2-3-2-default-type">2.3.2 default_type</h5>
+<blockquote>
+<p>设定了默认的类型为二进制流，也就是当文件类型未定义时使用这种方式，例如在没有配置asp的locate 环境时，Nginx是不予解析的，此时，用浏览器访问asp文件就会出现下载窗口了。</p>
+</blockquote>
+<h5 id="2-3-3-log-format">2.3.3 log_format</h5>
+<blockquote>
+<p>用于设置日志的格式，和记录哪些参数，这里设置为main，刚好用于access_log来纪录这种类型。</p>
+</blockquote>
+<h5 id="2-3-4-access-log">2.3.4 access_log</h5>
+<blockquote>
+<p>用来纪录每次的访问日志的文件地址，后面的main是日志的格式样式，对应于log_format的main。</p>
+</blockquote>
+<h5 id="2-3-5-sendfile">2.3.5 sendfile</h5>
+<blockquote>
+<p>用于开启高效文件传输模式。将tcp_nopush和tcp_nodelay两个指令设置为on用于防止网络阻塞。</p>
+</blockquote>
+<h5 id="2-3-6-keepalive-timeout">2.3.6 keepalive_timeout</h5>
+<blockquote>
+<p>设置客户端连接保持活动的超时时间。在超过这个时间之后，服务器会关闭该连接。</p>
+</blockquote>
+<h4 id="6-4-server模块">6.4 server模块</h4>
+<p>server模块是http的子模块，它用来定一个虚拟主机，我们先讲最基本的配置，这些在后面再讲。我们看一下一个简单的server是如何做的？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8080;</span><br><span class="line">    server_name localhost 192.168.12.10 www.yangyi.com;</span><br><span class="line">    # 全局定义，如果都是这一个目录，这样定义最简单。</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log  usr/local/var/log/host.access.log  main;</span><br><span class="line">    error_log  usr/local/var/log/host.error.log  error;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>server 标志定义虚拟主机开始。</p>
+<p>listen 用于指定虚拟主机的服务端口。</p>
+<p>server_name 用来指定IP地址或者域名，多个域名之间用空格分开。</p>
+<p>root 表示在这整个server虚拟主机内，全部的root web根目录。注意要和locate {}下面定义的区分开来。</p>
+<p>index 全局定义访问的默认首页地址。注意要和locate {}下面定义的区分开来。</p>
+<p>charset 用于设置网页的默认编码格式。</p>
+<p>access_log 用来指定此虚拟主机的访问日志存放路径，最后的main用于指定访问日志的输出格式。</p>
+</blockquote>
+<h4 id="2-5-location模块">2.5 location模块</h4>
+<p>location模块是nginx中用的最多的，也是最重要的模块了，什么负载均衡啊、反向代理啊、虚拟域名啊都与它相关。</p>
+<p>location根据它字面意思就知道是来定位的，定位URL，解析URL，所以，它也提供了强大的正则匹配功能，也支持条件判断匹配，用户可以通过location指令实现Nginx对动、静态网页进行过滤处理。像我们的php环境搭建就是用到了它。</p>
+<h5 id="2-5-1-我们先来看这个，设定默认首页和虚拟机目录">2.5.1 我们先来看这个，设定默认首页和虚拟机目录</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>location / 表示匹配访问根目录。</p>
+<p>root 指令用于指定访问根目录时，虚拟主机的web目录，这个目录可以是相对路径（相对路径是相对于nginx的安装目录）。也可以是绝对路径。</p>
+<p>index 用于设定我们只输入域名后访问的默认首页地址，有个先后顺序：index.php index.html index.htm，如果没有开启目录浏览权限，又找不到这些默认首页，就会报403错误。</p>
+</blockquote>
+<h5 id="2-5-2-location-还有一种方式就是正则匹配">2.5.2 location 还有一种方式就是正则匹配</h5>
+<p>下面这个例子是运用正则匹配来链接php。我们之前搭建环境也是这样做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    root           /Users/yangyi/www;</span><br><span class="line">    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">    fastcgi_index  index.php;</span><br><span class="line">    include        fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.php$ 熟悉正则的我们直到，这是匹配.php结尾的URL，用来解析php文件。里面的root也是一样，用来表示虚拟主机的根目录。<br>
+fastcgi_pass 链接的是php-fpm的地址。其他几个参数我们以后再说。</p>
+<p>location 还有其他用法，等讲到实例的时候，再看吧。</p>
+</blockquote>
+<h4 id="2-6-upstream模块">2.6 upstream模块</h4>
+<p>upstream 模块负责负载均衡模块，通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡。先学习怎么用，具体的使用实例以后再说。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream deveye.cn&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.12.1:80;</span><br><span class="line">    server 192.168.12.2:80 down;</span><br><span class="line">    server 192.168.12.3:8080  max_fails=3  fail_timeout=20s;</span><br><span class="line">    server 192.168.12.4:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<a href="http://xn--upstreamiyangyi-7e3xouw5c9yc706c1jlfyemo5arx4bba4380k2ktarn6g3z2ap3oc8b41d.com">通过upstream指令指定了一个负载均衡器的名称iyangyi.com</a>。这个名称可以任意指定，在后面需要的地方直接调用即可。里面是ip_hash这是其中的一种负载均衡调度算法，下面会着重介绍。紧接着就是各种服务器了。用server关键字表识，后面接ip。<br>
+<strong>Nginx的负载均衡模块目前支持4种调度算法：</strong></p>
+<ol>
+<li>
+<p>weight 轮询（默认）。每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某台服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight，指定轮询权值，weight值越大，分配到的访问机率越高，主要用于后端每个服务器性能不均的情况下。</p>
+</li>
+<li>
+<p>ip_hash。每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。</p>
+</li>
+<li>
+<p>fair（第三方）。比上面两个更加智能的负载均衡算法。此种算法可以依据页面大小和加载时间长短智能地进行负载均衡，也就是根据后端服务器的响应时间来分配请求，响应时间短的优先分配。Nginx本身是不支持fair的，如果需要使用这种调度算法，必须下载Nginx的upstream_fair模块。</p>
+</li>
+<li>
+<p>url_hash（第三方）。按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。Nginx本身是不支持url_hash的，如果需要使用这种调度算法，必须安装Nginx的hash软件包。</p>
+</li>
+</ol>
+<p>在HTTP Upstream模块中，可以通过server指令指定后端服务器的IP地址和端口，同时还可以设定每个后端服务器在负载均衡调度中的状态。常用的状态有：</p>
+<ol>
+<li>
+<p>down，表示当前的server暂时不参与负载均衡。</p>
+</li>
+<li>
+<p>backup，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。</p>
+</li>
+<li>
+<p>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。</p>
+</li>
+<li>
+<p>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。</p>
+</li>
+</ol>
+<p><em>注意：当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能是weight和backup。</em></p>
+<blockquote>
+<p>转载自 ：<a href="https://www.jianshu.com/p/f04733896a48">https://www.jianshu.com/p/f04733896a48</a></p>
+</blockquote>
 
                                         </div>
                                     </div>
@@ -279,20 +392,133 @@
                                 
                                     <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
                                         <div class="post-content" data-content-type="full">
-                                            <p>使用nginx做反向代理的时候，可以简单的直接把请求原封不动的转发给下一个服务。设置<code>proxy_pass</code>请求只会替换域名，如果要根据不同的url后缀来访问不同的服务，则需要通过如下方法：</p>
-<h3 id="方法一：加">方法一：加&quot;/&quot;</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen              8000;</span><br><span class="line">    server_name         abc.com;</span><br><span class="line">    access_log  &quot;pipe:rollback /data/log/nginx/access.log interval=1d baknum=7 maxsize=1G&quot;  main;</span><br><span class="line"></span><br><span class="line">    location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://user/;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header  Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header  X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        proxy_pass http://order/;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>^~/user/表示匹配前缀是user的请求，proxy_pass的结尾有/， 则会把/user/*后面的路径直接拼接到后面，即移除user。</p>
-<h3 id="方法二：rewrite">方法二：rewrite</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">location ^~/user/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/user/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://user;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ^~/order/ &#123;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header  X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_set_header  X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-NginX-Proxy true;</span><br><span class="line"></span><br><span class="line">        rewrite ^/order/(.*)$ /$1 break;</span><br><span class="line">        proxy_pass http://order;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>proxy_pass结尾没有/， rewrite重写了url。</p>
-<h3 id="location匹配命令">location匹配命令</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">~     #波浪线表示执行一个正则匹配，区分大小写</span><br><span class="line">~*    #表示执行一个正则匹配，不区分大小写</span><br><span class="line">^~    #^~表示普通字符匹配，如果该选项匹配，只匹配该选项，不匹配别的选项，一般用来匹配目录</span><br><span class="line">=     #进行普通字符精确匹配</span><br><span class="line">@     #&quot;@&quot; 定义一个命名的 location，使用在内部定向时，例如 error_page, try_files</span><br></pre></td></tr></table></figure>
-<h3 id="location-匹配的优先级-与location在配置文件中的顺序无关">location 匹配的优先级(与location在配置文件中的顺序无关)</h3>
-<p><em><strong>=</strong></em> 精确匹配会第一个被处理。如果发现精确匹配，nginx停止搜索其他匹配。</p>
-<p>普通字符匹配，正则表达式规则和长的块规则将被优先和查询匹配，也就是说如果该项匹配还需去看有没有正则表达式匹配和更长的匹配。</p>
-<p><em><strong>^~</strong></em> 则只匹配该规则，nginx停止搜索其他匹配，否则nginx会继续处理其他location指令。</p>
-<p>最后匹配理带有&quot;<sub>&quot;和&quot;</sub>*&quot;的指令，如果找到相应的匹配，则nginx停止搜索其他匹配；当没有正则表达式或者没有正则表达式被匹配的情况下，那么匹配程度最高的逐字匹配指令会被使用。</p>
+                                            <h3 id="1-Nginx-常用操作整理">1. Nginx 常用操作整理</h3>
+<h4 id="1-1-启动-Nginx">1.1 启动 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-停止-Nginx">1.2 停止 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s stop</span><br><span class="line">./sbin/nginx -s quit</span><br><span class="line">-s 都是采用向 Nginx 发送信号的方式。</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-重载-Nginx">1.3 重载 Nginx</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-指定配置文件">1.4 指定配置文件</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -c /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h4 id="1-5-配置语法检查">1.5 配置语法检查</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./sbin/nginx -t /etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">常规用法： ./sbin/nginx -tc /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<h3 id="2-配置文件详解">2. 配置文件详解</h3>
+<p>Nginx配置文件的分块下，基本就分为以下几块：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">main # 全局设置</span><br><span class="line">events &#123; # Nginx工作模式</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br><span class="line">http &#123; # http设置</span><br><span class="line">    ....</span><br><span class="line">    upstream myproject &#123; # 负载均衡服务器设置</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123; # 主机设置</span><br><span class="line">        ....</span><br><span class="line">        location &#123; # URL匹配</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server  &#123;</span><br><span class="line">        ....</span><br><span class="line">        location &#123;</span><br><span class="line">            ....</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-main模块">2.1 main模块</h4>
+<p>下面是一个main区域，它是一个全局的设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user nobody nobody;</span><br><span class="line">worker_processes 2;</span><br><span class="line">error_log /usr/local/var/log/nginx/error.log notice;</span><br><span class="line">pid /usr/local/var/run/nginx/nginx.pid;</span><br><span class="line">worker_rlimit_nofile 1024;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>user 来指定Nginx Worker进程运行用户以及用户组，默认由nobody账号运行。</p>
+<p>worker_processes 来指定了Nginx要开启的子进程数。每个Nginx进程平均耗费10M~12M内存。根据经验，一般指定1个进程就足够了，如果是多核CPU，建议指定和CPU的数量一样的进程数即可。我这里写2，那么就会开启2个子进程，总共3个进程。</p>
+<p>error_log 来定义全局错误日志文件。日志输出级别有debug、info、notice、warn、error、crit可供选择，其中，debug输出日志最为最详细，而crit输出日志最少。</p>
+<p>pid 来指定进程id的存储文件位置。</p>
+<p>worker_rlimit_nofile 来指定一个nginx进程可以打开的最多文件描述符数目，这里是65535，需要使用命令“ulimit -n 65535”来设置。</p>
+</blockquote>
+<h4 id="2-2-events模块">2.2 events模块</h4>
+<p>events模块来用指定nginx的工作模式和工作模式及连接数上限，一般是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    use kqueue; #mac平台</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>use 用来指定Nginx的工作模式。Nginx支持的工作模式有select、poll、kqueue、epoll、rtsig和/dev/poll。其中select和poll都是标准的工作模式，kqueue和epoll是高效的工作模式，不同的是epoll用在Linux平台上，而kqueue用在BSD系统中，因为Mac基于BSD,所以Mac也得用这个模式，对于Linux系统，epoll工作模式是首选。</p>
+<p>worker_connections 用于定义Nginx每个进程的最大连接数，即接收前端的最大请求数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_clients = worker_processes * worker_connections，在作为反向代理时，Max_clients变为：Max_clients = worker_processes * worker_connections / 4。</p>
+<p>进程的最大连接数受Linux系统进程的最大打开文件数限制，在执行操作系统命令“ulimit -n 65536”后worker_connections的设置才能生效。</p>
+</blockquote>
+<h4 id="2-3-http模块">2.3 http模块</h4>
+<p>http模块可以说是最核心的模块了，它负责HTTP服务器相关属性的配置，它里面的server和upstream子模块，至关重要，等到反向代理和负载均衡以及虚拟目录等会仔细说。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    include mime.types;</span><br><span class="line">    default_type application/octet-stream;</span><br><span class="line">    log_format main &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                    &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                    &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line">    access_log /usr/local/var/log/nginx/access.log  main;</span><br><span class="line">    sendfile on;</span><br><span class="line">    tcp_nopush on;</span><br><span class="line">    tcp_nodelay on;</span><br><span class="line">    keepalive_timeout 10;</span><br><span class="line">    #gzip on;</span><br><span class="line">    upstream myproject &#123;</span><br><span class="line">        .....</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        ....</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-1-include">2.3.1 include</h5>
+<blockquote>
+<p>用来设定文件的mime类型,类型在配置文件目录下的mime.type文件定义，来告诉nginx来识别文件类型。</p>
+</blockquote>
+<h5 id="2-3-2-default-type">2.3.2 default_type</h5>
+<blockquote>
+<p>设定了默认的类型为二进制流，也就是当文件类型未定义时使用这种方式，例如在没有配置asp的locate 环境时，Nginx是不予解析的，此时，用浏览器访问asp文件就会出现下载窗口了。</p>
+</blockquote>
+<h5 id="2-3-3-log-format">2.3.3 log_format</h5>
+<blockquote>
+<p>用于设置日志的格式，和记录哪些参数，这里设置为main，刚好用于access_log来纪录这种类型。</p>
+</blockquote>
+<h5 id="2-3-4-access-log">2.3.4 access_log</h5>
+<blockquote>
+<p>用来纪录每次的访问日志的文件地址，后面的main是日志的格式样式，对应于log_format的main。</p>
+</blockquote>
+<h5 id="2-3-5-sendfile">2.3.5 sendfile</h5>
+<blockquote>
+<p>用于开启高效文件传输模式。将tcp_nopush和tcp_nodelay两个指令设置为on用于防止网络阻塞。</p>
+</blockquote>
+<h5 id="2-3-6-keepalive-timeout">2.3.6 keepalive_timeout</h5>
+<blockquote>
+<p>设置客户端连接保持活动的超时时间。在超过这个时间之后，服务器会关闭该连接。</p>
+</blockquote>
+<h4 id="6-4-server模块">6.4 server模块</h4>
+<p>server模块是http的子模块，它用来定一个虚拟主机，我们先讲最基本的配置，这些在后面再讲。我们看一下一个简单的server是如何做的？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8080;</span><br><span class="line">    server_name localhost 192.168.12.10 www.yangyi.com;</span><br><span class="line">    # 全局定义，如果都是这一个目录，这样定义最简单。</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">    charset utf-8;</span><br><span class="line">    access_log  usr/local/var/log/host.access.log  main;</span><br><span class="line">    error_log  usr/local/var/log/host.error.log  error;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>server 标志定义虚拟主机开始。</p>
+<p>listen 用于指定虚拟主机的服务端口。</p>
+<p>server_name 用来指定IP地址或者域名，多个域名之间用空格分开。</p>
+<p>root 表示在这整个server虚拟主机内，全部的root web根目录。注意要和locate {}下面定义的区分开来。</p>
+<p>index 全局定义访问的默认首页地址。注意要和locate {}下面定义的区分开来。</p>
+<p>charset 用于设置网页的默认编码格式。</p>
+<p>access_log 用来指定此虚拟主机的访问日志存放路径，最后的main用于指定访问日志的输出格式。</p>
+</blockquote>
+<h4 id="2-5-location模块">2.5 location模块</h4>
+<p>location模块是nginx中用的最多的，也是最重要的模块了，什么负载均衡啊、反向代理啊、虚拟域名啊都与它相关。</p>
+<p>location根据它字面意思就知道是来定位的，定位URL，解析URL，所以，它也提供了强大的正则匹配功能，也支持条件判断匹配，用户可以通过location指令实现Nginx对动、静态网页进行过滤处理。像我们的php环境搭建就是用到了它。</p>
+<h5 id="2-5-1-我们先来看这个，设定默认首页和虚拟机目录">2.5.1 我们先来看这个，设定默认首页和虚拟机目录</h5>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    root   /Users/yangyi/www;</span><br><span class="line">    index  index.php index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>location / 表示匹配访问根目录。</p>
+<p>root 指令用于指定访问根目录时，虚拟主机的web目录，这个目录可以是相对路径（相对路径是相对于nginx的安装目录）。也可以是绝对路径。</p>
+<p>index 用于设定我们只输入域名后访问的默认首页地址，有个先后顺序：index.php index.html index.htm，如果没有开启目录浏览权限，又找不到这些默认首页，就会报403错误。</p>
+</blockquote>
+<h5 id="2-5-2-location-还有一种方式就是正则匹配">2.5.2 location 还有一种方式就是正则匹配</h5>
+<p>下面这个例子是运用正则匹配来链接php。我们之前搭建环境也是这样做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    root           /Users/yangyi/www;</span><br><span class="line">    fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">    fastcgi_index  index.php;</span><br><span class="line">    include        fastcgi.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.php$ 熟悉正则的我们直到，这是匹配.php结尾的URL，用来解析php文件。里面的root也是一样，用来表示虚拟主机的根目录。<br>
+fastcgi_pass 链接的是php-fpm的地址。其他几个参数我们以后再说。</p>
+<p>location 还有其他用法，等讲到实例的时候，再看吧。</p>
+</blockquote>
+<h4 id="2-6-upstream模块">2.6 upstream模块</h4>
+<p>upstream 模块负责负载均衡模块，通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡。先学习怎么用，具体的使用实例以后再说。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">upstream deveye.cn&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 192.168.12.1:80;</span><br><span class="line">    server 192.168.12.2:80 down;</span><br><span class="line">    server 192.168.12.3:8080  max_fails=3  fail_timeout=20s;</span><br><span class="line">    server 192.168.12.4:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<a href="http://xn--upstreamiyangyi-7e3xouw5c9yc706c1jlfyemo5arx4bba4380k2ktarn6g3z2ap3oc8b41d.com">通过upstream指令指定了一个负载均衡器的名称iyangyi.com</a>。这个名称可以任意指定，在后面需要的地方直接调用即可。里面是ip_hash这是其中的一种负载均衡调度算法，下面会着重介绍。紧接着就是各种服务器了。用server关键字表识，后面接ip。<br>
+<strong>Nginx的负载均衡模块目前支持4种调度算法：</strong></p>
+<ol>
+<li>
+<p>weight 轮询（默认）。每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某台服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight，指定轮询权值，weight值越大，分配到的访问机率越高，主要用于后端每个服务器性能不均的情况下。</p>
+</li>
+<li>
+<p>ip_hash。每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。</p>
+</li>
+<li>
+<p>fair（第三方）。比上面两个更加智能的负载均衡算法。此种算法可以依据页面大小和加载时间长短智能地进行负载均衡，也就是根据后端服务器的响应时间来分配请求，响应时间短的优先分配。Nginx本身是不支持fair的，如果需要使用这种调度算法，必须下载Nginx的upstream_fair模块。</p>
+</li>
+<li>
+<p>url_hash（第三方）。按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。Nginx本身是不支持url_hash的，如果需要使用这种调度算法，必须安装Nginx的hash软件包。</p>
+</li>
+</ol>
+<p>在HTTP Upstream模块中，可以通过server指令指定后端服务器的IP地址和端口，同时还可以设定每个后端服务器在负载均衡调度中的状态。常用的状态有：</p>
+<ol>
+<li>
+<p>down，表示当前的server暂时不参与负载均衡。</p>
+</li>
+<li>
+<p>backup，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。</p>
+</li>
+<li>
+<p>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。</p>
+</li>
+<li>
+<p>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。</p>
+</li>
+</ol>
+<p><em>注意：当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能是weight和backup。</em></p>
+<blockquote>
+<p>转载自 ：<a href="https://www.jianshu.com/p/f04733896a48">https://www.jianshu.com/p/f04733896a48</a></p>
+</blockquote>
 
                                         </div>
                                     </div>
@@ -302,17 +528,17 @@
                         
                         <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                             <div class="flex items-center space-x-4">
-                                <time datetime="2020-08-19T05:47:59.000Z" class="flex items-center">
+                                <time datetime="2019-01-18T02:50:25.000Z" class="flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
-                                    2020-08-19
+                                    2019-01-18
                                 </time>
                                 
                                 
                                     <div class="flex items-center space-x-2">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
                                         
-                                            <a href="/categories/Nginx/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                                Nginx
+                                            <a href="/categories/nginx/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                nginx
                                             </a>
                                         
                                     </div>
@@ -471,16 +697,6 @@ function toggleContent(index) {
 		<ul class="space-y-2">
 			
 			<li>
-				<a href="/2025/06/15/%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					常用构建脚本
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					06-15
-				</time>
-			</li>
-			
-			<li>
 				<a href="/2025/06/11/mermaid/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					mermaid
@@ -514,6 +730,16 @@ function toggleContent(index) {
 				<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					事务到底是隔离的还是不隔离的？
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-12
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					行锁功过：怎么减少行锁对性能的影响？
 				</a>
 				<time class="text-xs text-gray-400 dark:text-gray-500">
 					06-12
@@ -733,14 +959,6 @@ function toggleContent(index) {
 				</span>
 			</a>
 			
-			<a href="/categories/%E8%84%9A%E6%9C%AC/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>脚本</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
 			<a href="/categories/%E8%AF%BB%E4%B9%A6/" 
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>读书</span>
@@ -914,14 +1132,6 @@ function toggleContent(index) {
 				</span>
 			</a>
 			
-			<a href="/tags/shell/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				shell
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
 			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
 			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 				人生
@@ -1050,608 +1260,7 @@ function toggleContent(index) {
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>2025年06月</span>
 				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/archives/2025/01/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2025年01月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
 					1
-				</span>
-			</a>
-			
-			<a href="/archives/2024/12/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2024年12月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2022/06/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2022年06月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					7
-				</span>
-			</a>
-			
-			<a href="/archives/2022/05/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2022年05月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/archives/2022/04/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2022年04月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					3
-				</span>
-			</a>
-			
-			<a href="/archives/2022/02/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2022年02月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/archives/2021/09/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2021年09月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2021/04/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2021年04月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					4
-				</span>
-			</a>
-			
-			<a href="/archives/2021/03/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2021年03月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					8
-				</span>
-			</a>
-			
-			<a href="/archives/2021/01/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2021年01月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2020/10/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2020年10月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/archives/2020/09/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2020年09月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2020/08/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2020年08月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					3
-				</span>
-			</a>
-			
-			<a href="/archives/2020/07/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2020年07月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/archives/2020/05/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2020年05月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
-				</span>
-			</a>
-			
-			<a href="/archives/2019/09/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2019年09月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					3
-				</span>
-			</a>
-			
-			<a href="/archives/2019/08/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2019年08月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2019/02/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2019年02月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2019/01/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2019年01月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-			<a href="/archives/2018/07/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2018年07月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					3
-				</span>
-			</a>
-			
-			<a href="/archives/2018/06/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2018年06月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
-		</div>
-	</div>
-</div>
-                                    </aside>
-                                    
-                            </div>
-                        </div>
-                    </main>
-
-                    <!-- 页脚 -->
-                    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="text-center">
-            <p class="text-gray-600 dark:text-gray-400 mb-2">
-                无常是常 @ All Rights Reserved 2025
-            </p>
-            
-                <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-1</a></p>
-                
-        </div>
-    </div>
-</footer>
-
-<!-- 回到顶部按钮 -->
-<button id="back-to-top"
-    class="fixed bottom-8 right-8 bg-primary-600 hover:bg-primary-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible z-50">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path></svg>
-</button>
-            </div>
-        </body>
-        <!-- JavaScript -->
-        <script src="/js/plugins.js" defer></script>
-        <!-- Mermaid 支持 -->
-        
-            <script src="/js/mermaid.min.js"></script>
-            <script defer>
-                window.addEventListener('load', function () {
-                    // 初始化 Mermaid 并让其自动渲染
-                    mermaid.initialize({
-                        theme: 'default',
-                        startOnLoad: true, // 启用自动渲染
-                        securityLevel: 'loose',
-
-                        // 为各个图表类型配置自适应宽度
-                        flowchart: {
-                            htmlLabels: 'true',
-                            curve: 'linear',
-                            useMaxWidth: true
-                        },
-                        sequence: {
-                            diagramMarginX: '50',
-                            diagramMarginY: '10',
-                            actorMargin: '50',
-                            width: '150',
-                            height: '65',
-                            boxMargin: '10',
-                            boxTextMargin: '5',
-                            noteMargin: '10',
-                            messageMargin: '35',
-                            mirrorActors: 'true',
-                            bottomMarginAdj: '1',
-                            useMaxWidth: true
-                        },
-                        class: {
-                            useMaxWidth: true
-                        },
-                        state: {
-                            useMaxWidth: true
-                        },
-                        gantt: {
-                            useMaxWidth: true
-                        },
-                        journey: {
-                            useMaxWidth: true
-                        }
-                    });
-                });
-            </script>
-
-            <!-- Mermaid 样式 -->
-            <style>
-                .mermaid {
-                    text-align: center;
-                    margin: 1.5em 0;
-                    padding: 1rem;
-                    background: #f8f9fa;
-                    border-radius: 0.5rem;
-                    border: 1px solid #e9ecef;
-                    overflow-x: auto;
-                    overflow-y: visible;
-                    max-width: 100%;
-                    box-sizing: border-box;
-                }
-
-                .mermaid-rendered {
-                    background: transparent;
-                    border: none;
-                    padding: 0;
-                }
-
-                .mermaid-error {
-                    color: #dc3545;
-                    background-color: #f8d7da;
-                    border: 1px solid #f5c6cb;
-                    border-radius: 0.375rem;
-                    padding: 0.75rem;
-                    margin: 1rem 0;
-                    font-family: monospace;
-                    text-align: left;
-                }
-
-                /* 深色模式下的 Mermaid 样式 */
-                .dark .mermaid {
-                    background: #374151;
-                    border-color: #4b5563;
-                }
-
-                .dark .mermaid-error {
-                    color: #f8d7da;
-                    background-color: #2d1b1e;
-                    border-color: #842029;
-                }
-
-                /* 确保 Mermaid 图表在深색模式下可见 */
-                .dark .mermaid svg {
-                    background-color: transparent;
-                }
-
-                /* Mermaid 图表样式优化 */
-                .mermaid svg {
-                    max-width: 100%;
-                    height: auto;
-                    display: block;
-                    margin: 0 auto;
-                    /* 保持原始比例，但不超过容器 */
-                    width: auto;
-                }
-
-                /* Mermaid 图表容器已在上面定义，这里添加额外的响应式处理 */
-
-                /* 针对大型图表的滚动条样式 */
-                .mermaid::-webkit-scrollbar {
-                    height: 8px;
-                }
-
-                .mermaid::-webkit-scrollbar-track {
-                    background: #f1f1f1;
-                    border-radius: 4px;
-                }
-
-                .mermaid::-webkit-scrollbar-thumb {
-                    background: #c1c1c1;
-                    border-radius: 4px;
-                }
-
-                .mermaid::-webkit-scrollbar-thumb:hover {
-                    background: #a8a8a8;
-                }
-
-                /* 深色模式下的滚动条 */
-                .dark .mermaid::-webkit-scrollbar-track {
-                    background: #4b5563;
-                }
-
-                .dark .mermaid::-webkit-scrollbar-thumb {
-                    background: #6b7280;
-                }
-
-                .dark .mermaid::-webkit-scrollbar-thumb:hover {
-                    background: #9ca3af;
-                }
-            </style>
-            
-
-</html>primary-800 transition-colors">
-				MySQL
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					9
-				</span>
-			</a>
-			
-			<a href="/tags/Netty/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Netty
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/Nginx/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Nginx
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/Redis/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Redis
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					6
-				</span>
-			</a>
-			
-			<a href="/tags/RocketMQ/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				RocketMQ
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					2
-				</span>
-			</a>
-			
-			<a href="/tags/String/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				String
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/Tomcat/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				Tomcat
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/docker/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				docker
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/go/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				go
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/golang/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				golang
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/hexo/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				hexo
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/juc/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				juc
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/mermaid/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				mermaid
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/nginx/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				nginx
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/prometheus/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				prometheus
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/shell/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				shell
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				人生
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%85%B6%E4%BB%96/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				其他
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				分布式
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				分布式锁
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				多线程
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E5%AD%A6%E4%B9%A0/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				学习
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E6%91%98%E6%8A%84/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				摘抄
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					2
-				</span>
-			</a>
-			
-			<a href="/tags/%E6%B5%8B%E8%AF%95/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				测试
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E7%AE%97%E6%B3%95/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				算法
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					3
-				</span>
-			</a>
-			
-			<a href="/tags/%E7%BF%BB%E8%AF%91/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				翻译
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E8%AF%BB%E4%B9%A6/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				读书
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					2
-				</span>
-			</a>
-			
-			<a href="/tags/%E8%BD%AC%E8%BD%BD/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				转载
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					2
-				</span>
-			</a>
-			
-			<a href="/tags/%E8%BF%90%E7%BB%B4/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				运维
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-			<a href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				随手记
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
-		</div>
-	</div>
-	
-
-	<!-- 归档 -->
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"></path></svg>
-			归档
-		</h4>
-		<div class="space-y-1">
-			
-			<a href="/archives/2025/06/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>2025年06月</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
 				</span>
 			</a>
 			

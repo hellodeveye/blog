@@ -243,133 +243,6 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
-                            <a href="/2022/06/05/%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84%E4%B9%8B%E4%B8%80%E6%9D%A1SQL%E6%9B%B4%E6%96%B0%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                基础架构：一条SQL语句是如何执行的?
-                            </a>
-                        </h3>
-                        
-                        
-                        
-                        
-                            <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
-                                    <div class="post-content-preview-wrapper">
-                                        <div class="post-content" data-content-type="preview">
-                                            <h2 id="一条SQL语句是如何执行的">一条SQL语句是如何执行的?</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10；</span><br></pre></td></tr></table></figure>
-<p><img src="http://qiniu.deveye.cn/blog/img/20220605212825.png" alt=""></p>
-<p><strong>MySQL 分为Server层和存储引擎两部分。</strong></p>
-<p>Server 层包括连接器、查询缓存、分析器、优化器、执行器等。涵盖MySQL的大多数核心服务功能，以及所有内置函数（如日期、时间、数字和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
-<p>存储引擎是插件式的，支持InnoDB、MyISAM、Memory等。从MySQL5.5.5版本以后默认存储引擎为InnoDB。</p>
-<h3 id="连接器">连接器</h3>
-<p>连接器主要负责客户端和MySQL服务端进行连接的。可以通过<code>show processlist</code>查看连接信息，客户端和服务端默认连接超时为8小时，可以通过过<code>wait_timeout</code>参数配置。</p>
-<p>长连接使用一段时间后会导致MySQL内存长得很快，主要是因为MySQL在执行过程中临时使用的内存是管理在连接对象里面。这些资源会在连接重新断开的时候才释放。<br>
-解决方案如下:</p>
-<ul>
-<li>
-<p>定期断开长连接，使用一段时间，或者程序里面判断执行过一个占用内存大的查询后，断开连接，之后要查询再重连。</p>
-</li>
-<li>
-<p>MySQL5.7以后，可以在每次执行一个比较大的操作后，通过执行<code>mysql_reset_connection</code>来重新初始化连接资源。这个过程不需要重连和重新做权限验证，但是会将连接恢复到刚刚创建完时的状态。</p>
-</li>
-</ul>
-<h3 id="查询缓存">查询缓存</h3>
-<p>之前执行的查询结果可能会以key-value对的形式缓存在内存中，如果查询能够直接在缓存中找到key，那么会直接把value返回给客户端。</p>
-<p>*** 大多数情况下不建议使用查询缓存。***</p>
-<p>如果表中的数据修改的比较频繁，查询缓存的命中率就会非常的低。MySQL提供了以下方式使用查询缓存：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select SQL_CACHE * from T where ID=10；</span><br></pre></td></tr></table></figure>
-<p><em><strong>注意： MySQL8.0版本直接将查询缓存的整块功能删掉了。</strong></em></p>
-<h3 id="分析器">分析器</h3>
-<p>分析器主要是分析语法是否正确，如果不正确就会收到“You have an error in your SQL syntax”的错误提醒,一般语法错误会提示第一个出现错误的位置，所以你要关注的是紧接“use near”的内容。如果查询语句中包含表中不存在的字段，也是在这一步分析。</p>
-<h3 id="优化器">优化器</h3>
-<p>优化器的作用主要是决定使用那个索引，或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。</p>
-<h3 id="执行器">执行器</h3>
-<p>开始执行的时候，要先判断你对这个表有没有执行的查询权限，如果没有，就会返回没有权限的错误。使用慢SQL查询日志中看到<code>rows_examined</code>字段，表示执行过程中扫描了多少行，但有些情况下执行器调用一次，在引擎内部则扫描多行，因此<strong>引擎扫描行数跟rows_examined并不是完全相同</strong>。</p>
-<iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715.781px; height:245px;" src="https://www.processon.com/embed/629cb777e401fd1c3857b913"></iframe>
-
-                                        </div>
-                                    </div>
-                                    
-                                        <div class="content-fade"></div>
-                                    
-                                </div>
-                                
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
-                                        <div class="post-content" data-content-type="full">
-                                            <h2 id="一条SQL语句是如何执行的">一条SQL语句是如何执行的?</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10；</span><br></pre></td></tr></table></figure>
-<p><img src="http://qiniu.deveye.cn/blog/img/20220605212825.png" alt=""></p>
-<p><strong>MySQL 分为Server层和存储引擎两部分。</strong></p>
-<p>Server 层包括连接器、查询缓存、分析器、优化器、执行器等。涵盖MySQL的大多数核心服务功能，以及所有内置函数（如日期、时间、数字和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。</p>
-<p>存储引擎是插件式的，支持InnoDB、MyISAM、Memory等。从MySQL5.5.5版本以后默认存储引擎为InnoDB。</p>
-<h3 id="连接器">连接器</h3>
-<p>连接器主要负责客户端和MySQL服务端进行连接的。可以通过<code>show processlist</code>查看连接信息，客户端和服务端默认连接超时为8小时，可以通过过<code>wait_timeout</code>参数配置。</p>
-<p>长连接使用一段时间后会导致MySQL内存长得很快，主要是因为MySQL在执行过程中临时使用的内存是管理在连接对象里面。这些资源会在连接重新断开的时候才释放。<br>
-解决方案如下:</p>
-<ul>
-<li>
-<p>定期断开长连接，使用一段时间，或者程序里面判断执行过一个占用内存大的查询后，断开连接，之后要查询再重连。</p>
-</li>
-<li>
-<p>MySQL5.7以后，可以在每次执行一个比较大的操作后，通过执行<code>mysql_reset_connection</code>来重新初始化连接资源。这个过程不需要重连和重新做权限验证，但是会将连接恢复到刚刚创建完时的状态。</p>
-</li>
-</ul>
-<h3 id="查询缓存">查询缓存</h3>
-<p>之前执行的查询结果可能会以key-value对的形式缓存在内存中，如果查询能够直接在缓存中找到key，那么会直接把value返回给客户端。</p>
-<p>*** 大多数情况下不建议使用查询缓存。***</p>
-<p>如果表中的数据修改的比较频繁，查询缓存的命中率就会非常的低。MySQL提供了以下方式使用查询缓存：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select SQL_CACHE * from T where ID=10；</span><br></pre></td></tr></table></figure>
-<p><em><strong>注意： MySQL8.0版本直接将查询缓存的整块功能删掉了。</strong></em></p>
-<h3 id="分析器">分析器</h3>
-<p>分析器主要是分析语法是否正确，如果不正确就会收到“You have an error in your SQL syntax”的错误提醒,一般语法错误会提示第一个出现错误的位置，所以你要关注的是紧接“use near”的内容。如果查询语句中包含表中不存在的字段，也是在这一步分析。</p>
-<h3 id="优化器">优化器</h3>
-<p>优化器的作用主要是决定使用那个索引，或者在一个语句有多表关联（join）的时候，决定各个表的连接顺序。</p>
-<h3 id="执行器">执行器</h3>
-<p>开始执行的时候，要先判断你对这个表有没有执行的查询权限，如果没有，就会返回没有权限的错误。使用慢SQL查询日志中看到<code>rows_examined</code>字段，表示执行过程中扫描了多少行，但有些情况下执行器调用一次，在引擎内部则扫描多行，因此<strong>引擎扫描行数跟rows_examined并不是完全相同</strong>。</p>
-<iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715.781px; height:245px;" src="https://www.processon.com/embed/629cb777e401fd1c3857b913"></iframe>
-
-                                        </div>
-                                    </div>
-                                
-                            </div>
-                        
-                        
-                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                            <div class="flex items-center space-x-4">
-                                <time datetime="2022-06-05T13:26:33.000Z" class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
-                                    2022-06-05
-                                </time>
-                                
-                                
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
-                                        
-                                            <a href="/categories/MySQL%E5%AE%9E%E6%88%9845%E8%AE%B2/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                                MySQL实战45讲
-                                            </a>
-                                        
-                                    </div>
-                                
-                            </div>
-                            
-                            
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
-                                    <span class="expand-text">显示更多</span>
-                                    <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                    </svg>
-                                </button>
-                            
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
-                <div class="flex flex-col">
-                    <div class="flex-1">
-                        <h3 class="text-xl font-semibold mb-3">
                             <a href="/2022/05/31/%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 数据复制
                             </a>
@@ -379,7 +252,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-0">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <p>数据复制方案，人们通常希望达到以下几个目的：</p>
@@ -524,7 +397,7 @@
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-0">
                                         <div class="post-content" data-content-type="full">
                                             <p>数据复制方案，人们通常希望达到以下几个目的：</p>
 <ul>
@@ -687,7 +560,7 @@
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="0" id="btn-0">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -712,7 +585,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-1">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h3 id="时代在要求我们写测试">时代在要求我们写测试</h3>
@@ -774,7 +647,7 @@
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-1">
                                         <div class="post-content" data-content-type="full">
                                             <h3 id="时代在要求我们写测试">时代在要求我们写测试</h3>
 <p>因为软件变得越来越复杂，测试可以让我们在复杂的软件开发中稳步前行。另一方面软件测试可以让我们在长期的过程中不断回归，让每一步走的更稳。</p>
@@ -854,7 +727,7 @@
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="1" id="btn-1">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -879,7 +752,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-2">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <blockquote>
@@ -933,7 +806,7 @@
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-3">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-2">
                                         <div class="post-content" data-content-type="full">
                                             <blockquote>
 <p>本文是为我的年轻人（或任何新手）准备的，他们可以有效地使用git命令行，并简要介绍了我如何使用这些命令。<br>
@@ -1005,7 +878,7 @@
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="3" id="btn-3">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="2" id="btn-2">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -1030,7 +903,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-3">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <iframe id="embed_dom" name="embed_dom" frameborder="0" style="display:block;width:715px; height:245px;" src="https://www.processon.com/embed/629f20a77d9c08075a36bd94"></iframe>
@@ -1086,7 +959,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-5">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-4">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <p>main.go</p>
@@ -1101,7 +974,7 @@
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-5">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-4">
                                         <div class="post-content" data-content-type="full">
                                             <p>main.go</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;context&quot;</span><br><span class="line">	&quot;github.com/gorilla/mux&quot;</span><br><span class="line">	&quot;github.com/txn2/txeh&quot;</span><br><span class="line">	&quot;log&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line">	&quot;net/http/httputil&quot;</span><br><span class="line">	&quot;net/url&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;os/signal&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">var hostArr = []string&#123;&quot;project-01&quot;, &quot;project-02&quot;&#125;</span><br><span class="line"></span><br><span class="line">const (</span><br><span class="line">	host     = &quot;api-dev.deveye.cn&quot;</span><br><span class="line">	proxyUrl = &quot;https://api-dev.deveye.cn/&quot;</span><br><span class="line">	address  = &quot;127.0.0.1&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	hosts, err := txeh.NewHostsDefault()</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		panic(err)</span><br><span class="line">	&#125;</span><br><span class="line">	hosts.AddHosts(address, hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	r := mux.NewRouter()</span><br><span class="line">	r.Use(LoggingHandler, AuthHandler, RecoverHandler)</span><br><span class="line">		r.PathPrefix(&quot;/&quot;).HandlerFunc(ReverseProxy)</span><br><span class="line">	srv := &amp;http.Server&#123;</span><br><span class="line">		Addr:    &quot;:80&quot;,</span><br><span class="line">		Handler: r,</span><br><span class="line">	&#125;</span><br><span class="line">	go func() &#123;</span><br><span class="line">		if err := srv.ListenAndServe(); err != nil &#123;</span><br><span class="line">			log.Println(err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	c := make(chan os.Signal, 1)</span><br><span class="line">	signal.Notify(c, os.Interrupt)</span><br><span class="line">	&lt;-c</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	defer cancel()</span><br><span class="line">	log.Println(srv.Shutdown(ctx))</span><br><span class="line">	hosts.RemoveHosts(hostArr)</span><br><span class="line">	log.Println(hosts.Save())</span><br><span class="line">	log.Println(&quot;shutting down&quot;)</span><br><span class="line">	os.Exit(0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func ReverseProxy(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	u, err := url.Parse(proxyUrl)</span><br><span class="line">	if err != nil &#123;</span><br><span class="line">		log.Println(err)</span><br><span class="line">	&#125;</span><br><span class="line">	proxy := httputil.NewSingleHostReverseProxy(u)</span><br><span class="line">	r.Host = host</span><br><span class="line">	proxy.ServeHTTP(w, r)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1134,7 +1007,7 @@
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="5" id="btn-5">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="4" id="btn-4">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -1159,7 +1032,7 @@
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-6">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-5">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h1>Prometheus快速入门</h1>
@@ -1269,7 +1142,7 @@ Prometheus不仅可以通过静态文件配置监控对象，还支持自动发�
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-6">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-5">
                                         <div class="post-content" data-content-type="full">
                                             <h1>Prometheus快速入门</h1>
 <h2 id="一、背景">一、背景</h2>
@@ -1397,7 +1270,7 @@ Prometheus不仅可以通过静态文件配置监控对象，还支持自动发�
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="6" id="btn-6">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="5" id="btn-5">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -1422,7 +1295,7 @@ Prometheus不仅可以通过静态文件配置监控对象，还支持自动发�
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-7">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-6">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <p><strong>坐中静</strong>，破焦虑之贼——可以用冥想打坐等方法让自己回到当下，人之所以会焦虑是基于过去的经验对未来产生的恐惧，能够活在当下的人不会焦虑。把每一天每一刻过好，人生自然就会好。<br>
@@ -1442,7 +1315,7 @@ Prometheus不仅可以通过静态文件配置监控对象，还支持自动发�
                                     
                                 </div>
                                 
-                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-7">
+                                    <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden" id="full-6">
                                         <div class="post-content" data-content-type="full">
                                             <p><strong>坐中静</strong>，破焦虑之贼——可以用冥想打坐等方法让自己回到当下，人之所以会焦虑是基于过去的经验对未来产生的恐惧，能够活在当下的人不会焦虑。把每一天每一刻过好，人生自然就会好。<br>
 <strong>舍中得</strong>，破欲望之贼——人的痛苦多来自于欲望，即为贪婪和占有，也是一种匮乏的表现，如果能够学会舍，则内心越来越丰盛。没钱的时候把勤舍出去即为天道酬勤；有钱的时候把钱舍出去人就来了，是为轻财聚人；有人的时候，把爱舍出去，成功便有了；事业有成的时候，把智慧舍出去，喜悦就来了，这就是德行天下。<br>
@@ -1480,7 +1353,7 @@ Prometheus不仅可以通过静态文件配置监控对象，还支持自动发�
                             </div>
                             
                             
-                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="7" id="btn-7">
+                                <button class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm" data-index="6" id="btn-6">
                                     <span class="expand-text">显示更多</span>
                                     <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -1505,7 +1378,7 @@ Prometheus不仅可以通过静态文件配置监控对象，还支持自动发�
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-8">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-7">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <ul>
@@ -1564,7 +1437,7 @@ Prometheus不仅可以通过静态文件配置监控对象，还支持自动发�
                         
                         
                             <div class="post-content-container mb-4">
-                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-9">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-8">
                                     <div class="post-content-preview-wrapper">
                                         <div class="post-content" data-content-type="preview">
                                             <h3 id="以终为始">以终为始</h3>
@@ -1613,6 +1486,66 @@ Prometheus不仅可以通过静态文件配置监控对象，还支持自动发�
                             
                             
                                 <a href="/2021/04/13/10x%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
+                                    阅读更多
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+                                </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="bg-white dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2021/04/12/golang%E5%BC%80%E5%8F%91hexo%E6%A3%80%E7%B4%A2%E6%9C%8D%E5%8A%A1/" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                golang开发hexo检索服务
+                            </a>
+                        </h3>
+                        
+                        
+                        
+                        
+                            <div class="post-content-container mb-4">
+                                <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed" id="preview-9">
+                                    <div class="post-content-preview-wrapper">
+                                        <div class="post-content" data-content-type="preview">
+                                            <p>simple implementation <a href="https://github.com/YangKCoder/hexo-search">https://github.com/YangKCoder/hexo-search</a></p>
+<ul>
+<li>redisearch</li>
+<li>colly</li>
+</ul>
+
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                        
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-4">
+                                <time datetime="2021-04-12T15:33:21.000Z" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                                    2021-04-12
+                                </time>
+                                
+                                
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                                        
+                                            <a href="/categories/golang/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                golang
+                                            </a>
+                                        
+                                    </div>
+                                
+                            </div>
+                            
+                            
+                                <a href="/2021/04/12/golang%E5%BC%80%E5%8F%91hexo%E6%A3%80%E7%B4%A2%E6%9C%8D%E5%8A%A1/" class="hidden md:flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors">
                                     阅读更多
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
                                 </a>
@@ -1783,16 +1716,6 @@ function toggleContent(index) {
 		<ul class="space-y-2">
 			
 			<li>
-				<a href="/2025/06/15/%E5%B8%B8%E7%94%A8%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC/" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					常用构建脚本
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					06-15
-				</time>
-			</li>
-			
-			<li>
 				<a href="/2025/06/11/mermaid/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					mermaid
@@ -1826,6 +1749,16 @@ function toggleContent(index) {
 				<a href="/2022/06/12/%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%BA%95%E6%98%AF%E9%9A%94%E7%A6%BB%E7%9A%84%E8%BF%98%E6%98%AF%E4%B8%8D%E9%9A%94%E7%A6%BB%E7%9A%84%EF%BC%9F/" 
 				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 					事务到底是隔离的还是不隔离的？
+				</a>
+				<time class="text-xs text-gray-400 dark:text-gray-500">
+					06-12
+				</time>
+			</li>
+			
+			<li>
+				<a href="/2022/06/12/%E8%A1%8C%E9%94%81%E5%8A%9F%E8%BF%87%EF%BC%9A%E6%80%8E%E4%B9%88%E5%87%8F%E5%B0%91%E8%A1%8C%E9%94%81%E5%AF%B9%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F/" 
+				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+					行锁功过：怎么减少行锁对性能的影响？
 				</a>
 				<time class="text-xs text-gray-400 dark:text-gray-500">
 					06-12
@@ -2045,14 +1978,6 @@ function toggleContent(index) {
 				</span>
 			</a>
 			
-			<a href="/categories/%E8%84%9A%E6%9C%AC/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span>脚本</span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					1
-				</span>
-			</a>
-			
 			<a href="/categories/%E8%AF%BB%E4%B9%A6/" 
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>读书</span>
@@ -2226,14 +2151,6 @@ function toggleContent(index) {
 				</span>
 			</a>
 			
-			<a href="/tags/shell/" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				shell
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					1
-				</span>
-			</a>
-			
 			<a href="/tags/%E4%BA%BA%E7%94%9F/" 
 			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 				人生
@@ -2362,7 +2279,7 @@ function toggleContent(index) {
 			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 				<span>2025年06月</span>
 				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					2
+					1
 				</span>
 			</a>
 			
