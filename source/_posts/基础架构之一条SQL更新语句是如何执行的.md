@@ -10,7 +10,7 @@ categories: MySQL实战45讲
 ```
 mysql> select * from T where ID=10；
 ```
-![](http://qiniu.deveye.cn/blog/img/20220605212825.png)
+![](http://oss.buzhidao.cc/blog/img/20220605212825.png)
 
 **MySQL 分为Server层和存储引擎两部分。**
 

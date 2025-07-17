@@ -4,7 +4,7 @@ date: 2019-02-18 21:40:02
 tags: Git
 categories: Git
 ---
-![](http://qiniu.deveye.cn/20210316200434.png)
+![](http://oss.buzhidao.cc/20210316200434.png)
 ### 一、新建代码库
 > <font color=gray>\# 在当前目录新建一个Git代码库</font>  
 > $ git init  

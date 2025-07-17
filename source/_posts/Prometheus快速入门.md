@@ -24,7 +24,7 @@ categories: prometheus
 
 ## 二、Prometheus是什么?
 
-![](http://qiniu.deveye.cn/blog/img/20220228204837.png)
+![](http://oss.buzhidao.cc/blog/img/20220228204837.png)
 
 [Prometheus](https://github.com/prometheus) 是由 SoundCloud 开发的开源监控报警系统和时序列数据库(TSDB)。
 
@@ -252,7 +252,7 @@ go run main -p 8081
 
 打开仪表盘：[http://localhost:9090/targets](http://localhost:9090/targets)，我们可以看到我们的两个节点已经是up状态了。
 
-![](http://qiniu.deveye.cn/blog/img/20220228204908.png)
+![](http://oss.buzhidao.cc/blog/img/20220228204908.png)
 
 下面我们使用**ab** 工具模拟接口访问，使请求速度超过我们设定的阈值，此时alertmanages会给我们钉钉进行通知。
 
@@ -262,9 +262,9 @@ ab -n 1000  -c 5  http://localhost:8080/hello
 
 我可以查看Prometheus控制台，查看消息警告发送情况，此时，我们的钉钉已经收到通知警告：
 
-![](http://qiniu.deveye.cn/blog/img/20220228204941.png)
+![](http://oss.buzhidao.cc/blog/img/20220228204941.png)
 
-![](http://qiniu.deveye.cn/blog/img/20220228205009.png)
+![](http://oss.buzhidao.cc/blog/img/20220228205009.png)
 
 ### 5、总结
 

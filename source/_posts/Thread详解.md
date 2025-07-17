@@ -18,7 +18,7 @@ categories: 多线程
 
 如图所示：
 
-![](http://qiniu.deveye.cn/blog/img/20210327102908.png)
+![](http://oss.buzhidao.cc/blog/img/20210327102908.png)
 
 
 
@@ -35,7 +35,7 @@ categories: 多线程
 
 Java 线程的整个生命周期可能会经历以下5中状态，如图所示：
 
-![](http://qiniu.deveye.cn/blog/img/20210327100935.png)
+![](http://oss.buzhidao.cc/blog/img/20210327100935.png)
 - 新建（New）：新建后未启动的线程；
 - 运行（Runnable）：包括运行中（Running）和就绪（Ready）两种状态；也就是正在运行，或者等待 CPU 分配执行时间；
 - 等待（Waiting）：无限期的等待其他线程显示唤醒；

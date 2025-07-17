@@ -1,7 +1,7 @@
 ---
 title: Redis复制
 date: 2018-07-07 09:04:12
-cover: http://qiniu.deveye.cn/timg.jpeg
+cover: http://oss.buzhidao.cc/timg.jpeg
 tags:
 - Redis
 categories: Redis

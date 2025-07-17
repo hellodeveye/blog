@@ -10,7 +10,7 @@ categories: Git
 
 如图所示：你在一个feature分支进行新特性的开发，与此同时，master 分支的也有新的提交。
 
-![http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png](http://qiniu.deveye.cn/b454bf1d01ec3dee808830b24dd87c2e.png)
+![http://oss.buzhidao.cc/b454bf1d01ec3dee808830b24dd87c2e.png](http://oss.buzhidao.cc/b454bf1d01ec3dee808830b24dd87c2e.png)
 为了将master 上新的提交合并到你的feature分支上，你有两种选择：`merging or rebasing`
 
 ### merge
@@ -27,7 +27,7 @@ git merge master
 那么此时在feature上git 自动会产生一个新的commit(merge commit)
 look like this：
 
-![http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png](http://qiniu.deveye.cn/2cebea59e5f82803cb35f99f85b6653d.png)
+![http://oss.buzhidao.cc/2cebea59e5f82803cb35f99f85b6653d.png](http://oss.buzhidao.cc/2cebea59e5f82803cb35f99f85b6653d.png)
 
 **merge 特点：**自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit
 **优点：**记录了真实的commit情况，包括每个分支的详情
@@ -39,7 +39,7 @@ look like this：
 git checkout feature
 git rebase master
 ```
-![http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png](http://qiniu.deveye.cn/245938aba30e1d7ff14f759eea81eb37.png)
+![http://oss.buzhidao.cc/245938aba30e1d7ff14f759eea81eb37.png](http://oss.buzhidao.cc/245938aba30e1d7ff14f759eea81eb37.png)
 **rebase 特点：**会合并之前的commit历史
 **优点：**得到更简洁的项目历史，去掉了merge commit
 **缺点：**如果合并出现代码问题不容易定位，因为re-write了history
@@ -54,7 +54,7 @@ git rebase master
 ***The Golden Rule of Rebasing rebase*** 的黄金法则:
 **never use it on public branches(不要在公共分支上使用)**
 比如说如下场景：如图所示
-![http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png](http://qiniu.deveye.cn/ac37304e85f5ddf56f1fc302b9e42781.png)
+![http://oss.buzhidao.cc/ac37304e85f5ddf56f1fc302b9e42781.png](http://oss.buzhidao.cc/ac37304e85f5ddf56f1fc302b9e42781.png)
 
 如果你rebase master 到你的feature分支：
 rebase 将所有master的commit移动到你的feature 的顶端。问题是：其他人还在original master上开发，由于你使用了rebase移动了master，git 会认为你的主分支的历史与其他人的有分歧，会产生冲突。

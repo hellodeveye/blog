@@ -7,7 +7,7 @@ categories: MySQL实战45讲
 ### redo log（重做日志）
 
 InnoDB 的 redo log 是固定大小的，比如可以配置为一组 4 个文件，每个文件的大小是 1GB，那么总共就可以记录 4GB 的操作。从头开始写，写到末尾就又回到开头循环写，如下面这个图所示。
-![](http://qiniu.deveye.cn/blog/img/20220606110553.png)
+![](http://oss.buzhidao.cc/blog/img/20220606110553.png)
 
 write pos 是当前记录的位置，一边写一边后移，写到第 3 号文件末尾后就回到 0 号文件开头。checkpoint 是当前要擦除的位置，也是往后推移并且循环的，擦除记录前要把记录更新到数据文件。
 
@@ -44,7 +44,7 @@ mysql> update T set c=c+1 where ID=2;
 5. 执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。
 
 流程图如下所示：
-![](http://qiniu.deveye.cn/blog/img/20220606112558.png)
+![](http://oss.buzhidao.cc/blog/img/20220606112558.png)
 
 ### 如何让数据库恢复到半个月任意一秒？
 

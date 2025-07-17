@@ -3,7 +3,7 @@ title: go反向代理quickstart
 date: 2022-04-07 14:18:08
 tags: go
 categories: go
-cover: http://qiniu.deveye.cn/blog/img/20220407142659.png
+cover: http://oss.buzhidao.cc/blog/img/20220407142659.png
 ---
 
 main.go
