@@ -1,5 +1,5 @@
 <!-- 搜索页面头部 -->
-<div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-6 -mt-6 mb-8 px-6 py-8 rounded-t-lg">
+<!-- <div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-6 -mt-6 mb-8 px-6 py-8 rounded-t-lg">
     <div class="text-center">
         <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center justify-center">
             <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
@@ -11,25 +11,23 @@
             在这里搜索你感兴趣的内容
         </p>
     </div>
-</div>
+</div> -->
 
 <!-- 搜索功能 -->
 <div class="max-w-2xl mx-auto mb-8">
     <div class="relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                <path fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"></path>
             </svg>
         </div>
-        <input 
-            type="text" 
-            id="search-input" 
+        <input type="text" id="search-input"
             class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-lg"
-            placeholder="输入关键词搜索..."
-            autocomplete="off"
-        >
+            placeholder="输入关键词搜索..." autocomplete="off">
     </div>
-    
+
     <!-- 搜索提示 -->
     <div class="mt-4 text-center">
         <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -47,7 +45,9 @@
 <div id="no-results" class="hidden text-center py-12">
     <div class="text-gray-400 mb-4">
         <svg class="w-8 h-8 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+            <path fill-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clip-rule="evenodd"></path>
         </svg>
     </div>
     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">没有找到相关内容</h3>
@@ -59,7 +59,9 @@
     <div class="inline-flex items-center">
         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-primary-600" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
         </svg>
         <span class="text-gray-600 dark:text-gray-300">搜索中...</span>
     </div>
@@ -67,52 +69,52 @@
 
 <!-- 搜索脚本 -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
-    const noResults = document.getElementById('no-results');
-    const searchLoading = document.getElementById('search-loading');
-    
-    let searchData = [];
-    
-    // 加载搜索数据
-    fetch('/search.json')
-        .then(response => response.json())
-        .then(data => {
-            searchData = data;
-        })
-        .catch(error => {
-            console.error('Error loading search data:', error);
-        });
-    
-    // 搜索功能
-    function performSearch(query) {
-        if (!query.trim()) {
-            searchResults.innerHTML = '';
-            noResults.classList.add('hidden');
-            return;
-        }
-        
-        searchLoading.classList.remove('hidden');
-        noResults.classList.add('hidden');
-        
-        setTimeout(() => {
-            const results = searchData.filter(item => {
-                const searchText = (item.title + ' ' + item.content + ' ' + (item.tags || []).join(' ')).toLowerCase();
-                return searchText.includes(query.toLowerCase());
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const noResults = document.getElementById('no-results');
+        const searchLoading = document.getElementById('search-loading');
+
+        let searchData = [];
+
+        // 加载搜索数据
+        fetch('/search.json')
+            .then(response => response.json())
+            .then(data => {
+                searchData = data;
+            })
+            .catch(error => {
+                console.error('Error loading search data:', error);
             });
-            
-            searchLoading.classList.add('hidden');
-            
-            if (results.length === 0) {
+
+        // 搜索功能
+        function performSearch(query) {
+            if (!query.trim()) {
                 searchResults.innerHTML = '';
-                noResults.classList.remove('hidden');
+                noResults.classList.add('hidden');
                 return;
             }
-            
+
+            searchLoading.classList.remove('hidden');
             noResults.classList.add('hidden');
-            
-            const resultsHTML = results.map(item => `
+
+            setTimeout(() => {
+                const results = searchData.filter(item => {
+                    const searchText = (item.title + ' ' + item.content + ' ' + (item.tags || []).join(' ')).toLowerCase();
+                    return searchText.includes(query.toLowerCase());
+                });
+
+                searchLoading.classList.add('hidden');
+
+                if (results.length === 0) {
+                    searchResults.innerHTML = '';
+                    noResults.classList.remove('hidden');
+                    return;
+                }
+
+                noResults.classList.add('hidden');
+
+                const resultsHTML = results.map(item => `
                 <article class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
                     <h3 class="text-xl font-semibold mb-3">
                         <a href="${item.url}" class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
@@ -156,36 +158,36 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </article>
             `).join('');
-            
-            searchResults.innerHTML = resultsHTML;
-        }, 300);
-    }
-    
-    // 高亮搜索关键词
-    function highlightText(text, query) {
-        if (!query.trim()) return text;
-        const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
-    }
-    
-    // 搜索输入事件
-    let searchTimeout;
-    searchInput.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            performSearch(this.value);
-        }, 300);
-    });
-    
-    // 回车搜索
-    searchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            clearTimeout(searchTimeout);
-            performSearch(this.value);
+
+                searchResults.innerHTML = resultsHTML;
+            }, 300);
         }
+
+        // 高亮搜索关键词
+        function highlightText(text, query) {
+            if (!query.trim()) return text;
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+        }
+
+        // 搜索输入事件
+        let searchTimeout;
+        searchInput.addEventListener('input', function () {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(this.value);
+            }, 300);
+        });
+
+        // 回车搜索
+        searchInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                performSearch(this.value);
+            }
+        });
+
+        // 自动聚焦搜索框
+        searchInput.focus();
     });
-    
-    // 自动聚焦搜索框
-    searchInput.focus();
-});
 </script>

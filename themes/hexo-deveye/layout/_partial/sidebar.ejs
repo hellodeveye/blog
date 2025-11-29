@@ -1,152 +1,145 @@
 <div class="space-y-6">
 	<!-- 个人信息卡片 -->
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center border border-gray-200 dark:border-gray-700">
+	<div class="glass-sidebar rounded-lg p-6 text-center">
 		<div class="mb-4">
 			<% if (theme.about_widget_avatar_url_1) { %>
-			<div class="relative inline-block">
-				<img class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary-100 dark:border-primary-800" 
-					 src="<%= theme.about_widget_avatar_url_1 %>" 
-					 alt="<%= theme.about_widget_nikename || config.author %>">
-			</div>
-			<% } %>
+				<div class="relative inline-block">
+					<img class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary-100 dark:border-primary-800"
+						src="<%= theme.about_widget_avatar_url_1 %>"
+						alt="<%= theme.about_widget_nikename || config.author %>">
+				</div>
+				<% } %>
 		</div>
-		
+
 		<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
 			<%= theme.about_widget_nikename || config.author %>
 		</h3>
-		
+
 		<% if (theme.about_widget_text) { %>
-		<p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
-			<%- theme.about_widget_text %>
-		</p>
-		<% } %>
-		
-		<!-- 社交链接 -->
-		<% if (theme.social_platforms && theme.social_platforms.length) { %>
-		<div class="flex justify-center space-x-3">
-			<% theme.social_platforms.forEach(function(platform) { %>
-			<a href="<%- platform.url %>" target="_blank" 
-			   class="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-				<%- icon('link', 'w-4 h-4') %>
-			</a>
-			<% }) %>
-		</div>
-		<% } %>
+			<p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+				<%- theme.about_widget_text %>
+			</p>
+			<% } %>
+
+				<!-- 社交链接 -->
+				<% if (theme.social_platforms && theme.social_platforms.length) { %>
+					<div class="flex justify-center space-x-3">
+						<% theme.social_platforms.forEach(function(platform) { %>
+							<a href="<%- platform.url %>" target="_blank"
+								class="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+								<%- icon('link', 'w-4 h-4' ) %>
+							</a>
+							<% }) %>
+					</div>
+					<% } %>
 	</div>
 
 	<!-- 搜索框 -->
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+	<div class="glass-sidebar rounded-lg p-4">
 		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<%- icon('search', 'w-4 h-4 mr-2 text-primary-600') %>
-			搜索
+			<%- icon('search', 'w-4 h-4 mr-2 text-primary-600' ) %>
+				搜索
 		</h4>
 		<div class="relative">
 			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-				<%- icon('search', 'h-5 w-5 text-gray-400') %>
+				<%- icon('search', 'h-5 w-5 text-gray-400' ) %>
 			</div>
-			<input type="text" 
-				   placeholder="请输入关键词搜索..." 
-				   class="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-				   onclick="window.location.href='/search/'">
+			<input type="text" placeholder="请输入关键词搜索..."
+				class="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+				onclick="window.location.href='/search/'">
 		</div>
 	</div>
 
 	<!-- 最近文章 -->
 	<% if (site.posts.length) { %>
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<%- icon('document', 'w-4 h-4 mr-2 text-primary-600') %>
-			最近文章
-		</h4>
-		<ul class="space-y-2">
-			<% site.posts.sort('date', -1).limit(5).each(function(post) { %>
-			<li>
-				<a href="<%- url_for(post.path) %>" 
-				   class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-					<%= post.title || '(无标题)' %>
-				</a>
-				<time class="text-xs text-gray-400 dark:text-gray-500">
-					<%= post.date.format('MM-DD') %>
-				</time>
-			</li>
-			<% }) %>
-		</ul>
-	</div>
-	<% } %>
-
-	<!-- 分类 -->
-	<% if (site.categories.length) { %>
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<%- icon('tag', 'w-4 h-4 mr-2 text-primary-600') %>
-			分类
-		</h4>
-		<div class="space-y-1">
-			<% site.categories.sort('name').each(function(cat) { %>
-			<a href="<%- url_for(cat.path) %>" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span><%= cat.name %></span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					<%= cat.posts.length %>
-				</span>
-			</a>
-			<% }) %>
+		<div class="glass-sidebar rounded-lg p-4">
+			<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+				<%- icon('document', 'w-4 h-4 mr-2 text-primary-600' ) %>
+					最近文章
+			</h4>
+			<ul class="space-y-2">
+				<% site.posts.sort('date', -1).limit(5).each(function(post) { %>
+					<li>
+						<a href="<%- url_for(post.path) %>"
+							class="block text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							<%= post.title || '(无标题)' %>
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							<%= post.date.format('MM-DD') %>
+						</time>
+					</li>
+					<% }) %>
+			</ul>
 		</div>
-	</div>
-	<% } %>
+		<% } %>
 
-	<!-- 标签云 -->
-	<% if (site.tags.length) { %>
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<%- icon('tag', 'w-4 h-4 mr-2 text-primary-600') %>
-			标签
-		</h4>
-		<div class="flex flex-wrap gap-2">
-			<% site.tags.sort('name').each(function(tag) { %>
-			<a href="<%- url_for(tag.path) %>" 
-			   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
-				<%= tag.name %>
-				<span class="ml-1 text-primary-600 dark:text-primary-300">
-					<%= tag.posts.length %>
-				</span>
-			</a>
-			<% }) %>
-		</div>
-	</div>
-	<% } %>
+			<!-- 分类 -->
+			<% if (site.categories.length) { %>
+				<div class="glass-sidebar rounded-lg p-4">
+					<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+						<%- icon('tag', 'w-4 h-4 mr-2 text-primary-600' ) %>
+							分类
+					</h4>
+					<div class="space-y-1">
+						<% site.categories.sort('name').each(function(cat) { %>
+							<a href="<%- url_for(cat.path) %>"
+								class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+								<span>
+									<%= cat.name %>
+								</span>
+								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+									<%= cat.posts.length %>
+								</span>
+							</a>
+							<% }) %>
+					</div>
+				</div>
+				<% } %>
 
-	<!-- 归档 -->
-	<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-			<%- icon('archive', 'w-4 h-4 mr-2 text-primary-600') %>
-			归档
-		</h4>
-		<div class="space-y-1">
-			<%
-			var archives = {};
-			site.posts.sort('date', -1).each(function(post) {
-				var year = post.date.format('YYYY');
-				var month = post.date.format('MM');
-				var key = year + '-' + month;
-				var label = year + '年' + month + '月';
-				if (!archives[key]) {
-					archives[key] = { label: label, count: 0, year: year, month: month };
-				}
-				archives[key].count++;
-			});
-			
-			Object.keys(archives).forEach(function(key) {
-				var archive = archives[key];
-			%>
-			<a href="/archives/<%= archive.year %>/<%= archive.month %>/" 
-			   class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
-				<span><%= archive.label %></span>
-				<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-					<%= archive.count %>
-				</span>
-			</a>
-			<% }); %>
-		</div>
-	</div>
+					<!-- 标签云 -->
+					<% if (site.tags.length) { %>
+						<div class="glass-sidebar rounded-lg p-4">
+							<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+								<%- icon('tag', 'w-4 h-4 mr-2 text-primary-600' ) %>
+									标签
+							</h4>
+							<div class="flex flex-wrap gap-2">
+								<% site.tags.sort('name').each(function(tag) { %>
+									<a href="<%- url_for(tag.path) %>"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										<%= tag.name %>
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												<%= tag.posts.length %>
+											</span>
+									</a>
+									<% }) %>
+							</div>
+						</div>
+						<% } %>
+
+							<!-- 归档 -->
+							<div class="glass-sidebar rounded-lg p-4">
+								<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+									<%- icon('archive', 'w-4 h-4 mr-2 text-primary-600' ) %>
+										归档
+								</h4>
+								<div class="space-y-1">
+									<% var archives={}; site.posts.sort('date', -1).each(function(post) { var
+										year=post.date.format('YYYY'); var month=post.date.format('MM'); var key=year
+										+ '-' + month; var label=year + '年' + month + '月' ; if (!archives[key]) {
+										archives[key]={ label: label, count: 0, year: year, month: month }; }
+										archives[key].count++; }); Object.keys(archives).forEach(function(key) { var
+										archive=archives[key]; %>
+										<a href="/archives/<%= archive.year %>/<%= archive.month %>/"
+											class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+											<span>
+												<%= archive.label %>
+											</span>
+											<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+												<%= archive.count %>
+											</span>
+										</a>
+										<% }); %>
+								</div>
+							</div>
 </div>
