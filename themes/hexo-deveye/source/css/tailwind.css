@@ -4,19 +4,49 @@
 
 /* 自定义基础样式 */
 @layer base {
+  :root {
+    --theme-bg: #faf9f5;
+    --theme-surface: #ffffff;
+    --theme-surface-muted: #f3f1ec;
+    --theme-border: #e8e6dc;
+    --theme-text: #141413;
+    --theme-text-muted: rgba(20, 20, 19, 0.68);
+    --theme-accent: #d97757;
+    --theme-accent-strong: #c66345;
+    --theme-shadow: 0 18px 40px rgba(20, 20, 19, 0.08);
+  }
+
+  :root.dark {
+    --theme-bg: #000000;
+    --theme-surface: #11100f;
+    --theme-surface-muted: #1b1917;
+    --theme-border: #26231f;
+    --theme-text: #d4a27f;
+    --theme-text-muted: rgba(212, 162, 127, 0.72);
+    --theme-accent: #d97757;
+    --theme-accent-strong: #c66345;
+    --theme-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  }
+
   html {
-    font-family: Inter, system-ui, sans-serif;
-    letter-spacing: 0.015em;
+    font-family: 'Lora', Georgia, serif;
+    letter-spacing: 0.005em;
   }
   
   body {
-    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
     line-height: 1.7;
-    letter-spacing: 0.015em;
+    letter-spacing: 0.01em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold text-gray-900 dark:text-gray-100;
+    @apply text-gray-900 dark:text-gray-100;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
   
   a {
@@ -32,34 +62,90 @@
   }
   
   blockquote {
-    @apply border-l-4 border-primary-500 pl-4 italic text-gray-700 dark:text-gray-300;
+    @apply border-l-4 border-primary-500 pl-4 italic;
+    background-color: var(--theme-surface-muted);
+    color: var(--theme-text-muted);
   }
 }
 
 /* 自定义组件样式 */
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
   }
   
   .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700;
+    background-color: var(--theme-accent);
+    border: 1px solid transparent;
+    color: var(--theme-bg);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--theme-accent-strong);
   }
   
   .btn-secondary {
-    @apply bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    color: var(--theme-text);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--theme-surface-muted);
   }
   
   .card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+    @apply rounded-lg p-6;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    box-shadow: var(--theme-shadow);
   }
   
   .navbar {
-    @apply bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700;
+    background-color: var(--theme-surface);
+    border-bottom: 1px solid var(--theme-border);
+    box-shadow: 0 8px 20px rgba(20, 20, 19, 0.05);
   }
   
   .sidebar {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4;
+    @apply rounded-lg p-4;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    box-shadow: 0 12px 28px rgba(20, 20, 19, 0.06);
+  }
+
+  .surface-panel {
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    box-shadow: var(--theme-shadow);
+  }
+
+  .surface-panel:hover {
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+  }
+
+  .content-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, var(--theme-bg));
+    pointer-events: none;
+  }
+
+  input[type='text'],
+  textarea {
+    background-color: var(--theme-surface) !important;
+    border: 1px solid var(--theme-border) !important;
+    color: var(--theme-text);
+  }
+
+  :root.dark input[type='text'],
+  :root.dark textarea {
+    background-color: var(--theme-surface-muted) !important;
+    color: var(--theme-text);
   }
   
   .post-content {
@@ -84,6 +170,7 @@
   .post-content h5,
   .post-content h6 {
     @apply mt-12 mb-6 font-semibold text-gray-900 dark:text-gray-100;
+    font-family: 'Poppins', Arial, sans-serif;
     letter-spacing: 0.015em;
     line-height: 1.4;
   }
@@ -126,7 +213,9 @@
   }
   
   .post-content blockquote {
-    @apply my-8 pl-8 border-l-4 border-primary-500 bg-gray-50 dark:bg-gray-700 py-6 pr-6 rounded-r-lg;
+    @apply my-8 pl-8 border-l-4 border-primary-500 py-6 pr-6 rounded-r-lg;
+    background-color: var(--theme-surface-muted);
+    color: var(--theme-text-muted);
     font-size: 18px;
     line-height: 1.8;
     letter-spacing: 0.025em;
@@ -136,7 +225,7 @@
   .post-content code:not(.code-line) {
     @apply bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded font-mono;
     font-size: 14px;
-    color: #e53e3e;
+    color: var(--theme-accent-strong);
   }
   
   /* 防止代码块闪烁的基础样式 */
@@ -155,8 +244,8 @@
   .post-content .modern-code-block {
     @apply mb-6 rounded-xl;
     /* Light模式：调整为用户指定的背景色 */
-    background: #f5f6f7;
-    border: 1px solid #e0e0e0;
+    background: var(--theme-surface-muted);
+    border: 1px solid var(--theme-border);
     overflow: hidden;
     font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
     max-width: 100%;
@@ -167,9 +256,9 @@
   }
   
   .post-content .modern-code-block:hover {
-    background: #f0f1f2;
-    border-color: #d0d0d0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: var(--theme-surface);
+    border-color: var(--theme-border);
+    box-shadow: 0 8px 20px rgba(20, 20, 19, 0.12);
   }
   
   /* 代码块头部 */
@@ -178,7 +267,7 @@
     @apply flex items-center justify-between px-3 py-2;
     /* Light模式：匹配参考图的头部样式 */
     background: transparent;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--theme-border);
     position: relative;
   }
   
@@ -191,7 +280,7 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    color: #666;
+    color: var(--theme-text-muted);
   }
   
   .post-content .code-collapse-btn:hover {
@@ -207,7 +296,7 @@
   .post-content .code-language {
     @apply text-sm font-medium;
     /* Light模式：匹配参考图的标题样式 */
-    color: #333;
+    color: var(--theme-text);
     margin: 0;
   }
   
@@ -220,13 +309,13 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    color: #666;
+    color: var(--theme-text-muted);
     font-weight: 400;
   }
   
   .post-content .code-format-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
-    color: #333;
+    background: rgba(20, 20, 19, 0.06);
+    color: var(--theme-text);
   }
   
   .post-content .code-wrap-btn {
@@ -236,20 +325,20 @@
   .post-content .code-copy-btn {
     @apply flex items-center gap-1 px-2 py-1 rounded text-xs transition-all duration-200;
     background: transparent;
-    color: #666;
+    color: var(--theme-text-muted);
     border: none;
     font-weight: 400;
     cursor: pointer;
   }
   
   .post-content .code-copy-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
-    color: #333;
+    background: rgba(20, 20, 19, 0.06);
+    color: var(--theme-text);
   }
   
   .post-content .code-copy-btn.copied {
-    background: rgba(0, 0, 0, 0.05);
-    color: #333;
+    background: rgba(20, 20, 19, 0.06);
+    color: var(--theme-text);
   }
   
   .post-content .code-copy-btn svg {
@@ -261,7 +350,7 @@
   .post-content .code-content {
     @apply flex;
     /* Light模式：匹配调整后的内容背景 */
-    background: #f5f6f7;
+    background: var(--theme-surface-muted);
     min-width: 0; /* 防止flex容器溢出 */
     overflow: hidden;
   }
@@ -272,7 +361,7 @@
     @apply flex flex-col;
     /* Light模式：与代码内容融为一体 */
     background: transparent;
-    border-right: 1px solid #e0e0e0;
+    border-right: 1px solid var(--theme-border);
     padding: 0.75rem 0;
     min-width: 2.5rem;
     -webkit-user-select: none;
@@ -282,7 +371,7 @@
   .post-content .line-number {
     @apply text-right px-2;
     /* Light模式：匹配参考图的行号颜色 */
-    color: #999;
+    color: var(--theme-text-muted);
     font-size: 13px;
     line-height: 1.4;
     height: 1.4em;
@@ -302,7 +391,7 @@
   .post-content .code-line {
     @apply px-3;
     /* Light模式：匹配参考图的代码文字颜色 */
-    color: #333;
+    color: var(--theme-text);
     font-size: 13px;
     line-height: 1.4;
     height: 1.4em;
@@ -314,7 +403,7 @@
   
   .post-content .code-line:hover {
     /* Light模式：匹配参考图的悬停效果 */
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(20, 20, 19, 0.04);
   }
   
   /* 移动端适配 */
@@ -378,48 +467,48 @@
   /* 深色模式优化 */
   .dark .post-content .modern-code-block {
     /* Dark模式：匹配深色主题 */
-    background: #2d2d2d;
-    border-color: #404040;
+    background: var(--theme-surface);
+    border-color: var(--theme-border);
   }
   
   .dark .post-content .modern-code-block:hover {
-    background: #323232;
-    border-color: #4a4a4a;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: var(--theme-surface-muted);
+    border-color: var(--theme-border);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
   }
   
   .dark .post-content .code-header {
     /* Dark模式：透明头部 */
     background: transparent;
-    border-bottom-color: #404040;
+    border-bottom-color: var(--theme-border);
   }
   
   .dark .post-content .code-collapse-btn {
-    color: #ccc;
+    color: var(--theme-text-muted);
   }
   
   .dark .post-content .code-collapse-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: rgba(250, 249, 245, 0.08);
+    color: var(--theme-text);
   }
   
   .dark .post-content .code-language {
     /* Dark模式：匹配深色主题的标题 */
-    color: #fff;
+    color: var(--theme-text);
   }
   
   .dark .post-content .code-format-btn {
-    color: #ccc;
+    color: var(--theme-text-muted);
   }
   
   .dark .post-content .code-format-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: rgba(250, 249, 245, 0.08);
+    color: var(--theme-text);
   }
   
   .dark .post-content .code-format-btn.active {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
+    background: rgba(250, 249, 245, 0.12);
+    color: var(--theme-text);
   }
   
   .dark .post-content .code-wrap-btn {
@@ -427,43 +516,43 @@
   }
   
   .dark .post-content .code-copy-btn {
-    color: #ccc;
+    color: var(--theme-text-muted);
   }
   
   .dark .post-content .code-copy-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: rgba(250, 249, 245, 0.08);
+    color: var(--theme-text);
   }
   
   .dark .post-content .code-copy-btn.copied {
-    color: #60a5fa;
-    background: rgba(96, 165, 250, 0.15);
+    color: var(--theme-accent);
+    background: rgba(217, 119, 87, 0.18);
   }
   
   .dark .post-content .code-content {
     /* Dark模式：匹配深色内容背景 */
-    background: #2d2d2d;
+    background: var(--theme-surface);
   }
   
   .dark .post-content .line-numbers {
     /* Dark模式：与代码内容融为一体 */
     background: transparent;
-    border-right-color: #404040;
+    border-right-color: var(--theme-border);
   }
   
   .dark .post-content .line-number {
     /* Dark模式：深色主题行号 */
-    color: #888;
+    color: var(--theme-text-muted);
   }
   
   .dark .post-content .code-line {
     /* Dark模式：清晰的代码文字 */
-    color: #e5e5e5;
+    color: var(--theme-text);
   }
   
   .dark .post-content .code-line:hover {
     /* Dark模式：深色悬停效果 */
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(250, 249, 245, 0.06);
   }
   
   .post-content img {
@@ -501,6 +590,30 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .text-theme {
+    color: var(--theme-text);
+  }
+
+  .text-muted {
+    color: var(--theme-text-muted);
+  }
+
+  .bg-surface {
+    background-color: var(--theme-surface);
+  }
+
+  .bg-surface-muted {
+    background-color: var(--theme-surface-muted);
+  }
+
+  .border-surface {
+    border-color: var(--theme-border);
+  }
+
+  .shadow-surface {
+    box-shadow: var(--theme-shadow);
   }
   
   .scrollbar-hide {

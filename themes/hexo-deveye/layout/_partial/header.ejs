@@ -1,4 +1,4 @@
-<header class="glass-panel sticky top-0 z-50">
+<header class="surface-panel sticky top-0 z-50">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="flex justify-between items-center h-16">
 			<div class="flex-shrink-0">
@@ -6,7 +6,7 @@
 					<% if (theme.logo_image_source) { %>
 						<img class="h-8 w-auto" src="<%= theme.logo_image_source %>" alt="<%= config.title%>">
 						<% } %>
-							<span class="ml-2 text-xl font-bold text-gray-900 dark:text-white">
+						<span class="ml-2 text-xl font-bold text-gray-900 dark:text-gray-100">
 								<%= config.title%>
 							</span>
 				</a>
@@ -15,7 +15,7 @@
 				<nav class="ml-10 flex items-baseline space-x-4">
 					<% for (name in theme.menu) { %>
 						<a href="<%- url_for(theme.menu[name]) %>"
-							class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
 							<%= name %>
 						</a>
 						<% } %>
@@ -25,14 +25,14 @@
 			<div class="flex items-center space-x-4">
 				<!-- 搜索按钮 -->
 				<a href="<%- url_for('/search/') %>"
-					class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
 					title="搜索">
 					<%- icon('search', 'h-5 w-5' ) %>
 				</a>
 
 				<!-- 深色模式切换 -->
 				<button id="theme-toggle"
-					class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
 					title="切换主题">
 					<span id="theme-toggle-dark-icon" class="hidden"><%- icon('moon', 'h-5 w-5' ) %></span>
 					<span id="theme-toggle-light-icon" class="hidden"><%- icon('sun', 'h-5 w-5' ) %></span>
@@ -40,7 +40,7 @@
 
 				<!-- 移动端菜单按钮 -->
 				<button id="mobile-menu-button"
-					class="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors">
+					class="md:hidden p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors">
 					<%- icon('menu', 'h-6 w-6' ) %>
 				</button>
 			</div>
@@ -51,7 +51,7 @@
 			<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-gray-700">
 				<% for (name in theme.menu) { %>
 					<a href="<%- url_for(theme.menu[name]) %>"
-						class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
 						<%= name %>
 					</a>
 					<% } %>

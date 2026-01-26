@@ -2,10 +2,10 @@
 <!-- <div
     class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-4 -mt-4 mb-8 px-6 py-8 rounded-t-lg">
     <div class="text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             <%= config.title %>
         </h1>
-        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+        <p class="text-lg text-muted mb-6 max-w-2xl mx-auto">
             <%= config.description || '分享技术见解、学习心得和生活感悟' %>
         </p>
         <div class="flex justify-center space-x-4">
@@ -23,19 +23,19 @@
 <div class="space-y-6">
     <!-- <div class="mb-6 flex items-center">
         <div class="w-1 h-8 bg-primary-600 mr-3"></div>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
             最新文章
         </h2>
     </div> -->
 
     <div class="space-y-6">
         <% page.posts.each(function(post, index) { %>
-            <article class="glass-panel rounded-lg p-6">
+            <article class="surface-panel rounded-lg p-6">
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
                             <a href="<%- url_for(post.path) %>"
-                                class="text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 <%= post.title %>
                             </a>
                         </h3>
@@ -48,7 +48,7 @@
 
                             <% if (showContent) { %>
                                 <div class="post-content-container mb-4">
-                                    <div class="post-content-preview text-gray-600 dark:text-gray-300 leading-relaxed"
+                                    <div class="post-content-preview leading-relaxed"
                                         id="preview-<%= index %>">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
@@ -60,7 +60,7 @@
                                             <% } %>
                                     </div>
                                     <% if (needsExpansion) { %>
-                                        <div class="post-content-full text-gray-600 dark:text-gray-300 leading-relaxed post-hidden"
+                                        <div class="post-content-full leading-relaxed post-hidden"
                                             id="full-<%= index %>">
                                             <div class="post-content" data-content-type="full">
                                                 <%- content %>
@@ -118,7 +118,7 @@
             <div class="flex items-center space-x-2">
                 <% if (page.prev) { %>
                     <a href="<%- url_for(page.prev_link) %>"
-                        class="px-4 py-2 glass-panel rounded-lg text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center">
+                        class="px-4 py-2 surface-panel rounded-lg text-gray-700 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center">
                         <%- icon('arrow-left', 'w-4 h-4 mr-1' ) %>
                             上一页
                     </a>
@@ -131,7 +131,7 @@
 
                         <% if (page.next) { %>
                             <a href="<%- url_for(page.next_link) %>"
-                                class="px-4 py-2 glass-panel rounded-lg text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center">
+                                class="px-4 py-2 surface-panel rounded-lg text-gray-700 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center">
                                 下一页
                                 <%- icon('arrow-right', 'w-4 h-4 ml-1' ) %>
                             </a>
@@ -190,20 +190,6 @@
         max-height: 300px;
         overflow: hidden;
         position: relative;
-    }
-
-    .content-fade {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 100px;
-        background: linear-gradient(to bottom, transparent, rgb(255 255 255 / 100%));
-        pointer-events: none;
-    }
-
-    .dark .content-fade {
-        background: linear-gradient(to bottom, transparent, rgb(31 41 55 / 100%));
     }
 
     .post-hidden {
