@@ -2796,3 +2796,10 @@ figure.highlight {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+
+
+/* Favicon 圆形样式 */
+.favicon-icon {
+  border-radius: 50%;
+  overflow: hidden;
+}
