@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 无常是常
+title: FoundraLab
 subtitle:
 description:
 keywords:
@@ -70,20 +70,13 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: hexo-deveye
 
-# Deployment
-## Docs: https://hexo.io/docs/deployment.html
-deploy:
-  type: git
-  repo: https://github.com/hellodeveye/blog.git
-  branch: master
-
-
+# Mermaid 配置 - 懒加载提升首屏速度
 mermaid:
   enable: true
   version: "11.7.0"
   options:
-    theme: default  # 可选值: default, forest, dark, neutral, null
-    startOnLoad: true
+    theme: default
+    startOnLoad: false  # 懒加载
     securityLevel: 'loose'
     flowchart:
       htmlLabels: true
@@ -101,6 +94,27 @@ mermaid:
       mirrorActors: true
       bottomMarginAdj: 1
       useMaxWidth: true
+
+# Feed 配置优化
+feed:
+  type: atom
+  path: atom.xml
+  limit: false
+  content: false  # 不包含全文，减少文件大小
+
+# 搜索配置优化 - 提升搜索速度
+search:
+  path: search.json
+  field: post
+  content: false  # 不搜索全文，只搜索标题
+  format: raw
+
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  type: git
+  repo: https://github.com/hellodeveye/blog.git
+  branch: master
 
 # Markdown-it config
 markdown:
@@ -123,14 +137,3 @@ markdown:
     permalink: false
     permalinkClass: header-anchor
     permalinkSymbol: ¶ # anchors 符号
-
-feed:
-  type: atom
-  path: atom.xml
-  limit: false
-
-search:
-  path: search.json
-  field: post
-  content: true
-  format: raw
