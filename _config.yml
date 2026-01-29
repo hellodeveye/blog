@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://www.buzhidao.cc
+url: https://foundra.me
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -113,7 +113,7 @@ search:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/hellodeveye/blog.git
+  repo: git@github.com:hellodeveye/blog.git
   branch: master
 
 # Markdown-it config

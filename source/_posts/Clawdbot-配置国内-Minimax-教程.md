@@ -1,14 +1,12 @@
 ---
 title: Clawdbot 配置国内 Minimax 教程
-date: 2025-01-28 11:57
+date: 2026-01-28 11:57
 tags:
   - Clawdbot
   - Minimax
   - AI
 categories: 教程
 ---
-
-# Clawdbot 配置国内 Minimax 教程
 
 Clawdbot 默认使用国际站 Minimax API，但国内用户访问国际站可能存在网络延迟或访问受限问题。本文介绍如何将 Clawdbot 配置为使用国内 Minimax 地址。
 

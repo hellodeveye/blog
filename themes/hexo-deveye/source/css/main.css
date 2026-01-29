@@ -2798,3 +2798,20 @@ figure.highlight {
 }
 
 
+
+/* Logo 颜色差异样式 */
+.logo-title .logo-foundra {
+  color: #1a1a1a;
+}
+
+.logo-title .logo-lab {
+  color: rgb(198, 99, 69);
+}
+
+.dark .logo-title .logo-foundra {
+  color: #f9fafb;
+}
+
+.dark .logo-title .logo-lab {
+  color: rgb(198, 99, 69);
+}
