@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		FoundraLab
+	</title>
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="/img/favicon.ico" class="favicon-icon">
+	<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" class="favicon-icon">
+	<link rel="manifest" href="/img/site.webmanifest">
+
+	<!-- Tailwind CSS -->
+	
+<link rel="stylesheet" href="/css/main.css">
+
+
+		<!-- Dark Mode Script -->
+		<script>
+			// 深色模式初始化
+			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				document.documentElement.classList.add('dark')
+			} else {
+				document.documentElement.classList.remove('dark')
+			}
+
+			// 深色模式切换函数
+			function toggleDarkMode() {
+				if (document.documentElement.classList.contains('dark')) {
+					document.documentElement.classList.remove('dark')
+					localStorage.theme = 'light'
+				} else {
+					document.documentElement.classList.add('dark')
+					localStorage.theme = 'dark'
+				}
+			}
+
+			// 搜索功能
+			function performSearch() {
+				const query = document.getElementById('search-input').value.toLowerCase();
+				const resultsContainer = document.getElementById('search-results');
+				const loadingElement = document.getElementById('search-loading');
+				const emptyElement = document.getElementById('search-empty');
+
+				if (!query.trim()) {
+					resultsContainer.innerHTML = '';
+					emptyElement.classList.add('hidden');
+					return;
+				}
+
+				loadingElement.classList.remove('hidden');
+				emptyElement.classList.add('hidden');
+
+				// 模拟搜索延迟
+				setTimeout(() => {
+					fetch('/search.json')
+						.then(response => response.json())
+						.then(data => {
+							const results = data.filter(post =>
+								post.title.toLowerCase().includes(query) ||
+								post.content.toLowerCase().includes(query) ||
+								(post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+							);
+
+							loadingElement.classList.add('hidden');
+
+							if (results.length === 0) {
+								emptyElement.classList.remove('hidden');
+								resultsContainer.innerHTML = '';
+							} else {
+								emptyElement.classList.add('hidden');
+								displaySearchResults(results, query);
+							}
+						})
+						.catch(error => {
+							console.error('搜索出错:', error);
+							loadingElement.classList.add('hidden');
+							emptyElement.classList.remove('hidden');
+						});
+				}, 300);
+			}
+
+			function displaySearchResults(results, query) {
+				const resultsContainer = document.getElementById('search-results');
+				resultsContainer.innerHTML = results.map(post => {
+					const highlightedTitle = highlightText(post.title, query);
+					const excerpt = getExcerpt(post.content, query);
+					const highlightedExcerpt = highlightText(excerpt, query);
+
+					return `
+						<article class="bg-surface rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-surface">
+						<h3 class="text-xl font-semibold mb-2">
+						<a href="${post.url}" class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+								${highlightedTitle}
+							</a>
+						</h3>
+						<p class="text-muted mb-3 leading-relaxed">
+							${highlightedExcerpt}
+						</p>
+						<div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+							<time datetime="${post.date}">${new Date(post.date).toLocaleDateString('zh-CN')}</time>
+						${post.tags ? `<div class="flex gap-2">${post.tags.map(tag => `<span class="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-2 py-1 rounded-full text-xs">${tag}</span>`).join('')}</div>` : ''}
+						</div>
+					</article>
+				`;
+				}).join('');
+			}
+
+			function highlightText(text, query) {
+				if (!query) return text;
+				const regex = new RegExp(`(${query})`, 'gi');
+				return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+			}
+
+			function getExcerpt(content, query, maxLength = 200) {
+				const queryIndex = content.toLowerCase().indexOf(query.toLowerCase());
+				if (queryIndex === -1) {
+					return content.substring(0, maxLength) + (content.length > maxLength ? '...' : '');
+				}
+
+				const start = Math.max(0, queryIndex - 50);
+				const end = Math.min(content.length, queryIndex + query.length + 150);
+				let excerpt = content.substring(start, end);
+
+				if (start > 0) excerpt = '...' + excerpt;
+				if (end < content.length) excerpt = excerpt + '...';
+
+				return excerpt;
+			}
+		</script>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="FoundraLab" type="application/atom+xml">
+</head>
+
+    
+
+        <body class="text-gray-900 dark:text-gray-100 transition-colors duration-300 single">
+            <div class="flex flex-col">
+                <!-- 头部导航 -->
+                <header class="surface-panel sticky top-0 z-50">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+			<div class="flex-shrink-0">
+				<a href="/" class="flex items-center">
+					
+						<span class="ml-2 text-xl font-bold logo-title">
+								<span class="logo-foundra">Foundra</span><span class="logo-lab">Lab</span>
+							</span>
+				</a>
+			</div>
+			<div class="hidden md:block">
+				<nav class="ml-10 flex items-baseline space-x-4">
+					
+						<a href="/"
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							文章
+						</a>
+						
+						<a href="/about"
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							关于
+						</a>
+						
+				</nav>
+			</div>
+
+			<div class="flex items-center space-x-4">
+				<!-- 搜索按钮 -->
+				<a href="/search/"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					title="搜索">
+					<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>
+				</a>
+
+				<!-- 深色模式切换 -->
+				<button id="theme-toggle"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					title="切换主题">
+					<span id="theme-toggle-dark-icon" class="hidden"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"></path></svg></span>
+					<span id="theme-toggle-light-icon" class="hidden"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"></path></svg></span>
+				</button>
+
+				<!-- 移动端菜单按钮 -->
+				<button id="mobile-menu-button"
+					class="md:hidden p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors">
+					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg>
+				</button>
+			</div>
+		</div>
+
+		<!-- 移动端菜单 -->
+		<div id="mobile-menu" class="hidden md:hidden">
+			<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-gray-700">
+				
+					<a href="/"
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						文章
+					</a>
+					
+					<a href="/about"
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						关于
+					</a>
+					
+			</div>
+		</div>
+	</div>
+	</div>
+</header>
+
+
+                    <!-- 主要内容区域 -->
+                    <main class="flex-1">
+                        <div class="mx-auto px-2 sm:px-6 lg:px-8 py-8 max-w-5xl">
+                            <div class="main-layout flex flex-col lg:flex-row gap-8">
+                                <!-- 主内容区 -->
+                                <div class="main-content flex-1">
+                                    <div class="surface-panel rounded-lg p-4 md:p-12 lg:p-16">
+                                        <!-- 文章头部 -->
+<header class="mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
+    <div class="mb-4">
+        
+            <div class="flex flex-wrap gap-2 mb-3">
+                
+                    <a href="/categories/%E5%B7%A5%E5%85%B7/" class="px-3 py-1 bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 rounded-full text-sm hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+                        工具
+                    </a>
+                
+            </div>
+        
+        
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 leading-tight" style="letter-spacing: 0.015em; line-height: 1.3;">
+            AI工具使用心得
+        </h1>
+        
+        <div class="flex flex-wrap items-center gap-6 text-sm text-gray-500 dark:text-gray-400" style="letter-spacing: 0.025em;">
+            <time datetime="2026-02-02T03:06:16.000Z" class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                发布于 2026年02月02日
+            </time>
+            
+            
+                <time datetime="2026-02-05T03:11:29.887Z" class="flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m-4.991 4.992"></path></svg>
+                    更新于 2026年02月05日
+                </time>
+            
+            
+            
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                    <div class="flex flex-wrap gap-1">
+                        
+                            <a href="/tags/%E5%B7%A5%E5%85%B7/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                工具
+                            </a>
+                        
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</header>
+
+<!-- 悬浮目录 - 固定在左侧空白区域 -->
+<div id="floating-toc" class="hidden">
+    <div id="toc-panel" class="z-40 surface-panel rounded-xl flex flex-col" style="display: none;">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                    </svg>
+                    目录
+            </h3>
+        </div>
+        <div class="p-4 overflow-y-auto">
+            <nav id="toc-nav" class="toc-nav">
+                <!-- 目录内容将由JavaScript生成 -->
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- 悬浮目录功能 -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const floatingToc = document.getElementById('floating-toc');
+            const tocPanel = document.getElementById('toc-panel');
+            const tocNav = document.getElementById('toc-nav');
+            const postContent = document.getElementById('post-content');
+
+            if (!floatingToc || !tocPanel || !tocNav || !postContent) return;
+
+            // Move TOC to body to avoid positioning issues with glassmorphism containers
+            document.body.appendChild(floatingToc);
+
+            // 生成目录
+            function generateTOC() {
+                const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                if (headings.length === 0) return false;
+
+                let tocHTML = '<ul class="toc-list">';
+                let currentLevel = 0;
+
+                headings.forEach((heading, index) => {
+                    const level = parseInt(heading.tagName.charAt(1));
+                    const text = heading.textContent || heading.innerText;
+                    const id = heading.id || `toc-${index}`;
+
+                    // 为标题添加ID（如果没有的话）
+                    if (!heading.id) {
+                        heading.id = id;
+                    }
+
+                    // 处理层级 for <ul> tags
+                    if (level > currentLevel) {
+                        for (let i = currentLevel; i < level; i++) {
+                            if (i > 0) tocHTML += '<ul class="toc-list">';
+                        }
+                    } else if (level < currentLevel) {
+                        for (let i = currentLevel; i > level; i--) {
+                            tocHTML += '</ul>';
+                        }
+                    }
+
+                    tocHTML += `
+                <li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-target="${id}">
+                        <span class="toc-text">${text}</span>
+                    </a>
+                </li>
+            `;
+
+                    currentLevel = level;
+                });
+
+                // 关闭剩余的ul标签
+                for (let i = currentLevel; i > 1; i--) {
+                    tocHTML += '</ul>';
+                }
+                tocHTML += '</ul>';
+
+                tocNav.innerHTML = tocHTML;
+                return true;
+            }
+
+            // 精确定位目录在左侧空白区域
+            function positionTocInLeftMargin() {
+                const mainContent = document.querySelector('.main-content');
+                const tocPanel = document.getElementById('toc-panel');
+                const postContent = document.querySelector('#post-content');
+
+                if (!mainContent || !tocPanel || !postContent) return;
+
+                const mainContentRect = mainContent.getBoundingClientRect();
+                const leftSpace = mainContentRect.left;
+
+                const tocWidth = 280;
+                const marginBuffer = 32;
+
+                if (leftSpace >= tocWidth + marginBuffer) {
+                    const left = leftSpace - tocWidth - marginBuffer;
+                    const postContentRect = postContent.getBoundingClientRect();
+                    // Since we moved TOC to body, absolute positioning is relative to the document
+                    // So we need to include scroll position in top calculation
+                    const top = postContentRect.top + window.pageYOffset - 20;
+
+                    tocPanel.style.left = left + 'px';
+                    tocPanel.style.width = tocWidth + 'px';
+                    tocPanel.style.top = top + 'px';
+                    tocPanel.style.display = 'flex';
+                } else {
+                    tocPanel.style.display = 'none';
+                }
+            }
+
+            // 初始化目录
+            if (generateTOC()) {
+                floatingToc.classList.remove('hidden');
+
+                let isTocFixed = false;
+                let ticking = false;
+
+                function onWindowScroll() {
+                    if (ticking) return;
+
+                    ticking = true;
+                    requestAnimationFrame(() => {
+                        // --- 1. 高亮当前章节 ---
+                        const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                        let activeHeadingId = null;
+                        for (let i = headings.length - 1; i >= 0; i--) {
+                            if (headings[i].getBoundingClientRect().top <= 100) {
+                                activeHeadingId = headings[i].id;
+                                break;
+                            }
+                        }
+                        updateActiveTOCItem(activeHeadingId);
+
+                        // --- 2. 处理面板固定/绝对定位 ---
+                        const mainContent = document.querySelector('.main-content');
+                        if (mainContent) {
+                            const shouldFix = mainContent.getBoundingClientRect().top < 100;
+                            if (shouldFix && !isTocFixed) {
+                                isTocFixed = true;
+                                positionTocInLeftMargin();
+                                tocPanel.classList.add('is-fixed');
+                            } else if (!shouldFix && isTocFixed) {
+                                isTocFixed = false;
+                                tocPanel.classList.remove('is-fixed');
+                                // Reset to absolute position when un-fixing
+                                positionTocInLeftMargin();
+                            }
+                        }
+
+                        ticking = false;
+                    });
+                }
+
+                // 定位目录
+                positionTocInLeftMargin();
+
+                // 监听滚动和窗口大小改变
+                window.addEventListener('scroll', onWindowScroll);
+                window.addEventListener('resize', positionTocInLeftMargin);
+
+                // 初始检查
+                onWindowScroll();
+
+                // 目录点击事件
+                tocNav.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const link = e.target.closest('.toc-link');
+                    if (!link) return;
+
+                    const targetId = link.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        // 平滑滚动到目标位置
+                        const headerOffset = 80; // 考虑固定头部的高度
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // 更新活跃状态
+                        updateActiveTOCItem(targetId);
+                    }
+                });
+
+                // 滚动时高亮当前章节
+                function updateActiveTOCItem(activeId) {
+                    // 移除所有活跃状态
+                    tocNav.querySelectorAll('.toc-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+
+                    // 添加当前活跃状态
+                    if (activeId) {
+                        const activeLink = tocNav.querySelector(`[data-target="${activeId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- 左侧目录样式 -->
+    <style>
+        #toc-panel {
+            position: absolute;
+            transition: top 0.3s ease, transform 0.3s ease;
+        }
+
+        #toc-panel.is-fixed {
+            position: fixed;
+            top: 100px !important;
+            max-height: calc(100vh - 120px);
+        }
+
+        /* 目录列表样式 */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list .toc-list {
+            margin-left: 0.75rem;
+            margin-top: 0.2rem;
+        }
+
+        .toc-item {
+            margin: 0.2rem 0;
+        }
+
+        .toc-link {
+            display: flex;
+            align-items: center;
+            padding: 0.35rem 0.5rem;
+            text-decoration: none;
+            color: #6b7280;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            line-height: 1.2rem;
+            min-height: 1.8rem;
+        }
+
+        .toc-link:hover {
+            background-color: rgba(217, 119, 87, 0.12);
+            color: #c66345;
+            transform: translateX(3px);
+        }
+
+        .toc-link.active {
+            background-color: rgba(217, 119, 87, 0.18);
+            color: #c66345;
+            font-weight: 600;
+            border-left: 3px solid #c66345;
+            padding-left: 0.5rem;
+        }
+
+        .toc-text {
+            flex: 1;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-break: break-word;
+        }
+
+        /* 不同层级的样式 */
+        .toc-level-1 .toc-link {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .toc-level-2 .toc-link {
+            font-size: 0.8rem;
+        }
+
+        .toc-level-3 .toc-link,
+        .toc-level-4 .toc-link,
+        .toc-level-5 .toc-link,
+        .toc-level-6 .toc-link {
+            font-size: 0.75rem;
+        }
+
+        /* 深色模式 */
+        .dark .toc-link {
+            color: #9ca3af;
+        }
+
+        .dark .toc-link:hover {
+            background-color: rgba(217, 119, 87, 0.2);
+            color: #e28c72;
+        }
+
+        .dark .toc-link.active {
+            background-color: rgba(217, 119, 87, 0.24);
+            color: #e28c72;
+            border-left-color: #e28c72;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1023px) {
+
+            /* 小屏幕：隐藏目录 */
+            #floating-toc {
+                display: none !important;
+            }
+
+            #toc-panel {
+                display: none !important;
+            }
+        }
+
+        /* 悬浮目录的滚动条样式 */
+        #toc-panel .overflow-y-auto::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #toc-panel .overflow-y-auto::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #toc-panel .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.4);
+            border-radius: 3px;
+        }
+
+        .dark #toc-panel .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: rgba(75, 85, 99, 0.6);
+        }
+    </style>
+    
+
+
+<!-- 文章内容 -->
+<article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
+    <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
+        <h2 id="一、Cursor">一、Cursor</h2>
+<p><a href="https://cursor.com/cn/docs/agent/overview">Cursor 官方文档</a></p>
+<p><img src="https://oss.foundra.me/images/2026/01/30/cursor-agent-review.jpg" alt="Cursor Agent 模式"></p>
+<p>Cursor 是在 IDE 中深度集成的 AI 编程助手，适合日常开发场景。</p>
+<h3 id="1-1-Modes：四种工作模式">1.1 Modes：四种工作模式</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>适用场景</th>
+<th>能力</th>
+<th>工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Agent</strong></td>
+<td>复杂功能、重构</td>
+<td>自主探索、多文件编辑</td>
+<td>启用全部工具</td>
+</tr>
+<tr>
+<td><strong>Ask</strong></td>
+<td>学习、规划、提问</td>
+<td>只读探索，无自动修改</td>
+<td>仅启用搜索工具</td>
+</tr>
+<tr>
+<td><strong>Plan</strong></td>
+<td>需要规划的复杂功能</td>
+<td>执行前创建详细计划</td>
+<td>启用全部工具</td>
+</tr>
+<tr>
+<td><strong>Debug</strong></td>
+<td>棘手 Bug、回归问题</td>
+<td>生成假设、日志埋点、运行时分析</td>
+<td>全部工具 + 调试服务器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-2-Rules：让-AI-真正理解你的项目">1.2 Rules：让 AI 真正理解你的项目</h3>
+<p>由于 LLM 在不同补全之间不会保留记忆，Rules 在<strong>提示级别提供持久、可重用的上下文</strong>。</p>
+<p><strong>四种规则类型：</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>位置</th>
+<th>作用范围</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>项目规则</td>
+<td><code>.cursor/rules/</code></td>
+<td>当前代码库</td>
+<td>受版本控制，可用 globs 限定范围</td>
+</tr>
+<tr>
+<td>用户规则</td>
+<td>Settings → Rules</td>
+<td>全局所有项目</td>
+<td>个人偏好，跨项目生效</td>
+</tr>
+<tr>
+<td>团队规则</td>
+<td>Cursor Dashboard</td>
+<td>整个团队</td>
+<td>Team/Enterprise 可强制执行</td>
+</tr>
+<tr>
+<td><a href="http://AGENTS.md">AGENTS.md</a></td>
+<td>项目根目录</td>
+<td>当前项目</td>
+<td>简洁 Markdown，无复杂配置</td>
+</tr>
+</tbody>
+</table>
+<p><strong>项目规则示例（Linus Torvalds 风格）：</strong></p>
+<p>文件：<code>.cursor/rules/codereview.mdc</code></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line"><span class="section">alwaysApply: true</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line"></span><br><span class="line"><span class="section">## 角色定义</span></span><br><span class="line">你是 Linus Torvalds，Linux 内核创造者和首席架构师。</span><br><span class="line"></span><br><span class="line"><span class="section">## 核心哲学</span></span><br><span class="line"><span class="bullet">1.</span> <span class="strong">**好品味**</span> - 消除边界情况优于增加条件判断</span><br><span class="line"><span class="bullet">2.</span> <span class="strong">**Never break userspace**</span> - 向后兼容性神圣不可侵犯</span><br><span class="line"><span class="bullet">3.</span> <span class="strong">**实用主义**</span> - 解决实际问题，不是假想威胁</span><br><span class="line"><span class="bullet">4.</span> <span class="strong">**简洁执念**</span> - 超过3层缩进就该重构</span><br><span class="line"></span><br><span class="line"><span class="section">## Linus式问题分解（五层分析）</span></span><br><span class="line"><span class="bullet">-</span> <span class="strong">**数据结构**</span>：核心数据是什么？关系如何？</span><br><span class="line"><span class="bullet">-</span> <span class="strong">**特殊情况**</span>：找出 if/else，能否用数据结构消除？</span><br><span class="line"><span class="bullet">-</span> <span class="strong">**复杂度审查**</span>：功能本质是什么？概念能否减半？</span><br><span class="line"><span class="bullet">-</span> <span class="strong">**破坏性分析**</span>：会 break 什么？如何零破坏改进？</span><br><span class="line"><span class="bullet">-</span> <span class="strong">**实用性验证**</span>：生产环境真有问题吗？</span><br><span class="line"></span><br><span class="line"><span class="section">## 代码审查输出</span></span><br><span class="line">【品味评分】🟢 好品味 / 🟡 凑合 / 🔴 垃圾</span><br><span class="line">【致命问题】[直接指出最糟糕的部分]</span><br><span class="line">【改进方向】&quot;把这个特殊情况消除掉&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>最佳实践：</strong></p>
+<ul>
+<li>✅ 规则控制在 500 行以内，大规则拆分</li>
+<li>✅ 用 <code>@file.ts</code> 引用文件而非复制内容</li>
+<li>❌ 避免照搬风格指南（用 linter）</li>
+<li>❌ 不记录常见命令（Agent 已了解 npm/git）</li>
+</ul>
+<p><strong><a href="http://AGENTS.md">AGENTS.md</a> 示例（简化版）：</strong></p>
+<p>文件：<code>AGENTS.md</code>（项目根目录）</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 灵播资金管理系统 - AI 编码指南</span></span><br><span class="line"></span><br><span class="line"><span class="section">## 项目概述</span></span><br><span class="line">Spring Boot 多模块 Maven 项目，管理会员资金、优惠券、积分、红包等业务。</span><br><span class="line"></span><br><span class="line">技术栈：Java 11, Spring Boot 2.6, MyBatis Plus, 支付宝/微信支付 SDK</span><br><span class="line"></span><br><span class="line"><span class="section">## 项目结构</span></span><br><span class="line">lingbo-funds/</span><br><span class="line">├── api/          # Feign 接口</span><br><span class="line">├── bussiness/    # 业务逻辑（Service）</span><br><span class="line">├── repository/   # 数据访问（DAO/Mapper）</span><br><span class="line">└── web/          # Controller</span><br><span class="line"></span><br><span class="line"><span class="section">## 关键规范</span></span><br><span class="line"></span><br><span class="line"><span class="section">### 命名</span></span><br><span class="line"><span class="bullet">-</span> Controller: <span class="emphasis">*Controller</span></span><br><span class="line"><span class="emphasis">- Service: *</span>Service / <span class="emphasis">*ServiceImpl</span></span><br><span class="line"><span class="emphasis">- DAO: *</span>Dao / <span class="emphasis">*DaoImpl</span></span><br><span class="line"><span class="emphasis">- Mapper: *</span>MapperExt</span><br><span class="line"></span><br><span class="line"><span class="section">### 注解（必须）</span></span><br><span class="line"><span class="bullet">-</span> @Slf4j - 日志</span><br><span class="line"><span class="bullet">-</span> @RequiredArgsConstructor - 构造器注入</span><br><span class="line"><span class="bullet">-</span> @Service / @RestController</span><br><span class="line"></span><br><span class="line"><span class="section">### 日志</span></span><br><span class="line">log.info(&quot;操作: &#123;&#125;, 参数: &#123;&#125;&quot;, operation, params);</span><br><span class="line">// 不要字符串拼接</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="二、Claude-Code-Codex">二、Claude Code / Codex</h2>
+<p><a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview">Claude Code 文档</a> | <a href="https://github.com/openai/codex">Codex 文档</a></p>
+<p><img src="https://oss.foundra.me/images/2026/01/30/claude-code-terminal.jpg" alt="Claude Code 终端界面"></p>
+<p>命令行环境下的 AI 助手，适合 SSH 服务器、批量处理、自动化脚本等无 GUI 场景。</p>
+<h3 id="2-1-常用技巧">2.1 常用技巧</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>!bash &lt;cmd&gt;</code></td>
+<td>直接执行 shell 命令</td>
+</tr>
+<tr>
+<td><code>@file</code> / <code>#file</code></td>
+<td>引用文件，减少搜索</td>
+</tr>
+<tr>
+<td><code>/model &lt;name&gt;</code></td>
+<td>切换模型（sonnet/opus）</td>
+</tr>
+<tr>
+<td><code>/skills</code></td>
+<td>查看可用技能</td>
+</tr>
+<tr>
+<td><code>--plan</code></td>
+<td>只规划不执行</td>
+</tr>
+<tr>
+<td><code>-a</code> / <code>--apply</code></td>
+<td>自动确认改动</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-2-安全红线">2.2 安全红线</h3>
+<ul>
+<li>⚠️ 危险操作（rm、DROP TABLE）必须二次确认</li>
+<li>⚠️ 敏感文件（.env、密钥）加入忽略列表</li>
+<li>⚠️ 不在生产环境直接 auto-edit</li>
+</ul>
+<h3 id="2-3-Commands：快捷指令">2.3 Commands：快捷指令</h3>
+<p>把常用操作流程封装成 <code>/command-name</code> 一键执行。</p>
+<p><strong>示例：创建合并请求</strong></p>
+<p><code>~/.claude/commands/yunxiao/merge-to-develop.md</code>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">allowed-tools: Bash(git status:<span class="emphasis">*), MCP(get_current_user)</span></span><br><span class="line"><span class="emphasis">description: 创建代码合并请求到 develop 分支</span></span><br><span class="line"><span class="emphasis">---</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">帮我在 yunxiao 中基于当前分支创建 MR 到 develop</span></span><br></pre></td></tr></table></figure>
+<p>使用：<code>/merge-to-develop</code></p>
+<h3 id="2-4-Skills：能力扩展包">2.4 Skills：能力扩展包</h3>
+<p>把特定领域的工具、知识打包成可复用模块。</p>
+<p><strong>目录结构：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">my-skill/</span><br><span class="line">├── SKILL.md          # 核心定义：描述、约束、用法</span><br><span class="line">├── scripts/          # 可执行脚本</span><br><span class="line">└── references/       # 参考资料（schema、文档）</span><br></pre></td></tr></table></figure>
+<p><strong>示例：SQL Expert Skill</strong></p>
+<ul>
+<li><strong><a href="http://SKILL.md">SKILL.md</a></strong>：定义允许查询的表、参数化规范、脱敏规则</li>
+<li><strong>scripts/query.py</strong>：封装数据库连接，内置只读限制</li>
+<li><strong>references/schema.md</strong>：表结构文档</li>
+</ul>
+<p>使用：直接说「查浦江区的租户」，AI 自动查 schema → 生成 SQL → 执行 → 脱敏返回。</p>
+<p><strong>Command vs Skill：</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Command</th>
+<th>Skill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定位</td>
+<td>快捷指令</td>
+<td>能力模块</td>
+</tr>
+<tr>
+<td>触发</td>
+<td><code>/name</code> 主动调用</td>
+<td>AI 根据上下文判断</td>
+</tr>
+<tr>
+<td>场景</td>
+<td>固定流程</td>
+<td>需要专业知识的任务</td>
+</tr>
+<tr>
+<td>本质</td>
+<td><strong>快捷方式</strong></td>
+<td><strong>工具箱</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-5-Agent：自主执行任务的智能体">2.5 Agent：自主执行任务的智能体</h3>
+<p><strong>什么是 Agent</strong><br>
+Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同，Agent 可以：</p>
+<ul>
+<li>拆解复杂任务为多个步骤</li>
+<li>自主调用 Tools/Skills 完成子任务</li>
+<li>根据执行反馈调整策略</li>
+<li>持续运行直到目标达成</li>
+</ul>
+<p><strong>典型 Agent 工作流：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">用户目标 → Agent 规划 → 步骤1 → 步骤2 → 步骤3 → 结果验证 → 完成</span><br><span class="line">                ↑         ↓       ↓       ↓</span><br><span class="line">                └──── 遇到异常时调整策略 ──┘</span><br></pre></td></tr></table></figure>
+<p><strong>示例：自动化数据分析 Agent</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">目标：分析本月销售数据并生成报告</span><br><span class="line"></span><br><span class="line">执行过程：</span><br><span class="line"><span class="bullet">1.</span> 连接数据库（调用 SQL Skill）</span><br><span class="line"><span class="bullet">2.</span> 提取销售数据（执行查询脚本）</span><br><span class="line"><span class="bullet">3.</span> 数据清洗和处理（调用 Python Tool）</span><br><span class="line"><span class="bullet">4.</span> 生成图表（调用可视化 Tool）</span><br><span class="line"><span class="bullet">5.</span> 撰写分析报告（LLM 生成）</span><br><span class="line"><span class="bullet">6.</span> 发送邮件（调用邮件 Tool）</span><br></pre></td></tr></table></figure>
+<h3 id="2-6-SubAgent：分而治之的协作模式">2.6 SubAgent：分而治之的协作模式</h3>
+<p><strong>什么是 SubAgent</strong><br>
+当任务过于复杂时，主 Agent 可以创建多个 SubAgent 并行处理子任务，最后整合结果。</p>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>大型代码库重构（按模块分配）</li>
+<li>多源数据分析（各 SubAgent 处理不同数据源）</li>
+<li>批量任务处理（并行加速）</li>
+</ul>
+<p><strong>工作模式：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">主 Agent（协调者）</span><br><span class="line">    ├─ SubAgent A → 处理模块 A → 返回结果</span><br><span class="line">    ├─ SubAgent B → 处理模块 B → 返回结果</span><br><span class="line">    └─ SubAgent C → 处理模块 C → 返回结果</span><br><span class="line">         ↓</span><br><span class="line">    整合所有结果 → 最终输出</span><br></pre></td></tr></table></figure>
+<p><strong>能力对比：</strong></p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>Command</th>
+<th>Skill</th>
+<th>Agent</th>
+<th>SubAgent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>触发方式</td>
+<td>手动 <code>/cmd</code></td>
+<td>AI 判断</td>
+<td>目标驱动</td>
+<td>主 Agent 分配</td>
+</tr>
+<tr>
+<td>复杂度</td>
+<td>单步操作</td>
+<td>领域任务</td>
+<td>多步骤任务</td>
+<td>并行子任务</td>
+</tr>
+<tr>
+<td>自主性</td>
+<td>无</td>
+<td>低</td>
+<td>高</td>
+<td>分布式</td>
+</tr>
+<tr>
+<td>典型场景</td>
+<td>快捷操作</td>
+<td>工具调用</td>
+<td>端到端任务</td>
+<td>大规模处理</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="三、N8N">三、N8N</h2>
+<p><a href="https://docs.n8n.io/">官方文档</a></p>
+<p><img src="https://oss.foundra.me/images/2026/01/30/n8n-workflow.jpg" alt="N8N Workflow 编辑器"></p>
+<ul>
+<li><strong>Workflow</strong>：把重复劳动固化（总结、通知、发布）</li>
+<li><strong>结构化</strong>：输入输出字段化，避免自由文本猜意图</li>
+<li><strong>Chat</strong>：把 workflow 包装成一句话入口</li>
+</ul>
+<hr>
+<h2 id="四、Kiro">四、Kiro</h2>
+<p><a href="https://kiro.dev/docs/">Kiro 官方文档</a></p>
+<p><img src="https://oss.foundra.me/images/2026/01/30/kiro-demo.jpg" alt="Kiro IDE 界面"></p>
+<p>Kiro 是专为 AI 编程设计的 IDE，核心是两个互补的工作模式。</p>
+<h3 id="4-1-VibeCoding-模式">4.1 VibeCoding 模式</h3>
+<p><strong>定位</strong>：快速原型、灵感验证、小工具开发</p>
+<p>特点是「边想边做」，适合：</p>
+<ul>
+<li>验证一个想法是否可行</li>
+<li>写一次性脚本或内部工具</li>
+<li>探索性编程，不确定最终形态</li>
+</ul>
+<p>流程：描述需求 → AI 生成代码 → 试运行 → 调整描述 → 迭代</p>
+<h3 id="4-2-Spec-模式（SDD）">4.2 Spec 模式（SDD）</h3>
+<p><strong>定位</strong>：复杂功能、团队协作、需要长期维护的代码</p>
+<p>Spec-Driven Development（规格驱动开发）：先写清楚「做什么」，再让 AI 生成「怎么做」。</p>
+<p><strong>SDD 流程：</strong></p>
+<pre class="mermaid">graph LR
+    A[需求描述] --> B[编写 Spec]
+    B --> C{Spec 评审}
+    C -->|不通过| B
+    C -->|通过| D[AI 生成实现]
+    D --> E[测试验证]
+    E -->|失败| F[调整 Spec]
+    F --> B
+    E -->|通过| G[代码入库]</pre>
+<p><strong>Spec 包含什么：</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">## 功能名称</span></span><br><span class="line"></span><br><span class="line"><span class="section">### 输入</span></span><br><span class="line"><span class="bullet">-</span> 参数1：类型，约束条件</span><br><span class="line"><span class="bullet">-</span> 参数2：类型，约束条件</span><br><span class="line"></span><br><span class="line"><span class="section">### 输出</span></span><br><span class="line"><span class="bullet">-</span> 返回值：类型</span><br><span class="line"><span class="bullet">-</span> 错误情况：错误码 + 说明</span><br><span class="line"></span><br><span class="line"><span class="section">### 边界情况</span></span><br><span class="line"><span class="bullet">1.</span> 空输入如何处理</span><br><span class="line"><span class="bullet">2.</span> 超大输入如何处理</span><br><span class="line"><span class="bullet">3.</span> 并发场景如何处理</span><br><span class="line"></span><br><span class="line"><span class="section">### 验收标准</span></span><br><span class="line"><span class="bullet">-</span> [ ] 单元测试覆盖率 &gt; 80%</span><br><span class="line"><span class="bullet">-</span> [ ] 边界情况都有测试用例</span><br><span class="line"><span class="bullet">-</span> [ ] 性能指标满足 XXX</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-两种模式对比">4.3 两种模式对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>VibeCoding</th>
+<th>Spec 模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>适用场景</td>
+<td>原型、探索、小工具</td>
+<td>复杂功能、团队协作</td>
+</tr>
+<tr>
+<td>前置工作</td>
+<td>一句话描述</td>
+<td>详细的 Spec 文档</td>
+</tr>
+<tr>
+<td>代码质量</td>
+<td>能用就行</td>
+<td>可维护、可测试</td>
+</tr>
+<tr>
+<td>迭代方式</td>
+<td>边做边改</td>
+<td>Spec 评审后再实现</td>
+</tr>
+<tr>
+<td>适合谁</td>
+<td>个人快速验证</td>
+<td>正式项目开发</td>
+</tr>
+</tbody>
+</table>
+<p><strong>建议</strong>：用 VibeCoding 探索思路，确定可行后切换到 Spec 模式落地。</p>
+<hr>
+<h2 id="五、Clawdbot-OpenClaw">五、Clawdbot / OpenClaw</h2>
+<p><a href="https://docs.clawd.bot/">官方文档</a></p>
+<p><img src="https://oss.foundra.me/images/2026/01/30/openclaw-logo.png" alt="OpenClaw Logo"></p>
+<h3 id="5-1-解决了什么问题">5.1 解决了什么问题</h3>
+<p>现有 AI 工具大多是「黑盒」或「单机版」：</p>
+<ul>
+<li>ChatGPT/Claude：网页对话，无法连接你的系统</li>
+<li>Cursor/Codex：个人开发工具，不能服务团队</li>
+<li>N8N： Workflow 工具，但 AI 能力弱</li>
+</ul>
+<p><strong>Clawdbot 定位：可配置的智能体框架</strong>，让你自建 AI 助手：</p>
+<ul>
+<li><strong>多渠道接入</strong>：同时连接 Telegram、Slack、钉钉、飞书等，一处配置多端可用</li>
+<li><strong>Tools 生态</strong>：Skills 模块化，按需加载（数据库查询、文件操作、API 调用等）</li>
+<li><strong>Cron 定时</strong>：自动执行定时任务（日报、监控、提醒）</li>
+<li><strong>权限边界</strong>：细粒度控制谁可以用什么功能</li>
+</ul>
+<h3 id="5-2-核心架构">5.2 核心架构</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">WhatsApp / Telegram / Discord / iMessage (+ plugins)</span><br><span class="line"> │</span><br><span class="line"> ▼</span><br><span class="line">┌───────────────────────────┐</span><br><span class="line">│         Gateway           │  ws://127.0.0.1:18789</span><br><span class="line">│      (single source)      │</span><br><span class="line">│                           │  http://host:18793/__claw__/canvas/</span><br><span class="line">└───────────┬───────────────┘</span><br><span class="line">            │</span><br><span class="line">            ├─ Agent (RPC)</span><br><span class="line">            ├─ CLI (claw …)</span><br><span class="line">            ├─ WebChat UI</span><br><span class="line">            ├─ macOS app</span><br><span class="line">            ├─ iOS/Android node (WebSocket + pairing)</span><br><span class="line">            └─ Cron 定时任务</span><br></pre></td></tr></table></figure>
+<p>架构特点：</p>
+<ul>
+<li><strong>Gateway 为核心</strong>：单一长连接进程管理所有渠道和 WebSocket 控制面</li>
+<li><strong>多渠道接入</strong>：WhatsApp、Telegram、Discord、iMessage 等统一处理</li>
+<li><strong>多终端支持</strong>：Web、桌面、移动端均可接入</li>
+<li><strong>本地优先</strong>：默认监听 ws://127.0.0.1:18789，支持 Tailscale 远程访问</li>
+</ul>
+<h3 id="5-3-适用场景">5.3 适用场景</h3>
+<ul>
+<li><strong>团队内部助手</strong>：部署在公司服务器，连接内部系统（Git、DB、监控）</li>
+<li><strong>客户服务机器人</strong>：接入钉钉/飞书/Slack，自动回答常见问题</li>
+<li><strong>自动化运维</strong>：定时检查服务状态，异常时告警</li>
+<li><strong>个人知识库</strong>：私有化部署，连接本地文件和笔记</li>
+</ul>
+<hr>
+<h2 id="总结：没有最好，只有最顺手">总结：没有最好，只有最顺手</h2>
+<p>上面列的这些工具，没有绝对的优劣之分。每个人的工作流不同，适合的也不一样：</p>
+<ul>
+<li>有人离不开 Cursor 的沉浸式编码体验</li>
+<li>有人更喜欢 Claude Code 的终端快感</li>
+<li>有人用 N8N 搭了个自动化全家桶</li>
+<li>也有人自己折腾 Clawdbot 搞私有化部署</li>
+</ul>
+<p><strong>建议</strong>：</p>
+<ol>
+<li>先挑一个最顺眼的试试，用顺手了再考虑其他的</li>
+<li>不要贪多，工具越多切换成本越高</li>
+<li>遇到瓶颈时，再回头来看看有没有更合适的替代方案</li>
+</ol>
+<p>最终，工具是为人服务的。选那个让你 coding 时最爽的就行。</p>
+
+    </div>
+</article>
+
+<!-- 文章标签 -->
+
+    <div class="mb-8 p-4 bg-surface-muted rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+            标签
+        </h3>
+        <div class="flex flex-wrap gap-2">
+            
+                <a href="/tags/%E5%B7%A5%E5%85%B7/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    工具
+                </a>
+            
+        </div>
+    </div>
+
+
+<!-- 文章导航 -->
+<nav class="flex justify-between items-center py-6 border-t border-gray-200 dark:border-gray-700">
+    <div class="flex-1">
+        
+            <a href="/2026/02/05/2026-02-05-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/" class="group flex items-center text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"></path></svg>
+                <div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">上一篇</div>
+                    <div class="font-medium line-clamp-1">2026-02-05 科技圈新闻汇总</div>
+                </div>
+            </a>
+        
+    </div>
+    
+    <div class="flex-1 text-right">
+        
+            <a href="/2026/02/02/2026-02-02-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/" class="group flex items-center justify-end text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <div class="text-right">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">下一篇</div>
+                    <div class="font-medium line-clamp-1">2026-02-02 科技圈新闻汇总</div>
+                </div>
+                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+            </a>
+        
+    </div>
+</nav>
+
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- 页脚 -->
+                    <footer class="surface-panel border-t border-surface mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+            <p class="text-gray-600 dark:text-gray-400 mb-2">
+                FoundraLab @ All Rights Reserved 2026
+            </p>
+            
+                <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-4</a></p>
+                
+        </div>
+    </div>
+</footer>
+
+<!-- 回到顶部按钮 -->
+<button id="back-to-top"
+    class="fixed bottom-8 right-8 surface-panel text-muted hover:text-primary-600 dark:hover:text-primary-400 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible z-50">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path></svg>
+</button>
+
+            </div>
+        </body>
+        <!-- JavaScript -->
+        <script src="/js/plugins.js" defer></script>
+        <!-- Mermaid 支持 -->
+        
+            <script src="/js/mermaid.min.js"></script>
+            <script src="/js/mermaid-init.js"></script>
+            
+<link rel="stylesheet" href="/css/mermaid.css">
+
+            
+
+</html>

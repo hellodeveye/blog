@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>FoundraLab</title>
+  
+  
+  <link href="https://foundra.me/atom.xml" rel="self"/>
+  
+  <link href="https://foundra.me/"/>
+  <updated>2026-02-05T07:55:01.057Z</updated>
+  <id>https://foundra.me/</id>
+  
+  <author>
+    <name>kim</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2026-02-05 科技圈新闻汇总</title>
+    <link href="https://foundra.me/2026/02/05/2026-02-05-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"/>
+    <id>https://foundra.me/2026/02/05/2026-02-05-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/</id>
+    <published>2026-02-05T07:41:00.000Z</published>
+    <updated>2026-02-05T07:55:01.057Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;AI-与机器学习&quot;&gt;AI 与机器学习&lt;/h2&gt;
+&lt;h3 id=&quot;1-all-MiniLM-L6-v2-句子嵌入模型&quot;&gt;1. all-MiniLM-L6-v2 句子嵌入模型&lt;/h3&gt;
+&lt;p&gt;📰 &lt;strong&gt;Hugging Face&lt;/strong&gt;&lt;/p&gt;
+&lt;</summary>
+      
+    
+    
+    
+    <category term="技术新闻" scheme="https://foundra.me/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"/>
+    
+    
+    <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+    <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+    <category term="机器学习" scheme="https://foundra.me/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="开源" scheme="https://foundra.me/tags/%E5%BC%80%E6%BA%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AI工具使用心得</title>
+    <link href="https://foundra.me/2026/02/02/AI%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/"/>
+    <id>https://foundra.me/2026/02/02/AI%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/</id>
+    <published>2026-02-02T03:06:16.000Z</published>
+    <updated>2026-02-05T03:11:29.887Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;一、Cursor&quot;&gt;一、Cursor&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://cursor.com/cn/docs/agent/overview&quot;&gt;Cursor 官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://oss.foundra.</summary>
+      
+    
+    
+    
+    <category term="工具" scheme="https://foundra.me/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="工具" scheme="https://foundra.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2026-02-02 科技圈新闻汇总</title>
+    <link href="https://foundra.me/2026/02/02/2026-02-02-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"/>
+    <id>https://foundra.me/2026/02/02/2026-02-02-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/</id>
+    <published>2026-02-01T23:25:00.000Z</published>
+    <updated>2026-02-05T03:11:29.887Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;AI-与机器学习&quot;&gt;AI 与机器学习&lt;/h2&gt;
+&lt;h3 id=&quot;Google-研究：智能体系统的扩展科学&quot;&gt;Google 研究：智能体系统的扩展科学&lt;/h3&gt;
+&lt;p&gt;Google Research 发布了一项关于 AI 智能体系统扩展性的重要研究。传统观点认为「更</summary>
+      
+    
+    
+    
+    <category term="技术新闻" scheme="https://foundra.me/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"/>
+    
+    
+    <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+    <category term="游戏" scheme="https://foundra.me/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+    <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2026-02-01 科技圈新闻汇总</title>
+    <link href="https://foundra.me/2026/02/01/2026-02-01-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"/>
+    <id>https://foundra.me/2026/02/01/2026-02-01-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/</id>
+    <published>2026-02-01T01:30:00.000Z</published>
+    <updated>2026-02-05T03:11:29.887Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;今日科技圈精彩纷呈，从 AI 内容治理到复古游戏开发，从编程语言讨论到操作系统安全，让我们一起来看看今天值得关注的技术新闻。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;🤖-AI-与机器学习&quot;&gt;🤖 AI 与机器学习&lt;/h2&gt;
+&lt;h3 id=&quot;Wiki-Education-发布-A</summary>
+      
+    
+    
+    
+    <category term="技术新闻" scheme="https://foundra.me/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"/>
+    
+    
+    <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+    <category term="游戏" scheme="https://foundra.me/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+    <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2026-01-31 科技圈新闻汇总</title>
+    <link href="https://foundra.me/2026/01/31/2026-01-31-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"/>
+    <id>https://foundra.me/2026/01/31/2026-01-31-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/</id>
+    <published>2026-01-31T00:10:00.000Z</published>
+    <updated>2026-02-05T03:11:29.887Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;🤖-AI-与机器学习&quot;&gt;🤖 AI 与机器学习&lt;/h2&gt;
+&lt;h3 id=&quot;Moonshot-AI-发布-Kimi-K2-5-技术报告&quot;&gt;Moonshot AI 发布 Kimi K2.5 技术报告&lt;/h3&gt;
+&lt;p&gt;Moonshot AI（月之暗面）发布了 Kimi</summary>
+      
+    
+    
+    
+    <category term="技术新闻" scheme="https://foundra.me/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"/>
+    
+    
+    <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+    <category term="游戏" scheme="https://foundra.me/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+    <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>打造自动化科技新闻博客：Tech News Blog Skill 介绍</title>
+    <link href="https://foundra.me/2026/01/30/2026-01-30-%E6%89%93%E9%80%A0%E8%87%AA%E5%8A%A8%E5%8C%96%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB%E5%8D%9A%E5%AE%A2-Tech-News-Blog-Skill-%E4%BB%8B%E7%BB%8D/"/>
+    <id>https://foundra.me/2026/01/30/2026-01-30-%E6%89%93%E9%80%A0%E8%87%AA%E5%8A%A8%E5%8C%96%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB%E5%8D%9A%E5%AE%A2-Tech-News-Blog-Skill-%E4%BB%8B%E7%BB%8D/</id>
+    <published>2026-01-30T05:56:00.000Z</published>
+    <updated>2026-02-05T03:11:29.887Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;背景&lt;/h2&gt;
+&lt;p&gt;每天浏览 Hacker News、技术博客获取科技资讯耗时且容易遗漏。于是我开发了 &lt;strong&gt;Tech News Blog Skill&lt;/strong&gt;，自动抓取热门科技新闻并发布到 Hexo 博客。&lt;/p&gt;
+&lt;h2 id=&quot;功</summary>
+      
+    
+    
+    
+    <category term="教程" scheme="https://foundra.me/categories/%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="Clawdbot" scheme="https://foundra.me/tags/Clawdbot/"/>
+    
+    <category term="Skill" scheme="https://foundra.me/tags/Skill/"/>
+    
+    <category term="自动化" scheme="https://foundra.me/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    
+    <category term="博客" scheme="https://foundra.me/tags/%E5%8D%9A%E5%AE%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2026-01-30 科技圈新闻汇总</title>
+    <link href="https://foundra.me/2026/01/30/2026-01-30-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"/>
+    <id>https://foundra.me/2026/01/30/2026-01-30-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/</id>
+    <published>2026-01-30T05:15:00.000Z</published>
+    <updated>2026-02-05T03:11:29.887Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;AI-与机器学习&quot;&gt;AI 与机器学习&lt;/h2&gt;
+&lt;h3 id=&quot;Google-Project-Genie：实时生成无限交互世界&quot;&gt;Google Project Genie：实时生成无限交互世界&lt;/h3&gt;
+&lt;p&gt;Google 正式向美国 AI Ultra 订阅用户推</summary>
+      
+    
+    
+    
+    <category term="技术新闻" scheme="https://foundra.me/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"/>
+    
+    
+    <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+    <category term="游戏" scheme="https://foundra.me/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+    <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Clawdbot 安装 R2 Upload Skill 指南</title>
+    <link href="https://foundra.me/2026/01/29/2026-01-29-Clawdbot-%E5%AE%89%E8%A3%85-R2-Upload-Skill-%E6%8C%87%E5%8D%97/"/>
+    <id>https://foundra.me/2026/01/29/2026-01-29-Clawdbot-%E5%AE%89%E8%A3%85-R2-Upload-Skill-%E6%8C%87%E5%8D%97/</id>
+    <published>2026-01-29T03:32:00.000Z</published>
+    <updated>2026-02-05T03:11:29.886Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;之前介绍了如何配置 Clawdbot 使用国内 Minimax，今天分享如何为 Clawdbot 安装 &lt;strong&gt;R2 Upload Skill&lt;/strong&gt;，实现图片/文件上传到 Cloudflare R2 并生成公开访问链接。&lt;/p&gt;
+&lt;h2 id=&quot;背景&quot;&gt;</summary>
+      
+    
+    
+    
+    <category term="教程" scheme="https://foundra.me/categories/%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="Clawdbot" scheme="https://foundra.me/tags/Clawdbot/"/>
+    
+    <category term="R2" scheme="https://foundra.me/tags/R2/"/>
+    
+    <category term="Cloudflare" scheme="https://foundra.me/tags/Cloudflare/"/>
+    
+    <category term="存储" scheme="https://foundra.me/tags/%E5%AD%98%E5%82%A8/"/>
+    
+    <category term="教程" scheme="https://foundra.me/tags/%E6%95%99%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2026-01-29 科技圈新闻汇总</title>
+    <link href="https://foundra.me/2026/01/29/2026-01-29-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"/>
+    <id>https://foundra.me/2026/01/29/2026-01-29-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/</id>
+    <published>2026-01-29T01:20:00.000Z</published>
+    <updated>2026-02-05T03:11:29.887Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;AI-应用落地&quot;&gt;AI 应用落地&lt;/h2&gt;
+&lt;h3 id=&quot;Trinity-Large：400B-稀疏-MoE-开源模型发布&quot;&gt;Trinity Large：400B 稀疏 MoE 开源模型发布&lt;/h3&gt;
+&lt;p&gt;Arcee AI 发布了 Trinity Large，</summary>
+      
+    
+    
+    
+    <category term="技术新闻" scheme="https://foundra.me/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"/>
+    
+    
+    <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="Kubernetes" scheme="https://foundra.me/tags/Kubernetes/"/>
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Clawdbot 配置国内 Minimax 教程</title>
+    <link href="https://foundra.me/2026/01/28/Clawdbot-%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85-Minimax-%E6%95%99%E7%A8%8B/"/>
+    <id>https://foundra.me/2026/01/28/Clawdbot-%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85-Minimax-%E6%95%99%E7%A8%8B/</id>
+    <published>2026-01-28T03:57:00.000Z</published>
+    <updated>2026-02-05T03:11:29.887Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Clawdbot 默认使用国际站 Minimax API，但国内用户访问国际站可能存在网络延迟或访问受限问题。本文介绍如何将 Clawdbot 配置为使用国内 Minimax 地址。&lt;/p&gt;
+&lt;h2 id=&quot;问题背景&quot;&gt;问题背景&lt;/h2&gt;
+&lt;p&gt;Clawdbot 默认配置的</summary>
+      
+    
+    
+    
+    <category term="教程" scheme="https://foundra.me/categories/%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="Clawdbot" scheme="https://foundra.me/tags/Clawdbot/"/>
+    
+    <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="Minimax" scheme="https://foundra.me/tags/Minimax/"/>
+    
+  </entry>
+  
+</feed>

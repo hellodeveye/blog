@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		FoundraLab
+	</title>
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="/img/favicon.ico" class="favicon-icon">
+	<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" class="favicon-icon">
+	<link rel="manifest" href="/img/site.webmanifest">
+
+	<!-- Tailwind CSS -->
+	
+<link rel="stylesheet" href="/css/main.css">
+
+
+		<!-- Dark Mode Script -->
+		<script>
+			// 深色模式初始化
+			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				document.documentElement.classList.add('dark')
+			} else {
+				document.documentElement.classList.remove('dark')
+			}
+
+			// 深色模式切换函数
+			function toggleDarkMode() {
+				if (document.documentElement.classList.contains('dark')) {
+					document.documentElement.classList.remove('dark')
+					localStorage.theme = 'light'
+				} else {
+					document.documentElement.classList.add('dark')
+					localStorage.theme = 'dark'
+				}
+			}
+
+			// 搜索功能
+			function performSearch() {
+				const query = document.getElementById('search-input').value.toLowerCase();
+				const resultsContainer = document.getElementById('search-results');
+				const loadingElement = document.getElementById('search-loading');
+				const emptyElement = document.getElementById('search-empty');
+
+				if (!query.trim()) {
+					resultsContainer.innerHTML = '';
+					emptyElement.classList.add('hidden');
+					return;
+				}
+
+				loadingElement.classList.remove('hidden');
+				emptyElement.classList.add('hidden');
+
+				// 模拟搜索延迟
+				setTimeout(() => {
+					fetch('/search.json')
+						.then(response => response.json())
+						.then(data => {
+							const results = data.filter(post =>
+								post.title.toLowerCase().includes(query) ||
+								post.content.toLowerCase().includes(query) ||
+								(post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+							);
+
+							loadingElement.classList.add('hidden');
+
+							if (results.length === 0) {
+								emptyElement.classList.remove('hidden');
+								resultsContainer.innerHTML = '';
+							} else {
+								emptyElement.classList.add('hidden');
+								displaySearchResults(results, query);
+							}
+						})
+						.catch(error => {
+							console.error('搜索出错:', error);
+							loadingElement.classList.add('hidden');
+							emptyElement.classList.remove('hidden');
+						});
+				}, 300);
+			}
+
+			function displaySearchResults(results, query) {
+				const resultsContainer = document.getElementById('search-results');
+				resultsContainer.innerHTML = results.map(post => {
+					const highlightedTitle = highlightText(post.title, query);
+					const excerpt = getExcerpt(post.content, query);
+					const highlightedExcerpt = highlightText(excerpt, query);
+
+					return `
+						<article class="bg-surface rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-surface">
+						<h3 class="text-xl font-semibold mb-2">
+						<a href="${post.url}" class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+								${highlightedTitle}
+							</a>
+						</h3>
+						<p class="text-muted mb-3 leading-relaxed">
+							${highlightedExcerpt}
+						</p>
+						<div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+							<time datetime="${post.date}">${new Date(post.date).toLocaleDateString('zh-CN')}</time>
+						${post.tags ? `<div class="flex gap-2">${post.tags.map(tag => `<span class="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-2 py-1 rounded-full text-xs">${tag}</span>`).join('')}</div>` : ''}
+						</div>
+					</article>
+				`;
+				}).join('');
+			}
+
+			function highlightText(text, query) {
+				if (!query) return text;
+				const regex = new RegExp(`(${query})`, 'gi');
+				return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+			}
+
+			function getExcerpt(content, query, maxLength = 200) {
+				const queryIndex = content.toLowerCase().indexOf(query.toLowerCase());
+				if (queryIndex === -1) {
+					return content.substring(0, maxLength) + (content.length > maxLength ? '...' : '');
+				}
+
+				const start = Math.max(0, queryIndex - 50);
+				const end = Math.min(content.length, queryIndex + query.length + 150);
+				let excerpt = content.substring(start, end);
+
+				if (start > 0) excerpt = '...' + excerpt;
+				if (end < content.length) excerpt = excerpt + '...';
+
+				return excerpt;
+			}
+		</script>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="FoundraLab" type="application/atom+xml">
+</head>
+
+    
+
+        <body class="text-gray-900 dark:text-gray-100 transition-colors duration-300 single">
+            <div class="flex flex-col">
+                <!-- 头部导航 -->
+                <header class="surface-panel sticky top-0 z-50">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+			<div class="flex-shrink-0">
+				<a href="/" class="flex items-center">
+					
+						<span class="ml-2 text-xl font-bold logo-title">
+								<span class="logo-foundra">Foundra</span><span class="logo-lab">Lab</span>
+							</span>
+				</a>
+			</div>
+			<div class="hidden md:block">
+				<nav class="ml-10 flex items-baseline space-x-4">
+					
+						<a href="/"
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							文章
+						</a>
+						
+						<a href="/about"
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							关于
+						</a>
+						
+				</nav>
+			</div>
+
+			<div class="flex items-center space-x-4">
+				<!-- 搜索按钮 -->
+				<a href="/search/"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					title="搜索">
+					<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>
+				</a>
+
+				<!-- 深色模式切换 -->
+				<button id="theme-toggle"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					title="切换主题">
+					<span id="theme-toggle-dark-icon" class="hidden"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"></path></svg></span>
+					<span id="theme-toggle-light-icon" class="hidden"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"></path></svg></span>
+				</button>
+
+				<!-- 移动端菜单按钮 -->
+				<button id="mobile-menu-button"
+					class="md:hidden p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors">
+					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg>
+				</button>
+			</div>
+		</div>
+
+		<!-- 移动端菜单 -->
+		<div id="mobile-menu" class="hidden md:hidden">
+			<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-gray-700">
+				
+					<a href="/"
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						文章
+					</a>
+					
+					<a href="/about"
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						关于
+					</a>
+					
+			</div>
+		</div>
+	</div>
+	</div>
+</header>
+
+
+                    <!-- 主要内容区域 -->
+                    <main class="flex-1">
+                        <div class="mx-auto px-2 sm:px-6 lg:px-8 py-8 max-w-5xl">
+                            <div class="main-layout flex flex-col lg:flex-row gap-8">
+                                <!-- 主内容区 -->
+                                <div class="main-content flex-1">
+                                    <div class="surface-panel rounded-lg p-4 md:p-12 lg:p-16">
+                                        <!-- 文章头部 -->
+<header class="mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
+    <div class="mb-4">
+        
+            <div class="flex flex-wrap gap-2 mb-3">
+                
+                    <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/" class="px-3 py-1 bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 rounded-full text-sm hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+                        技术新闻
+                    </a>
+                
+            </div>
+        
+        
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 leading-tight" style="letter-spacing: 0.015em; line-height: 1.3;">
+            2026-01-31 科技圈新闻汇总
+        </h1>
+        
+        <div class="flex flex-wrap items-center gap-6 text-sm text-gray-500 dark:text-gray-400" style="letter-spacing: 0.025em;">
+            <time datetime="2026-01-31T00:10:00.000Z" class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                发布于 2026年01月31日
+            </time>
+            
+            
+                <time datetime="2026-02-05T03:11:29.887Z" class="flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m-4.991 4.992"></path></svg>
+                    更新于 2026年02月05日
+                </time>
+            
+            
+            
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                    <div class="flex flex-wrap gap-1">
+                        
+                            <a href="/tags/AI/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                AI,
+                            </a>
+                        
+                            <a href="/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                科技新闻,
+                            </a>
+                        
+                            <a href="/tags/%E6%B8%B8%E6%88%8F/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                游戏,
+                            </a>
+                        
+                            <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                开发工具
+                            </a>
+                        
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</header>
+
+<!-- 悬浮目录 - 固定在左侧空白区域 -->
+<div id="floating-toc" class="hidden">
+    <div id="toc-panel" class="z-40 surface-panel rounded-xl flex flex-col" style="display: none;">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                    </svg>
+                    目录
+            </h3>
+        </div>
+        <div class="p-4 overflow-y-auto">
+            <nav id="toc-nav" class="toc-nav">
+                <!-- 目录内容将由JavaScript生成 -->
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- 悬浮目录功能 -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const floatingToc = document.getElementById('floating-toc');
+            const tocPanel = document.getElementById('toc-panel');
+            const tocNav = document.getElementById('toc-nav');
+            const postContent = document.getElementById('post-content');
+
+            if (!floatingToc || !tocPanel || !tocNav || !postContent) return;
+
+            // Move TOC to body to avoid positioning issues with glassmorphism containers
+            document.body.appendChild(floatingToc);
+
+            // 生成目录
+            function generateTOC() {
+                const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                if (headings.length === 0) return false;
+
+                let tocHTML = '<ul class="toc-list">';
+                let currentLevel = 0;
+
+                headings.forEach((heading, index) => {
+                    const level = parseInt(heading.tagName.charAt(1));
+                    const text = heading.textContent || heading.innerText;
+                    const id = heading.id || `toc-${index}`;
+
+                    // 为标题添加ID（如果没有的话）
+                    if (!heading.id) {
+                        heading.id = id;
+                    }
+
+                    // 处理层级 for <ul> tags
+                    if (level > currentLevel) {
+                        for (let i = currentLevel; i < level; i++) {
+                            if (i > 0) tocHTML += '<ul class="toc-list">';
+                        }
+                    } else if (level < currentLevel) {
+                        for (let i = currentLevel; i > level; i--) {
+                            tocHTML += '</ul>';
+                        }
+                    }
+
+                    tocHTML += `
+                <li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-target="${id}">
+                        <span class="toc-text">${text}</span>
+                    </a>
+                </li>
+            `;
+
+                    currentLevel = level;
+                });
+
+                // 关闭剩余的ul标签
+                for (let i = currentLevel; i > 1; i--) {
+                    tocHTML += '</ul>';
+                }
+                tocHTML += '</ul>';
+
+                tocNav.innerHTML = tocHTML;
+                return true;
+            }
+
+            // 精确定位目录在左侧空白区域
+            function positionTocInLeftMargin() {
+                const mainContent = document.querySelector('.main-content');
+                const tocPanel = document.getElementById('toc-panel');
+                const postContent = document.querySelector('#post-content');
+
+                if (!mainContent || !tocPanel || !postContent) return;
+
+                const mainContentRect = mainContent.getBoundingClientRect();
+                const leftSpace = mainContentRect.left;
+
+                const tocWidth = 280;
+                const marginBuffer = 32;
+
+                if (leftSpace >= tocWidth + marginBuffer) {
+                    const left = leftSpace - tocWidth - marginBuffer;
+                    const postContentRect = postContent.getBoundingClientRect();
+                    // Since we moved TOC to body, absolute positioning is relative to the document
+                    // So we need to include scroll position in top calculation
+                    const top = postContentRect.top + window.pageYOffset - 20;
+
+                    tocPanel.style.left = left + 'px';
+                    tocPanel.style.width = tocWidth + 'px';
+                    tocPanel.style.top = top + 'px';
+                    tocPanel.style.display = 'flex';
+                } else {
+                    tocPanel.style.display = 'none';
+                }
+            }
+
+            // 初始化目录
+            if (generateTOC()) {
+                floatingToc.classList.remove('hidden');
+
+                let isTocFixed = false;
+                let ticking = false;
+
+                function onWindowScroll() {
+                    if (ticking) return;
+
+                    ticking = true;
+                    requestAnimationFrame(() => {
+                        // --- 1. 高亮当前章节 ---
+                        const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                        let activeHeadingId = null;
+                        for (let i = headings.length - 1; i >= 0; i--) {
+                            if (headings[i].getBoundingClientRect().top <= 100) {
+                                activeHeadingId = headings[i].id;
+                                break;
+                            }
+                        }
+                        updateActiveTOCItem(activeHeadingId);
+
+                        // --- 2. 处理面板固定/绝对定位 ---
+                        const mainContent = document.querySelector('.main-content');
+                        if (mainContent) {
+                            const shouldFix = mainContent.getBoundingClientRect().top < 100;
+                            if (shouldFix && !isTocFixed) {
+                                isTocFixed = true;
+                                positionTocInLeftMargin();
+                                tocPanel.classList.add('is-fixed');
+                            } else if (!shouldFix && isTocFixed) {
+                                isTocFixed = false;
+                                tocPanel.classList.remove('is-fixed');
+                                // Reset to absolute position when un-fixing
+                                positionTocInLeftMargin();
+                            }
+                        }
+
+                        ticking = false;
+                    });
+                }
+
+                // 定位目录
+                positionTocInLeftMargin();
+
+                // 监听滚动和窗口大小改变
+                window.addEventListener('scroll', onWindowScroll);
+                window.addEventListener('resize', positionTocInLeftMargin);
+
+                // 初始检查
+                onWindowScroll();
+
+                // 目录点击事件
+                tocNav.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const link = e.target.closest('.toc-link');
+                    if (!link) return;
+
+                    const targetId = link.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        // 平滑滚动到目标位置
+                        const headerOffset = 80; // 考虑固定头部的高度
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // 更新活跃状态
+                        updateActiveTOCItem(targetId);
+                    }
+                });
+
+                // 滚动时高亮当前章节
+                function updateActiveTOCItem(activeId) {
+                    // 移除所有活跃状态
+                    tocNav.querySelectorAll('.toc-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+
+                    // 添加当前活跃状态
+                    if (activeId) {
+                        const activeLink = tocNav.querySelector(`[data-target="${activeId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- 左侧目录样式 -->
+    <style>
+        #toc-panel {
+            position: absolute;
+            transition: top 0.3s ease, transform 0.3s ease;
+        }
+
+        #toc-panel.is-fixed {
+            position: fixed;
+            top: 100px !important;
+            max-height: calc(100vh - 120px);
+        }
+
+        /* 目录列表样式 */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list .toc-list {
+            margin-left: 0.75rem;
+            margin-top: 0.2rem;
+        }
+
+        .toc-item {
+            margin: 0.2rem 0;
+        }
+
+        .toc-link {
+            display: flex;
+            align-items: center;
+            padding: 0.35rem 0.5rem;
+            text-decoration: none;
+            color: #6b7280;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            line-height: 1.2rem;
+            min-height: 1.8rem;
+        }
+
+        .toc-link:hover {
+            background-color: rgba(217, 119, 87, 0.12);
+            color: #c66345;
+            transform: translateX(3px);
+        }
+
+        .toc-link.active {
+            background-color: rgba(217, 119, 87, 0.18);
+            color: #c66345;
+            font-weight: 600;
+            border-left: 3px solid #c66345;
+            padding-left: 0.5rem;
+        }
+
+        .toc-text {
+            flex: 1;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-break: break-word;
+        }
+
+        /* 不同层级的样式 */
+        .toc-level-1 .toc-link {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .toc-level-2 .toc-link {
+            font-size: 0.8rem;
+        }
+
+        .toc-level-3 .toc-link,
+        .toc-level-4 .toc-link,
+        .toc-level-5 .toc-link,
+        .toc-level-6 .toc-link {
+            font-size: 0.75rem;
+        }
+
+        /* 深色模式 */
+        .dark .toc-link {
+            color: #9ca3af;
+        }
+
+        .dark .toc-link:hover {
+            background-color: rgba(217, 119, 87, 0.2);
+            color: #e28c72;
+        }
+
+        .dark .toc-link.active {
+            background-color: rgba(217, 119, 87, 0.24);
+            color: #e28c72;
+            border-left-color: #e28c72;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1023px) {
+
+            /* 小屏幕：隐藏目录 */
+            #floating-toc {
+                display: none !important;
+            }
+
+            #toc-panel {
+                display: none !important;
+            }
+        }
+
+        /* 悬浮目录的滚动条样式 */
+        #toc-panel .overflow-y-auto::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #toc-panel .overflow-y-auto::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #toc-panel .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.4);
+            border-radius: 3px;
+        }
+
+        .dark #toc-panel .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: rgba(75, 85, 99, 0.6);
+        }
+    </style>
+    
+
+
+<!-- 文章内容 -->
+<article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
+    <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
+        <h2 id="🤖-AI-与机器学习">🤖 AI 与机器学习</h2>
+<h3 id="Moonshot-AI-发布-Kimi-K2-5-技术报告">Moonshot AI 发布 Kimi K2.5 技术报告</h3>
+<p>Moonshot AI（月之暗面）发布了 Kimi K2.5 的技术报告，详细阐述了该模型的架构设计、训练方法和性能表现。作为国产大模型的重要代表，Kimi 系列在中文理解和长文本处理方面持续保持领先。</p>
+<p>📎 <a href="https://github.com/MoonshotAI/Kimi-K2.5/blob/master/tech_report.pdf">查看技术报告</a></p>
+<h3 id="TalkBits：用-AI-练习口语的语言学习应用">TalkBits：用 AI 练习口语的语言学习应用</h3>
+<p>一位开发者发布了一款名为 TalkBits 的 iOS 应用，利用 AI 技术帮助用户练习外语口语。应用提供自然的对话体验，让语言学习者能够随时随地进行口语练习。</p>
+<p>📎 <a href="https://apps.apple.com/us/app/talkbits-speak-naturally/id6756824177">App Store 下载</a></p>
+<h3 id="Moltbook：AI-Agent-的社交网络">Moltbook：AI Agent 的社交网络</h3>
+<p>一个专为 AI Agent 设计的社交网络平台正式上线。在这个平台上，AI Agent 可以分享内容、参与讨论和投票，人类用户则可以观察这些 AI 之间的互动。这代表了 AI 社交化的一个有趣尝试。</p>
+<blockquote>
+<p>&quot;Where AI agents share, discuss, and upvote. Humans welcome to observe.&quot;</p>
+</blockquote>
+<p>📎 <a href="https://www.moltbook.com/">访问 Moltbook</a></p>
+<hr>
+<h2 id="🎮-游戏与怀旧科技">🎮 游戏与怀旧科技</h2>
+<h3 id="GOG-将-Linux-视为游戏平台的-下一个重要前沿">GOG 将 Linux 视为游戏平台的&quot;下一个重要前沿&quot;</h3>
+<p>经典游戏发行平台 GOG 正在开发原生的 GOG Galaxy Linux 客户端。该公司在招聘启事中明确表示：&quot;Linux 是下一个重要前沿。&quot;这对于 Linux 游戏社区来说是一个重大利好消息，意味着更多经典游戏将以原生方式支持 Linux 平台。</p>
+<p>GOG 以其丰富的经典游戏库闻名，被 CD Projekt Red 联合创始人重新收购后，正致力于在 Steam 的阴影下开辟自己的道路。</p>
+<p>📎 <a href="https://www.xda-developers.com/gog-calls-linux-the-next-major-frontier-for-gaming-as-it-works-on-a-native-client/">阅读完整报道</a></p>
+<h3 id="Netflix-动画工作室成为-Blender-开发基金的企业赞助人">Netflix 动画工作室成为 Blender 开发基金的企业赞助人</h3>
+<p>Blender 基金会宣布 Netflix 动画工作室加入其开发基金，成为企业赞助人。这标志着 Blender 这款开源 3D 创作软件正在获得主流影视行业的广泛认可。</p>
+<p>Netflix 动画工作室技术高级副总裁 Darin Grant 表示：&quot;我们自豪地成为第一家支持 Blender 持续开发和在动画专业人士中日益普及的大型动画工作室。&quot;</p>
+<p>📎 <a href="https://www.blender.org/press/netflix-animation-studios-joins-the-blender-development-fund-as-corporate-patron/">官方公告</a></p>
+<h3 id="工程师在车库里发明火星车悬挂系统">工程师在车库里发明火星车悬挂系统</h3>
+<p>一段视频讲述了 NASA 火星车悬挂系统的诞生故事——这位工程师是在自己的车库里完成了这一革命性设计的原型。这个故事展示了创新往往来自于个人热情和坚持不懈的努力。</p>
+<p>📎 <a href="https://www.youtube.com/watch?v=QKSPk_0N4Jc">观看视频</a></p>
+<hr>
+<h2 id="🛠️-开发工具与开源">🛠️ 开发工具与开源</h2>
+<h3 id="Amla-Sandbox：为-AI-Agent-打造的-WASM-安全沙箱">Amla Sandbox：为 AI Agent 打造的 WASM 安全沙箱</h3>
+<p>这是一个为 AI Agent 设计的安全代码执行环境，使用 WebAssembly 技术提供真正的隔离。与许多框架使用 <code>exec()</code> 或 <code>subprocess</code> 不同，Amla Sandbox 通过 WASM 确保 AI 生成的代码不会危害主机系统。</p>
+<p><strong>核心特性：</strong></p>
+<ul>
+<li>WebAssembly 内存隔离</li>
+<li>能力基础的权限控制</li>
+<li>支持 JavaScript 和 Shell 脚本</li>
+<li>无需 Docker 或 VM</li>
+</ul>
+<p>📎 <a href="https://github.com/amlalabs/amla-sandbox">GitHub 仓库</a></p>
+<h3 id="Quack-Cluster：基于-DuckDB-和-Ray-的无服务器分布式-SQL-引擎">Quack-Cluster：基于 DuckDB 和 Ray 的无服务器分布式 SQL 引擎</h3>
+<p>Quack-Cluster 是一个高性能的分布式 SQL 查询引擎，结合了 Ray 分布式计算框架和 DuckDB 分析型数据库的强大功能。它允许用户直接在对象存储（如 AWS S3）上运行复杂的 SQL 查询。</p>
+<p><strong>技术亮点：</strong></p>
+<ul>
+<li>无服务器架构，自动扩展</li>
+<li>原生读取 Parquet、CSV 等格式</li>
+<li>基于 Apache Arrow 的高效数据传输</li>
+<li>Python 原生集成</li>
+</ul>
+<p>📎 <a href="https://github.com/kristianaryanto/Quack-Cluster">GitHub 仓库</a></p>
+<h3 id="PeerWeb：基于-WebTorrent-的去中心化网站托管">PeerWeb：基于 WebTorrent 的去中心化网站托管</h3>
+<p>PeerWeb 提供了一种革命性的网站托管方式，利用 WebTorrent 技术实现点对点分发。无需中心化服务器，网站可以在全球 peer 网络中分发，具有抗审查和永久可访问的特性。</p>
+<p><strong>功能特性：</strong></p>
+<ul>
+<li>拖拽上传网站文件</li>
+<li>通过 torrent hash 分享链接</li>
+<li>智能缓存加速重复访问</li>
+<li>DOMPurify XSS 防护</li>
+</ul>
+<p>📎 <a href="https://peerweb.lol/">访问 PeerWeb</a></p>
+<hr>
+<h2 id="🏗️-基础设施与行业">🏗️ 基础设施与行业</h2>
+<h3 id="Google-打击全球最大住宅代理网络-IPIDEA">Google 打击全球最大住宅代理网络 IPIDEA</h3>
+<p>Google 威胁情报团队联合合作伙伴采取行动，打击了被认为是全球最大住宅代理网络之一的 IPIDEA。该网络被广泛用于恶意活动，包括：</p>
+<ul>
+<li>为 BadBox2.0、Aisuru 和 Kimwolf 等僵尸网络提供基础设施</li>
+<li>被超过 550 个威胁组织使用</li>
+<li>涉及中国、朝鲜、伊朗和俄罗斯等国家的攻击活动</li>
+</ul>
+<p>Google 采取了法律行动封禁控制域名，并通过 Google Play Protect 自动检测和移除相关 SDK。</p>
+<p>📎 <a href="https://cloud.google.com/blog/topics/threat-intelligence/disrupting-largest-residential-proxy-network">详细报告</a></p>
+<h3 id="Stephen-Wolfram：用-Ruleology-方法研究-P-vs-NP-问题">Stephen Wolfram：用 Ruleology 方法研究 P vs NP 问题</h3>
+<p>Stephen Wolfram 发表了一篇关于 P vs NP 计算复杂性问题的研究文章，提出通过枚举和实证分析来探索这一理论计算机科学的根本问题。虽然未能解决 P vs NP 问题本身，但研究获得了大量具体结果，并为理解计算复杂性提供了新的视角。</p>
+<blockquote>
+<p>&quot;通过’在通用理论之下’观察显式、具体的案例，我们可以了解 P vs NP 问题的一些基本问题和微妙之处。&quot;</p>
+</blockquote>
+<p>📎 <a href="https://writings.stephenwolfram.com/2026/01/p-vs-np-and-the-difficulty-of-computation-a-ruliological-approach/">阅读全文</a></p>
+<hr>
+<h2 id="🎨-趣闻">🎨 趣闻</h2>
+<h3 id="AntiRender：去除建筑渲染图的-虚假光泽">AntiRender：去除建筑渲染图的&quot;虚假光泽&quot;</h3>
+<p>Antirender 是一个有趣的工具，旨在去除建筑渲染图中常见的过度美化效果，让人们看到更真实的建筑设计。这个项目挑战了建筑行业中普遍存在的过度渲染现象。</p>
+<p>📎 <a href="https://antirender.com/">访问网站</a></p>
+<h3 id="HTTP-Cats：用猫咪图片解释-HTTP-状态码">HTTP Cats：用猫咪图片解释 HTTP 状态码</h3>
+<p>一个经典的开发者趣味项目，用可爱的猫咪图片来解释各种 HTTP 状态码。例如 404 是一只找不到方向的猫，500 是一只困惑的猫。</p>
+<p>📎 <a href="https://http.cat/">查看 HTTP Cats</a></p>
+<h3 id="Wallace-and-Gromit-定制字体-Buttered-Crumpet">Wallace and Gromit 定制字体 Buttered Crumpet</h3>
+<p>字体设计师 Jamie Clarke 为经典动画《超级无敌掌门狗》(Wallace and Gromit) 创作了一款定制字体 &quot;Buttered Crumpet&quot;，完美捕捉了影片的独特风格和英式幽默感。</p>
+<p>📎 <a href="https://jamieclarketype.com/case-study/wallace-and-gromit-font/">字体案例研究</a></p>
+<hr>
+<p><em>本文汇总自 Hacker News 等科技社区信息源，每日更新，涵盖 AI 应用、游戏技术、开发工具及科技行业动态。</em></p>
+
+    </div>
+</article>
+
+<!-- 文章标签 -->
+
+    <div class="mb-8 p-4 bg-surface-muted rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+            标签
+        </h3>
+        <div class="flex flex-wrap gap-2">
+            
+                <a href="/tags/AI/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    AI
+                </a>
+            
+                <a href="/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    科技新闻
+                </a>
+            
+                <a href="/tags/%E6%B8%B8%E6%88%8F/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    游戏
+                </a>
+            
+                <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    开发工具
+                </a>
+            
+        </div>
+    </div>
+
+
+<!-- 文章导航 -->
+<nav class="flex justify-between items-center py-6 border-t border-gray-200 dark:border-gray-700">
+    <div class="flex-1">
+        
+            <a href="/2026/02/01/2026-02-01-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/" class="group flex items-center text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"></path></svg>
+                <div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">上一篇</div>
+                    <div class="font-medium line-clamp-1">2026-02-01 科技圈新闻汇总</div>
+                </div>
+            </a>
+        
+    </div>
+    
+    <div class="flex-1 text-right">
+        
+            <a href="/2026/01/30/2026-01-30-%E6%89%93%E9%80%A0%E8%87%AA%E5%8A%A8%E5%8C%96%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB%E5%8D%9A%E5%AE%A2-Tech-News-Blog-Skill-%E4%BB%8B%E7%BB%8D/" class="group flex items-center justify-end text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <div class="text-right">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">下一篇</div>
+                    <div class="font-medium line-clamp-1">打造自动化科技新闻博客：Tech News Blog Skill 介绍</div>
+                </div>
+                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+            </a>
+        
+    </div>
+</nav>
+
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- 页脚 -->
+                    <footer class="surface-panel border-t border-surface mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+            <p class="text-gray-600 dark:text-gray-400 mb-2">
+                FoundraLab @ All Rights Reserved 2026
+            </p>
+            
+                <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-4</a></p>
+                
+        </div>
+    </div>
+</footer>
+
+<!-- 回到顶部按钮 -->
+<button id="back-to-top"
+    class="fixed bottom-8 right-8 surface-panel text-muted hover:text-primary-600 dark:hover:text-primary-400 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible z-50">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path></svg>
+</button>
+
+            </div>
+        </body>
+        <!-- JavaScript -->
+        <script src="/js/plugins.js" defer></script>
+        <!-- Mermaid 支持 -->
+        
+            <script src="/js/mermaid.min.js"></script>
+            <script src="/js/mermaid-init.js"></script>
+            
+<link rel="stylesheet" href="/css/mermaid.css">
+
+            
+
+</html>

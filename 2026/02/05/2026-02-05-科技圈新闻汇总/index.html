@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		FoundraLab
+	</title>
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="/img/favicon.ico" class="favicon-icon">
+	<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" class="favicon-icon">
+	<link rel="manifest" href="/img/site.webmanifest">
+
+	<!-- Tailwind CSS -->
+	
+<link rel="stylesheet" href="/css/main.css">
+
+
+		<!-- Dark Mode Script -->
+		<script>
+			// 深色模式初始化
+			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				document.documentElement.classList.add('dark')
+			} else {
+				document.documentElement.classList.remove('dark')
+			}
+
+			// 深色模式切换函数
+			function toggleDarkMode() {
+				if (document.documentElement.classList.contains('dark')) {
+					document.documentElement.classList.remove('dark')
+					localStorage.theme = 'light'
+				} else {
+					document.documentElement.classList.add('dark')
+					localStorage.theme = 'dark'
+				}
+			}
+
+			// 搜索功能
+			function performSearch() {
+				const query = document.getElementById('search-input').value.toLowerCase();
+				const resultsContainer = document.getElementById('search-results');
+				const loadingElement = document.getElementById('search-loading');
+				const emptyElement = document.getElementById('search-empty');
+
+				if (!query.trim()) {
+					resultsContainer.innerHTML = '';
+					emptyElement.classList.add('hidden');
+					return;
+				}
+
+				loadingElement.classList.remove('hidden');
+				emptyElement.classList.add('hidden');
+
+				// 模拟搜索延迟
+				setTimeout(() => {
+					fetch('/search.json')
+						.then(response => response.json())
+						.then(data => {
+							const results = data.filter(post =>
+								post.title.toLowerCase().includes(query) ||
+								post.content.toLowerCase().includes(query) ||
+								(post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+							);
+
+							loadingElement.classList.add('hidden');
+
+							if (results.length === 0) {
+								emptyElement.classList.remove('hidden');
+								resultsContainer.innerHTML = '';
+							} else {
+								emptyElement.classList.add('hidden');
+								displaySearchResults(results, query);
+							}
+						})
+						.catch(error => {
+							console.error('搜索出错:', error);
+							loadingElement.classList.add('hidden');
+							emptyElement.classList.remove('hidden');
+						});
+				}, 300);
+			}
+
+			function displaySearchResults(results, query) {
+				const resultsContainer = document.getElementById('search-results');
+				resultsContainer.innerHTML = results.map(post => {
+					const highlightedTitle = highlightText(post.title, query);
+					const excerpt = getExcerpt(post.content, query);
+					const highlightedExcerpt = highlightText(excerpt, query);
+
+					return `
+						<article class="bg-surface rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-surface">
+						<h3 class="text-xl font-semibold mb-2">
+						<a href="${post.url}" class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+								${highlightedTitle}
+							</a>
+						</h3>
+						<p class="text-muted mb-3 leading-relaxed">
+							${highlightedExcerpt}
+						</p>
+						<div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+							<time datetime="${post.date}">${new Date(post.date).toLocaleDateString('zh-CN')}</time>
+						${post.tags ? `<div class="flex gap-2">${post.tags.map(tag => `<span class="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-2 py-1 rounded-full text-xs">${tag}</span>`).join('')}</div>` : ''}
+						</div>
+					</article>
+				`;
+				}).join('');
+			}
+
+			function highlightText(text, query) {
+				if (!query) return text;
+				const regex = new RegExp(`(${query})`, 'gi');
+				return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+			}
+
+			function getExcerpt(content, query, maxLength = 200) {
+				const queryIndex = content.toLowerCase().indexOf(query.toLowerCase());
+				if (queryIndex === -1) {
+					return content.substring(0, maxLength) + (content.length > maxLength ? '...' : '');
+				}
+
+				const start = Math.max(0, queryIndex - 50);
+				const end = Math.min(content.length, queryIndex + query.length + 150);
+				let excerpt = content.substring(start, end);
+
+				if (start > 0) excerpt = '...' + excerpt;
+				if (end < content.length) excerpt = excerpt + '...';
+
+				return excerpt;
+			}
+		</script>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="FoundraLab" type="application/atom+xml">
+</head>
+
+    
+
+        <body class="text-gray-900 dark:text-gray-100 transition-colors duration-300 single">
+            <div class="flex flex-col">
+                <!-- 头部导航 -->
+                <header class="surface-panel sticky top-0 z-50">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+			<div class="flex-shrink-0">
+				<a href="/" class="flex items-center">
+					
+						<span class="ml-2 text-xl font-bold logo-title">
+								<span class="logo-foundra">Foundra</span><span class="logo-lab">Lab</span>
+							</span>
+				</a>
+			</div>
+			<div class="hidden md:block">
+				<nav class="ml-10 flex items-baseline space-x-4">
+					
+						<a href="/"
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							文章
+						</a>
+						
+						<a href="/about"
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							关于
+						</a>
+						
+				</nav>
+			</div>
+
+			<div class="flex items-center space-x-4">
+				<!-- 搜索按钮 -->
+				<a href="/search/"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					title="搜索">
+					<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>
+				</a>
+
+				<!-- 深色模式切换 -->
+				<button id="theme-toggle"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					title="切换主题">
+					<span id="theme-toggle-dark-icon" class="hidden"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"></path></svg></span>
+					<span id="theme-toggle-light-icon" class="hidden"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"></path></svg></span>
+				</button>
+
+				<!-- 移动端菜单按钮 -->
+				<button id="mobile-menu-button"
+					class="md:hidden p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors">
+					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg>
+				</button>
+			</div>
+		</div>
+
+		<!-- 移动端菜单 -->
+		<div id="mobile-menu" class="hidden md:hidden">
+			<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-gray-700">
+				
+					<a href="/"
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						文章
+					</a>
+					
+					<a href="/about"
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						关于
+					</a>
+					
+			</div>
+		</div>
+	</div>
+	</div>
+</header>
+
+
+                    <!-- 主要内容区域 -->
+                    <main class="flex-1">
+                        <div class="mx-auto px-2 sm:px-6 lg:px-8 py-8 max-w-5xl">
+                            <div class="main-layout flex flex-col lg:flex-row gap-8">
+                                <!-- 主内容区 -->
+                                <div class="main-content flex-1">
+                                    <div class="surface-panel rounded-lg p-4 md:p-12 lg:p-16">
+                                        <!-- 文章头部 -->
+<header class="mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
+    <div class="mb-4">
+        
+            <div class="flex flex-wrap gap-2 mb-3">
+                
+                    <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/" class="px-3 py-1 bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 rounded-full text-sm hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+                        技术新闻
+                    </a>
+                
+            </div>
+        
+        
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 leading-tight" style="letter-spacing: 0.015em; line-height: 1.3;">
+            2026-02-05 科技圈新闻汇总
+        </h1>
+        
+        <div class="flex flex-wrap items-center gap-6 text-sm text-gray-500 dark:text-gray-400" style="letter-spacing: 0.025em;">
+            <time datetime="2026-02-05T07:41:00.000Z" class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                发布于 2026年02月05日
+            </time>
+            
+            
+                <time datetime="2026-02-05T07:55:01.057Z" class="flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m-4.991 4.992"></path></svg>
+                    更新于 2026年02月05日
+                </time>
+            
+            
+            
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                    <div class="flex flex-wrap gap-1">
+                        
+                            <a href="/tags/AI/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                AI,
+                            </a>
+                        
+                            <a href="/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                科技新闻,
+                            </a>
+                        
+                            <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                开发工具,
+                            </a>
+                        
+                            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                机器学习,
+                            </a>
+                        
+                            <a href="/tags/%E5%BC%80%E6%BA%90/" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                开源
+                            </a>
+                        
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</header>
+
+<!-- 悬浮目录 - 固定在左侧空白区域 -->
+<div id="floating-toc" class="hidden">
+    <div id="toc-panel" class="z-40 surface-panel rounded-xl flex flex-col" style="display: none;">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                    </svg>
+                    目录
+            </h3>
+        </div>
+        <div class="p-4 overflow-y-auto">
+            <nav id="toc-nav" class="toc-nav">
+                <!-- 目录内容将由JavaScript生成 -->
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- 悬浮目录功能 -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const floatingToc = document.getElementById('floating-toc');
+            const tocPanel = document.getElementById('toc-panel');
+            const tocNav = document.getElementById('toc-nav');
+            const postContent = document.getElementById('post-content');
+
+            if (!floatingToc || !tocPanel || !tocNav || !postContent) return;
+
+            // Move TOC to body to avoid positioning issues with glassmorphism containers
+            document.body.appendChild(floatingToc);
+
+            // 生成目录
+            function generateTOC() {
+                const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                if (headings.length === 0) return false;
+
+                let tocHTML = '<ul class="toc-list">';
+                let currentLevel = 0;
+
+                headings.forEach((heading, index) => {
+                    const level = parseInt(heading.tagName.charAt(1));
+                    const text = heading.textContent || heading.innerText;
+                    const id = heading.id || `toc-${index}`;
+
+                    // 为标题添加ID（如果没有的话）
+                    if (!heading.id) {
+                        heading.id = id;
+                    }
+
+                    // 处理层级 for <ul> tags
+                    if (level > currentLevel) {
+                        for (let i = currentLevel; i < level; i++) {
+                            if (i > 0) tocHTML += '<ul class="toc-list">';
+                        }
+                    } else if (level < currentLevel) {
+                        for (let i = currentLevel; i > level; i--) {
+                            tocHTML += '</ul>';
+                        }
+                    }
+
+                    tocHTML += `
+                <li class="toc-item toc-level-${level}">
+                    <a href="#${id}" class="toc-link" data-target="${id}">
+                        <span class="toc-text">${text}</span>
+                    </a>
+                </li>
+            `;
+
+                    currentLevel = level;
+                });
+
+                // 关闭剩余的ul标签
+                for (let i = currentLevel; i > 1; i--) {
+                    tocHTML += '</ul>';
+                }
+                tocHTML += '</ul>';
+
+                tocNav.innerHTML = tocHTML;
+                return true;
+            }
+
+            // 精确定位目录在左侧空白区域
+            function positionTocInLeftMargin() {
+                const mainContent = document.querySelector('.main-content');
+                const tocPanel = document.getElementById('toc-panel');
+                const postContent = document.querySelector('#post-content');
+
+                if (!mainContent || !tocPanel || !postContent) return;
+
+                const mainContentRect = mainContent.getBoundingClientRect();
+                const leftSpace = mainContentRect.left;
+
+                const tocWidth = 280;
+                const marginBuffer = 32;
+
+                if (leftSpace >= tocWidth + marginBuffer) {
+                    const left = leftSpace - tocWidth - marginBuffer;
+                    const postContentRect = postContent.getBoundingClientRect();
+                    // Since we moved TOC to body, absolute positioning is relative to the document
+                    // So we need to include scroll position in top calculation
+                    const top = postContentRect.top + window.pageYOffset - 20;
+
+                    tocPanel.style.left = left + 'px';
+                    tocPanel.style.width = tocWidth + 'px';
+                    tocPanel.style.top = top + 'px';
+                    tocPanel.style.display = 'flex';
+                } else {
+                    tocPanel.style.display = 'none';
+                }
+            }
+
+            // 初始化目录
+            if (generateTOC()) {
+                floatingToc.classList.remove('hidden');
+
+                let isTocFixed = false;
+                let ticking = false;
+
+                function onWindowScroll() {
+                    if (ticking) return;
+
+                    ticking = true;
+                    requestAnimationFrame(() => {
+                        // --- 1. 高亮当前章节 ---
+                        const headings = postContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                        let activeHeadingId = null;
+                        for (let i = headings.length - 1; i >= 0; i--) {
+                            if (headings[i].getBoundingClientRect().top <= 100) {
+                                activeHeadingId = headings[i].id;
+                                break;
+                            }
+                        }
+                        updateActiveTOCItem(activeHeadingId);
+
+                        // --- 2. 处理面板固定/绝对定位 ---
+                        const mainContent = document.querySelector('.main-content');
+                        if (mainContent) {
+                            const shouldFix = mainContent.getBoundingClientRect().top < 100;
+                            if (shouldFix && !isTocFixed) {
+                                isTocFixed = true;
+                                positionTocInLeftMargin();
+                                tocPanel.classList.add('is-fixed');
+                            } else if (!shouldFix && isTocFixed) {
+                                isTocFixed = false;
+                                tocPanel.classList.remove('is-fixed');
+                                // Reset to absolute position when un-fixing
+                                positionTocInLeftMargin();
+                            }
+                        }
+
+                        ticking = false;
+                    });
+                }
+
+                // 定位目录
+                positionTocInLeftMargin();
+
+                // 监听滚动和窗口大小改变
+                window.addEventListener('scroll', onWindowScroll);
+                window.addEventListener('resize', positionTocInLeftMargin);
+
+                // 初始检查
+                onWindowScroll();
+
+                // 目录点击事件
+                tocNav.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const link = e.target.closest('.toc-link');
+                    if (!link) return;
+
+                    const targetId = link.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        // 平滑滚动到目标位置
+                        const headerOffset = 80; // 考虑固定头部的高度
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // 更新活跃状态
+                        updateActiveTOCItem(targetId);
+                    }
+                });
+
+                // 滚动时高亮当前章节
+                function updateActiveTOCItem(activeId) {
+                    // 移除所有活跃状态
+                    tocNav.querySelectorAll('.toc-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+
+                    // 添加当前活跃状态
+                    if (activeId) {
+                        const activeLink = tocNav.querySelector(`[data-target="${activeId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- 左侧目录样式 -->
+    <style>
+        #toc-panel {
+            position: absolute;
+            transition: top 0.3s ease, transform 0.3s ease;
+        }
+
+        #toc-panel.is-fixed {
+            position: fixed;
+            top: 100px !important;
+            max-height: calc(100vh - 120px);
+        }
+
+        /* 目录列表样式 */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list .toc-list {
+            margin-left: 0.75rem;
+            margin-top: 0.2rem;
+        }
+
+        .toc-item {
+            margin: 0.2rem 0;
+        }
+
+        .toc-link {
+            display: flex;
+            align-items: center;
+            padding: 0.35rem 0.5rem;
+            text-decoration: none;
+            color: #6b7280;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            line-height: 1.2rem;
+            min-height: 1.8rem;
+        }
+
+        .toc-link:hover {
+            background-color: rgba(217, 119, 87, 0.12);
+            color: #c66345;
+            transform: translateX(3px);
+        }
+
+        .toc-link.active {
+            background-color: rgba(217, 119, 87, 0.18);
+            color: #c66345;
+            font-weight: 600;
+            border-left: 3px solid #c66345;
+            padding-left: 0.5rem;
+        }
+
+        .toc-text {
+            flex: 1;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-break: break-word;
+        }
+
+        /* 不同层级的样式 */
+        .toc-level-1 .toc-link {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .toc-level-2 .toc-link {
+            font-size: 0.8rem;
+        }
+
+        .toc-level-3 .toc-link,
+        .toc-level-4 .toc-link,
+        .toc-level-5 .toc-link,
+        .toc-level-6 .toc-link {
+            font-size: 0.75rem;
+        }
+
+        /* 深色模式 */
+        .dark .toc-link {
+            color: #9ca3af;
+        }
+
+        .dark .toc-link:hover {
+            background-color: rgba(217, 119, 87, 0.2);
+            color: #e28c72;
+        }
+
+        .dark .toc-link.active {
+            background-color: rgba(217, 119, 87, 0.24);
+            color: #e28c72;
+            border-left-color: #e28c72;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1023px) {
+
+            /* 小屏幕：隐藏目录 */
+            #floating-toc {
+                display: none !important;
+            }
+
+            #toc-panel {
+                display: none !important;
+            }
+        }
+
+        /* 悬浮目录的滚动条样式 */
+        #toc-panel .overflow-y-auto::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #toc-panel .overflow-y-auto::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #toc-panel .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.4);
+            border-radius: 3px;
+        }
+
+        .dark #toc-panel .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: rgba(75, 85, 99, 0.6);
+        }
+    </style>
+    
+
+
+<!-- 文章内容 -->
+<article class="prose prose-lg prose-gray dark:prose-invert max-w-none mb-16">
+    <div class="post-content" id="post-content" style="font-size: 18px; line-height: 1.9; letter-spacing: 0.025em;">
+        <h2 id="AI-与机器学习">AI 与机器学习</h2>
+<h3 id="1-all-MiniLM-L6-v2-句子嵌入模型">1. all-MiniLM-L6-v2 句子嵌入模型</h3>
+<p>📰 <strong>Hugging Face</strong></p>
+<p><strong>摘要</strong>：all-MiniLM-L6-v2 是 sentence-transformers 库中的一款轻量级句子嵌入模型，基于 6 层 MiniLM 架构设计。该模型能够将句子和段落高效编码为 384 维的稠密向量，广泛应用于语义相似度计算、文本聚类和语义搜索等自然语言处理任务。</p>
+<p><strong>核心要点</strong>：<br>
+• 轻量高效：6 层 MiniLM 架构，参数量小，推理速度快，适合资源受限环境部署<br>
+• 通用性强：支持多种语言任务，包括语义相似度、文本聚类和语义搜索等应用场景<br>
+• 标准化输出：生成固定维度（384维）的稠密向量表示，便于下游任务处理和向量数据库存储</p>
+<p>🔗 <a href="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2">阅读原文</a></p>
+<hr>
+<h3 id="2-Falconsai-NSFW图片检测模型">2. Falconsai NSFW图片检测模型</h3>
+<p>📰 <strong>Hugging Face</strong></p>
+<p><strong>摘要</strong>：这是一个基于深度学习的NSFW（Not Safe For Work，不适合工作场所）图片内容检测模型，能够自动识别和分类图像中的成人或不当内容，适用于内容审核、平台安全过滤等应用场景。</p>
+<p><strong>核心要点</strong>：<br>
+• 采用深度学习技术实现图片内容的自动检测与分类<br>
+• 可识别成人、暴力、敏感等不当图像内容<br>
+• 主要应用于社交平台、内容审核系统等需要过滤不当图片的场景</p>
+<p>🔗 <a href="https://huggingface.co/Falconsai/nsfw_image_detection">阅读原文</a></p>
+<hr>
+<h3 id="3-基于多尺度结构生成的蛋白质自回归建模">3. 基于多尺度结构生成的蛋白质自回归建模</h3>
+<p>📰 <strong>arXiv AI</strong></p>
+<p><strong>摘要</strong>：本文提出了蛋白质自回归建模（PAR），这是首个用于蛋白质主链生成的多尺度自回归框架。该方法利用蛋白质的层级结构特性，采用从粗到精的跨尺度预测策略，模拟雕刻雕像般的生成过程，先形成粗略拓扑再逐步精细化。实验表明，PAR能够生成具有真实全局拓扑和局部几何特征的高质量蛋白质结构。</p>
+<p><strong>核心要点</strong>：<br>
+• 首创多尺度自回归框架，实现蛋白质主链的层级化生成<br>
+• 采用从粗到精的预测策略，模拟雕塑雕刻式的结构构建过程<br>
+• 生成的蛋白质结构兼具真实的全局拓扑和局部几何特征</p>
+<p>🔗 <a href="http://arxiv.org/abs/2602.04883v1">阅读原文</a></p>
+<hr>
+<h3 id="4-面向物联网模型适应性的对比持续学习方法">4. 面向物联网模型适应性的对比持续学习方法</h3>
+<p>📰 <strong>arXiv AI</strong></p>
+<p><strong>摘要</strong>：本文针对物联网部署环境中存在的非平稳动态特性，提出了一种基于对比学习的持续学习框架。在传感器漂移、用户行为演化以及隐私需求异构性等多重挑战下，该方法能够实现模型随时间持续适应，同时有效避免灾难性遗忘问题。实验表明，该方法在保持模型性能的同时，显著提升了物联网应用在动态环境中的鲁棒性和适应性。</p>
+<p><strong>核心要点</strong>：<br>
+• 针对物联网环境的非平稳特性，提出创新性的对比持续学习架构，有效应对传感器漂移和用户行为演化带来的模型性能衰退问题<br>
+• 设计了兼顾异构用户隐私需求的适应机制，在保护用户隐私的前提下实现模型的持续优化与更新<br>
+• 通过在多个物联网应用场景下的实验验证，证明了该方法在避免灾难性遗忘和维持模型效用方面的优越性能</p>
+<p>🔗 <a href="http://arxiv.org/abs/2602.04881v1">阅读原文</a></p>
+<hr>
+<h2 id="开发工具与开源">开发工具与开源</h2>
+<h3 id="1-初级开发者是否仍应该用-硬核-方式学习JavaScript？">1. 初级开发者是否仍应该用&quot;硬核&quot;方式学习JavaScript？</h3>
+<p>📰 <strong><a href="http://Dev.to">Dev.to</a></strong></p>
+<p><strong>摘要</strong>：本文探讨了初级开发者是否仍需要通过&quot;困难模式&quot;学习JavaScript。作者指出，&quot;困难模式&quot;并非指观看倍速教程或复制粘贴代码，而是指主动思考、反复调试、独立解决问题的学习方式。文章认为，尽管学习资源日益丰富，但这种看似低效的艰难学习过程实际上能培养更深层次的理解和解决问题的能力，是成为优秀开发者的必经之路。</p>
+<p><strong>核心要点</strong>：<br>
+• &quot;困难模式&quot;强调主动学习而非被动消费，开发者需要亲手编码、遭遇错误并自行调试，而非依赖现成代码<br>
+• 跳过困难的学习过程虽然短期内看似高效，但长期会导致基础知识薄弱，难以应对复杂问题和技术债<br>
+• 面对挑战并克服困难的过程能培养程序员的思维方式和问题解决能力，这些软技能比单纯掌握语法更为重要</p>
+<p>🔗 <a href="https://dev.to/art_light/should-junior-developers-still-learn-javascript-the-hard-way-4j0l">阅读原文</a></p>
+<hr>
+<h2 id="基础设施与云原生">基础设施与云原生</h2>
+<h3 id="1-别租用云服务了，自建基础设施吧">1. 别租用云服务了，自建基础设施吧</h3>
+<p>📰 <strong>Hacker News</strong></p>
+<p><strong>摘要</strong>：本文讨论了企业在云计算成本方面的误区，指出长期来看租用云服务的总体拥有成本（TCO）可能远高于自建基础设施。作者通过分析资本支出与运营支出的转换、闲置资源浪费、以及云服务商的价格上涨趋势，建议对于大规模、长期稳定的工作负载，企业应考虑回归自建或托管数据中心的方式。</p>
+<p><strong>核心要点</strong>：<br>
+• 云计算虽然提供了灵活性，但按需付费的模式对于稳定工作负载来说并不经济，长期运行成本可能比自建基础设施高出3-5倍<br>
+• 企业往往低估了云资源的闲置浪费，包括未充分利用的实例、过度的冗余配置以及预留实例的沉没成本<br>
+• 对于日均利用率超过30-40%、运行周期超过2-3年的工作负载，自建或托管服务器通常是更明智的选择</p>
+<p>🔗 <a href="https://blog.comma.ai/datacenter/">阅读原文</a></p>
+<hr>
+<h2 id="产品与设计">产品与设计</h2>
+<h3 id="1-通过亲手重构掌握编程技术">1. 通过亲手重构掌握编程技术</h3>
+<p>📰 <strong>GitHub Trending</strong></p>
+<p><strong>摘要</strong>：build-your-own-x 是一个综合性编程学习资源库，汇集了各类技术从零实现的教程和指南。该项目鼓励开发者通过亲手重建自己喜爱的技术（如数据库、操作系统、Web服务器等）来深入理解其底层原理，从而达到精通编程的目的。无论你是初学者还是资深开发者，都能在这里找到适合自己的挑战项目。</p>
+<p><strong>核心要点</strong>：<br>
+• 涵盖多种技术领域的从零构建教程，包括但不限于数据库、操作系统、Web服务器、编程语言、Git版本控制系统等核心技术的实现指南<br>
+• 提供分步骤的实践指导，帮助开发者系统性地理解复杂技术的内部工作原理，通过动手实践加深对理论知识的理解<br>
+• 适合不同水平的学习者，从基础入门到高级进阶均有覆盖，是提升编程技能和系统设计能力的理想学习资源</p>
+<p>🔗 <a href="https://github.com/codecrafters-io/build-your-own-x">阅读原文</a></p>
+<hr>
+<h2 id="趣闻与观点">趣闻与观点</h2>
+<h3 id="1-内部主机名泄露的安全风险分析">1. 内部主机名泄露的安全风险分析</h3>
+<p>📰 <strong>Hacker News</strong></p>
+<p><strong>摘要</strong>：本文讨论了企业网络中内部主机名意外泄露的安全隐患，攻击者可能利用这些泄露的信息进行更精准的网络侦察和针对性攻击。主机名通常包含组织内部结构、服务器用途等敏感信息，一旦外泄将显著增加系统被入侵的风险。</p>
+<p><strong>核心要点</strong>：<br>
+• 内部主机名可能暴露网络拓扑结构和系统部署信息<br>
+• 攻击者可通过泄露的主机名进行定向侦察和社会工程学攻击<br>
+• 建议加强网络边界防护，避免内部信息通过DNS或HTTP请求外泄</p>
+<p>🔗 <a href="https://rachelbythebay.com/w/2026/02/03/badnas/">阅读原文</a></p>
+<hr>
+<h3 id="2-freeCodeCamp-freeCodeCamp：免费开源编程学习平台">2. freeCodeCamp/freeCodeCamp：免费开源编程学习平台</h3>
+<p>📰 <strong>GitHub Trending</strong></p>
+<p><strong>摘要</strong>：freeCodeCamp是一个全球知名的免费编程学习平台，其开源代码库包含了完整的课程内容和学习资源。该项目致力于帮助学习者免费掌握编程、数学和计算机科学知识，拥有数百万活跃用户，是GitHub上最受欢迎的教育类开源项目之一。</p>
+<p><strong>核心要点</strong>：<br>
+• 提供从基础到高级的完整编程学习路径，涵盖前端开发、后端开发、数据科学等多个领域<br>
+• 课程内容完全开源透明，任何人都可以参与贡献、改进或本地化<br>
+• 配套在线编程环境和学习社区，支持学习者通过实践项目巩固知识</p>
+<p>🔗 <a href="https://github.com/freeCodeCamp/freeCodeCamp">阅读原文</a></p>
+<hr>
+<h3 id="3-2026年学习CSS是浪费时间吗？">3. 2026年学习CSS是浪费时间吗？</h3>
+<p>📰 <strong><a href="http://Dev.to">Dev.to</a></strong></p>
+<p><strong>摘要</strong>：随着现代框架、组件库和原子化CSS的兴起，许多开发者开始质疑学习传统CSS的必要性。本文探讨了在技术快速迭代的当下，CSS核心知识是否仍然重要，以及如何在新工具与基础技能之间找到平衡。</p>
+<p><strong>核心要点</strong>：<br>
+• 现代工具如Tailwind CSS和组件库虽然提高了效率，但理解CSS核心原理仍然是解决复杂布局问题和优化性能的基础<br>
+• 纯CSS知识在SEO、无障碍访问和跨浏览器兼容性方面仍然具有不可替代的价值<br>
+• 建议采用&quot;掌握基础+工具补充&quot;的学习策略，既不盲目排斥新工具，也不忽视传统CSS的重要性</p>
+<p>🔗 <a href="https://dev.to/sylwia-lask/is-learning-css-a-waste-of-time-in-2026-nj3">阅读原文</a></p>
+<hr>
+<h3 id="4-Zig-libc">4. Zig libc</h3>
+<p>📰 <strong>Lobsters</strong></p>
+<p><strong>摘要</strong>：Zig语言提供了对C标准库（libc）的原生支持，允许开发者无缝集成和使用现有C库。这增强了Zig的生态系统，使其能够利用C语言的丰富资源，同时保持自身的现代特性。</p>
+<p><strong>核心要点</strong>：<br>
+• Zig支持直接调用C函数，实现高效的C互操作性。<br>
+• 提供跨平台和架构的libc支持，简化跨平台开发。<br>
+• 集成方式简化了C库的依赖管理和编译过程。</p>
+<p>🔗 <a href="https://ziglang.org/devlog/2026/#2026-01-31">阅读原文</a></p>
+<hr>
+<h3 id="5-Notepad-疑似被国家级黑客组织劫持">5. Notepad++ 疑似被国家级黑客组织劫持</h3>
+<p>📰 <strong>Lobsters</strong></p>
+<p><strong>摘要</strong>：据安全研究人员披露，知名文本编辑器Notepad++可能已被国家级黑客组织入侵，攻击者通过供应链攻击等方式在该软件中植入后门程序。初步分析表明此次攻击具有高度复杂性和针对性，受影响版本可能涉及大量企业用户。目前开发团队已介入调查，并建议用户立即检查系统是否存在异常行为。</p>
+<p><strong>核心要点</strong>：<br>
+• 安全研究人员发现Notepad++更新服务器存在异常流量，部分安装包可能被植入恶意代码，攻击者疑似利用供应链攻击方式入侵<br>
+• 此次攻击具有国家级黑客组织特征，攻击手法隐蔽且持续时间长，主要针对使用该软件的企业和政府机构<br>
+• 开发团队建议用户暂停自动更新功能，使用离线安装包或切换至其他文本编辑器，并检查系统是否存在可疑网络连接</p>
+<p>🔗 <a href="https://notepad-plus-plus.org/news/hijacked-incident-info-update/">阅读原文</a></p>
+<hr>
+<h3 id="6-美国移民与海关执法局就广告技术位置数据用于调查用途征求行业意见">6. 美国移民与海关执法局就广告技术位置数据用于调查用途征求行业意见</h3>
+<p>📰 <strong>Hacker News</strong></p>
+<p><strong>摘要</strong>：美国移民与海关执法局（ICE）近日向科技行业征询意见，探讨如何利用广告技术收集的位置数据支持执法调查。此举引发了关于数据隐私、监管框架以及政府获取商业数据边界的讨论。行业利益相关者需在规定期限内提交反馈意见。</p>
+<p><strong>核心要点</strong>：<br>
+• ICE寻求行业对广告技术位置数据用于执法调查的意见征询<br>
+• 议题涉及数据隐私保护与执法需求之间的平衡问题<br>
+• 行业利益相关者需在规定期限内提交书面反馈意见</p>
+<p>🔗 <a href="https://www.biometricupdate.com/202602/ice-seeks-industry-input-on-ad-tech-location-data-for-investigative-use">阅读原文</a></p>
+<hr>
+<h3 id="7-sindresorhus-awesome：关于各种有趣主题的精选资源列表合集">7. sindresorhus/awesome：关于各种有趣主题的精选资源列表合集</h3>
+<p>📰 <strong>GitHub Trending</strong></p>
+<p><strong>摘要</strong>：这个仓库是一个汇集了各种有趣主题优秀资源列表的合集，由知名开源贡献者 sindresorhus 创建和维护。它收录了编程、设计、艺术、科学等众多领域的精选资源，是开发者和技术爱好者探索新知识的绝佳起点。该项目采用社区驱动的方式，持续更新和补充新的主题列表，涵盖了从人工智能到烹饪技巧的广泛内容。</p>
+<p><strong>核心要点</strong>：<br>
+• 收录了编程、开发、设计、艺术、科学等数十个领域的精选资源列表<br>
+• 由活跃的开源社区维护，持续更新确保资源的时效性和准确性<br>
+• 为开发者和技术爱好者提供了系统化学习新技术的路径指南</p>
+<p>🔗 <a href="https://github.com/sindresorhus/awesome">阅读原文</a></p>
+<hr>
+<h3 id="8-互联网上瘾般的「唱反调」文化">8. 互联网上瘾般的「唱反调」文化</h3>
+<p>📰 <strong><a href="http://Dev.to">Dev.to</a></strong></p>
+<p><strong>摘要</strong>：本文探讨了当代网络讨论中普遍存在的对抗性现象。作者观察到，许多在线对话已不再具有真正的讨论意义，而是沦为纯粹的反驳和否定。这种「为反对而反对」的趋势正在侵蚀健康的网络交流环境。</p>
+<p><strong>核心要点</strong>：<br>
+• 网络讨论逐渐演变为「战斗模式」，参与者更关注如何驳斥他人而非表达建设性观点<br>
+• contrarianism（唱反调）已成为一种网络身份认同，人们通过反驳来建立自我价值感<br>
+• 这种趋势导致理性讨论空间被压缩，观点交流让位于情绪化的对立对抗</p>
+<p>🔗 <a href="https://dev.to/richardpascoe/the-internets-addiction-to-being-contrary-42ni">阅读原文</a></p>
+
+    </div>
+</article>
+
+<!-- 文章标签 -->
+
+    <div class="mb-8 p-4 bg-surface-muted rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+            标签
+        </h3>
+        <div class="flex flex-wrap gap-2">
+            
+                <a href="/tags/AI/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    AI
+                </a>
+            
+                <a href="/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    科技新闻
+                </a>
+            
+                <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    开发工具
+                </a>
+            
+                <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    机器学习
+                </a>
+            
+                <a href="/tags/%E5%BC%80%E6%BA%90/" class="px-3 py-1 bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-800 hover:text-primary-800 dark:hover:text-primary-200 transition-colors border border-gray-200 dark:border-gray-500">
+                    开源
+                </a>
+            
+        </div>
+    </div>
+
+
+<!-- 文章导航 -->
+<nav class="flex justify-between items-center py-6 border-t border-gray-200 dark:border-gray-700">
+    <div class="flex-1">
+        
+    </div>
+    
+    <div class="flex-1 text-right">
+        
+            <a href="/2026/02/02/AI%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/" class="group flex items-center justify-end text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <div class="text-right">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">下一篇</div>
+                    <div class="font-medium line-clamp-1">AI工具使用心得</div>
+                </div>
+                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path></svg>
+            </a>
+        
+    </div>
+</nav>
+
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- 页脚 -->
+                    <footer class="surface-panel border-t border-surface mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+            <p class="text-gray-600 dark:text-gray-400 mb-2">
+                FoundraLab @ All Rights Reserved 2026
+            </p>
+            
+                <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-4</a></p>
+                
+        </div>
+    </div>
+</footer>
+
+<!-- 回到顶部按钮 -->
+<button id="back-to-top"
+    class="fixed bottom-8 right-8 surface-panel text-muted hover:text-primary-600 dark:hover:text-primary-400 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible z-50">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path></svg>
+</button>
+
+            </div>
+        </body>
+        <!-- JavaScript -->
+        <script src="/js/plugins.js" defer></script>
+        <!-- Mermaid 支持 -->
+        
+            <script src="/js/mermaid.min.js"></script>
+            <script src="/js/mermaid-init.js"></script>
+            
+<link rel="stylesheet" href="/css/mermaid.css">
+
+            
+
+</html>

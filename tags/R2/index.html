@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>
+		FoundraLab
+	</title>
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="/img/favicon.ico" class="favicon-icon">
+	<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" class="favicon-icon">
+	<link rel="manifest" href="/img/site.webmanifest">
+
+	<!-- Tailwind CSS -->
+	
+<link rel="stylesheet" href="/css/main.css">
+
+
+		<!-- Dark Mode Script -->
+		<script>
+			// 深色模式初始化
+			if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				document.documentElement.classList.add('dark')
+			} else {
+				document.documentElement.classList.remove('dark')
+			}
+
+			// 深色模式切换函数
+			function toggleDarkMode() {
+				if (document.documentElement.classList.contains('dark')) {
+					document.documentElement.classList.remove('dark')
+					localStorage.theme = 'light'
+				} else {
+					document.documentElement.classList.add('dark')
+					localStorage.theme = 'dark'
+				}
+			}
+
+			// 搜索功能
+			function performSearch() {
+				const query = document.getElementById('search-input').value.toLowerCase();
+				const resultsContainer = document.getElementById('search-results');
+				const loadingElement = document.getElementById('search-loading');
+				const emptyElement = document.getElementById('search-empty');
+
+				if (!query.trim()) {
+					resultsContainer.innerHTML = '';
+					emptyElement.classList.add('hidden');
+					return;
+				}
+
+				loadingElement.classList.remove('hidden');
+				emptyElement.classList.add('hidden');
+
+				// 模拟搜索延迟
+				setTimeout(() => {
+					fetch('/search.json')
+						.then(response => response.json())
+						.then(data => {
+							const results = data.filter(post =>
+								post.title.toLowerCase().includes(query) ||
+								post.content.toLowerCase().includes(query) ||
+								(post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+							);
+
+							loadingElement.classList.add('hidden');
+
+							if (results.length === 0) {
+								emptyElement.classList.remove('hidden');
+								resultsContainer.innerHTML = '';
+							} else {
+								emptyElement.classList.add('hidden');
+								displaySearchResults(results, query);
+							}
+						})
+						.catch(error => {
+							console.error('搜索出错:', error);
+							loadingElement.classList.add('hidden');
+							emptyElement.classList.remove('hidden');
+						});
+				}, 300);
+			}
+
+			function displaySearchResults(results, query) {
+				const resultsContainer = document.getElementById('search-results');
+				resultsContainer.innerHTML = results.map(post => {
+					const highlightedTitle = highlightText(post.title, query);
+					const excerpt = getExcerpt(post.content, query);
+					const highlightedExcerpt = highlightText(excerpt, query);
+
+					return `
+						<article class="bg-surface rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-surface">
+						<h3 class="text-xl font-semibold mb-2">
+						<a href="${post.url}" class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+								${highlightedTitle}
+							</a>
+						</h3>
+						<p class="text-muted mb-3 leading-relaxed">
+							${highlightedExcerpt}
+						</p>
+						<div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+							<time datetime="${post.date}">${new Date(post.date).toLocaleDateString('zh-CN')}</time>
+						${post.tags ? `<div class="flex gap-2">${post.tags.map(tag => `<span class="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-2 py-1 rounded-full text-xs">${tag}</span>`).join('')}</div>` : ''}
+						</div>
+					</article>
+				`;
+				}).join('');
+			}
+
+			function highlightText(text, query) {
+				if (!query) return text;
+				const regex = new RegExp(`(${query})`, 'gi');
+				return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>');
+			}
+
+			function getExcerpt(content, query, maxLength = 200) {
+				const queryIndex = content.toLowerCase().indexOf(query.toLowerCase());
+				if (queryIndex === -1) {
+					return content.substring(0, maxLength) + (content.length > maxLength ? '...' : '');
+				}
+
+				const start = Math.max(0, queryIndex - 50);
+				const end = Math.min(content.length, queryIndex + query.length + 150);
+				let excerpt = content.substring(start, end);
+
+				if (start > 0) excerpt = '...' + excerpt;
+				if (end < content.length) excerpt = excerpt + '...';
+
+				return excerpt;
+			}
+		</script>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="FoundraLab" type="application/atom+xml">
+</head>
+
+    
+
+        <body class="text-gray-900 dark:text-gray-100 transition-colors duration-300 category">
+            <div class="flex flex-col">
+                <!-- 头部导航 -->
+                <header class="surface-panel sticky top-0 z-50">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+			<div class="flex-shrink-0">
+				<a href="/" class="flex items-center">
+					
+						<span class="ml-2 text-xl font-bold logo-title">
+								<span class="logo-foundra">Foundra</span><span class="logo-lab">Lab</span>
+							</span>
+				</a>
+			</div>
+			<div class="hidden md:block">
+				<nav class="ml-10 flex items-baseline space-x-4">
+					
+						<a href="/"
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							文章
+						</a>
+						
+						<a href="/about"
+						class="text-muted hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium">
+							关于
+						</a>
+						
+				</nav>
+			</div>
+
+			<div class="flex items-center space-x-4">
+				<!-- 搜索按钮 -->
+				<a href="/search/"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					title="搜索">
+					<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>
+				</a>
+
+				<!-- 深色模式切换 -->
+				<button id="theme-toggle"
+					class="p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors"
+					title="切换主题">
+					<span id="theme-toggle-dark-icon" class="hidden"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"></path></svg></span>
+					<span id="theme-toggle-light-icon" class="hidden"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"></path></svg></span>
+				</button>
+
+				<!-- 移动端菜单按钮 -->
+				<button id="mobile-menu-button"
+					class="md:hidden p-2 rounded-md text-muted hover:text-gray-900 dark:hover:text-white focus:outline-none transition-colors">
+					<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg>
+				</button>
+			</div>
+		</div>
+
+		<!-- 移动端菜单 -->
+		<div id="mobile-menu" class="hidden md:hidden">
+			<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-gray-700">
+				
+					<a href="/"
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						文章
+					</a>
+					
+					<a href="/about"
+						class="text-muted hover:text-gray-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+						关于
+					</a>
+					
+			</div>
+		</div>
+	</div>
+	</div>
+</header>
+
+
+                    <!-- 主要内容区域 -->
+                    <main class="flex-1">
+                        <div class="mx-auto px-2 sm:px-6 lg:px-8 py-8 max-w-7xl">
+                            <div class="main-layout flex flex-col lg:flex-row gap-8">
+                                <!-- 主内容区 -->
+                                <div class="main-content flex-1">
+                                    <div class="">
+                                        <!-- Hero Section -->
+<!-- <div
+    class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-4 -mt-4 mb-8 px-6 py-8 rounded-t-lg">
+    <div class="text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            FoundraLab
+        </h1>
+        <p class="text-lg text-muted mb-6 max-w-2xl mx-auto">
+            分享技术见解、学习心得和生活感悟
+        </p>
+        <div class="flex justify-center space-x-4">
+            <a href="/archives" class="btn btn-primary">
+                浏览文章
+            </a>
+            <a href="/about" class="btn btn-secondary">
+                了解更多
+            </a>
+        </div>
+    </div>
+</div> -->
+
+<!-- 最新文章列表 -->
+<div class="space-y-6">
+    <!-- <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
+            最新文章
+        </h2>
+    </div> -->
+
+    <div class="space-y-6">
+        
+            <article class="surface-panel rounded-lg p-6">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2026/01/29/2026-01-29-Clawdbot-%E5%AE%89%E8%A3%85-R2-Upload-Skill-%E6%8C%87%E5%8D%97/"
+                                class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Clawdbot 安装 R2 Upload Skill 指南
+                            </a>
+                        </h3>
+
+                        
+
+                            
+                                <div class="post-content-container mb-4">
+                                    <div class="post-content-preview leading-relaxed"
+                                        id="preview-0">
+                                        <div class="post-content-preview-wrapper">
+                                            <div class="post-content" data-content-type="preview">
+                                                <p>之前介绍了如何配置 Clawdbot 使用国内 Minimax，今天分享如何为 Clawdbot 安装 <strong>R2 Upload Skill</strong>，实现图片/文件上传到 Cloudflare R2 并生成公开访问链接。</p>
+<h2 id="背景">背景</h2>
+<p>Clawdbot 本身没有内置的文件上传功能，但通过安装 R2 Upload Skill，可以轻松实现：</p>
+<ul>
+<li>📤 上传文件到 Cloudflare R2 或 S3 兼容存储</li>
+<li>🔗 生成短期有效的预签名下载链接</li>
+<li>🌐 支持自定义域名访问</li>
+<li>📦 多 Bucket 配置</li>
+</ul>
+<h2 id="环境准备">环境准备</h2>
+<p>在开始之前，你需要准备：</p>
+<ol>
+<li><strong>Cloudflare R2 账号</strong></li>
+<li><strong>已创建的 R2 Bucket</strong></li>
+<li><strong>R2 API Token</strong>（包含 Access Key ID 和 Secret Access Key）</li>
+<li><strong>Clawdbot 已安装</strong>（本文假设已安装）</li>
+</ol>
+<h2 id="安装步骤">安装步骤</h2>
+<h3 id="步骤一：下载-Skill">步骤一：下载 Skill</h3>
+<p>R2 Upload Skill 托管在 ClawdHub，通过以下地址下载：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://auth.clawdhub.com/api/v1/download?slug=r2-upload</span><br></pre></td></tr></table></figure>
+<p>下载后会得到一个 zip 文件。</p>
+<h3 id="步骤二：解压并安装到全局">步骤二：解压并安装到全局</h3>
+<p>将 Skill 安装到 Clawdbot 全局技能目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压</span></span><br><span class="line">unzip r2-upload.zip -d /tmp/r2-upload-extract</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装到全局 skills 目录</span></span><br><span class="line"><span class="built_in">cp</span> -r /tmp/r2-upload-extract ~/.clawdbot/skills/r2-upload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills/r2-upload</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<h3 id="步骤三：配置-R2-凭证">步骤三：配置 R2 凭证</h3>
+<p>创建配置文件 <code>~/.r2-upload.yml</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># R2 Upload Configuration</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default:</span> <span class="string">your-bucket-name</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">your-bucket-name:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="attr">access_key_id:</span> <span class="string">YOUR_ACCESS_KEY_ID</span></span><br><span class="line">    <span class="attr">secret_access_key:</span> <span class="string">YOUR_SECRET_ACCESS_KEY</span></span><br><span class="line">    <span class="attr">bucket_name:</span> <span class="string">your-bucket-name</span></span><br><span class="line">    <span class="attr">public_url:</span> <span class="string">https://your-custom-domain.com</span></span><br><span class="line">    <span class="attr">region:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
+<p><strong>配置说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>endpoint</code></td>
+<td>R2 端点地址，格式为 <code>https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code></td>
+</tr>
+<tr>
+<td><code>access_key_id</code></td>
+<td>R2 API Token 的 Access Key ID</td>
+</tr>
+<tr>
+<td><code>secret_access_key</code></td>
+<td>R2 API Token 的 Secret Access Key</td>
+</tr>
+<tr>
+<td><code>bucket_name</code></td>
+<td>R2 Bucket 名称</td>
+</tr>
+<tr>
+<td><code>public_url</code></td>
+<td>自定义域名（可选，用于生成公开访问链接）</td>
+</tr>
+<tr>
+<td><code>region</code></td>
+<td>地区，R2 固定使用 <code>auto</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="步骤四：重启-Clawdbot">步骤四：重启 Clawdbot</h3>
+<p>使 Skill 生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
+<h2 id="使用方法">使用方法</h2>
+<h3 id="通过-Clawdbot-对话">通过 Clawdbot 对话</h3>
+<p>在 Clawdbot 对话中直接使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传这张图片到 R2</span><br></pre></td></tr></table></figure>
+<p>或指定参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传 /path/to/file.jpg 到 R2，有效期 24 小时</span><br></pre></td></tr></table></figure>
+<h3 id="可用工具">可用工具</h3>
+<p>R2 Upload Skill 提供以下工具：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>r2_upload</code></td>
+<td>上传文件并获取预签名 URL</td>
+</tr>
+<tr>
+<td><code>r2_list</code></td>
+<td>列出 Bucket 中的文件</td>
+</tr>
+<tr>
+<td><code>r2_delete</code></td>
+<td>删除文件</td>
+</tr>
+<tr>
+<td><code>r2_generate_url</code></td>
+<td>为已存在文件生成预签名 URL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="上传示例">上传示例</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">r2-upload /path/to/file.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定自定义路径</span></span><br><span class="line">r2-upload /path/to/file.pdf --key uploads/2026/report.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 Bucket</span></span><br><span class="line">r2-upload /path/to/file.pdf --bucket my-bucket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义有效期（默认 5 分钟）</span></span><br><span class="line">r2-upload /path/to/file.pdf --expires 24h</span><br><span class="line">r2-upload /path/to/file.pdf --expires 1d</span><br><span class="line">r2-upload /path/to/file.png --expires 300  <span class="comment"># 秒</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公开链接（无需签名）</span></span><br><span class="line">r2-upload /path/to/file.png --public</span><br></pre></td></tr></table></figure>
+<h2 id="R2-配置详解">R2 配置详解</h2>
+<h3 id="获取-R2-Endpoint">获取 R2 Endpoint</h3>
+<ol>
+<li>登录 Cloudflare Dashboard</li>
+<li>进入 R2 → 你的 Bucket</li>
+<li>查看 &quot;S3 API&quot; 部分，获取 Endpoint 地址</li>
+</ol>
+<p>格式：<code>https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code></p>
+<h3 id="创建-API-Token">创建 API Token</h3>
+<ol>
+<li>进入 <a href="https://dash.cloudflare.com/">https://dash.cloudflare.com/</a>&lt;ACCOUNT_ID&gt;/r2/api-tokens</li>
+<li>创建新 Token：
+<ul>
+<li>应用到特定 Bucket</li>
+<li>权限：Object Read &amp; Write</li>
+</ul>
+</li>
+<li>复制 Access Key ID 和 Secret Access Key</li>
+</ol>
+<h3 id="自定义域名配置（可选）">自定义域名配置（可选）</h3>
+<p>如果你有自定义域名（如 <code>oss.example.com</code>）：</p>
+<ol>
+<li>在 Cloudflare DNS 中添加 CNAME 记录</li>
+<li>在 R2 设置中绑定自定义域名</li>
+<li>在配置文件中设置 <code>public_url</code></li>
+</ol>
+<h2 id="常见问题">常见问题</h2>
+<h3 id="Q-上传后链接打不开？">Q: 上传后链接打不开？</h3>
+<p>检查：</p>
+<ol>
+<li>预签名链接是否过期（默认 5 分钟）</li>
+<li>Bucket 是否设置为公开访问</li>
+<li>自定义域名是否正确配置</li>
+</ol>
+<h3 id="Q-如何修改默认有效期？">Q: 如何修改默认有效期？</h3>
+<p>在配置文件或环境变量中设置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ~/.r2-upload.yml</span></span><br><span class="line"><span class="attr">default_expires:</span> <span class="number">3600</span>  <span class="comment"># 1 小时</span></span><br></pre></td></tr></table></figure>
+<p>或使用环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> R2_DEFAULT_EXPIRES=3600</span><br></pre></td></tr></table></figure>
+<h3 id="Q-可以上传到多个-Bucket-吗？">Q: 可以上传到多个 Bucket 吗？</h3>
+<p>可以，在配置文件中定义多个 Bucket：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">default:</span> <span class="string">blog</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://blog.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br><span class="line">    </span><br><span class="line">  <span class="attr">assets:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://assets.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br></pre></td></tr></table></figure>
+<p>上传时指定 Bucket：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传图片到 assets bucket</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<p>通过以上步骤，你已经成功为 Clawdbot 安装了 R2 Upload Skill。现在可以轻松上传文件并生成分享链接了。</p>
+<p>相比传统的文件上传方式，R2 + Clawdbot 的组合具有以下优势：</p>
+<ul>
+<li>✅ 零服务器成本（R2 只收存储和流量费）</li>
+<li>✅ 全球 CDN 加速</li>
+<li>✅ 自动生成短期有效链接</li>
+<li>✅ 安全可控的访问权限</li>
+<li>✅ 支持自定义域名</li>
+</ul>
+<p>如果你正在使用 Clawdbot 进行 AI 开发，R2 Upload Skill 是一个非常实用的工具。</p>
+<hr>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a href="https://docs.clawd.bot">Clawdbot 官方文档</a></li>
+<li><a href="https://developers.cloudflare.com/r2/">R2 官方文档</a></li>
+<li><a href="https://clawdhub.com">ClawdHub</a></li>
+</ul>
+<p><strong>标签：</strong> Clawdbot, R2, Cloudflare, 存储, 教程</p>
+
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="content-fade"></div>
+                                            
+                                    </div>
+                                    
+                                        <div class="post-content-full leading-relaxed post-hidden"
+                                            id="full-0">
+                                            <div class="post-content" data-content-type="full">
+                                                <p>之前介绍了如何配置 Clawdbot 使用国内 Minimax，今天分享如何为 Clawdbot 安装 <strong>R2 Upload Skill</strong>，实现图片/文件上传到 Cloudflare R2 并生成公开访问链接。</p>
+<h2 id="背景">背景</h2>
+<p>Clawdbot 本身没有内置的文件上传功能，但通过安装 R2 Upload Skill，可以轻松实现：</p>
+<ul>
+<li>📤 上传文件到 Cloudflare R2 或 S3 兼容存储</li>
+<li>🔗 生成短期有效的预签名下载链接</li>
+<li>🌐 支持自定义域名访问</li>
+<li>📦 多 Bucket 配置</li>
+</ul>
+<h2 id="环境准备">环境准备</h2>
+<p>在开始之前，你需要准备：</p>
+<ol>
+<li><strong>Cloudflare R2 账号</strong></li>
+<li><strong>已创建的 R2 Bucket</strong></li>
+<li><strong>R2 API Token</strong>（包含 Access Key ID 和 Secret Access Key）</li>
+<li><strong>Clawdbot 已安装</strong>（本文假设已安装）</li>
+</ol>
+<h2 id="安装步骤">安装步骤</h2>
+<h3 id="步骤一：下载-Skill">步骤一：下载 Skill</h3>
+<p>R2 Upload Skill 托管在 ClawdHub，通过以下地址下载：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://auth.clawdhub.com/api/v1/download?slug=r2-upload</span><br></pre></td></tr></table></figure>
+<p>下载后会得到一个 zip 文件。</p>
+<h3 id="步骤二：解压并安装到全局">步骤二：解压并安装到全局</h3>
+<p>将 Skill 安装到 Clawdbot 全局技能目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压</span></span><br><span class="line">unzip r2-upload.zip -d /tmp/r2-upload-extract</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装到全局 skills 目录</span></span><br><span class="line"><span class="built_in">cp</span> -r /tmp/r2-upload-extract ~/.clawdbot/skills/r2-upload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills/r2-upload</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<h3 id="步骤三：配置-R2-凭证">步骤三：配置 R2 凭证</h3>
+<p>创建配置文件 <code>~/.r2-upload.yml</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># R2 Upload Configuration</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default:</span> <span class="string">your-bucket-name</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">your-bucket-name:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="attr">access_key_id:</span> <span class="string">YOUR_ACCESS_KEY_ID</span></span><br><span class="line">    <span class="attr">secret_access_key:</span> <span class="string">YOUR_SECRET_ACCESS_KEY</span></span><br><span class="line">    <span class="attr">bucket_name:</span> <span class="string">your-bucket-name</span></span><br><span class="line">    <span class="attr">public_url:</span> <span class="string">https://your-custom-domain.com</span></span><br><span class="line">    <span class="attr">region:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
+<p><strong>配置说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>endpoint</code></td>
+<td>R2 端点地址，格式为 <code>https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code></td>
+</tr>
+<tr>
+<td><code>access_key_id</code></td>
+<td>R2 API Token 的 Access Key ID</td>
+</tr>
+<tr>
+<td><code>secret_access_key</code></td>
+<td>R2 API Token 的 Secret Access Key</td>
+</tr>
+<tr>
+<td><code>bucket_name</code></td>
+<td>R2 Bucket 名称</td>
+</tr>
+<tr>
+<td><code>public_url</code></td>
+<td>自定义域名（可选，用于生成公开访问链接）</td>
+</tr>
+<tr>
+<td><code>region</code></td>
+<td>地区，R2 固定使用 <code>auto</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="步骤四：重启-Clawdbot">步骤四：重启 Clawdbot</h3>
+<p>使 Skill 生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
+<h2 id="使用方法">使用方法</h2>
+<h3 id="通过-Clawdbot-对话">通过 Clawdbot 对话</h3>
+<p>在 Clawdbot 对话中直接使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传这张图片到 R2</span><br></pre></td></tr></table></figure>
+<p>或指定参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传 /path/to/file.jpg 到 R2，有效期 24 小时</span><br></pre></td></tr></table></figure>
+<h3 id="可用工具">可用工具</h3>
+<p>R2 Upload Skill 提供以下工具：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>r2_upload</code></td>
+<td>上传文件并获取预签名 URL</td>
+</tr>
+<tr>
+<td><code>r2_list</code></td>
+<td>列出 Bucket 中的文件</td>
+</tr>
+<tr>
+<td><code>r2_delete</code></td>
+<td>删除文件</td>
+</tr>
+<tr>
+<td><code>r2_generate_url</code></td>
+<td>为已存在文件生成预签名 URL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="上传示例">上传示例</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">r2-upload /path/to/file.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定自定义路径</span></span><br><span class="line">r2-upload /path/to/file.pdf --key uploads/2026/report.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 Bucket</span></span><br><span class="line">r2-upload /path/to/file.pdf --bucket my-bucket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义有效期（默认 5 分钟）</span></span><br><span class="line">r2-upload /path/to/file.pdf --expires 24h</span><br><span class="line">r2-upload /path/to/file.pdf --expires 1d</span><br><span class="line">r2-upload /path/to/file.png --expires 300  <span class="comment"># 秒</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公开链接（无需签名）</span></span><br><span class="line">r2-upload /path/to/file.png --public</span><br></pre></td></tr></table></figure>
+<h2 id="R2-配置详解">R2 配置详解</h2>
+<h3 id="获取-R2-Endpoint">获取 R2 Endpoint</h3>
+<ol>
+<li>登录 Cloudflare Dashboard</li>
+<li>进入 R2 → 你的 Bucket</li>
+<li>查看 &quot;S3 API&quot; 部分，获取 Endpoint 地址</li>
+</ol>
+<p>格式：<code>https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code></p>
+<h3 id="创建-API-Token">创建 API Token</h3>
+<ol>
+<li>进入 <a href="https://dash.cloudflare.com/">https://dash.cloudflare.com/</a>&lt;ACCOUNT_ID&gt;/r2/api-tokens</li>
+<li>创建新 Token：
+<ul>
+<li>应用到特定 Bucket</li>
+<li>权限：Object Read &amp; Write</li>
+</ul>
+</li>
+<li>复制 Access Key ID 和 Secret Access Key</li>
+</ol>
+<h3 id="自定义域名配置（可选）">自定义域名配置（可选）</h3>
+<p>如果你有自定义域名（如 <code>oss.example.com</code>）：</p>
+<ol>
+<li>在 Cloudflare DNS 中添加 CNAME 记录</li>
+<li>在 R2 设置中绑定自定义域名</li>
+<li>在配置文件中设置 <code>public_url</code></li>
+</ol>
+<h2 id="常见问题">常见问题</h2>
+<h3 id="Q-上传后链接打不开？">Q: 上传后链接打不开？</h3>
+<p>检查：</p>
+<ol>
+<li>预签名链接是否过期（默认 5 分钟）</li>
+<li>Bucket 是否设置为公开访问</li>
+<li>自定义域名是否正确配置</li>
+</ol>
+<h3 id="Q-如何修改默认有效期？">Q: 如何修改默认有效期？</h3>
+<p>在配置文件或环境变量中设置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ~/.r2-upload.yml</span></span><br><span class="line"><span class="attr">default_expires:</span> <span class="number">3600</span>  <span class="comment"># 1 小时</span></span><br></pre></td></tr></table></figure>
+<p>或使用环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> R2_DEFAULT_EXPIRES=3600</span><br></pre></td></tr></table></figure>
+<h3 id="Q-可以上传到多个-Bucket-吗？">Q: 可以上传到多个 Bucket 吗？</h3>
+<p>可以，在配置文件中定义多个 Bucket：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">default:</span> <span class="string">blog</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://blog.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br><span class="line">    </span><br><span class="line">  <span class="attr">assets:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://assets.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br></pre></td></tr></table></figure>
+<p>上传时指定 Bucket：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传图片到 assets bucket</span><br></pre></td></tr></table></figure>
+<h2 id="总结">总结</h2>
+<p>通过以上步骤，你已经成功为 Clawdbot 安装了 R2 Upload Skill。现在可以轻松上传文件并生成分享链接了。</p>
+<p>相比传统的文件上传方式，R2 + Clawdbot 的组合具有以下优势：</p>
+<ul>
+<li>✅ 零服务器成本（R2 只收存储和流量费）</li>
+<li>✅ 全球 CDN 加速</li>
+<li>✅ 自动生成短期有效链接</li>
+<li>✅ 安全可控的访问权限</li>
+<li>✅ 支持自定义域名</li>
+</ul>
+<p>如果你正在使用 Clawdbot 进行 AI 开发，R2 Upload Skill 是一个非常实用的工具。</p>
+<hr>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a href="https://docs.clawd.bot">Clawdbot 官方文档</a></li>
+<li><a href="https://developers.cloudflare.com/r2/">R2 官方文档</a></li>
+<li><a href="https://clawdhub.com">ClawdHub</a></li>
+</ul>
+<p><strong>标签：</strong> Clawdbot, R2, Cloudflare, 存储, 教程</p>
+
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                                
+
+                                    <div
+                                        class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                                        <div class="flex items-center space-x-4">
+                                            <time datetime="2026-01-29T03:32:00.000Z" class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                                                    2026-01-29
+                                            </time>
+
+                                            
+                                                <div class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                                                        
+                                                            <a href="/categories/%E6%95%99%E7%A8%8B/"
+                                                                class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                                教程
+                                                            </a>
+                                                            
+                                                </div>
+                                                
+                                        </div>
+
+                                        
+                                            <button
+                                                class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
+                                                data-index="0" id="btn-0">
+                                                <span class="expand-text">显示更多</span>
+                                                <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                            </button>
+                                            
+                                    </div>
+                    </div>
+                </div>
+            </article>
+            
+    </div>
+
+    <!-- 分页 -->
+    
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 绑定"显示更多"按钮事件
+        document.querySelectorAll('.expand-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const index = this.getAttribute('data-index');
+                toggleContent(index);
+            });
+        });
+    });
+
+    function toggleContent(index) {
+        const preview = document.getElementById('preview-' + index);
+        const full = document.getElementById('full-' + index);
+        const btn = document.getElementById('btn-' + index);
+        const expandText = btn.querySelector('.expand-text');
+        const expandIcon = btn.querySelector('.expand-icon');
+
+        if (full.classList.contains('post-hidden')) {
+            // 展开内容
+            preview.classList.add('post-hidden');
+            full.classList.remove('post-hidden');
+            full.classList.add('post-visible');
+            expandText.textContent = '收起';
+            expandIcon.style.transform = 'rotate(180deg)';
+        } else {
+            // 折叠内容
+            preview.classList.remove('post-hidden');
+            full.classList.add('post-hidden');
+            full.classList.remove('post-visible');
+            expandText.textContent = '显示更多';
+            expandIcon.style.transform = 'rotate(0deg)';
+        }
+    }
+</script>
+
+<style>
+    .expand-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .post-content-preview {
+        position: relative;
+    }
+
+    .post-content-preview-wrapper {
+        max-height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .post-hidden {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .post-visible {
+        max-height: none;
+        opacity: 1;
+    }
+</style>
+
+                                    </div>
+                                </div>
+
+                                
+                                    <!-- 侧边栏 - 仅在非文章页显示 -->
+                                    <aside class="main-sidebar hidden lg:block lg:w-72 xl:w-80 flex-shrink-0">
+                                        <div class="space-y-6">
+	<!-- 个人信息卡片 -->
+	<div class="surface-panel rounded-lg p-6 text-center">
+		<div class="mb-4">
+			
+				<div class="relative inline-block">
+					<img class="w-20 h-20 rounded-full mx-auto object-cover border-4 border-primary-100 dark:border-primary-800"
+						src="/img/avatar.jpg"
+						alt="KIM">
+				</div>
+				
+		</div>
+
+		<h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+			KIM
+		</h3>
+
+		
+			<p class="text-sm mb-4">
+				stay hungry , stay foolish 
+			</p>
+			
+
+				<!-- 社交链接 -->
+				
+	</div>
+
+	<!-- 搜索框 -->
+	<div class="surface-panel rounded-lg p-4">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+			<svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>
+				搜索
+		</h4>
+		<div class="relative">
+			<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+				<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>
+			</div>
+			<input type="text" placeholder="请输入关键词搜索..."
+				class="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+				onclick="window.location.href='/search/'">
+		</div>
+	</div>
+
+	<!-- 最近文章 -->
+	
+		<div class="surface-panel rounded-lg p-4">
+			<h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+				<svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path></svg>
+					最近文章
+			</h4>
+			<ul class="space-y-2">
+				
+					<li>
+						<a href="/2026/02/05/2026-02-05-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							2026-02-05 科技圈新闻汇总
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							02-05
+						</time>
+					</li>
+					
+					<li>
+						<a href="/2026/02/02/AI%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							AI工具使用心得
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							02-02
+						</time>
+					</li>
+					
+					<li>
+						<a href="/2026/02/02/2026-02-02-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							2026-02-02 科技圈新闻汇总
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							02-02
+						</time>
+					</li>
+					
+					<li>
+						<a href="/2026/02/01/2026-02-01-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							2026-02-01 科技圈新闻汇总
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							02-01
+						</time>
+					</li>
+					
+					<li>
+						<a href="/2026/01/31/2026-01-31-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							2026-01-31 科技圈新闻汇总
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							01-31
+						</time>
+					</li>
+					
+			</ul>
+		</div>
+		
+
+			<!-- 分类 -->
+			
+			<div class="surface-panel rounded-lg p-4">
+				<h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+						<svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+							分类
+					</h4>
+					<div class="space-y-1">
+						
+							<a href="/categories/%E5%B7%A5%E5%85%B7/"
+						class="flex items-center justify-between text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+								<span>
+									工具
+								</span>
+								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+									1
+								</span>
+							</a>
+							
+							<a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"
+						class="flex items-center justify-between text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+								<span>
+									技术新闻
+								</span>
+								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+									6
+								</span>
+							</a>
+							
+							<a href="/categories/%E6%95%99%E7%A8%8B/"
+						class="flex items-center justify-between text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+								<span>
+									教程
+								</span>
+								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+									3
+								</span>
+							</a>
+							
+					</div>
+				</div>
+				
+
+					<!-- 标签云 -->
+					
+				<div class="surface-panel rounded-lg p-4">
+					<h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+								<svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+									标签
+							</h4>
+							<div class="flex flex-wrap gap-2">
+								
+									<a href="/tags/AI/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										AI
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												7
+											</span>
+									</a>
+									
+									<a href="/tags/Clawdbot/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Clawdbot
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												3
+											</span>
+									</a>
+									
+									<a href="/tags/Cloudflare/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Cloudflare
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/Kubernetes/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Kubernetes
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/Minimax/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Minimax
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/R2/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										R2
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/Skill/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Skill
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/%E5%8D%9A%E5%AE%A2/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										博客
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/%E5%AD%98%E5%82%A8/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										存储
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/%E5%B7%A5%E5%85%B7/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										工具
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										开发工具
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												5
+											</span>
+									</a>
+									
+									<a href="/tags/%E5%BC%80%E6%BA%90/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										开源
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/%E6%95%99%E7%A8%8B/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										教程
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										机器学习
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/%E6%B8%B8%E6%88%8F/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										游戏
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												4
+											</span>
+									</a>
+									
+									<a href="/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										科技新闻
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												6
+											</span>
+									</a>
+									
+									<a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										自动化
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+							</div>
+						</div>
+						
+
+							<!-- 归档 -->
+					<div class="surface-panel rounded-lg p-4">
+						<h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 flex items-center">
+									<svg class="w-4 h-4 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"></path></svg>
+										归档
+								</h4>
+								<div class="space-y-1">
+									
+										<a href="/archives/2026/02/"
+								class="flex items-center justify-between text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+											<span>
+												2026年02月
+											</span>
+											<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+												4
+											</span>
+										</a>
+										
+										<a href="/archives/2026/01/"
+								class="flex items-center justify-between text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+											<span>
+												2026年01月
+											</span>
+											<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+												6
+											</span>
+										</a>
+										
+								</div>
+							</div>
+</div>
+
+                                    </aside>
+                                    
+                            </div>
+                        </div>
+                    </main>
+
+                    <!-- 页脚 -->
+                    <footer class="surface-panel border-t border-surface mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+            <p class="text-gray-600 dark:text-gray-400 mb-2">
+                FoundraLab @ All Rights Reserved 2026
+            </p>
+            
+                <p class="text-gray-500 dark:text-gray-500 text-sm"><a href="https://beian.miit.gov.cn" target="_blank">陕ICP备16008414号-4</a></p>
+                
+        </div>
+    </div>
+</footer>
+
+<!-- 回到顶部按钮 -->
+<button id="back-to-top"
+    class="fixed bottom-8 right-8 surface-panel text-muted hover:text-primary-600 dark:hover:text-primary-400 p-3 rounded-full shadow-lg transition-all duration-300 opacity-0 invisible z-50">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path></svg>
+</button>
+
+            </div>
+        </body>
+        <!-- JavaScript -->
+        <script src="/js/plugins.js" defer></script>
+        <!-- Mermaid 支持 -->
+        
+            <script src="/js/mermaid.min.js"></script>
+            <script src="/js/mermaid-init.js"></script>
+            
+<link rel="stylesheet" href="/css/mermaid.css">
+
+            
+
+</html>
