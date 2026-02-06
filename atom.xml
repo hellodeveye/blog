@@ -6,7 +6,7 @@
   <link href="https://foundra.me/atom.xml" rel="self"/>
   
   <link href="https://foundra.me/"/>
-  <updated>2026-02-05T07:55:01.057Z</updated>
+  <updated>2026-02-06T03:14:07.557Z</updated>
   <id>https://foundra.me/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2026-02-06 科技圈新闻汇总</title>
+    <link href="https://foundra.me/2026/02/06/2026-02-06-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"/>
+    <id>https://foundra.me/2026/02/06/2026-02-06-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/</id>
+    <published>2026-02-06T03:06:41.000Z</published>
+    <updated>2026-02-06T03:14:07.557Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;AI-与机器学习&quot;&gt;AI 与机器学习&lt;/h2&gt;
+&lt;h3 id=&quot;1-电子书基金会免费编程书籍&quot;&gt;1. 电子书基金会免费编程书籍&lt;/h3&gt;
+&lt;p&gt;📰 &lt;strong&gt;GitHub Trending&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;摘要&lt;/stron</summary>
+      
+    
+    
+    
+    <category term="技术新闻" scheme="https://foundra.me/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"/>
+    
+    
+    <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+    <category term="机器学习" scheme="https://foundra.me/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>2026-02-05 科技圈新闻汇总</title>
