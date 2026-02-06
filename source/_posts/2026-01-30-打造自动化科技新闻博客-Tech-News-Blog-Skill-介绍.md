@@ -1,99 +1,134 @@
 ---
-title: 打造自动化科技新闻博客：Tech News Blog Skill 介绍
+title: 打造自动化科技新闻博客：Tech News Skill 介绍
 date: 2026-01-30 13:56:00
-tags: [Clawdbot, Skill, 自动化, 博客]
+tags: [Clawdbot, Tech News, Skill, 自动化, 博客]
 categories: [教程]
 ---
 
 ## 背景
 
-每天浏览 Hacker News、技术博客获取科技资讯耗时且容易遗漏。于是我开发了 **Tech News Blog Skill**，自动抓取热门科技新闻并发布到 Hexo 博客。
+每天浏览 Hacker News、GitHub Trending、技术博客获取科技资讯既耗时又容易遗漏。**Tech News Skill** 把「抓取 → 翻译 → 分类 → 生成」这条流水线自动化，让你每天几分钟内就能产出当天的科技新闻汇总。
 
-## 功能特性
+> ⭐ **GitHub 地址**  
+> [https://github.com/foundralab/my-skills/tree/main/tech-news](https://github.com/foundralab/my-skills/tree/main/tech-news)
+
+## 功能特性（最新）
 
 | 特性 | 说明 |
 |------|------|
-| 多源聚合 | Hacker News、Google AI Blog、TechCrunch |
-| 智能分类 | AI、游戏、开发工具、基础设施、趣闻 |
-| 一键部署 | 自动生成文章并部署到博客 |
+| 多源聚合 | Hacker News、Reddit Programming、GitHub Trending、Dev.to、Lobsters、Papers With Code、Hugging Face、arXiv AI |
+| 自动翻译 | 使用 Minimax 或 OpenAI API 生成中文标题与摘要 |
+| 智能分类 | AI、开发工具、基础设施、产品设计、趣闻观点 |
+| 去重机制 | 默认排除近 3 天重复文章 |
+| 图片支持 | 可自动抓取 og:image 并上传到 R2（可选） |
+| 输出稳定 | 统一 Markdown 结构，适合二次加工或直接发布 |
 
 ## 工作流程
 
 ```
-获取新闻 → 内容筛选 → 创建文章 → 部署博客
+抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown
+```
+
+## 前置条件
+
+- Python 3.8+ (`python3`)
+- 翻译 API：`MINIMAX_API_KEY` 或 `OPENAI_API_KEY`
+- 可选图片上传：`~/.r2-upload.yml` 或 `R2_UPLOAD_CONFIG`
+
+示例：
+```bash
+export MINIMAX_API_KEY=your_key
+# 或
+export OPENAI_API_KEY=your_key
+
+# 如需图片上传
+export R2_UPLOAD_CONFIG=~/.r2-upload.yml
 ```
 
 ## 快速开始
 
-### 1. 安装技能
+假设 skill 安装目录为 `~/.agents/skills/tech-news`（以实际路径为准）：
 
 ```bash
-mkdir -p ~/.clawdbot/skills
-cd ~/.clawdbot/skills
-wget https://oss.foundra.me/skills/tech-news-blog.skill
-unzip tech-news-blog.skill
+TECH_NEWS_DIR=~/.agents/skills/tech-news
+DATE=$(date +%F)
+
+python3 $TECH_NEWS_DIR/scripts/generate.py \
+  --date $DATE \
+  --save /tmp/tech-news-$DATE.md
 ```
 
-### 2. 使用
-
-对 Clawdbot 说：
-> "帮我生成今日科技新闻博客"
-
-或直接部署：
+如果你不需要图片：
 ```bash
-cd ~/projects/blog && hexo clean && hexo g && hexo d
+python3 $TECH_NEWS_DIR/scripts/generate.py --date $DATE --no-images --save /tmp/tech-news-$DATE.md
 ```
+
+## 常用参数
+
+- `--sources <list>`：指定新闻源（默认 8 个）
+- `--count <n>`：每源抓取数量（默认 15）
+- `--limit <n>`：最终精选数量（默认 10）
+- `--max-images <n>`：处理图片上限
+- `--no-images`：禁用图片
+- `--output-only`：仅输出 Markdown 到 stdout
 
 ## 文章格式
 
-生成的文章包含：
-- **标题**: `YYYY-MM-DD 科技圈新闻汇总`
-- **分类**: AI、游戏、开发工具、基础设施、趣闻
-- **结构**: 标题 + 描述 + 原文链接
+默认输出结构（节选）：
 
-示例：
 ```markdown
-## AI 与机器学习
+# 📰 YYYY-MM-DD 科技早报
 
-### Google Project Genie 发布
+> 📊 **今日导读**
+> 精选 10 条科技新闻
+> 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)
 
-Google 推出实时生成交互世界的 AI 模型...
+---
 
-📎 [原文链接](https://blog.google/...)
+## 📋 文章速览
+
+**AI 与机器学习**：3 篇
+1. ...
 ```
 
 ## 自动化方案
 
-**Cron 定时任务**（每天 9:00 自动执行）：
+### 1. Cron（本地定时）
+
 ```bash
-0 9 * * * cd ~/projects/blog && hexo clean && hexo g && hexo d
+0 9 * * * \
+  python3 ~/.agents/skills/tech-news/scripts/generate.py --date $(date +%F) --save /tmp/tech-news-$(date +%F).md
 ```
 
-**Heartbeat 检查**：
-在 `HEARTBEAT.md` 中添加每日新闻检查任务。
+生成后即可用于发布或二次编辑（可用脚本自动处理）。
 
-**手动触发**：
-随时对 Clawdbot 说 "生成今日科技新闻"。
+### 2. GitHub Actions
 
-## 实际效果
+把 `generate.py` 放到 workflow 中，定时生成并提交到仓库。
 
-✅ 内容质量高 - 精选 Hacker News 热门话题  
-✅ 格式统一 - 一致的文章结构  
-✅ 更新及时 - 每日自动更新  
-✅ 可阅读性强 - 分类清晰，重点突出  
-✅ 零维护成本 - 全自动运行
+## 常见问题
 
-## Skill 源码
+- **翻译质量一般**：确认 `MINIMAX_API_KEY` 或 `OPENAI_API_KEY` 已配置
+- **图片不显示**：检查 `R2_UPLOAD_CONFIG` 或改用 `--no-images`
+- **重复内容**：默认会排除近 3 天重复文章，可按需改代码
 
-📎 **下载地址**: https://oss.foundra.me/skills/tech-news-blog.skill
+## Skill 源码与目录结构
 
-Skill 是一个 ZIP 压缩包，包含：
+Tech News Skill 本地结构如下：
+
+[GitHub 仓库](https://github.com/foundralab/my-skills/tree/main/tech-news)
+
 ```
-tech-news-blog/
-└── SKILL.md    # 技能主文档
+tech-news/
+├── SKILL.md
+├── scripts/
+│   ├── generate.py
+│   ├── fetch_news.py
+│   └── llm_translate.py
+└── references/
 ```
 
-解压后可直接查看和修改。
+如果你想改来源、分类或输出格式，直接修改 `generate.py` 即可。
 
 ---
 
