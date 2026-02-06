@@ -194,18 +194,17 @@
   </entry>
   
   <entry>
-    <title>打造自动化科技新闻博客：Tech News Blog Skill 介绍</title>
+    <title>打造自动化科技新闻博客：Tech News Skill 介绍</title>
     <link href="https://foundra.me/2026/01/30/2026-01-30-%E6%89%93%E9%80%A0%E8%87%AA%E5%8A%A8%E5%8C%96%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB%E5%8D%9A%E5%AE%A2-Tech-News-Blog-Skill-%E4%BB%8B%E7%BB%8D/"/>
     <id>https://foundra.me/2026/01/30/2026-01-30-%E6%89%93%E9%80%A0%E8%87%AA%E5%8A%A8%E5%8C%96%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB%E5%8D%9A%E5%AE%A2-Tech-News-Blog-Skill-%E4%BB%8B%E7%BB%8D/</id>
     <published>2026-01-30T05:56:00.000Z</published>
-    <updated>2026-02-05T03:11:29.887Z</updated>
+    <updated>2026-02-06T04:00:33.260Z</updated>
     
     
       
       
     <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;背景&lt;/h2&gt;
-&lt;p&gt;每天浏览 Hacker News、技术博客获取科技资讯耗时且容易遗漏。于是我开发了 &lt;strong&gt;Tech News Blog Skill&lt;/strong&gt;，自动抓取热门科技新闻并发布到 Hexo 博客。&lt;/p&gt;
-&lt;h2 id=&quot;功</summary>
+&lt;p&gt;每天浏览 Hacker News、GitHub Trending、技术博客获取科技资讯既耗时又容易遗漏。&lt;strong&gt;Tech News Skill&lt;/strong&gt; 把「抓取 → 翻译 → 分类 → 生成」这条流水线自动化，让你每</summary>
       
     
     
@@ -214,6 +213,8 @@
     
     
     <category term="Clawdbot" scheme="https://foundra.me/tags/Clawdbot/"/>
+    
+    <category term="Tech News" scheme="https://foundra.me/tags/Tech-News/"/>
     
     <category term="Skill" scheme="https://foundra.me/tags/Skill/"/>
     

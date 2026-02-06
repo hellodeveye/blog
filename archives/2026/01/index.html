@@ -504,7 +504,7 @@
                         <h3 class="text-xl font-semibold mb-3">
                             <a href="/2026/01/30/2026-01-30-%E6%89%93%E9%80%A0%E8%87%AA%E5%8A%A8%E5%8C%96%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB%E5%8D%9A%E5%AE%A2-Tech-News-Blog-Skill-%E4%BB%8B%E7%BB%8D/"
                                 class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                打造自动化科技新闻博客：Tech News Blog Skill 介绍
+                                打造自动化科技新闻博客：Tech News Skill 介绍
                             </a>
                         </h3>
 
@@ -517,8 +517,12 @@
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <h2 id="背景">背景</h2>
-<p>每天浏览 Hacker News、技术博客获取科技资讯耗时且容易遗漏。于是我开发了 <strong>Tech News Blog Skill</strong>，自动抓取热门科技新闻并发布到 Hexo 博客。</p>
-<h2 id="功能特性">功能特性</h2>
+<p>每天浏览 Hacker News、GitHub Trending、技术博客获取科技资讯既耗时又容易遗漏。<strong>Tech News Skill</strong> 把「抓取 → 翻译 → 分类 → 生成」这条流水线自动化，让你每天几分钟内就能产出当天的科技新闻汇总。</p>
+<blockquote>
+<p>⭐ <strong>GitHub 地址</strong><br>
+<a href="https://github.com/foundralab/my-skills/tree/main/tech-news">https://github.com/foundralab/my-skills/tree/main/tech-news</a></p>
+</blockquote>
+<h2 id="功能特性（最新）">功能特性（最新）</h2>
 <table>
 <thead>
 <tr>
@@ -529,57 +533,74 @@
 <tbody>
 <tr>
 <td>多源聚合</td>
-<td>Hacker News、Google AI Blog、TechCrunch</td>
+<td>Hacker News、Reddit Programming、GitHub Trending、<a href="http://Dev.to">Dev.to</a>、Lobsters、Papers With Code、Hugging Face、arXiv AI</td>
+</tr>
+<tr>
+<td>自动翻译</td>
+<td>使用 Minimax 或 OpenAI API 生成中文标题与摘要</td>
 </tr>
 <tr>
 <td>智能分类</td>
-<td>AI、游戏、开发工具、基础设施、趣闻</td>
+<td>AI、开发工具、基础设施、产品设计、趣闻观点</td>
 </tr>
 <tr>
-<td>一键部署</td>
-<td>自动生成文章并部署到博客</td>
+<td>去重机制</td>
+<td>默认排除近 3 天重复文章</td>
+</tr>
+<tr>
+<td>图片支持</td>
+<td>可自动抓取 og:image 并上传到 R2（可选）</td>
+</tr>
+<tr>
+<td>输出稳定</td>
+<td>统一 Markdown 结构，适合二次加工或直接发布</td>
 </tr>
 </tbody>
 </table>
 <h2 id="工作流程">工作流程</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">获取新闻 → 内容筛选 → 创建文章 → 部署博客</span><br></pre></td></tr></table></figure>
-<h2 id="快速开始">快速开始</h2>
-<h3 id="1-安装技能">1. 安装技能</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.clawdbot/skills</span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills</span><br><span class="line">wget https://oss.foundra.me/skills/tech-news-blog.skill</span><br><span class="line">unzip tech-news-blog.skill</span><br></pre></td></tr></table></figure>
-<h3 id="2-使用">2. 使用</h3>
-<p>对 Clawdbot 说：</p>
-<blockquote>
-<p>&quot;帮我生成今日科技新闻博客&quot;</p>
-</blockquote>
-<p>或直接部署：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/projects/blog &amp;&amp; hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-<h2 id="文章格式">文章格式</h2>
-<p>生成的文章包含：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown</span><br></pre></td></tr></table></figure>
+<h2 id="前置条件">前置条件</h2>
 <ul>
-<li><strong>标题</strong>: <code>YYYY-MM-DD 科技圈新闻汇总</code></li>
-<li><strong>分类</strong>: AI、游戏、开发工具、基础设施、趣闻</li>
-<li><strong>结构</strong>: 标题 + 描述 + 原文链接</li>
+<li>Python 3.8+ (<code>python3</code>)</li>
+<li>翻译 API：<code>MINIMAX_API_KEY</code> 或 <code>OPENAI_API_KEY</code></li>
+<li>可选图片上传：<code>~/.r2-upload.yml</code> 或 <code>R2_UPLOAD_CONFIG</code></li>
 </ul>
 <p>示例：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">## AI 与机器学习</span></span><br><span class="line"></span><br><span class="line"><span class="section">### Google Project Genie 发布</span></span><br><span class="line"></span><br><span class="line">Google 推出实时生成交互世界的 AI 模型...</span><br><span class="line"></span><br><span class="line">📎 [<span class="string">原文链接</span>](<span class="link">https://blog.google/...</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MINIMAX_API_KEY=your_key</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line"><span class="built_in">export</span> OPENAI_API_KEY=your_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如需图片上传</span></span><br><span class="line"><span class="built_in">export</span> R2_UPLOAD_CONFIG=~/.r2-upload.yml</span><br></pre></td></tr></table></figure>
+<h2 id="快速开始">快速开始</h2>
+<p>假设 skill 安装目录为 <code>~/.agents/skills/tech-news</code>（以实际路径为准）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TECH_NEWS_DIR=~/.agents/skills/tech-news</span><br><span class="line">DATE=$(<span class="built_in">date</span> +%F)</span><br><span class="line"></span><br><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py \</span><br><span class="line">  --<span class="built_in">date</span> <span class="variable">$DATE</span> \</span><br><span class="line">  --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<p>如果你不需要图片：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py --<span class="built_in">date</span> <span class="variable">$DATE</span> --no-images --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<h2 id="常用参数">常用参数</h2>
+<ul>
+<li><code>--sources &lt;list&gt;</code>：指定新闻源（默认 8 个）</li>
+<li><code>--count &lt;n&gt;</code>：每源抓取数量（默认 15）</li>
+<li><code>--limit &lt;n&gt;</code>：最终精选数量（默认 10）</li>
+<li><code>--max-images &lt;n&gt;</code>：处理图片上限</li>
+<li><code>--no-images</code>：禁用图片</li>
+<li><code>--output-only</code>：仅输出 Markdown 到 stdout</li>
+</ul>
+<h2 id="文章格式">文章格式</h2>
+<p>默认输出结构（节选）：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 📰 YYYY-MM-DD 科技早报</span></span><br><span class="line"></span><br><span class="line"><span class="quote">&gt; 📊 <span class="strong">**今日导读**</span></span></span><br><span class="line"><span class="quote">&gt; 精选 10 条科技新闻</span></span><br><span class="line"><span class="quote">&gt; 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)</span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 📋 文章速览</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**AI 与机器学习**</span>：3 篇</span><br><span class="line"><span class="bullet">1.</span> ...</span><br></pre></td></tr></table></figure>
 <h2 id="自动化方案">自动化方案</h2>
-<p><strong>Cron 定时任务</strong>（每天 9:00 自动执行）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 9 * * * <span class="built_in">cd</span> ~/projects/blog &amp;&amp; hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-<p><strong>Heartbeat 检查</strong>：<br>
-在 <code>HEARTBEAT.md</code> 中添加每日新闻检查任务。</p>
-<p><strong>手动触发</strong>：<br>
-随时对 Clawdbot 说 &quot;生成今日科技新闻&quot;。</p>
-<h2 id="实际效果">实际效果</h2>
-<p>✅ 内容质量高 - 精选 Hacker News 热门话题<br>
-✅ 格式统一 - 一致的文章结构<br>
-✅ 更新及时 - 每日自动更新<br>
-✅ 可阅读性强 - 分类清晰，重点突出<br>
-✅ 零维护成本 - 全自动运行</p>
-<h2 id="Skill-源码">Skill 源码</h2>
-<p>📎 <strong>下载地址</strong>: <a href="https://oss.foundra.me/skills/tech-news-blog.skill">https://oss.foundra.me/skills/tech-news-blog.skill</a></p>
-<p>Skill 是一个 ZIP 压缩包，包含：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tech-news-blog/</span><br><span class="line">└── SKILL.md    # 技能主文档</span><br></pre></td></tr></table></figure>
-<p>解压后可直接查看和修改。</p>
+<h3 id="1-Cron（本地定时）">1. Cron（本地定时）</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 9 * * * \</span><br><span class="line">  python3 ~/.agents/skills/tech-news/scripts/generate.py --<span class="built_in">date</span> $(<span class="built_in">date</span> +%F) --save /tmp/tech-news-$(<span class="built_in">date</span> +%F).md</span><br></pre></td></tr></table></figure>
+<p>生成后即可用于发布或二次编辑（可用脚本自动处理）。</p>
+<h3 id="2-GitHub-Actions">2. GitHub Actions</h3>
+<p>把 <code>generate.py</code> 放到 workflow 中，定时生成并提交到仓库。</p>
+<h2 id="常见问题">常见问题</h2>
+<ul>
+<li><strong>翻译质量一般</strong>：确认 <code>MINIMAX_API_KEY</code> 或 <code>OPENAI_API_KEY</code> 已配置</li>
+<li><strong>图片不显示</strong>：检查 <code>R2_UPLOAD_CONFIG</code> 或改用 <code>--no-images</code></li>
+<li><strong>重复内容</strong>：默认会排除近 3 天重复文章，可按需改代码</li>
+</ul>
+<h2 id="Skill-源码与目录结构">Skill 源码与目录结构</h2>
+<p>Tech News Skill 本地结构如下：</p>
+<p><a href="https://github.com/foundralab/my-skills/tree/main/tech-news">GitHub 仓库</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tech-news/</span><br><span class="line">├── SKILL.md</span><br><span class="line">├── scripts/</span><br><span class="line">│   ├── generate.py</span><br><span class="line">│   ├── fetch_news.py</span><br><span class="line">│   └── llm_translate.py</span><br><span class="line">└── references/</span><br></pre></td></tr></table></figure>
+<p>如果你想改来源、分类或输出格式，直接修改 <code>generate.py</code> 即可。</p>
 <hr>
 <p><em>让科技新闻聚合变得简单高效！</em></p>
 
@@ -594,8 +615,12 @@
                                             id="full-1">
                                             <div class="post-content" data-content-type="full">
                                                 <h2 id="背景">背景</h2>
-<p>每天浏览 Hacker News、技术博客获取科技资讯耗时且容易遗漏。于是我开发了 <strong>Tech News Blog Skill</strong>，自动抓取热门科技新闻并发布到 Hexo 博客。</p>
-<h2 id="功能特性">功能特性</h2>
+<p>每天浏览 Hacker News、GitHub Trending、技术博客获取科技资讯既耗时又容易遗漏。<strong>Tech News Skill</strong> 把「抓取 → 翻译 → 分类 → 生成」这条流水线自动化，让你每天几分钟内就能产出当天的科技新闻汇总。</p>
+<blockquote>
+<p>⭐ <strong>GitHub 地址</strong><br>
+<a href="https://github.com/foundralab/my-skills/tree/main/tech-news">https://github.com/foundralab/my-skills/tree/main/tech-news</a></p>
+</blockquote>
+<h2 id="功能特性（最新）">功能特性（最新）</h2>
 <table>
 <thead>
 <tr>
@@ -606,57 +631,74 @@
 <tbody>
 <tr>
 <td>多源聚合</td>
-<td>Hacker News、Google AI Blog、TechCrunch</td>
+<td>Hacker News、Reddit Programming、GitHub Trending、<a href="http://Dev.to">Dev.to</a>、Lobsters、Papers With Code、Hugging Face、arXiv AI</td>
+</tr>
+<tr>
+<td>自动翻译</td>
+<td>使用 Minimax 或 OpenAI API 生成中文标题与摘要</td>
 </tr>
 <tr>
 <td>智能分类</td>
-<td>AI、游戏、开发工具、基础设施、趣闻</td>
+<td>AI、开发工具、基础设施、产品设计、趣闻观点</td>
 </tr>
 <tr>
-<td>一键部署</td>
-<td>自动生成文章并部署到博客</td>
+<td>去重机制</td>
+<td>默认排除近 3 天重复文章</td>
+</tr>
+<tr>
+<td>图片支持</td>
+<td>可自动抓取 og:image 并上传到 R2（可选）</td>
+</tr>
+<tr>
+<td>输出稳定</td>
+<td>统一 Markdown 结构，适合二次加工或直接发布</td>
 </tr>
 </tbody>
 </table>
 <h2 id="工作流程">工作流程</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">获取新闻 → 内容筛选 → 创建文章 → 部署博客</span><br></pre></td></tr></table></figure>
-<h2 id="快速开始">快速开始</h2>
-<h3 id="1-安装技能">1. 安装技能</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.clawdbot/skills</span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills</span><br><span class="line">wget https://oss.foundra.me/skills/tech-news-blog.skill</span><br><span class="line">unzip tech-news-blog.skill</span><br></pre></td></tr></table></figure>
-<h3 id="2-使用">2. 使用</h3>
-<p>对 Clawdbot 说：</p>
-<blockquote>
-<p>&quot;帮我生成今日科技新闻博客&quot;</p>
-</blockquote>
-<p>或直接部署：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/projects/blog &amp;&amp; hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-<h2 id="文章格式">文章格式</h2>
-<p>生成的文章包含：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown</span><br></pre></td></tr></table></figure>
+<h2 id="前置条件">前置条件</h2>
 <ul>
-<li><strong>标题</strong>: <code>YYYY-MM-DD 科技圈新闻汇总</code></li>
-<li><strong>分类</strong>: AI、游戏、开发工具、基础设施、趣闻</li>
-<li><strong>结构</strong>: 标题 + 描述 + 原文链接</li>
+<li>Python 3.8+ (<code>python3</code>)</li>
+<li>翻译 API：<code>MINIMAX_API_KEY</code> 或 <code>OPENAI_API_KEY</code></li>
+<li>可选图片上传：<code>~/.r2-upload.yml</code> 或 <code>R2_UPLOAD_CONFIG</code></li>
 </ul>
 <p>示例：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">## AI 与机器学习</span></span><br><span class="line"></span><br><span class="line"><span class="section">### Google Project Genie 发布</span></span><br><span class="line"></span><br><span class="line">Google 推出实时生成交互世界的 AI 模型...</span><br><span class="line"></span><br><span class="line">📎 [<span class="string">原文链接</span>](<span class="link">https://blog.google/...</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MINIMAX_API_KEY=your_key</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line"><span class="built_in">export</span> OPENAI_API_KEY=your_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如需图片上传</span></span><br><span class="line"><span class="built_in">export</span> R2_UPLOAD_CONFIG=~/.r2-upload.yml</span><br></pre></td></tr></table></figure>
+<h2 id="快速开始">快速开始</h2>
+<p>假设 skill 安装目录为 <code>~/.agents/skills/tech-news</code>（以实际路径为准）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TECH_NEWS_DIR=~/.agents/skills/tech-news</span><br><span class="line">DATE=$(<span class="built_in">date</span> +%F)</span><br><span class="line"></span><br><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py \</span><br><span class="line">  --<span class="built_in">date</span> <span class="variable">$DATE</span> \</span><br><span class="line">  --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<p>如果你不需要图片：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py --<span class="built_in">date</span> <span class="variable">$DATE</span> --no-images --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<h2 id="常用参数">常用参数</h2>
+<ul>
+<li><code>--sources &lt;list&gt;</code>：指定新闻源（默认 8 个）</li>
+<li><code>--count &lt;n&gt;</code>：每源抓取数量（默认 15）</li>
+<li><code>--limit &lt;n&gt;</code>：最终精选数量（默认 10）</li>
+<li><code>--max-images &lt;n&gt;</code>：处理图片上限</li>
+<li><code>--no-images</code>：禁用图片</li>
+<li><code>--output-only</code>：仅输出 Markdown 到 stdout</li>
+</ul>
+<h2 id="文章格式">文章格式</h2>
+<p>默认输出结构（节选）：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 📰 YYYY-MM-DD 科技早报</span></span><br><span class="line"></span><br><span class="line"><span class="quote">&gt; 📊 <span class="strong">**今日导读**</span></span></span><br><span class="line"><span class="quote">&gt; 精选 10 条科技新闻</span></span><br><span class="line"><span class="quote">&gt; 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)</span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 📋 文章速览</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**AI 与机器学习**</span>：3 篇</span><br><span class="line"><span class="bullet">1.</span> ...</span><br></pre></td></tr></table></figure>
 <h2 id="自动化方案">自动化方案</h2>
-<p><strong>Cron 定时任务</strong>（每天 9:00 自动执行）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 9 * * * <span class="built_in">cd</span> ~/projects/blog &amp;&amp; hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-<p><strong>Heartbeat 检查</strong>：<br>
-在 <code>HEARTBEAT.md</code> 中添加每日新闻检查任务。</p>
-<p><strong>手动触发</strong>：<br>
-随时对 Clawdbot 说 &quot;生成今日科技新闻&quot;。</p>
-<h2 id="实际效果">实际效果</h2>
-<p>✅ 内容质量高 - 精选 Hacker News 热门话题<br>
-✅ 格式统一 - 一致的文章结构<br>
-✅ 更新及时 - 每日自动更新<br>
-✅ 可阅读性强 - 分类清晰，重点突出<br>
-✅ 零维护成本 - 全自动运行</p>
-<h2 id="Skill-源码">Skill 源码</h2>
-<p>📎 <strong>下载地址</strong>: <a href="https://oss.foundra.me/skills/tech-news-blog.skill">https://oss.foundra.me/skills/tech-news-blog.skill</a></p>
-<p>Skill 是一个 ZIP 压缩包，包含：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tech-news-blog/</span><br><span class="line">└── SKILL.md    # 技能主文档</span><br></pre></td></tr></table></figure>
-<p>解压后可直接查看和修改。</p>
+<h3 id="1-Cron（本地定时）">1. Cron（本地定时）</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 9 * * * \</span><br><span class="line">  python3 ~/.agents/skills/tech-news/scripts/generate.py --<span class="built_in">date</span> $(<span class="built_in">date</span> +%F) --save /tmp/tech-news-$(<span class="built_in">date</span> +%F).md</span><br></pre></td></tr></table></figure>
+<p>生成后即可用于发布或二次编辑（可用脚本自动处理）。</p>
+<h3 id="2-GitHub-Actions">2. GitHub Actions</h3>
+<p>把 <code>generate.py</code> 放到 workflow 中，定时生成并提交到仓库。</p>
+<h2 id="常见问题">常见问题</h2>
+<ul>
+<li><strong>翻译质量一般</strong>：确认 <code>MINIMAX_API_KEY</code> 或 <code>OPENAI_API_KEY</code> 已配置</li>
+<li><strong>图片不显示</strong>：检查 <code>R2_UPLOAD_CONFIG</code> 或改用 <code>--no-images</code></li>
+<li><strong>重复内容</strong>：默认会排除近 3 天重复文章，可按需改代码</li>
+</ul>
+<h2 id="Skill-源码与目录结构">Skill 源码与目录结构</h2>
+<p>Tech News Skill 本地结构如下：</p>
+<p><a href="https://github.com/foundralab/my-skills/tree/main/tech-news">GitHub 仓库</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tech-news/</span><br><span class="line">├── SKILL.md</span><br><span class="line">├── scripts/</span><br><span class="line">│   ├── generate.py</span><br><span class="line">│   ├── fetch_news.py</span><br><span class="line">│   └── llm_translate.py</span><br><span class="line">└── references/</span><br></pre></td></tr></table></figure>
+<p>如果你想改来源、分类或输出格式，直接修改 <code>generate.py</code> 即可。</p>
 <hr>
 <p><em>让科技新闻聚合变得简单高效！</em></p>
 
@@ -2057,6 +2099,14 @@
 									<a href="/tags/Skill/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										Skill
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/Tech-News/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Tech News
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
 												1
 											</span>
