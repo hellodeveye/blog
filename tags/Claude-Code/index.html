@@ -218,174 +218,337 @@
                                 <!-- 主内容区 -->
                                 <div class="main-content flex-1">
                                     <div class="">
-                                        <!-- 关于页面头部 -->
-<!-- <div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-4 -mt-4 mb-8 px-6 py-12 rounded-t-lg">
+                                        <!-- Hero Section -->
+<!-- <div
+    class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-4 -mt-4 mb-8 px-6 py-8 rounded-t-lg">
     <div class="text-center">
-        <div class="w-24 h-24 bg-primary-600 rounded-full mx-auto mb-6 flex items-center justify-center">
-            <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-            </svg>
-        </div>
         <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            关于我
+            FoundraLab
         </h1>
-        <p class="text-lg text-muted">
-            一个热爱技术的开发者
+        <p class="text-lg text-muted mb-6 max-w-2xl mx-auto">
+            分享技术见解、学习心得和生活感悟
         </p>
+        <div class="flex justify-center space-x-4">
+            <a href="/archives" class="btn btn-primary">
+                浏览文章
+            </a>
+            <a href="/about" class="btn btn-secondary">
+                了解更多
+            </a>
+        </div>
     </div>
 </div> -->
 
-<!-- 个人介绍 -->
-<div class="space-y-8">
-    <!-- 基本信息 -->
-    <section class="surface-panel rounded-lg p-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            你好，我是 Kim！
+<!-- 最新文章列表 -->
+<div class="space-y-6">
+    <!-- <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
+            最新文章
         </h2>
+    </div> -->
 
-        <div class="prose prose-lg prose-gray dark:prose-invert max-w-none">
-            <p class="text-gray-700 dark:text-gray-100 leading-relaxed">
-                我是一名<strong>AI & 后端开发者</strong>，专注于大语言模型应用开发。<br />
-                目前专注：<strong>AI Agent 开发</strong>、<strong>提示词工程</strong>、<strong>RAG</strong> 检索增强生成。<br />
-                同时也热爱 Java 后端开发，对分布式系统、云原生技术有着浓厚的兴趣。<br />
-                在这里，我会记录 AI 应用探索、技术文章和个人心得。
-            </p>
-        </div>
-    </section>
+    <div class="space-y-6">
+        
+            <article class="surface-panel rounded-lg p-6">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2026/02/06/2026-02-06-Claude-Code-%E5%88%9B%E4%BD%9C%E8%80%8510%E6%9D%A1%E6%8A%80%E5%B7%A7/"
+                                class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Claude Code 创作者分享的 10 条高效使用技巧
+                            </a>
+                        </h3>
 
-    <!-- 技能专长 -->
-    <section class="surface-panel rounded-lg p-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            技能专长
-        </h2>
+                        
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">AI 开发</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span
-                        class="px-3 py-1 bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 rounded-full text-sm">AI/LLM</span>
-                    <span
-                        class="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm">Prompt Engineering</span>
-                    <span
-                        class="px-3 py-1 bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded-full text-sm">Agent Development</span>
-                    <span
-                        class="px-3 py-1 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-full text-sm">RAG</span>
-                </div>
-            </div>
+                            
+                                <div class="post-content-container mb-4">
+                                    <div class="post-content-preview leading-relaxed"
+                                        id="preview-0">
+                                        <div class="post-content-preview-wrapper">
+                                            <div class="post-content" data-content-type="preview">
+                                                <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
+<blockquote>
+<p>这是一位名为 Boris 的作者在推文中整理的使用心得。他表示这些技巧来自 Claude Code 团队的内部实践，同时也强调：<strong>没有唯一正确的用法</strong>，每个人都应该根据自己的工作流不断试验与调整。</p>
+</blockquote>
+<p>原文地址：<a href="https://x.com/bcherny/status/2017742741636321619">https://x.com/bcherny/status/2017742741636321619</a></p>
+<h2 id="1-并行：3–5-个-worktree-同时跑">1) 并行：3–5 个 worktree 同时跑</h2>
+<p>团队的 No.1 技巧：<strong>同时开 3–5 个 git worktree</strong>，每个 worktree 对应一个 Claude 会话。上下文更干净、并行更高效。</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/01-worktree.jpg" alt="Worktree 并行示例"></p>
+<p><strong>实践建议：</strong></p>
+<ul>
+<li>给 worktree 起名并设 alias（如 <code>za/zb/zc</code>）</li>
+<li>单独开一个“分析 worktree”用于日志/查询</li>
+</ul>
+<h2 id="2-复杂任务先进入-Plan-Mode">2) 复杂任务先进入 Plan Mode</h2>
+<p><strong>先把计划做扎实</strong>，再执行才容易一枪到位。</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/02-plan-mode.png" alt="Plan Mode 示例"></p>
+<p>一些团队成员会：</p>
+<ul>
+<li>让一个 Claude 写计划</li>
+<li>再让另一个 Claude 以“资深工程师视角”审核</li>
+</ul>
+<p><strong>一旦走偏就回到 Plan Mode 重规划</strong>，不要硬推。</p>
+<h2 id="3-把-CLAUDE-md-当成自我修正系统">3) 把 <a href="http://CLAUDE.md">CLAUDE.md</a> 当成自我修正系统</h2>
+<p>每次纠正 Claude 后，都补一句：</p>
+<blockquote>
+<p>“更新 <a href="http://CLAUDE.md">CLAUDE.md</a>，避免下次再犯。”</p>
+</blockquote>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/03-claude-md.png" alt="CLAUDE.md 记忆示例"></p>
+<p>持续迭代后，Claude 的错误率会明显下降。</p>
+<h2 id="4-把重复劳动写成-Skill-Slash-Command">4) 把重复劳动写成 Skill / Slash Command</h2>
+<p>做超过一天的事，就值得自动化。</p>
+<p>团队建议：</p>
+<ul>
+<li><code>/techdebt</code>：会话末尾清理重复代码</li>
+<li>自动同步 Slack / Asana / GDrive / GitHub 上下文</li>
+<li>构建“数据工程师风格”的 agent 写 dbt / review / 测试</li>
+</ul>
+<h2 id="5-让-Claude-自己修-Bug">5) 让 Claude 自己修 Bug</h2>
+<p>不要过度指导，把问题喂给它即可：</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/05-slack-mcp.png" alt="Slack MCP 修复示例"></p>
+<ul>
+<li>贴 Slack bug 线程说 “fix”</li>
+<li>或直接说 “修复 failing CI tests”</li>
+<li>把 Docker logs 直接贴进去</li>
+</ul>
+<h2 id="6-Prompt-进阶技巧">6) Prompt 进阶技巧</h2>
+<ul>
+<li><strong>让 Claude 审你</strong>：<br>
+“Grill me on these changes, don’t PR until I pass.”</li>
+<li><strong>不满意就推翻</strong>：<br>
+“Knowing everything you know now, scrap this and implement the elegant solution.”</li>
+<li><strong>先写清楚 spec</strong>：越具体越少返工</li>
+</ul>
+<h2 id="7-终端与环境配置">7) 终端与环境配置</h2>
+<p>团队喜欢 <strong>Ghostty</strong>（同步渲染、24-bit 色彩、完整 Unicode）。</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/07-terminal-setup.jpg" alt="终端与环境配置示例"></p>
+<p>提升效率的小习惯：</p>
+<ul>
+<li><code>/statusline</code> 显示上下文与分支</li>
+<li>终端 tab 颜色区分任务</li>
+<li>tmux 一任务一 tab</li>
+<li><strong>语音输入</strong>（Mac 双击 fn）提示词更完整</li>
+</ul>
+<h2 id="8-Use-Subagents">8) Use Subagents</h2>
+<p>在需求结尾加一句 <strong>“use subagents”</strong>，Claude 会开多个子任务并行。</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/08-subagents.png" alt="Subagents 并行示例"></p>
+<p>优点：主上下文更干净、并行探索更快。</p>
+<h2 id="9-用-Claude-做数据分析">9) 用 Claude 做数据分析</h2>
+<p>团队把 BigQuery CLI 直接接到 Claude Code，<strong>6 个月没写 SQL</strong>。</p>
+<p>只要有 CLI / MCP / API 的数据库都能用同样方法接入。</p>
+<h2 id="10-用-Claude-学习新知识">10) 用 Claude 学习新知识</h2>
+<ul>
+<li>在 <code>/config</code> 开启 Learning / Explanatory 模式</li>
+<li>让 Claude 生成 HTML 讲义</li>
+<li>让 Claude 画 ASCII 架构图</li>
+<li>做“间隔复习”学习 skill：你讲理解，Claude 追问补全</li>
+</ul>
+<hr>
+<p><strong>总结</strong>：Claude Code 的价值不在单次对话，而在于<strong>工作流的长期迭代</strong>。并行化、计划驱动、规则沉淀与技能化工具，是提升效率的核心。</p>
 
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">后端开发</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span
-                        class="px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full text-sm">Java</span>
-                    <span
-                        class="px-3 py-1 bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 rounded-full text-sm">Spring Boot</span>
-                    <span
-                        class="px-3 py-1 bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200 rounded-full text-sm">MySQL</span>
-                    <span
-                        class="px-3 py-1 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-full text-sm">Docker</span>
-                </div>
-            </div>
-        </div>
-    </section>
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="content-fade"></div>
+                                            
+                                    </div>
+                                    
+                                        <div class="post-content-full leading-relaxed post-hidden"
+                                            id="full-0">
+                                            <div class="post-content" data-content-type="full">
+                                                <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
+<blockquote>
+<p>这是一位名为 Boris 的作者在推文中整理的使用心得。他表示这些技巧来自 Claude Code 团队的内部实践，同时也强调：<strong>没有唯一正确的用法</strong>，每个人都应该根据自己的工作流不断试验与调整。</p>
+</blockquote>
+<p>原文地址：<a href="https://x.com/bcherny/status/2017742741636321619">https://x.com/bcherny/status/2017742741636321619</a></p>
+<h2 id="1-并行：3–5-个-worktree-同时跑">1) 并行：3–5 个 worktree 同时跑</h2>
+<p>团队的 No.1 技巧：<strong>同时开 3–5 个 git worktree</strong>，每个 worktree 对应一个 Claude 会话。上下文更干净、并行更高效。</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/01-worktree.jpg" alt="Worktree 并行示例"></p>
+<p><strong>实践建议：</strong></p>
+<ul>
+<li>给 worktree 起名并设 alias（如 <code>za/zb/zc</code>）</li>
+<li>单独开一个“分析 worktree”用于日志/查询</li>
+</ul>
+<h2 id="2-复杂任务先进入-Plan-Mode">2) 复杂任务先进入 Plan Mode</h2>
+<p><strong>先把计划做扎实</strong>，再执行才容易一枪到位。</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/02-plan-mode.png" alt="Plan Mode 示例"></p>
+<p>一些团队成员会：</p>
+<ul>
+<li>让一个 Claude 写计划</li>
+<li>再让另一个 Claude 以“资深工程师视角”审核</li>
+</ul>
+<p><strong>一旦走偏就回到 Plan Mode 重规划</strong>，不要硬推。</p>
+<h2 id="3-把-CLAUDE-md-当成自我修正系统">3) 把 <a href="http://CLAUDE.md">CLAUDE.md</a> 当成自我修正系统</h2>
+<p>每次纠正 Claude 后，都补一句：</p>
+<blockquote>
+<p>“更新 <a href="http://CLAUDE.md">CLAUDE.md</a>，避免下次再犯。”</p>
+</blockquote>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/03-claude-md.png" alt="CLAUDE.md 记忆示例"></p>
+<p>持续迭代后，Claude 的错误率会明显下降。</p>
+<h2 id="4-把重复劳动写成-Skill-Slash-Command">4) 把重复劳动写成 Skill / Slash Command</h2>
+<p>做超过一天的事，就值得自动化。</p>
+<p>团队建议：</p>
+<ul>
+<li><code>/techdebt</code>：会话末尾清理重复代码</li>
+<li>自动同步 Slack / Asana / GDrive / GitHub 上下文</li>
+<li>构建“数据工程师风格”的 agent 写 dbt / review / 测试</li>
+</ul>
+<h2 id="5-让-Claude-自己修-Bug">5) 让 Claude 自己修 Bug</h2>
+<p>不要过度指导，把问题喂给它即可：</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/05-slack-mcp.png" alt="Slack MCP 修复示例"></p>
+<ul>
+<li>贴 Slack bug 线程说 “fix”</li>
+<li>或直接说 “修复 failing CI tests”</li>
+<li>把 Docker logs 直接贴进去</li>
+</ul>
+<h2 id="6-Prompt-进阶技巧">6) Prompt 进阶技巧</h2>
+<ul>
+<li><strong>让 Claude 审你</strong>：<br>
+“Grill me on these changes, don’t PR until I pass.”</li>
+<li><strong>不满意就推翻</strong>：<br>
+“Knowing everything you know now, scrap this and implement the elegant solution.”</li>
+<li><strong>先写清楚 spec</strong>：越具体越少返工</li>
+</ul>
+<h2 id="7-终端与环境配置">7) 终端与环境配置</h2>
+<p>团队喜欢 <strong>Ghostty</strong>（同步渲染、24-bit 色彩、完整 Unicode）。</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/07-terminal-setup.jpg" alt="终端与环境配置示例"></p>
+<p>提升效率的小习惯：</p>
+<ul>
+<li><code>/statusline</code> 显示上下文与分支</li>
+<li>终端 tab 颜色区分任务</li>
+<li>tmux 一任务一 tab</li>
+<li><strong>语音输入</strong>（Mac 双击 fn）提示词更完整</li>
+</ul>
+<h2 id="8-Use-Subagents">8) Use Subagents</h2>
+<p>在需求结尾加一句 <strong>“use subagents”</strong>，Claude 会开多个子任务并行。</p>
+<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/08-subagents.png" alt="Subagents 并行示例"></p>
+<p>优点：主上下文更干净、并行探索更快。</p>
+<h2 id="9-用-Claude-做数据分析">9) 用 Claude 做数据分析</h2>
+<p>团队把 BigQuery CLI 直接接到 Claude Code，<strong>6 个月没写 SQL</strong>。</p>
+<p>只要有 CLI / MCP / API 的数据库都能用同样方法接入。</p>
+<h2 id="10-用-Claude-学习新知识">10) 用 Claude 学习新知识</h2>
+<ul>
+<li>在 <code>/config</code> 开启 Learning / Explanatory 模式</li>
+<li>让 Claude 生成 HTML 讲义</li>
+<li>让 Claude 画 ASCII 架构图</li>
+<li>做“间隔复习”学习 skill：你讲理解，Claude 追问补全</li>
+</ul>
+<hr>
+<p><strong>总结</strong>：Claude Code 的价值不在单次对话，而在于<strong>工作流的长期迭代</strong>。并行化、计划驱动、规则沉淀与技能化工具，是提升效率的核心。</p>
 
-    <!-- 兴趣爱好 -->
-    <section class="surface-panel rounded-lg p-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            兴趣爱好
-        </h2>
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                                
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="flex items-center p-4 surface-panel rounded-lg">
-                <svg class="w-8 h-8 text-primary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">AI 产品探索</h3>
-                    <p class="text-sm text-muted">LLM 应用实践</p>
-                </div>
-            </div>
+                                    <div
+                                        class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                                        <div class="flex items-center space-x-4">
+                                            <time datetime="2026-02-06T03:35:00.000Z" class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                                                    2026-02-06
+                                            </time>
 
-            <div class="flex items-center p-4 surface-panel rounded-lg">
-                <svg class="w-8 h-8 text-primary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">自动化工作流</h3>
-                    <p class="text-sm text-muted">AI Agent 实践</p>
-                </div>
-            </div>
+                                            
+                                                <div class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                                                        
+                                                            <a href="/categories/%E5%B7%A5%E5%85%B7/"
+                                                                class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                                工具
+                                                            </a>
+                                                            
+                                                </div>
+                                                
+                                        </div>
 
-            <div class="flex items-center p-4 surface-panel rounded-lg">
-                <svg class="w-8 h-8 text-primary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">技术分享</h3>
-                    <p class="text-sm text-muted">AI & 后端经验</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 联系方式 -->
-    <section class="surface-panel rounded-lg p-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-            </svg>
-            联系我
-        </h2>
-
-        <div class="text-center">
-            <p class="text-muted mb-6">
-                如果你对我的文章感兴趣，或者想要交流技术问题，欢迎联系我！
-            </p>
-
-            <div class="flex justify-center space-x-4">
-                <a href="mailto:deveye@126.com" class="btn btn-primary flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                        
+                                            <button
+                                                class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
+                                                data-index="0" id="btn-0">
+                                                <span class="expand-text">显示更多</span>
+                                                <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
-                    发送邮件
-                </a>
+                                            </button>
+                                            
+                                    </div>
+                    </div>
+                </div>
+            </article>
+            
+    </div>
 
-                <a href="https://github.com/hellodeveye" class="btn btn-secondary flex items-center" target="_blank">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    GitHub
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- 分页 -->
+    
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 绑定"显示更多"按钮事件
+        document.querySelectorAll('.expand-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const index = this.getAttribute('data-index');
+                toggleContent(index);
+            });
+        });
+    });
+
+    function toggleContent(index) {
+        const preview = document.getElementById('preview-' + index);
+        const full = document.getElementById('full-' + index);
+        const btn = document.getElementById('btn-' + index);
+        const expandText = btn.querySelector('.expand-text');
+        const expandIcon = btn.querySelector('.expand-icon');
+
+        if (full.classList.contains('post-hidden')) {
+            // 展开内容
+            preview.classList.add('post-hidden');
+            full.classList.remove('post-hidden');
+            full.classList.add('post-visible');
+            expandText.textContent = '收起';
+            expandIcon.style.transform = 'rotate(180deg)';
+        } else {
+            // 折叠内容
+            preview.classList.remove('post-hidden');
+            full.classList.add('post-hidden');
+            full.classList.remove('post-visible');
+            expandText.textContent = '显示更多';
+            expandIcon.style.transform = 'rotate(0deg)';
+        }
+    }
+</script>
+
+<style>
+    .expand-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .post-content-preview {
+        position: relative;
+    }
+
+    .post-content-preview-wrapper {
+        max-height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .post-hidden {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .post-visible {
+        max-height: none;
+        opacity: 1;
+    }
+</style>
 
                                     </div>
                                 </div>
