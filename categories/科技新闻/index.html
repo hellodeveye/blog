@@ -254,9 +254,9 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
-                            <a href="/2026/01/29/2026-01-29-Clawdbot-%E5%AE%89%E8%A3%85-R2-Upload-Skill-%E6%8C%87%E5%8D%97/"
+                            <a href="/2026/02/07/2026-02-07-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
                                 class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                Clawdbot 安装 R2 Upload Skill 指南
+                                2026-02-07 科技圈新闻汇总
                             </a>
                         </h3>
 
@@ -268,171 +268,127 @@
                                         id="preview-0">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
-                                                <p>之前介绍了如何配置 Clawdbot 使用国内 Minimax，今天分享如何为 Clawdbot 安装 <strong>R2 Upload Skill</strong>，实现图片/文件上传到 Cloudflare R2 并生成公开访问链接。</p>
-<h2 id="背景">背景</h2>
-<p>Clawdbot 本身没有内置的文件上传功能，但通过安装 R2 Upload Skill，可以轻松实现：</p>
-<ul>
-<li>📤 上传文件到 Cloudflare R2 或 S3 兼容存储</li>
-<li>🔗 生成短期有效的预签名下载链接</li>
-<li>🌐 支持自定义域名访问</li>
-<li>📦 多 Bucket 配置</li>
-</ul>
-<h2 id="环境准备">环境准备</h2>
-<p>在开始之前，你需要准备：</p>
-<ol>
-<li><strong>Cloudflare R2 账号</strong></li>
-<li><strong>已创建的 R2 Bucket</strong></li>
-<li><strong>R2 API Token</strong>（包含 Access Key ID 和 Secret Access Key）</li>
-<li><strong>Clawdbot 已安装</strong>（本文假设已安装）</li>
-</ol>
-<h2 id="安装步骤">安装步骤</h2>
-<h3 id="步骤一：下载-Skill">步骤一：下载 Skill</h3>
-<p>R2 Upload Skill 托管在 ClawdHub，通过以下地址下载：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://auth.clawdhub.com/api/v1/download?slug=r2-upload</span><br></pre></td></tr></table></figure>
-<p>下载后会得到一个 zip 文件。</p>
-<h3 id="步骤二：解压并安装到全局">步骤二：解压并安装到全局</h3>
-<p>将 Skill 安装到 Clawdbot 全局技能目录：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压</span></span><br><span class="line">unzip r2-upload.zip -d /tmp/r2-upload-extract</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装到全局 skills 目录</span></span><br><span class="line"><span class="built_in">cp</span> -r /tmp/r2-upload-extract ~/.clawdbot/skills/r2-upload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills/r2-upload</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<h3 id="步骤三：配置-R2-凭证">步骤三：配置 R2 凭证</h3>
-<p>创建配置文件 <code>~/.r2-upload.yml</code>：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># R2 Upload Configuration</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default:</span> <span class="string">your-bucket-name</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">your-bucket-name:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="attr">access_key_id:</span> <span class="string">YOUR_ACCESS_KEY_ID</span></span><br><span class="line">    <span class="attr">secret_access_key:</span> <span class="string">YOUR_SECRET_ACCESS_KEY</span></span><br><span class="line">    <span class="attr">bucket_name:</span> <span class="string">your-bucket-name</span></span><br><span class="line">    <span class="attr">public_url:</span> <span class="string">https://your-custom-domain.com</span></span><br><span class="line">    <span class="attr">region:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
-<p><strong>配置说明：</strong></p>
-<table>
-<thead>
-<tr>
-<th>配置项</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>endpoint</code></td>
-<td>R2 端点地址，格式为 <code>https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code></td>
-</tr>
-<tr>
-<td><code>access_key_id</code></td>
-<td>R2 API Token 的 Access Key ID</td>
-</tr>
-<tr>
-<td><code>secret_access_key</code></td>
-<td>R2 API Token 的 Secret Access Key</td>
-</tr>
-<tr>
-<td><code>bucket_name</code></td>
-<td>R2 Bucket 名称</td>
-</tr>
-<tr>
-<td><code>public_url</code></td>
-<td>自定义域名（可选，用于生成公开访问链接）</td>
-</tr>
-<tr>
-<td><code>region</code></td>
-<td>地区，R2 固定使用 <code>auto</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="步骤四：重启-Clawdbot">步骤四：重启 Clawdbot</h3>
-<p>使 Skill 生效：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
-<h2 id="使用方法">使用方法</h2>
-<h3 id="通过-Clawdbot-对话">通过 Clawdbot 对话</h3>
-<p>在 Clawdbot 对话中直接使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传这张图片到 R2</span><br></pre></td></tr></table></figure>
-<p>或指定参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传 /path/to/file.jpg 到 R2，有效期 24 小时</span><br></pre></td></tr></table></figure>
-<h3 id="可用工具">可用工具</h3>
-<p>R2 Upload Skill 提供以下工具：</p>
-<table>
-<thead>
-<tr>
-<th>工具</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>r2_upload</code></td>
-<td>上传文件并获取预签名 URL</td>
-</tr>
-<tr>
-<td><code>r2_list</code></td>
-<td>列出 Bucket 中的文件</td>
-</tr>
-<tr>
-<td><code>r2_delete</code></td>
-<td>删除文件</td>
-</tr>
-<tr>
-<td><code>r2_generate_url</code></td>
-<td>为已存在文件生成预签名 URL</td>
-</tr>
-</tbody>
-</table>
-<h3 id="上传示例">上传示例</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">r2-upload /path/to/file.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定自定义路径</span></span><br><span class="line">r2-upload /path/to/file.pdf --key uploads/2026/report.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 Bucket</span></span><br><span class="line">r2-upload /path/to/file.pdf --bucket my-bucket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义有效期（默认 5 分钟）</span></span><br><span class="line">r2-upload /path/to/file.pdf --expires 24h</span><br><span class="line">r2-upload /path/to/file.pdf --expires 1d</span><br><span class="line">r2-upload /path/to/file.png --expires 300  <span class="comment"># 秒</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公开链接（无需签名）</span></span><br><span class="line">r2-upload /path/to/file.png --public</span><br></pre></td></tr></table></figure>
-<h2 id="R2-配置详解">R2 配置详解</h2>
-<h3 id="获取-R2-Endpoint">获取 R2 Endpoint</h3>
-<ol>
-<li>登录 Cloudflare Dashboard</li>
-<li>进入 R2 → 你的 Bucket</li>
-<li>查看 &quot;S3 API&quot; 部分，获取 Endpoint 地址</li>
-</ol>
-<p>格式：<code>https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code></p>
-<h3 id="创建-API-Token">创建 API Token</h3>
-<ol>
-<li>进入 <a href="https://dash.cloudflare.com/">https://dash.cloudflare.com/</a>&lt;ACCOUNT_ID&gt;/r2/api-tokens</li>
-<li>创建新 Token：
-<ul>
-<li>应用到特定 Bucket</li>
-<li>权限：Object Read &amp; Write</li>
-</ul>
-</li>
-<li>复制 Access Key ID 和 Secret Access Key</li>
-</ol>
-<h3 id="自定义域名配置（可选）">自定义域名配置（可选）</h3>
-<p>如果你有自定义域名（如 <code>oss.example.com</code>）：</p>
-<ol>
-<li>在 Cloudflare DNS 中添加 CNAME 记录</li>
-<li>在 R2 设置中绑定自定义域名</li>
-<li>在配置文件中设置 <code>public_url</code></li>
-</ol>
-<h2 id="常见问题">常见问题</h2>
-<h3 id="Q-上传后链接打不开？">Q: 上传后链接打不开？</h3>
-<p>检查：</p>
-<ol>
-<li>预签名链接是否过期（默认 5 分钟）</li>
-<li>Bucket 是否设置为公开访问</li>
-<li>自定义域名是否正确配置</li>
-</ol>
-<h3 id="Q-如何修改默认有效期？">Q: 如何修改默认有效期？</h3>
-<p>在配置文件或环境变量中设置：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ~/.r2-upload.yml</span></span><br><span class="line"><span class="attr">default_expires:</span> <span class="number">3600</span>  <span class="comment"># 1 小时</span></span><br></pre></td></tr></table></figure>
-<p>或使用环境变量：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> R2_DEFAULT_EXPIRES=3600</span><br></pre></td></tr></table></figure>
-<h3 id="Q-可以上传到多个-Bucket-吗？">Q: 可以上传到多个 Bucket 吗？</h3>
-<p>可以，在配置文件中定义多个 Bucket：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">default:</span> <span class="string">blog</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://blog.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br><span class="line">    </span><br><span class="line">  <span class="attr">assets:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://assets.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br></pre></td></tr></table></figure>
-<p>上传时指定 Bucket：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传图片到 assets bucket</span><br></pre></td></tr></table></figure>
-<h2 id="总结">总结</h2>
-<p>通过以上步骤，你已经成功为 Clawdbot 安装了 R2 Upload Skill。现在可以轻松上传文件并生成分享链接了。</p>
-<p>相比传统的文件上传方式，R2 + Clawdbot 的组合具有以下优势：</p>
-<ul>
-<li>✅ 零服务器成本（R2 只收存储和流量费）</li>
-<li>✅ 全球 CDN 加速</li>
-<li>✅ 自动生成短期有效链接</li>
-<li>✅ 安全可控的访问权限</li>
-<li>✅ 支持自定义域名</li>
-</ul>
-<p>如果你正在使用 Clawdbot 进行 AI 开发，R2 Upload Skill 是一个非常实用的工具。</p>
+                                                <blockquote>
+<p>📊 <strong>今日导读</strong><br>
+精选 9 条科技新闻<br>
+来源：<a href="http://Dev.to">Dev.to</a>(2) | GitHub Trending(2) | Hacker News(2) | Hugging Face(2) | Lobsters(1)</p>
+</blockquote>
 <hr>
-<p><strong>参考链接：</strong></p>
-<ul>
-<li><a href="https://docs.clawd.bot">Clawdbot 官方文档</a></li>
-<li><a href="https://developers.cloudflare.com/r2/">R2 官方文档</a></li>
-<li><a href="https://clawdhub.com">ClawdHub</a></li>
-</ul>
-<p><strong>标签：</strong> Clawdbot, R2, Cloudflare, 存储, 教程</p>
+<h2 id="📋-文章速览">📋 文章速览</h2>
+<p><strong>AI 与机器学习</strong>：3 篇</p>
+<ol>
+<li>Moltbook 并非 AI 社会</li>
+<li>[模型] dima806/fairface_age_image_detectio…</li>
+<li>MobileNetV3 Small 100 LAMB ImageNet预训练模型</li>
+</ol>
+<p><strong>开发工具与开源</strong>：1 篇</p>
+<ol>
+<li>GitHub Actions 正在悄然削弱你的工程团队效能</li>
+</ol>
+<p><strong>产品与设计</strong>：2 篇</p>
+<ol>
+<li>BreezyBox：在ESP32-S3上无需Linux运行Shell、Vi编辑器…</li>
+<li>kamranahmedse/developer-roadmap：开发者职业成长必…</li>
+</ol>
+<p><strong>趣闻与观点</strong>：3 篇</p>
+<ol>
+<li>OpenCiv3：开源跨平台文明III重制版</li>
+<li>编码面试大学：成为软件工程师的完整计算机科学学习计划</li>
+<li>初级开发者正在灭绝（而且我们正在制造一场灾难）</li>
+</ol>
+<hr>
+<h2 id="AI-与机器学习">AI 与机器学习</h2>
+<h3 id="1-Moltbook-并非-AI-社会">1. Moltbook 并非 AI 社会</h3>
+<p>📰 <strong><a href="http://Dev.to">Dev.to</a></strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-06.jpg" width="100%" alt="Moltbook 并非 AI 社会" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：本文旨在澄清关于 Moltbook 的误解，阐明其并非如外界所传的&quot;纯 AI 社交网络&quot;。作者解释了 Moltbook 的实际定位、功能设计以及它如何区分于完全由自主智能体运营的平台，同时探讨了人机交互在该平台上的真实形态。</p>
+<p><strong>核心要点</strong>：<br>
+• Moltbook 被误传为&quot;纯 AI 社交网络&quot;，但实际定位是支持人机协作的混合型社交平台，并非完全由自主智能体构成<br>
+• 平台上的内容创作、互动和讨论仍以人类用户为主导，AI 角色更多是辅助工具而非主体<br>
+• 作者认为这种误解源于对 AI 社交产品发展趋势的过度解读，并呼吁公众以更理性的视角看待新兴技术平台</p>
+<p>🔗 <a href="https://dev.to/richardpascoe/moltbook-is-not-an-ai-society-4h6d">阅读原文</a></p>
+<hr>
+<h3 id="2-模型-dima806-fairface-age-image-detection">2. [模型] dima806/fairface_age_image_detection</h3>
+<p>📰 <strong>Hugging Face</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-09.jpg" width="100%" alt="[模型] dima806/fairfac" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：dima806/fairface_age_image_detection 是一个基于FairFace数据集训练的深度学习模型，专门用于从图像中检测和预测人物的年龄。该模型采用ResNet架构，能够识别包括儿童、青年、中年和老年在内的多个年龄阶段。FairFace数据集的构建特别注重种族多样性，有助于减少模型在不同种族间的预测偏差。</p>
+<p><strong>核心要点</strong>：<br>
+• 基于FairFace数据集训练，该数据集包含约10万张经过标注的人脸图像，覆盖7个种族群体<br>
+• 采用ResNet深度卷积神经网络架构，能够高效准确地提取人脸特征进行年龄预测<br>
+• 模型支持多年龄段分类，可应用于人脸识别系统、内容审核、用户画像分析等场景</p>
+<p>🔗 <a href="https://huggingface.co/dima806/fairface_age_image_detection">阅读原文</a></p>
+<hr>
+<h3 id="3-MobileNetV3-Small-100-LAMB-ImageNet预训练模型">3. MobileNetV3 Small 100 LAMB ImageNet预训练模型</h3>
+<p>📰 <strong>Hugging Face</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-10.jpg" width="100%" alt="MobileNetV3 Small 10" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：MobileNetV3 Small 100 LAMB是一个轻量级图像分类模型，基于MobileNetV3架构设计，使用LAMB优化器在ImageNet-1K数据集上进行预训练。该模型在保持高效率的同时提供了优秀的分类性能，特别适合资源受限的部署场景。</p>
+<p><strong>核心要点</strong>：<br>
+• 基于MobileNetV3 Small架构，针对移动端和嵌入式设备优化<br>
+• 使用LAMB优化器在ImageNet-1K上预训练，具有良好的特征提取能力<br>
+• 参数量小、推理速度快，适合实时应用和边缘计算场景</p>
+<p>🔗 <a href="https://huggingface.co/timm/mobilenetv3_small_100.lamb_in1k">阅读原文</a></p>
+<hr>
+<h2 id="开发工具与开源">开发工具与开源</h2>
+<h3 id="1-GitHub-Actions-正在悄然削弱你的工程团队效能">1. GitHub Actions 正在悄然削弱你的工程团队效能</h3>
+<p>📰 <strong>Lobsters</strong></p>
+<p><strong>摘要</strong>：本文深入探讨了 GitHub Actions 在提升 CI/CD 效率的同时，如何在长期运行中逐渐侵蚀工程团队的生产力。文章指出，随着项目规模扩大，复杂的 Action 工作流、缺乏优化配置的流水线以及日益增长的计算成本，正在成为团队发展的隐性负担。</p>
+<p><strong>核心要点</strong>：<br>
+• 复杂的 GitHub Actions 配置容易形成&quot;配置债务&quot;，随着项目演进，理解和维护这些工作流所需的时间成本呈指数级增长<br>
+• 缺乏精细化资源管理的工作流会导致计算资源浪费和 CI/CD 成本失控，尤其在团队规模扩大后问题更加突出<br>
+• 过度依赖预置 Action 和未经优化的流水线会降低开发者对基础设施的理解深度，从长远看削弱了团队解决复杂工程问题的能力</p>
+<p>🔗 <a href="https://iankduncan.com/engineering/2026-02-05-github-actions-killing-your-team/">阅读原文</a></p>
+<hr>
+<h2 id="产品与设计">产品与设计</h2>
+<h3 id="1-BreezyBox：在ESP32-S3上无需Linux运行Shell、Vi编辑器和C编译器">1. BreezyBox：在ESP32-S3上无需Linux运行Shell、Vi编辑器和C编译器</h3>
+<p>📰 <strong>Hacker News</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-02.jpg" width="100%" alt="BreezyBox：在ESP32-S3上" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：BreezyBox是一个创新项目，展示了在ESP32-S3微控制器上运行完整的Unix工具链而无需Linux操作系统的可能性。该项目实现了Shell、应用程序安装器、Vi编辑器以及C编译器等工具，为嵌入式系统开发开辟了新的技术路径。这是一个令人印象深刻的技术展示，证明了在资源受限的设备上也能实现复杂的开发环境。</p>
+<p><strong>核心要点</strong>：<br>
+• 在ESP32-S3芯片上实现完整的命令行环境，无需传统Linux操作系统支持<br>
+• 包含Shell、Vi编辑器、C编译器等核心Unix工具，展示了嵌入式系统的强大潜力<br>
+• 代表了物联网设备开发的重要突破，为资源受限环境下的应用开发提供了新思路</p>
+<p>🔗 <a href="https://github.com/valdanylchuk/breezydemo">阅读原文</a></p>
+<hr>
+<h3 id="2-kamranahmedse-developer-roadmap：开发者职业成长必备的交互式学习路线图">2. kamranahmedse/developer-roadmap：开发者职业成长必备的交互式学习路线图</h3>
+<p>📰 <strong>GitHub Trending</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-03.jpg" width="100%" alt="kamranahmedse/develo" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：kamranahmedse/developer-roadmap 是一个开源项目，为前端、后端、DevOps、全栈等不同方向的开发者提供系统化的学习路径。该项目通过可视化的路线图和详细的指南，帮助开发者明确技能要求和学习方向，是规划技术成长路线的重要参考资源。</p>
+<p><strong>核心要点</strong>：<br>
+• 提供多条技术学习路径，包括前端、后端、DevOps、全栈等多个方向<br>
+• 以交互式路线图的形式展示技能树和学习顺序，帮助开发者明确学习目标<br>
+• 内容由社区维护和持续更新，保持与行业最新技术需求同步</p>
+<p>🔗 <a href="https://github.com/kamranahmedse/developer-roadmap">阅读原文</a></p>
+<hr>
+<h2 id="趣闻与观点">趣闻与观点</h2>
+<h3 id="1-OpenCiv3：开源跨平台文明III重制版">1. OpenCiv3：开源跨平台文明III重制版</h3>
+<p>📰 <strong>Hacker News</strong></p>
+<p><strong>摘要</strong>：OpenCiv3是一个开源项目，致力于重新构建经典策略游戏《文明III》。该项目支持跨平台运行，体现了开源社区对经典游戏遗产的延续和现代化改进。</p>
+<p><strong>核心要点</strong>：<br>
+• 完全开源的项目，任何人都可以参与贡献代码和改进<br>
+• 跨平台兼容设计，支持多个操作系统运行<br>
+• 重制经典《文明III》游戏，保留原作核心玩法的同时进行现代化优化</p>
+<p>🔗 <a href="https://openciv3.org/">阅读原文</a></p>
+<hr>
+<h3 id="2-编码面试大学：成为软件工程师的完整计算机科学学习计划">2. 编码面试大学：成为软件工程师的完整计算机科学学习计划</h3>
+<p>📰 <strong>GitHub Trending</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-04.jpg" width="100%" alt="编码面试大学：成为软件工程师的完整计算机" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：jwasham/coding-interview-university 是一个 GitHub 上广受欢迎的开源项目，提供了系统化的计算机科学学习路径，涵盖数据结构、算法、系统设计等核心知识，帮助开发者为技术面试做好充分准备。该项目已被数十万开发者收藏，成为转行和进阶软件工程师的宝贵资源。</p>
+<p><strong>核心要点</strong>：<br>
+• 提供完整的学习路线图，从基础到高级逐步涵盖计算机科学核心领域，包括编程语言基础、数据结构与算法、操作系统、网络等<br>
+• 包含大量推荐学习资源，如在线课程、书籍、编程练习网站等，并提供详细的时间规划建议<br>
+• 强调实践导向，提供编码练习、项目经验和面试技巧指导，注重理论知识的实际应用</p>
+<p>🔗 <a href="https://github.com/jwasham/coding-interview-university">阅读原文</a></p>
+<hr>
+<h3 id="3-初级开发者正在灭绝（而且我们正在制造一场灾难）">3. 初级开发者正在灭绝（而且我们正在制造一场灾难）</h3>
+<p>📰 <strong><a href="http://Dev.to">Dev.to</a></strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-05.jpg" width="100%" alt="初级开发者正在灭绝（而且我们正在制造一场" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：作者在文章中忏悔过去依赖初级开发者完成重复性任务的做法，如今这些任务正被自动化工具取代，导致初级开发者角色逐渐消失。这种现象不仅中断了技术技能的传承，还可能引发行业知识和创新能力的灾难性衰退。</p>
+<p><strong>核心要点</strong>：<br>
+• 初级开发者的传统角色正因技术自动化而面临灭绝风险。<br>
+• 过度依赖工具如AI和外包服务削弱了经验传递和人才培养。<br>
+• 这最终可能造成行业整体技能下降和可持续性危机。</p>
+<p>🔗 <a href="https://dev.to/the_nortern_dev/the-junior-developer-is-extinct-and-we-are-creating-a-disaster-3jh2">阅读原文</a></p>
+<hr>
 
                                             </div>
                                         </div>
@@ -444,171 +400,127 @@
                                         <div class="post-content-full leading-relaxed post-hidden"
                                             id="full-0">
                                             <div class="post-content" data-content-type="full">
-                                                <p>之前介绍了如何配置 Clawdbot 使用国内 Minimax，今天分享如何为 Clawdbot 安装 <strong>R2 Upload Skill</strong>，实现图片/文件上传到 Cloudflare R2 并生成公开访问链接。</p>
-<h2 id="背景">背景</h2>
-<p>Clawdbot 本身没有内置的文件上传功能，但通过安装 R2 Upload Skill，可以轻松实现：</p>
-<ul>
-<li>📤 上传文件到 Cloudflare R2 或 S3 兼容存储</li>
-<li>🔗 生成短期有效的预签名下载链接</li>
-<li>🌐 支持自定义域名访问</li>
-<li>📦 多 Bucket 配置</li>
-</ul>
-<h2 id="环境准备">环境准备</h2>
-<p>在开始之前，你需要准备：</p>
-<ol>
-<li><strong>Cloudflare R2 账号</strong></li>
-<li><strong>已创建的 R2 Bucket</strong></li>
-<li><strong>R2 API Token</strong>（包含 Access Key ID 和 Secret Access Key）</li>
-<li><strong>Clawdbot 已安装</strong>（本文假设已安装）</li>
-</ol>
-<h2 id="安装步骤">安装步骤</h2>
-<h3 id="步骤一：下载-Skill">步骤一：下载 Skill</h3>
-<p>R2 Upload Skill 托管在 ClawdHub，通过以下地址下载：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://auth.clawdhub.com/api/v1/download?slug=r2-upload</span><br></pre></td></tr></table></figure>
-<p>下载后会得到一个 zip 文件。</p>
-<h3 id="步骤二：解压并安装到全局">步骤二：解压并安装到全局</h3>
-<p>将 Skill 安装到 Clawdbot 全局技能目录：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压</span></span><br><span class="line">unzip r2-upload.zip -d /tmp/r2-upload-extract</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装到全局 skills 目录</span></span><br><span class="line"><span class="built_in">cp</span> -r /tmp/r2-upload-extract ~/.clawdbot/skills/r2-upload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills/r2-upload</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<h3 id="步骤三：配置-R2-凭证">步骤三：配置 R2 凭证</h3>
-<p>创建配置文件 <code>~/.r2-upload.yml</code>：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># R2 Upload Configuration</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default:</span> <span class="string">your-bucket-name</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">your-bucket-name:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="attr">access_key_id:</span> <span class="string">YOUR_ACCESS_KEY_ID</span></span><br><span class="line">    <span class="attr">secret_access_key:</span> <span class="string">YOUR_SECRET_ACCESS_KEY</span></span><br><span class="line">    <span class="attr">bucket_name:</span> <span class="string">your-bucket-name</span></span><br><span class="line">    <span class="attr">public_url:</span> <span class="string">https://your-custom-domain.com</span></span><br><span class="line">    <span class="attr">region:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
-<p><strong>配置说明：</strong></p>
-<table>
-<thead>
-<tr>
-<th>配置项</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>endpoint</code></td>
-<td>R2 端点地址，格式为 <code>https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code></td>
-</tr>
-<tr>
-<td><code>access_key_id</code></td>
-<td>R2 API Token 的 Access Key ID</td>
-</tr>
-<tr>
-<td><code>secret_access_key</code></td>
-<td>R2 API Token 的 Secret Access Key</td>
-</tr>
-<tr>
-<td><code>bucket_name</code></td>
-<td>R2 Bucket 名称</td>
-</tr>
-<tr>
-<td><code>public_url</code></td>
-<td>自定义域名（可选，用于生成公开访问链接）</td>
-</tr>
-<tr>
-<td><code>region</code></td>
-<td>地区，R2 固定使用 <code>auto</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="步骤四：重启-Clawdbot">步骤四：重启 Clawdbot</h3>
-<p>使 Skill 生效：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
-<h2 id="使用方法">使用方法</h2>
-<h3 id="通过-Clawdbot-对话">通过 Clawdbot 对话</h3>
-<p>在 Clawdbot 对话中直接使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传这张图片到 R2</span><br></pre></td></tr></table></figure>
-<p>或指定参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传 /path/to/file.jpg 到 R2，有效期 24 小时</span><br></pre></td></tr></table></figure>
-<h3 id="可用工具">可用工具</h3>
-<p>R2 Upload Skill 提供以下工具：</p>
-<table>
-<thead>
-<tr>
-<th>工具</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>r2_upload</code></td>
-<td>上传文件并获取预签名 URL</td>
-</tr>
-<tr>
-<td><code>r2_list</code></td>
-<td>列出 Bucket 中的文件</td>
-</tr>
-<tr>
-<td><code>r2_delete</code></td>
-<td>删除文件</td>
-</tr>
-<tr>
-<td><code>r2_generate_url</code></td>
-<td>为已存在文件生成预签名 URL</td>
-</tr>
-</tbody>
-</table>
-<h3 id="上传示例">上传示例</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">r2-upload /path/to/file.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定自定义路径</span></span><br><span class="line">r2-upload /path/to/file.pdf --key uploads/2026/report.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 Bucket</span></span><br><span class="line">r2-upload /path/to/file.pdf --bucket my-bucket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义有效期（默认 5 分钟）</span></span><br><span class="line">r2-upload /path/to/file.pdf --expires 24h</span><br><span class="line">r2-upload /path/to/file.pdf --expires 1d</span><br><span class="line">r2-upload /path/to/file.png --expires 300  <span class="comment"># 秒</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公开链接（无需签名）</span></span><br><span class="line">r2-upload /path/to/file.png --public</span><br></pre></td></tr></table></figure>
-<h2 id="R2-配置详解">R2 配置详解</h2>
-<h3 id="获取-R2-Endpoint">获取 R2 Endpoint</h3>
-<ol>
-<li>登录 Cloudflare Dashboard</li>
-<li>进入 R2 → 你的 Bucket</li>
-<li>查看 &quot;S3 API&quot; 部分，获取 Endpoint 地址</li>
-</ol>
-<p>格式：<code>https://&lt;ACCOUNT_ID&gt;.r2.cloudflarestorage.com</code></p>
-<h3 id="创建-API-Token">创建 API Token</h3>
-<ol>
-<li>进入 <a href="https://dash.cloudflare.com/">https://dash.cloudflare.com/</a>&lt;ACCOUNT_ID&gt;/r2/api-tokens</li>
-<li>创建新 Token：
-<ul>
-<li>应用到特定 Bucket</li>
-<li>权限：Object Read &amp; Write</li>
-</ul>
-</li>
-<li>复制 Access Key ID 和 Secret Access Key</li>
-</ol>
-<h3 id="自定义域名配置（可选）">自定义域名配置（可选）</h3>
-<p>如果你有自定义域名（如 <code>oss.example.com</code>）：</p>
-<ol>
-<li>在 Cloudflare DNS 中添加 CNAME 记录</li>
-<li>在 R2 设置中绑定自定义域名</li>
-<li>在配置文件中设置 <code>public_url</code></li>
-</ol>
-<h2 id="常见问题">常见问题</h2>
-<h3 id="Q-上传后链接打不开？">Q: 上传后链接打不开？</h3>
-<p>检查：</p>
-<ol>
-<li>预签名链接是否过期（默认 5 分钟）</li>
-<li>Bucket 是否设置为公开访问</li>
-<li>自定义域名是否正确配置</li>
-</ol>
-<h3 id="Q-如何修改默认有效期？">Q: 如何修改默认有效期？</h3>
-<p>在配置文件或环境变量中设置：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ~/.r2-upload.yml</span></span><br><span class="line"><span class="attr">default_expires:</span> <span class="number">3600</span>  <span class="comment"># 1 小时</span></span><br></pre></td></tr></table></figure>
-<p>或使用环境变量：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> R2_DEFAULT_EXPIRES=3600</span><br></pre></td></tr></table></figure>
-<h3 id="Q-可以上传到多个-Bucket-吗？">Q: 可以上传到多个 Bucket 吗？</h3>
-<p>可以，在配置文件中定义多个 Bucket：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">default:</span> <span class="string">blog</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://blog.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br><span class="line">    </span><br><span class="line">  <span class="attr">assets:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://assets.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br></pre></td></tr></table></figure>
-<p>上传时指定 Bucket：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传图片到 assets bucket</span><br></pre></td></tr></table></figure>
-<h2 id="总结">总结</h2>
-<p>通过以上步骤，你已经成功为 Clawdbot 安装了 R2 Upload Skill。现在可以轻松上传文件并生成分享链接了。</p>
-<p>相比传统的文件上传方式，R2 + Clawdbot 的组合具有以下优势：</p>
-<ul>
-<li>✅ 零服务器成本（R2 只收存储和流量费）</li>
-<li>✅ 全球 CDN 加速</li>
-<li>✅ 自动生成短期有效链接</li>
-<li>✅ 安全可控的访问权限</li>
-<li>✅ 支持自定义域名</li>
-</ul>
-<p>如果你正在使用 Clawdbot 进行 AI 开发，R2 Upload Skill 是一个非常实用的工具。</p>
+                                                <blockquote>
+<p>📊 <strong>今日导读</strong><br>
+精选 9 条科技新闻<br>
+来源：<a href="http://Dev.to">Dev.to</a>(2) | GitHub Trending(2) | Hacker News(2) | Hugging Face(2) | Lobsters(1)</p>
+</blockquote>
 <hr>
-<p><strong>参考链接：</strong></p>
-<ul>
-<li><a href="https://docs.clawd.bot">Clawdbot 官方文档</a></li>
-<li><a href="https://developers.cloudflare.com/r2/">R2 官方文档</a></li>
-<li><a href="https://clawdhub.com">ClawdHub</a></li>
-</ul>
-<p><strong>标签：</strong> Clawdbot, R2, Cloudflare, 存储, 教程</p>
+<h2 id="📋-文章速览">📋 文章速览</h2>
+<p><strong>AI 与机器学习</strong>：3 篇</p>
+<ol>
+<li>Moltbook 并非 AI 社会</li>
+<li>[模型] dima806/fairface_age_image_detectio…</li>
+<li>MobileNetV3 Small 100 LAMB ImageNet预训练模型</li>
+</ol>
+<p><strong>开发工具与开源</strong>：1 篇</p>
+<ol>
+<li>GitHub Actions 正在悄然削弱你的工程团队效能</li>
+</ol>
+<p><strong>产品与设计</strong>：2 篇</p>
+<ol>
+<li>BreezyBox：在ESP32-S3上无需Linux运行Shell、Vi编辑器…</li>
+<li>kamranahmedse/developer-roadmap：开发者职业成长必…</li>
+</ol>
+<p><strong>趣闻与观点</strong>：3 篇</p>
+<ol>
+<li>OpenCiv3：开源跨平台文明III重制版</li>
+<li>编码面试大学：成为软件工程师的完整计算机科学学习计划</li>
+<li>初级开发者正在灭绝（而且我们正在制造一场灾难）</li>
+</ol>
+<hr>
+<h2 id="AI-与机器学习">AI 与机器学习</h2>
+<h3 id="1-Moltbook-并非-AI-社会">1. Moltbook 并非 AI 社会</h3>
+<p>📰 <strong><a href="http://Dev.to">Dev.to</a></strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-06.jpg" width="100%" alt="Moltbook 并非 AI 社会" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：本文旨在澄清关于 Moltbook 的误解，阐明其并非如外界所传的&quot;纯 AI 社交网络&quot;。作者解释了 Moltbook 的实际定位、功能设计以及它如何区分于完全由自主智能体运营的平台，同时探讨了人机交互在该平台上的真实形态。</p>
+<p><strong>核心要点</strong>：<br>
+• Moltbook 被误传为&quot;纯 AI 社交网络&quot;，但实际定位是支持人机协作的混合型社交平台，并非完全由自主智能体构成<br>
+• 平台上的内容创作、互动和讨论仍以人类用户为主导，AI 角色更多是辅助工具而非主体<br>
+• 作者认为这种误解源于对 AI 社交产品发展趋势的过度解读，并呼吁公众以更理性的视角看待新兴技术平台</p>
+<p>🔗 <a href="https://dev.to/richardpascoe/moltbook-is-not-an-ai-society-4h6d">阅读原文</a></p>
+<hr>
+<h3 id="2-模型-dima806-fairface-age-image-detection">2. [模型] dima806/fairface_age_image_detection</h3>
+<p>📰 <strong>Hugging Face</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-09.jpg" width="100%" alt="[模型] dima806/fairfac" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：dima806/fairface_age_image_detection 是一个基于FairFace数据集训练的深度学习模型，专门用于从图像中检测和预测人物的年龄。该模型采用ResNet架构，能够识别包括儿童、青年、中年和老年在内的多个年龄阶段。FairFace数据集的构建特别注重种族多样性，有助于减少模型在不同种族间的预测偏差。</p>
+<p><strong>核心要点</strong>：<br>
+• 基于FairFace数据集训练，该数据集包含约10万张经过标注的人脸图像，覆盖7个种族群体<br>
+• 采用ResNet深度卷积神经网络架构，能够高效准确地提取人脸特征进行年龄预测<br>
+• 模型支持多年龄段分类，可应用于人脸识别系统、内容审核、用户画像分析等场景</p>
+<p>🔗 <a href="https://huggingface.co/dima806/fairface_age_image_detection">阅读原文</a></p>
+<hr>
+<h3 id="3-MobileNetV3-Small-100-LAMB-ImageNet预训练模型">3. MobileNetV3 Small 100 LAMB ImageNet预训练模型</h3>
+<p>📰 <strong>Hugging Face</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-10.jpg" width="100%" alt="MobileNetV3 Small 10" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：MobileNetV3 Small 100 LAMB是一个轻量级图像分类模型，基于MobileNetV3架构设计，使用LAMB优化器在ImageNet-1K数据集上进行预训练。该模型在保持高效率的同时提供了优秀的分类性能，特别适合资源受限的部署场景。</p>
+<p><strong>核心要点</strong>：<br>
+• 基于MobileNetV3 Small架构，针对移动端和嵌入式设备优化<br>
+• 使用LAMB优化器在ImageNet-1K上预训练，具有良好的特征提取能力<br>
+• 参数量小、推理速度快，适合实时应用和边缘计算场景</p>
+<p>🔗 <a href="https://huggingface.co/timm/mobilenetv3_small_100.lamb_in1k">阅读原文</a></p>
+<hr>
+<h2 id="开发工具与开源">开发工具与开源</h2>
+<h3 id="1-GitHub-Actions-正在悄然削弱你的工程团队效能">1. GitHub Actions 正在悄然削弱你的工程团队效能</h3>
+<p>📰 <strong>Lobsters</strong></p>
+<p><strong>摘要</strong>：本文深入探讨了 GitHub Actions 在提升 CI/CD 效率的同时，如何在长期运行中逐渐侵蚀工程团队的生产力。文章指出，随着项目规模扩大，复杂的 Action 工作流、缺乏优化配置的流水线以及日益增长的计算成本，正在成为团队发展的隐性负担。</p>
+<p><strong>核心要点</strong>：<br>
+• 复杂的 GitHub Actions 配置容易形成&quot;配置债务&quot;，随着项目演进，理解和维护这些工作流所需的时间成本呈指数级增长<br>
+• 缺乏精细化资源管理的工作流会导致计算资源浪费和 CI/CD 成本失控，尤其在团队规模扩大后问题更加突出<br>
+• 过度依赖预置 Action 和未经优化的流水线会降低开发者对基础设施的理解深度，从长远看削弱了团队解决复杂工程问题的能力</p>
+<p>🔗 <a href="https://iankduncan.com/engineering/2026-02-05-github-actions-killing-your-team/">阅读原文</a></p>
+<hr>
+<h2 id="产品与设计">产品与设计</h2>
+<h3 id="1-BreezyBox：在ESP32-S3上无需Linux运行Shell、Vi编辑器和C编译器">1. BreezyBox：在ESP32-S3上无需Linux运行Shell、Vi编辑器和C编译器</h3>
+<p>📰 <strong>Hacker News</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-02.jpg" width="100%" alt="BreezyBox：在ESP32-S3上" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：BreezyBox是一个创新项目，展示了在ESP32-S3微控制器上运行完整的Unix工具链而无需Linux操作系统的可能性。该项目实现了Shell、应用程序安装器、Vi编辑器以及C编译器等工具，为嵌入式系统开发开辟了新的技术路径。这是一个令人印象深刻的技术展示，证明了在资源受限的设备上也能实现复杂的开发环境。</p>
+<p><strong>核心要点</strong>：<br>
+• 在ESP32-S3芯片上实现完整的命令行环境，无需传统Linux操作系统支持<br>
+• 包含Shell、Vi编辑器、C编译器等核心Unix工具，展示了嵌入式系统的强大潜力<br>
+• 代表了物联网设备开发的重要突破，为资源受限环境下的应用开发提供了新思路</p>
+<p>🔗 <a href="https://github.com/valdanylchuk/breezydemo">阅读原文</a></p>
+<hr>
+<h3 id="2-kamranahmedse-developer-roadmap：开发者职业成长必备的交互式学习路线图">2. kamranahmedse/developer-roadmap：开发者职业成长必备的交互式学习路线图</h3>
+<p>📰 <strong>GitHub Trending</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-03.jpg" width="100%" alt="kamranahmedse/develo" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：kamranahmedse/developer-roadmap 是一个开源项目，为前端、后端、DevOps、全栈等不同方向的开发者提供系统化的学习路径。该项目通过可视化的路线图和详细的指南，帮助开发者明确技能要求和学习方向，是规划技术成长路线的重要参考资源。</p>
+<p><strong>核心要点</strong>：<br>
+• 提供多条技术学习路径，包括前端、后端、DevOps、全栈等多个方向<br>
+• 以交互式路线图的形式展示技能树和学习顺序，帮助开发者明确学习目标<br>
+• 内容由社区维护和持续更新，保持与行业最新技术需求同步</p>
+<p>🔗 <a href="https://github.com/kamranahmedse/developer-roadmap">阅读原文</a></p>
+<hr>
+<h2 id="趣闻与观点">趣闻与观点</h2>
+<h3 id="1-OpenCiv3：开源跨平台文明III重制版">1. OpenCiv3：开源跨平台文明III重制版</h3>
+<p>📰 <strong>Hacker News</strong></p>
+<p><strong>摘要</strong>：OpenCiv3是一个开源项目，致力于重新构建经典策略游戏《文明III》。该项目支持跨平台运行，体现了开源社区对经典游戏遗产的延续和现代化改进。</p>
+<p><strong>核心要点</strong>：<br>
+• 完全开源的项目，任何人都可以参与贡献代码和改进<br>
+• 跨平台兼容设计，支持多个操作系统运行<br>
+• 重制经典《文明III》游戏，保留原作核心玩法的同时进行现代化优化</p>
+<p>🔗 <a href="https://openciv3.org/">阅读原文</a></p>
+<hr>
+<h3 id="2-编码面试大学：成为软件工程师的完整计算机科学学习计划">2. 编码面试大学：成为软件工程师的完整计算机科学学习计划</h3>
+<p>📰 <strong>GitHub Trending</strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-04.jpg" width="100%" alt="编码面试大学：成为软件工程师的完整计算机" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：jwasham/coding-interview-university 是一个 GitHub 上广受欢迎的开源项目，提供了系统化的计算机科学学习路径，涵盖数据结构、算法、系统设计等核心知识，帮助开发者为技术面试做好充分准备。该项目已被数十万开发者收藏，成为转行和进阶软件工程师的宝贵资源。</p>
+<p><strong>核心要点</strong>：<br>
+• 提供完整的学习路线图，从基础到高级逐步涵盖计算机科学核心领域，包括编程语言基础、数据结构与算法、操作系统、网络等<br>
+• 包含大量推荐学习资源，如在线课程、书籍、编程练习网站等，并提供详细的时间规划建议<br>
+• 强调实践导向，提供编码练习、项目经验和面试技巧指导，注重理论知识的实际应用</p>
+<p>🔗 <a href="https://github.com/jwasham/coding-interview-university">阅读原文</a></p>
+<hr>
+<h3 id="3-初级开发者正在灭绝（而且我们正在制造一场灾难）">3. 初级开发者正在灭绝（而且我们正在制造一场灾难）</h3>
+<p>📰 <strong><a href="http://Dev.to">Dev.to</a></strong></p>
+<img src="https://oss.foundra.me/images/2026/02/07/article-05.jpg" width="100%" alt="初级开发者正在灭绝（而且我们正在制造一场" style="border-radius:8px;margin:10px 0;">
+<p><strong>摘要</strong>：作者在文章中忏悔过去依赖初级开发者完成重复性任务的做法，如今这些任务正被自动化工具取代，导致初级开发者角色逐渐消失。这种现象不仅中断了技术技能的传承，还可能引发行业知识和创新能力的灾难性衰退。</p>
+<p><strong>核心要点</strong>：<br>
+• 初级开发者的传统角色正因技术自动化而面临灭绝风险。<br>
+• 过度依赖工具如AI和外包服务削弱了经验传递和人才培养。<br>
+• 这最终可能造成行业整体技能下降和可持续性危机。</p>
+<p>🔗 <a href="https://dev.to/the_nortern_dev/the-junior-developer-is-extinct-and-we-are-creating-a-disaster-3jh2">阅读原文</a></p>
+<hr>
 
                                             </div>
                                         </div>
@@ -619,18 +531,18 @@
                                     <div
                                         class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                                         <div class="flex items-center space-x-4">
-                                            <time datetime="2026-01-29T03:32:00.000Z" class="flex items-center">
+                                            <time datetime="2026-02-06T16:00:00.000Z" class="flex items-center">
                                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
-                                                    2026-01-29
+                                                    2026-02-07
                                             </time>
 
                                             
                                                 <div class="flex items-center space-x-2">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
                                                         
-                                                            <a href="/categories/%E6%95%99%E7%A8%8B/"
+                                                            <a href="/categories/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"
                                                                 class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                                                教程
+                                                                科技新闻
                                                             </a>
                                                             
                                                 </div>

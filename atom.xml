@@ -6,7 +6,7 @@
   <link href="https://foundra.me/atom.xml" rel="self"/>
   
   <link href="https://foundra.me/"/>
-  <updated>2026-02-06T06:10:57.711Z</updated>
+  <updated>2026-02-07T02:40:25.479Z</updated>
   <id>https://foundra.me/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2026-02-07 科技圈新闻汇总</title>
+    <link href="https://foundra.me/2026/02/07/2026-02-07-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"/>
+    <id>https://foundra.me/2026/02/07/2026-02-07-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/</id>
+    <published>2026-02-06T16:00:00.000Z</published>
+    <updated>2026-02-07T02:40:25.479Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;📊 &lt;strong&gt;今日导读&lt;/strong&gt;&lt;br&gt;
+精选 9 条科技新闻&lt;br&gt;
+来源：&lt;a href=&quot;http://Dev.to&quot;&gt;Dev.to&lt;/a&gt;(2) | GitHub Trending(2) | Hacker News(2) |</summary>
+      
+    
+    
+    
+    <category term="科技新闻" scheme="https://foundra.me/categories/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>Claude Code 创作者分享的 10 条高效使用技巧</title>
