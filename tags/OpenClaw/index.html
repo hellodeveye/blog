@@ -254,9 +254,9 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
-                            <a href="/2026/02/06/2026-02-06-Claude-Code-%E5%88%9B%E4%BD%9C%E8%80%8510%E6%9D%A1%E6%8A%80%E5%B7%A7/"
+                            <a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
                                 class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                Claude Code 创作者分享的 10 条高效使用技巧
+                                Claude Code Agent Teams 上手指南：启用、协作与最佳实践
                             </a>
                         </h3>
 
@@ -268,85 +268,103 @@
                                         id="preview-0">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
-                                                <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
+                                                <p><img src="https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg" alt="Agent Teams 封面图"></p>
+<p><strong>OpenClaw 社区先做到了多会话协作，Anthropic 直接把它做成了官方功能。</strong> 这不是一个小更新，而是 Claude Code 的工作方式从“单兵作战”升级为“团队协作”。这篇文章带你快速上手 Agent Teams：什么时候值得用、怎么开、怎么配、怎么管、哪里会踩坑。</p>
+<h2 id="先说结论：这不是“更强的-Sub-agent”，而是“真正的团队”">先说结论：这不是“更强的 Sub-agent”，而是“真正的团队”</h2>
+<p>以前你只有一个会话，所有事情顺序完成：先研究、再改代码、再写测试。Agent Teams 出现后，<strong>一个 lead 负责拆解任务，多个 teammate 并行协作</strong>，还能互相交流、共享任务列表。</p>
+<p>更直观的对比：</p>
+<ul>
+<li><strong>Sub-agents</strong>：像派一个助理去拿答案，回来报告。</li>
+<li><strong>Agent Teams</strong>：像把一群专家放进同一个项目里协作。</li>
+</ul>
+<p>如果任务需要互相沟通、互相校验，Agent Teams 才真正发挥价值。</p>
+<h2 id="什么时候该用？什么时候是过度设计？">什么时候该用？什么时候是过度设计？</h2>
+<p><strong>适合用的场景</strong>（并行能带来明显收益）：</p>
+<ul>
+<li><strong>研究/评审</strong>：不同队友分别看代码、查资料、提风险点。</li>
+<li><strong>跨层开发</strong>：一个队友做前端，一个队友做后端，一个队友写测试。</li>
+<li><strong>调试</strong>：多条假设并行验证，避免单一路径走歪。</li>
+</ul>
+<p><strong>不适合用的场景</strong>：</p>
+<ul>
+<li>强顺序依赖（第二步必须等第一步完成）。</li>
+<li>同文件高频编辑（容易覆盖冲突）。</li>
+<li>很小的任务（协调成本比收益更高）。</li>
+</ul>
+<p>一句话：<strong>能拆成独立任务的，用团队；必须串行的，用单人或 sub-agent。</strong></p>
+<h2 id="如何启用-Agent-Teams（30-秒完成）">如何启用 Agent Teams（30 秒完成）</h2>
+<p>Agent Teams 目前是实验功能，默认关闭。你有两种方式开启：</p>
+<p><strong>方式 1：修改 <code>settings.json</code></strong>（推荐，持久化）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>方式 2：环境变量</strong>（临时）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+<p>启用后，Claude Code 会识别团队指令。官方文档可参考：<br>
+<a href="https://code.claude.com/docs/en/agent-teams">Agent Teams 文档</a></p>
+<h2 id="启动团队：最重要的是“清晰的角色分工”">启动团队：最重要的是“清晰的角色分工”</h2>
+<p>你不需要特殊语法，只要给 lead 一个清晰任务和分工提示。</p>
+<p>示例（高质量提示）：</p>
 <blockquote>
-<p>这是一位名为 Boris 的作者在推文中整理的使用心得。他表示这些技巧来自 Claude Code 团队的内部实践，同时也强调：<strong>没有唯一正确的用法</strong>，每个人都应该根据自己的工作流不断试验与调整。</p>
+<p>我在设计一个 CLI 工具，扫描代码里的 TODO 并生成报告。创建一个 agent team：</p>
+<ul>
+<li>teammate A：从用户体验角度给出功能优先级</li>
+<li>teammate B：提出技术架构与实现路径</li>
+<li>teammate C：以“反对者”视角挑出风险与替代方案</li>
+</ul>
 </blockquote>
-<p>原文地址：<a href="https://x.com/bcherny/status/2017742741636321619">https://x.com/bcherny/status/2017742741636321619</a></p>
-<h2 id="1-并行：3–5-个-worktree-同时跑">1) 并行：3–5 个 worktree 同时跑</h2>
-<p>团队的 No.1 技巧：<strong>同时开 3–5 个 git worktree</strong>，每个 worktree 对应一个 Claude 会话。上下文更干净、并行更高效。</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/01-worktree.jpg" alt="Worktree 并行示例"></p>
-<p><strong>实践建议：</strong></p>
+<p>好的 prompt = <strong>明确角色 + 独立任务 + 预期输出</strong>。这一步越清楚，成本越低。</p>
+<h2 id="运行中如何控制团队">运行中如何控制团队</h2>
+<p>当团队跑起来后，必须知道 3 个关键操作：</p>
+<ol>
+<li><strong>直接和任意队友对话</strong></li>
+</ol>
 <ul>
-<li>给 worktree 起名并设 alias（如 <code>za/zb/zc</code>）</li>
-<li>单独开一个“分析 worktree”用于日志/查询</li>
+<li>In-process 模式：<code>Shift + 上/下</code> 切换队友</li>
+<li>Split-pane 模式：点击对应 pane（需要 tmux 或 iTerm2）</li>
 </ul>
-<h2 id="2-复杂任务先进入-Plan-Mode">2) 复杂任务先进入 Plan Mode</h2>
-<p><strong>先把计划做扎实</strong>，再执行才容易一枪到位。</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/02-plan-mode.png" alt="Plan Mode 示例"></p>
-<p>一些团队成员会：</p>
+<ol start="2">
+<li><strong>Delegate mode（防止 lead 抢活）</strong><br>
+有时候 lead 会“忍不住自己干”。开启 delegate mode 后，lead 只能协调：分配任务、发消息、管理列表。</li>
+</ol>
 <ul>
-<li>让一个 Claude 写计划</li>
-<li>再让另一个 Claude 以“资深工程师视角”审核</li>
+<li>切换快捷键：<code>Shift + Tab</code></li>
 </ul>
-<p><strong>一旦走偏就回到 Plan Mode 重规划</strong>，不要硬推。</p>
-<h2 id="3-把-CLAUDE-md-当成自我修正系统">3) 把 <a href="http://CLAUDE.md">CLAUDE.md</a> 当成自我修正系统</h2>
-<p>每次纠正 Claude 后，都补一句：</p>
-<blockquote>
-<p>“更新 <a href="http://CLAUDE.md">CLAUDE.md</a>，避免下次再犯。”</p>
-</blockquote>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/03-claude-md.png" alt="CLAUDE.md 记忆示例"></p>
-<p>持续迭代后，Claude 的错误率会明显下降。</p>
-<h2 id="4-把重复劳动写成-Skill-Slash-Command">4) 把重复劳动写成 Skill / Slash Command</h2>
-<p>做超过一天的事，就值得自动化。</p>
-<p>团队建议：</p>
+<ol start="3">
+<li><strong>任务分配与回收</strong></li>
+</ol>
 <ul>
-<li><code>/techdebt</code>：会话末尾清理重复代码</li>
-<li>自动同步 Slack / Asana / GDrive / GitHub 上下文</li>
-<li>构建“数据工程师风格”的 agent 写 dbt / review / 测试</li>
+<li>可由 lead 指派，也可被队友自动领取</li>
+<li>队友完成后建议主动“汇报 + 标记完成”</li>
 </ul>
-<h2 id="5-让-Claude-自己修-Bug">5) 让 Claude 自己修 Bug</h2>
-<p>不要过度指导，把问题喂给它即可：</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/05-slack-mcp.png" alt="Slack MCP 修复示例"></p>
+<h2 id="Agent-Teams-vs-Sub-agents：如何选？">Agent Teams vs Sub-agents：如何选？</h2>
+<p><strong>决策问题就一个：是否需要队友之间的沟通？</strong></p>
 <ul>
-<li>贴 Slack bug 线程说 “fix”</li>
-<li>或直接说 “修复 failing CI tests”</li>
-<li>把 Docker logs 直接贴进去</li>
+<li>不需要互相沟通，只要结果 → <strong>Sub-agents</strong>（便宜、快、适合单点任务）</li>
+<li>需要协作、互相对齐 → <strong>Agent Teams</strong>（贵、但能处理复杂系统）</li>
 </ul>
-<h2 id="6-Prompt-进阶技巧">6) Prompt 进阶技巧</h2>
+<p><strong>成本提醒</strong>：Agent Teams 可能是 sub-agent 成本的数倍，请在“收益明显”时使用。</p>
+<h2 id="最佳实践：少走弯路的-7-条经验">最佳实践：少走弯路的 7 条经验</h2>
+<ol>
+<li><strong>Spawn prompt 要细</strong>：不要假设队友知道你的历史上下文。清楚写清目标、范围、输入/输出。</li>
+<li><strong>任务粒度适中</strong>：能在 15–40 分钟内完成并交付。</li>
+<li><strong>避免同文件编辑</strong>：同一文件交给一个队友，减少合并冲突。</li>
+<li><strong>定期 check-in</strong>：每 15–20 分钟主动询问进展，避免跑偏太久。</li>
+<li><strong>先做“研究/评审”试水</strong>：最容易看到并行价值。</li>
+<li><strong>任务列表清晰</strong>：拆成可验收的子任务，完成后立刻标记。</li>
+<li><strong>用角色命名</strong>：如 <code>frontend</code>, <code>backend</code>, <code>test</code>, <code>review</code>，便于协作。</li>
+</ol>
+<h2 id="当前已知限制（避免误踩）">当前已知限制（避免误踩）</h2>
 <ul>
-<li><strong>让 Claude 审你</strong>：<br>
-“Grill me on these changes, don’t PR until I pass.”</li>
-<li><strong>不满意就推翻</strong>：<br>
-“Knowing everything you know now, scrap this and implement the elegant solution.”</li>
-<li><strong>先写清楚 spec</strong>：越具体越少返工</li>
+<li><strong>会话恢复不支持</strong>：<code>/resume</code> 或 <code>/rewind</code> 不会恢复队友。</li>
+<li><strong>任务状态偶尔延迟</strong>：完成了但未标记，需手动更新或提醒。</li>
+<li><strong>一个会话只能有一个团队</strong>：不能创建多个团队或转移 lead。</li>
+<li><strong>Split-pane 有终端限制</strong>：仅支持 tmux 或 iTerm2。</li>
 </ul>
-<h2 id="7-终端与环境配置">7) 终端与环境配置</h2>
-<p>团队喜欢 <strong>Ghostty</strong>（同步渲染、24-bit 色彩、完整 Unicode）。</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/07-terminal-setup.jpg" alt="终端与环境配置示例"></p>
-<p>提升效率的小习惯：</p>
+<h2 id="Key-Takeaways">Key Takeaways</h2>
 <ul>
-<li><code>/statusline</code> 显示上下文与分支</li>
-<li>终端 tab 颜色区分任务</li>
-<li>tmux 一任务一 tab</li>
-<li><strong>语音输入</strong>（Mac 双击 fn）提示词更完整</li>
+<li>Agent Teams 适合<strong>并行协作</strong>，不适合顺序强依赖任务。</li>
+<li><strong>清晰的角色与任务拆解</strong>是效率与成本的关键。</li>
+<li>Delegate mode 可以让 lead 专注管理，不再自己动手。</li>
 </ul>
-<h2 id="8-Use-Subagents">8) Use Subagents</h2>
-<p>在需求结尾加一句 <strong>“use subagents”</strong>，Claude 会开多个子任务并行。</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/08-subagents.png" alt="Subagents 并行示例"></p>
-<p>优点：主上下文更干净、并行探索更快。</p>
-<h2 id="9-用-Claude-做数据分析">9) 用 Claude 做数据分析</h2>
-<p>团队把 BigQuery CLI 直接接到 Claude Code，<strong>6 个月没写 SQL</strong>。</p>
-<p>只要有 CLI / MCP / API 的数据库都能用同样方法接入。</p>
-<h2 id="10-用-Claude-学习新知识">10) 用 Claude 学习新知识</h2>
-<ul>
-<li>在 <code>/config</code> 开启 Learning / Explanatory 模式</li>
-<li>让 Claude 生成 HTML 讲义</li>
-<li>让 Claude 画 ASCII 架构图</li>
-<li>做“间隔复习”学习 skill：你讲理解，Claude 追问补全</li>
-</ul>
-<hr>
-<p><strong>总结</strong>：Claude Code 的价值不在单次对话，而在于<strong>工作流的长期迭代</strong>。并行化、计划驱动、规则沉淀与技能化工具，是提升效率的核心。</p>
 
                                             </div>
                                         </div>
@@ -358,85 +376,103 @@
                                         <div class="post-content-full leading-relaxed post-hidden"
                                             id="full-0">
                                             <div class="post-content" data-content-type="full">
-                                                <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
+                                                <p><img src="https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg" alt="Agent Teams 封面图"></p>
+<p><strong>OpenClaw 社区先做到了多会话协作，Anthropic 直接把它做成了官方功能。</strong> 这不是一个小更新，而是 Claude Code 的工作方式从“单兵作战”升级为“团队协作”。这篇文章带你快速上手 Agent Teams：什么时候值得用、怎么开、怎么配、怎么管、哪里会踩坑。</p>
+<h2 id="先说结论：这不是“更强的-Sub-agent”，而是“真正的团队”">先说结论：这不是“更强的 Sub-agent”，而是“真正的团队”</h2>
+<p>以前你只有一个会话，所有事情顺序完成：先研究、再改代码、再写测试。Agent Teams 出现后，<strong>一个 lead 负责拆解任务，多个 teammate 并行协作</strong>，还能互相交流、共享任务列表。</p>
+<p>更直观的对比：</p>
+<ul>
+<li><strong>Sub-agents</strong>：像派一个助理去拿答案，回来报告。</li>
+<li><strong>Agent Teams</strong>：像把一群专家放进同一个项目里协作。</li>
+</ul>
+<p>如果任务需要互相沟通、互相校验，Agent Teams 才真正发挥价值。</p>
+<h2 id="什么时候该用？什么时候是过度设计？">什么时候该用？什么时候是过度设计？</h2>
+<p><strong>适合用的场景</strong>（并行能带来明显收益）：</p>
+<ul>
+<li><strong>研究/评审</strong>：不同队友分别看代码、查资料、提风险点。</li>
+<li><strong>跨层开发</strong>：一个队友做前端，一个队友做后端，一个队友写测试。</li>
+<li><strong>调试</strong>：多条假设并行验证，避免单一路径走歪。</li>
+</ul>
+<p><strong>不适合用的场景</strong>：</p>
+<ul>
+<li>强顺序依赖（第二步必须等第一步完成）。</li>
+<li>同文件高频编辑（容易覆盖冲突）。</li>
+<li>很小的任务（协调成本比收益更高）。</li>
+</ul>
+<p>一句话：<strong>能拆成独立任务的，用团队；必须串行的，用单人或 sub-agent。</strong></p>
+<h2 id="如何启用-Agent-Teams（30-秒完成）">如何启用 Agent Teams（30 秒完成）</h2>
+<p>Agent Teams 目前是实验功能，默认关闭。你有两种方式开启：</p>
+<p><strong>方式 1：修改 <code>settings.json</code></strong>（推荐，持久化）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>方式 2：环境变量</strong>（临时）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+<p>启用后，Claude Code 会识别团队指令。官方文档可参考：<br>
+<a href="https://code.claude.com/docs/en/agent-teams">Agent Teams 文档</a></p>
+<h2 id="启动团队：最重要的是“清晰的角色分工”">启动团队：最重要的是“清晰的角色分工”</h2>
+<p>你不需要特殊语法，只要给 lead 一个清晰任务和分工提示。</p>
+<p>示例（高质量提示）：</p>
 <blockquote>
-<p>这是一位名为 Boris 的作者在推文中整理的使用心得。他表示这些技巧来自 Claude Code 团队的内部实践，同时也强调：<strong>没有唯一正确的用法</strong>，每个人都应该根据自己的工作流不断试验与调整。</p>
+<p>我在设计一个 CLI 工具，扫描代码里的 TODO 并生成报告。创建一个 agent team：</p>
+<ul>
+<li>teammate A：从用户体验角度给出功能优先级</li>
+<li>teammate B：提出技术架构与实现路径</li>
+<li>teammate C：以“反对者”视角挑出风险与替代方案</li>
+</ul>
 </blockquote>
-<p>原文地址：<a href="https://x.com/bcherny/status/2017742741636321619">https://x.com/bcherny/status/2017742741636321619</a></p>
-<h2 id="1-并行：3–5-个-worktree-同时跑">1) 并行：3–5 个 worktree 同时跑</h2>
-<p>团队的 No.1 技巧：<strong>同时开 3–5 个 git worktree</strong>，每个 worktree 对应一个 Claude 会话。上下文更干净、并行更高效。</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/01-worktree.jpg" alt="Worktree 并行示例"></p>
-<p><strong>实践建议：</strong></p>
+<p>好的 prompt = <strong>明确角色 + 独立任务 + 预期输出</strong>。这一步越清楚，成本越低。</p>
+<h2 id="运行中如何控制团队">运行中如何控制团队</h2>
+<p>当团队跑起来后，必须知道 3 个关键操作：</p>
+<ol>
+<li><strong>直接和任意队友对话</strong></li>
+</ol>
 <ul>
-<li>给 worktree 起名并设 alias（如 <code>za/zb/zc</code>）</li>
-<li>单独开一个“分析 worktree”用于日志/查询</li>
+<li>In-process 模式：<code>Shift + 上/下</code> 切换队友</li>
+<li>Split-pane 模式：点击对应 pane（需要 tmux 或 iTerm2）</li>
 </ul>
-<h2 id="2-复杂任务先进入-Plan-Mode">2) 复杂任务先进入 Plan Mode</h2>
-<p><strong>先把计划做扎实</strong>，再执行才容易一枪到位。</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/02-plan-mode.png" alt="Plan Mode 示例"></p>
-<p>一些团队成员会：</p>
+<ol start="2">
+<li><strong>Delegate mode（防止 lead 抢活）</strong><br>
+有时候 lead 会“忍不住自己干”。开启 delegate mode 后，lead 只能协调：分配任务、发消息、管理列表。</li>
+</ol>
 <ul>
-<li>让一个 Claude 写计划</li>
-<li>再让另一个 Claude 以“资深工程师视角”审核</li>
+<li>切换快捷键：<code>Shift + Tab</code></li>
 </ul>
-<p><strong>一旦走偏就回到 Plan Mode 重规划</strong>，不要硬推。</p>
-<h2 id="3-把-CLAUDE-md-当成自我修正系统">3) 把 <a href="http://CLAUDE.md">CLAUDE.md</a> 当成自我修正系统</h2>
-<p>每次纠正 Claude 后，都补一句：</p>
-<blockquote>
-<p>“更新 <a href="http://CLAUDE.md">CLAUDE.md</a>，避免下次再犯。”</p>
-</blockquote>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/03-claude-md.png" alt="CLAUDE.md 记忆示例"></p>
-<p>持续迭代后，Claude 的错误率会明显下降。</p>
-<h2 id="4-把重复劳动写成-Skill-Slash-Command">4) 把重复劳动写成 Skill / Slash Command</h2>
-<p>做超过一天的事，就值得自动化。</p>
-<p>团队建议：</p>
+<ol start="3">
+<li><strong>任务分配与回收</strong></li>
+</ol>
 <ul>
-<li><code>/techdebt</code>：会话末尾清理重复代码</li>
-<li>自动同步 Slack / Asana / GDrive / GitHub 上下文</li>
-<li>构建“数据工程师风格”的 agent 写 dbt / review / 测试</li>
+<li>可由 lead 指派，也可被队友自动领取</li>
+<li>队友完成后建议主动“汇报 + 标记完成”</li>
 </ul>
-<h2 id="5-让-Claude-自己修-Bug">5) 让 Claude 自己修 Bug</h2>
-<p>不要过度指导，把问题喂给它即可：</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/05-slack-mcp.png" alt="Slack MCP 修复示例"></p>
+<h2 id="Agent-Teams-vs-Sub-agents：如何选？">Agent Teams vs Sub-agents：如何选？</h2>
+<p><strong>决策问题就一个：是否需要队友之间的沟通？</strong></p>
 <ul>
-<li>贴 Slack bug 线程说 “fix”</li>
-<li>或直接说 “修复 failing CI tests”</li>
-<li>把 Docker logs 直接贴进去</li>
+<li>不需要互相沟通，只要结果 → <strong>Sub-agents</strong>（便宜、快、适合单点任务）</li>
+<li>需要协作、互相对齐 → <strong>Agent Teams</strong>（贵、但能处理复杂系统）</li>
 </ul>
-<h2 id="6-Prompt-进阶技巧">6) Prompt 进阶技巧</h2>
+<p><strong>成本提醒</strong>：Agent Teams 可能是 sub-agent 成本的数倍，请在“收益明显”时使用。</p>
+<h2 id="最佳实践：少走弯路的-7-条经验">最佳实践：少走弯路的 7 条经验</h2>
+<ol>
+<li><strong>Spawn prompt 要细</strong>：不要假设队友知道你的历史上下文。清楚写清目标、范围、输入/输出。</li>
+<li><strong>任务粒度适中</strong>：能在 15–40 分钟内完成并交付。</li>
+<li><strong>避免同文件编辑</strong>：同一文件交给一个队友，减少合并冲突。</li>
+<li><strong>定期 check-in</strong>：每 15–20 分钟主动询问进展，避免跑偏太久。</li>
+<li><strong>先做“研究/评审”试水</strong>：最容易看到并行价值。</li>
+<li><strong>任务列表清晰</strong>：拆成可验收的子任务，完成后立刻标记。</li>
+<li><strong>用角色命名</strong>：如 <code>frontend</code>, <code>backend</code>, <code>test</code>, <code>review</code>，便于协作。</li>
+</ol>
+<h2 id="当前已知限制（避免误踩）">当前已知限制（避免误踩）</h2>
 <ul>
-<li><strong>让 Claude 审你</strong>：<br>
-“Grill me on these changes, don’t PR until I pass.”</li>
-<li><strong>不满意就推翻</strong>：<br>
-“Knowing everything you know now, scrap this and implement the elegant solution.”</li>
-<li><strong>先写清楚 spec</strong>：越具体越少返工</li>
+<li><strong>会话恢复不支持</strong>：<code>/resume</code> 或 <code>/rewind</code> 不会恢复队友。</li>
+<li><strong>任务状态偶尔延迟</strong>：完成了但未标记，需手动更新或提醒。</li>
+<li><strong>一个会话只能有一个团队</strong>：不能创建多个团队或转移 lead。</li>
+<li><strong>Split-pane 有终端限制</strong>：仅支持 tmux 或 iTerm2。</li>
 </ul>
-<h2 id="7-终端与环境配置">7) 终端与环境配置</h2>
-<p>团队喜欢 <strong>Ghostty</strong>（同步渲染、24-bit 色彩、完整 Unicode）。</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/07-terminal-setup.jpg" alt="终端与环境配置示例"></p>
-<p>提升效率的小习惯：</p>
+<h2 id="Key-Takeaways">Key Takeaways</h2>
 <ul>
-<li><code>/statusline</code> 显示上下文与分支</li>
-<li>终端 tab 颜色区分任务</li>
-<li>tmux 一任务一 tab</li>
-<li><strong>语音输入</strong>（Mac 双击 fn）提示词更完整</li>
+<li>Agent Teams 适合<strong>并行协作</strong>，不适合顺序强依赖任务。</li>
+<li><strong>清晰的角色与任务拆解</strong>是效率与成本的关键。</li>
+<li>Delegate mode 可以让 lead 专注管理，不再自己动手。</li>
 </ul>
-<h2 id="8-Use-Subagents">8) Use Subagents</h2>
-<p>在需求结尾加一句 <strong>“use subagents”</strong>，Claude 会开多个子任务并行。</p>
-<p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/08-subagents.png" alt="Subagents 并行示例"></p>
-<p>优点：主上下文更干净、并行探索更快。</p>
-<h2 id="9-用-Claude-做数据分析">9) 用 Claude 做数据分析</h2>
-<p>团队把 BigQuery CLI 直接接到 Claude Code，<strong>6 个月没写 SQL</strong>。</p>
-<p>只要有 CLI / MCP / API 的数据库都能用同样方法接入。</p>
-<h2 id="10-用-Claude-学习新知识">10) 用 Claude 学习新知识</h2>
-<ul>
-<li>在 <code>/config</code> 开启 Learning / Explanatory 模式</li>
-<li>让 Claude 生成 HTML 讲义</li>
-<li>让 Claude 画 ASCII 架构图</li>
-<li>做“间隔复习”学习 skill：你讲理解，Claude 追问补全</li>
-</ul>
-<hr>
-<p><strong>总结</strong>：Claude Code 的价值不在单次对话，而在于<strong>工作流的长期迭代</strong>。并行化、计划驱动、规则沉淀与技能化工具，是提升效率的核心。</p>
 
                                             </div>
                                         </div>
@@ -447,9 +483,9 @@
                                     <div
                                         class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                                         <div class="flex items-center space-x-4">
-                                            <time datetime="2026-02-06T03:35:00.000Z" class="flex items-center">
+                                            <time datetime="2026-02-07T06:30:00.000Z" class="flex items-center">
                                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
-                                                    2026-02-06
+                                                    2026-02-07
                                             </time>
 
                                             

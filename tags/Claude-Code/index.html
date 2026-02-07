@@ -254,6 +254,272 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
+                                class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Claude Code Agent Teams 上手指南：启用、协作与最佳实践
+                            </a>
+                        </h3>
+
+                        
+
+                            
+                                <div class="post-content-container mb-4">
+                                    <div class="post-content-preview leading-relaxed"
+                                        id="preview-0">
+                                        <div class="post-content-preview-wrapper">
+                                            <div class="post-content" data-content-type="preview">
+                                                <p><img src="https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg" alt="Agent Teams 封面图"></p>
+<p><strong>OpenClaw 社区先做到了多会话协作，Anthropic 直接把它做成了官方功能。</strong> 这不是一个小更新，而是 Claude Code 的工作方式从“单兵作战”升级为“团队协作”。这篇文章带你快速上手 Agent Teams：什么时候值得用、怎么开、怎么配、怎么管、哪里会踩坑。</p>
+<h2 id="先说结论：这不是“更强的-Sub-agent”，而是“真正的团队”">先说结论：这不是“更强的 Sub-agent”，而是“真正的团队”</h2>
+<p>以前你只有一个会话，所有事情顺序完成：先研究、再改代码、再写测试。Agent Teams 出现后，<strong>一个 lead 负责拆解任务，多个 teammate 并行协作</strong>，还能互相交流、共享任务列表。</p>
+<p>更直观的对比：</p>
+<ul>
+<li><strong>Sub-agents</strong>：像派一个助理去拿答案，回来报告。</li>
+<li><strong>Agent Teams</strong>：像把一群专家放进同一个项目里协作。</li>
+</ul>
+<p>如果任务需要互相沟通、互相校验，Agent Teams 才真正发挥价值。</p>
+<h2 id="什么时候该用？什么时候是过度设计？">什么时候该用？什么时候是过度设计？</h2>
+<p><strong>适合用的场景</strong>（并行能带来明显收益）：</p>
+<ul>
+<li><strong>研究/评审</strong>：不同队友分别看代码、查资料、提风险点。</li>
+<li><strong>跨层开发</strong>：一个队友做前端，一个队友做后端，一个队友写测试。</li>
+<li><strong>调试</strong>：多条假设并行验证，避免单一路径走歪。</li>
+</ul>
+<p><strong>不适合用的场景</strong>：</p>
+<ul>
+<li>强顺序依赖（第二步必须等第一步完成）。</li>
+<li>同文件高频编辑（容易覆盖冲突）。</li>
+<li>很小的任务（协调成本比收益更高）。</li>
+</ul>
+<p>一句话：<strong>能拆成独立任务的，用团队；必须串行的，用单人或 sub-agent。</strong></p>
+<h2 id="如何启用-Agent-Teams（30-秒完成）">如何启用 Agent Teams（30 秒完成）</h2>
+<p>Agent Teams 目前是实验功能，默认关闭。你有两种方式开启：</p>
+<p><strong>方式 1：修改 <code>settings.json</code></strong>（推荐，持久化）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>方式 2：环境变量</strong>（临时）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+<p>启用后，Claude Code 会识别团队指令。官方文档可参考：<br>
+<a href="https://code.claude.com/docs/en/agent-teams">Agent Teams 文档</a></p>
+<h2 id="启动团队：最重要的是“清晰的角色分工”">启动团队：最重要的是“清晰的角色分工”</h2>
+<p>你不需要特殊语法，只要给 lead 一个清晰任务和分工提示。</p>
+<p>示例（高质量提示）：</p>
+<blockquote>
+<p>我在设计一个 CLI 工具，扫描代码里的 TODO 并生成报告。创建一个 agent team：</p>
+<ul>
+<li>teammate A：从用户体验角度给出功能优先级</li>
+<li>teammate B：提出技术架构与实现路径</li>
+<li>teammate C：以“反对者”视角挑出风险与替代方案</li>
+</ul>
+</blockquote>
+<p>好的 prompt = <strong>明确角色 + 独立任务 + 预期输出</strong>。这一步越清楚，成本越低。</p>
+<h2 id="运行中如何控制团队">运行中如何控制团队</h2>
+<p>当团队跑起来后，必须知道 3 个关键操作：</p>
+<ol>
+<li><strong>直接和任意队友对话</strong></li>
+</ol>
+<ul>
+<li>In-process 模式：<code>Shift + 上/下</code> 切换队友</li>
+<li>Split-pane 模式：点击对应 pane（需要 tmux 或 iTerm2）</li>
+</ul>
+<ol start="2">
+<li><strong>Delegate mode（防止 lead 抢活）</strong><br>
+有时候 lead 会“忍不住自己干”。开启 delegate mode 后，lead 只能协调：分配任务、发消息、管理列表。</li>
+</ol>
+<ul>
+<li>切换快捷键：<code>Shift + Tab</code></li>
+</ul>
+<ol start="3">
+<li><strong>任务分配与回收</strong></li>
+</ol>
+<ul>
+<li>可由 lead 指派，也可被队友自动领取</li>
+<li>队友完成后建议主动“汇报 + 标记完成”</li>
+</ul>
+<h2 id="Agent-Teams-vs-Sub-agents：如何选？">Agent Teams vs Sub-agents：如何选？</h2>
+<p><strong>决策问题就一个：是否需要队友之间的沟通？</strong></p>
+<ul>
+<li>不需要互相沟通，只要结果 → <strong>Sub-agents</strong>（便宜、快、适合单点任务）</li>
+<li>需要协作、互相对齐 → <strong>Agent Teams</strong>（贵、但能处理复杂系统）</li>
+</ul>
+<p><strong>成本提醒</strong>：Agent Teams 可能是 sub-agent 成本的数倍，请在“收益明显”时使用。</p>
+<h2 id="最佳实践：少走弯路的-7-条经验">最佳实践：少走弯路的 7 条经验</h2>
+<ol>
+<li><strong>Spawn prompt 要细</strong>：不要假设队友知道你的历史上下文。清楚写清目标、范围、输入/输出。</li>
+<li><strong>任务粒度适中</strong>：能在 15–40 分钟内完成并交付。</li>
+<li><strong>避免同文件编辑</strong>：同一文件交给一个队友，减少合并冲突。</li>
+<li><strong>定期 check-in</strong>：每 15–20 分钟主动询问进展，避免跑偏太久。</li>
+<li><strong>先做“研究/评审”试水</strong>：最容易看到并行价值。</li>
+<li><strong>任务列表清晰</strong>：拆成可验收的子任务，完成后立刻标记。</li>
+<li><strong>用角色命名</strong>：如 <code>frontend</code>, <code>backend</code>, <code>test</code>, <code>review</code>，便于协作。</li>
+</ol>
+<h2 id="当前已知限制（避免误踩）">当前已知限制（避免误踩）</h2>
+<ul>
+<li><strong>会话恢复不支持</strong>：<code>/resume</code> 或 <code>/rewind</code> 不会恢复队友。</li>
+<li><strong>任务状态偶尔延迟</strong>：完成了但未标记，需手动更新或提醒。</li>
+<li><strong>一个会话只能有一个团队</strong>：不能创建多个团队或转移 lead。</li>
+<li><strong>Split-pane 有终端限制</strong>：仅支持 tmux 或 iTerm2。</li>
+</ul>
+<h2 id="Key-Takeaways">Key Takeaways</h2>
+<ul>
+<li>Agent Teams 适合<strong>并行协作</strong>，不适合顺序强依赖任务。</li>
+<li><strong>清晰的角色与任务拆解</strong>是效率与成本的关键。</li>
+<li>Delegate mode 可以让 lead 专注管理，不再自己动手。</li>
+</ul>
+
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="content-fade"></div>
+                                            
+                                    </div>
+                                    
+                                        <div class="post-content-full leading-relaxed post-hidden"
+                                            id="full-0">
+                                            <div class="post-content" data-content-type="full">
+                                                <p><img src="https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg" alt="Agent Teams 封面图"></p>
+<p><strong>OpenClaw 社区先做到了多会话协作，Anthropic 直接把它做成了官方功能。</strong> 这不是一个小更新，而是 Claude Code 的工作方式从“单兵作战”升级为“团队协作”。这篇文章带你快速上手 Agent Teams：什么时候值得用、怎么开、怎么配、怎么管、哪里会踩坑。</p>
+<h2 id="先说结论：这不是“更强的-Sub-agent”，而是“真正的团队”">先说结论：这不是“更强的 Sub-agent”，而是“真正的团队”</h2>
+<p>以前你只有一个会话，所有事情顺序完成：先研究、再改代码、再写测试。Agent Teams 出现后，<strong>一个 lead 负责拆解任务，多个 teammate 并行协作</strong>，还能互相交流、共享任务列表。</p>
+<p>更直观的对比：</p>
+<ul>
+<li><strong>Sub-agents</strong>：像派一个助理去拿答案，回来报告。</li>
+<li><strong>Agent Teams</strong>：像把一群专家放进同一个项目里协作。</li>
+</ul>
+<p>如果任务需要互相沟通、互相校验，Agent Teams 才真正发挥价值。</p>
+<h2 id="什么时候该用？什么时候是过度设计？">什么时候该用？什么时候是过度设计？</h2>
+<p><strong>适合用的场景</strong>（并行能带来明显收益）：</p>
+<ul>
+<li><strong>研究/评审</strong>：不同队友分别看代码、查资料、提风险点。</li>
+<li><strong>跨层开发</strong>：一个队友做前端，一个队友做后端，一个队友写测试。</li>
+<li><strong>调试</strong>：多条假设并行验证，避免单一路径走歪。</li>
+</ul>
+<p><strong>不适合用的场景</strong>：</p>
+<ul>
+<li>强顺序依赖（第二步必须等第一步完成）。</li>
+<li>同文件高频编辑（容易覆盖冲突）。</li>
+<li>很小的任务（协调成本比收益更高）。</li>
+</ul>
+<p>一句话：<strong>能拆成独立任务的，用团队；必须串行的，用单人或 sub-agent。</strong></p>
+<h2 id="如何启用-Agent-Teams（30-秒完成）">如何启用 Agent Teams（30 秒完成）</h2>
+<p>Agent Teams 目前是实验功能，默认关闭。你有两种方式开启：</p>
+<p><strong>方式 1：修改 <code>settings.json</code></strong>（推荐，持久化）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>方式 2：环境变量</strong>（临时）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+<p>启用后，Claude Code 会识别团队指令。官方文档可参考：<br>
+<a href="https://code.claude.com/docs/en/agent-teams">Agent Teams 文档</a></p>
+<h2 id="启动团队：最重要的是“清晰的角色分工”">启动团队：最重要的是“清晰的角色分工”</h2>
+<p>你不需要特殊语法，只要给 lead 一个清晰任务和分工提示。</p>
+<p>示例（高质量提示）：</p>
+<blockquote>
+<p>我在设计一个 CLI 工具，扫描代码里的 TODO 并生成报告。创建一个 agent team：</p>
+<ul>
+<li>teammate A：从用户体验角度给出功能优先级</li>
+<li>teammate B：提出技术架构与实现路径</li>
+<li>teammate C：以“反对者”视角挑出风险与替代方案</li>
+</ul>
+</blockquote>
+<p>好的 prompt = <strong>明确角色 + 独立任务 + 预期输出</strong>。这一步越清楚，成本越低。</p>
+<h2 id="运行中如何控制团队">运行中如何控制团队</h2>
+<p>当团队跑起来后，必须知道 3 个关键操作：</p>
+<ol>
+<li><strong>直接和任意队友对话</strong></li>
+</ol>
+<ul>
+<li>In-process 模式：<code>Shift + 上/下</code> 切换队友</li>
+<li>Split-pane 模式：点击对应 pane（需要 tmux 或 iTerm2）</li>
+</ul>
+<ol start="2">
+<li><strong>Delegate mode（防止 lead 抢活）</strong><br>
+有时候 lead 会“忍不住自己干”。开启 delegate mode 后，lead 只能协调：分配任务、发消息、管理列表。</li>
+</ol>
+<ul>
+<li>切换快捷键：<code>Shift + Tab</code></li>
+</ul>
+<ol start="3">
+<li><strong>任务分配与回收</strong></li>
+</ol>
+<ul>
+<li>可由 lead 指派，也可被队友自动领取</li>
+<li>队友完成后建议主动“汇报 + 标记完成”</li>
+</ul>
+<h2 id="Agent-Teams-vs-Sub-agents：如何选？">Agent Teams vs Sub-agents：如何选？</h2>
+<p><strong>决策问题就一个：是否需要队友之间的沟通？</strong></p>
+<ul>
+<li>不需要互相沟通，只要结果 → <strong>Sub-agents</strong>（便宜、快、适合单点任务）</li>
+<li>需要协作、互相对齐 → <strong>Agent Teams</strong>（贵、但能处理复杂系统）</li>
+</ul>
+<p><strong>成本提醒</strong>：Agent Teams 可能是 sub-agent 成本的数倍，请在“收益明显”时使用。</p>
+<h2 id="最佳实践：少走弯路的-7-条经验">最佳实践：少走弯路的 7 条经验</h2>
+<ol>
+<li><strong>Spawn prompt 要细</strong>：不要假设队友知道你的历史上下文。清楚写清目标、范围、输入/输出。</li>
+<li><strong>任务粒度适中</strong>：能在 15–40 分钟内完成并交付。</li>
+<li><strong>避免同文件编辑</strong>：同一文件交给一个队友，减少合并冲突。</li>
+<li><strong>定期 check-in</strong>：每 15–20 分钟主动询问进展，避免跑偏太久。</li>
+<li><strong>先做“研究/评审”试水</strong>：最容易看到并行价值。</li>
+<li><strong>任务列表清晰</strong>：拆成可验收的子任务，完成后立刻标记。</li>
+<li><strong>用角色命名</strong>：如 <code>frontend</code>, <code>backend</code>, <code>test</code>, <code>review</code>，便于协作。</li>
+</ol>
+<h2 id="当前已知限制（避免误踩）">当前已知限制（避免误踩）</h2>
+<ul>
+<li><strong>会话恢复不支持</strong>：<code>/resume</code> 或 <code>/rewind</code> 不会恢复队友。</li>
+<li><strong>任务状态偶尔延迟</strong>：完成了但未标记，需手动更新或提醒。</li>
+<li><strong>一个会话只能有一个团队</strong>：不能创建多个团队或转移 lead。</li>
+<li><strong>Split-pane 有终端限制</strong>：仅支持 tmux 或 iTerm2。</li>
+</ul>
+<h2 id="Key-Takeaways">Key Takeaways</h2>
+<ul>
+<li>Agent Teams 适合<strong>并行协作</strong>，不适合顺序强依赖任务。</li>
+<li><strong>清晰的角色与任务拆解</strong>是效率与成本的关键。</li>
+<li>Delegate mode 可以让 lead 专注管理，不再自己动手。</li>
+</ul>
+
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                                
+
+                                    <div
+                                        class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                                        <div class="flex items-center space-x-4">
+                                            <time datetime="2026-02-07T06:30:00.000Z" class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                                                    2026-02-07
+                                            </time>
+
+                                            
+                                                <div class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                                                        
+                                                            <a href="/categories/%E5%B7%A5%E5%85%B7/"
+                                                                class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                                工具
+                                                            </a>
+                                                            
+                                                </div>
+                                                
+                                        </div>
+
+                                        
+                                            <button
+                                                class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
+                                                data-index="0" id="btn-0">
+                                                <span class="expand-text">显示更多</span>
+                                                <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                            </button>
+                                            
+                                    </div>
+                    </div>
+                </div>
+            </article>
+            
+            <article class="surface-panel rounded-lg p-6">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
                             <a href="/2026/02/06/2026-02-06-Claude-Code-%E5%88%9B%E4%BD%9C%E8%80%8510%E6%9D%A1%E6%8A%80%E5%B7%A7/"
                                 class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 Claude Code 创作者分享的 10 条高效使用技巧
@@ -265,7 +531,7 @@
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-0">
+                                        id="preview-1">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
@@ -356,7 +622,7 @@
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-0">
+                                            id="full-1">
                                             <div class="post-content" data-content-type="full">
                                                 <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
 <blockquote>
@@ -468,7 +734,7 @@
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="0" id="btn-0">
+                                                data-index="1" id="btn-1">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -609,6 +875,16 @@
 			<ul class="space-y-2">
 				
 					<li>
+						<a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							Claude Code Agent Teams 上手指南：启用、协作与最佳实践
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							02-07
+						</time>
+					</li>
+					
+					<li>
 						<a href="/2026/02/07/2026-02-07-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
 						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 							2026-02-07 科技圈新闻汇总
@@ -648,16 +924,6 @@
 						</time>
 					</li>
 					
-					<li>
-						<a href="/2026/02/02/AI%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/"
-						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-							AI工具使用心得
-						</a>
-						<time class="text-xs text-gray-400 dark:text-gray-500">
-							02-02
-						</time>
-					</li>
-					
 			</ul>
 		</div>
 		
@@ -677,7 +943,7 @@
 									工具
 								</span>
 								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-									2
+									3
 								</span>
 							</a>
 							
@@ -732,11 +998,19 @@
 											</span>
 									</a>
 									
+									<a href="/tags/Agent-Teams/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Agent Teams
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
 									<a href="/tags/Claude-Code/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										Claude Code
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
-												1
+												2
 											</span>
 									</a>
 									
@@ -767,6 +1041,14 @@
 									<a href="/tags/Minimax/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										Minimax
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/OpenClaw/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										OpenClaw
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
 												1
 											</span>
@@ -804,6 +1086,14 @@
 											</span>
 									</a>
 									
+									<a href="/tags/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										多智能体
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
 									<a href="/tags/%E5%AD%98%E5%82%A8/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										存储
@@ -816,7 +1106,7 @@
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										工具
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
-												2
+												3
 											</span>
 									</a>
 									
@@ -902,7 +1192,7 @@
 												2026年02月
 											</span>
 											<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-												7
+												8
 											</span>
 										</a>
 										

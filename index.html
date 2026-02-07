@@ -254,6 +254,272 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
+                                class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                Claude Code Agent Teams 上手指南：启用、协作与最佳实践
+                            </a>
+                        </h3>
+
+                        
+
+                            
+                                <div class="post-content-container mb-4">
+                                    <div class="post-content-preview leading-relaxed"
+                                        id="preview-0">
+                                        <div class="post-content-preview-wrapper">
+                                            <div class="post-content" data-content-type="preview">
+                                                <p><img src="https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg" alt="Agent Teams 封面图"></p>
+<p><strong>OpenClaw 社区先做到了多会话协作，Anthropic 直接把它做成了官方功能。</strong> 这不是一个小更新，而是 Claude Code 的工作方式从“单兵作战”升级为“团队协作”。这篇文章带你快速上手 Agent Teams：什么时候值得用、怎么开、怎么配、怎么管、哪里会踩坑。</p>
+<h2 id="先说结论：这不是“更强的-Sub-agent”，而是“真正的团队”">先说结论：这不是“更强的 Sub-agent”，而是“真正的团队”</h2>
+<p>以前你只有一个会话，所有事情顺序完成：先研究、再改代码、再写测试。Agent Teams 出现后，<strong>一个 lead 负责拆解任务，多个 teammate 并行协作</strong>，还能互相交流、共享任务列表。</p>
+<p>更直观的对比：</p>
+<ul>
+<li><strong>Sub-agents</strong>：像派一个助理去拿答案，回来报告。</li>
+<li><strong>Agent Teams</strong>：像把一群专家放进同一个项目里协作。</li>
+</ul>
+<p>如果任务需要互相沟通、互相校验，Agent Teams 才真正发挥价值。</p>
+<h2 id="什么时候该用？什么时候是过度设计？">什么时候该用？什么时候是过度设计？</h2>
+<p><strong>适合用的场景</strong>（并行能带来明显收益）：</p>
+<ul>
+<li><strong>研究/评审</strong>：不同队友分别看代码、查资料、提风险点。</li>
+<li><strong>跨层开发</strong>：一个队友做前端，一个队友做后端，一个队友写测试。</li>
+<li><strong>调试</strong>：多条假设并行验证，避免单一路径走歪。</li>
+</ul>
+<p><strong>不适合用的场景</strong>：</p>
+<ul>
+<li>强顺序依赖（第二步必须等第一步完成）。</li>
+<li>同文件高频编辑（容易覆盖冲突）。</li>
+<li>很小的任务（协调成本比收益更高）。</li>
+</ul>
+<p>一句话：<strong>能拆成独立任务的，用团队；必须串行的，用单人或 sub-agent。</strong></p>
+<h2 id="如何启用-Agent-Teams（30-秒完成）">如何启用 Agent Teams（30 秒完成）</h2>
+<p>Agent Teams 目前是实验功能，默认关闭。你有两种方式开启：</p>
+<p><strong>方式 1：修改 <code>settings.json</code></strong>（推荐，持久化）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>方式 2：环境变量</strong>（临时）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+<p>启用后，Claude Code 会识别团队指令。官方文档可参考：<br>
+<a href="https://code.claude.com/docs/en/agent-teams">Agent Teams 文档</a></p>
+<h2 id="启动团队：最重要的是“清晰的角色分工”">启动团队：最重要的是“清晰的角色分工”</h2>
+<p>你不需要特殊语法，只要给 lead 一个清晰任务和分工提示。</p>
+<p>示例（高质量提示）：</p>
+<blockquote>
+<p>我在设计一个 CLI 工具，扫描代码里的 TODO 并生成报告。创建一个 agent team：</p>
+<ul>
+<li>teammate A：从用户体验角度给出功能优先级</li>
+<li>teammate B：提出技术架构与实现路径</li>
+<li>teammate C：以“反对者”视角挑出风险与替代方案</li>
+</ul>
+</blockquote>
+<p>好的 prompt = <strong>明确角色 + 独立任务 + 预期输出</strong>。这一步越清楚，成本越低。</p>
+<h2 id="运行中如何控制团队">运行中如何控制团队</h2>
+<p>当团队跑起来后，必须知道 3 个关键操作：</p>
+<ol>
+<li><strong>直接和任意队友对话</strong></li>
+</ol>
+<ul>
+<li>In-process 模式：<code>Shift + 上/下</code> 切换队友</li>
+<li>Split-pane 模式：点击对应 pane（需要 tmux 或 iTerm2）</li>
+</ul>
+<ol start="2">
+<li><strong>Delegate mode（防止 lead 抢活）</strong><br>
+有时候 lead 会“忍不住自己干”。开启 delegate mode 后，lead 只能协调：分配任务、发消息、管理列表。</li>
+</ol>
+<ul>
+<li>切换快捷键：<code>Shift + Tab</code></li>
+</ul>
+<ol start="3">
+<li><strong>任务分配与回收</strong></li>
+</ol>
+<ul>
+<li>可由 lead 指派，也可被队友自动领取</li>
+<li>队友完成后建议主动“汇报 + 标记完成”</li>
+</ul>
+<h2 id="Agent-Teams-vs-Sub-agents：如何选？">Agent Teams vs Sub-agents：如何选？</h2>
+<p><strong>决策问题就一个：是否需要队友之间的沟通？</strong></p>
+<ul>
+<li>不需要互相沟通，只要结果 → <strong>Sub-agents</strong>（便宜、快、适合单点任务）</li>
+<li>需要协作、互相对齐 → <strong>Agent Teams</strong>（贵、但能处理复杂系统）</li>
+</ul>
+<p><strong>成本提醒</strong>：Agent Teams 可能是 sub-agent 成本的数倍，请在“收益明显”时使用。</p>
+<h2 id="最佳实践：少走弯路的-7-条经验">最佳实践：少走弯路的 7 条经验</h2>
+<ol>
+<li><strong>Spawn prompt 要细</strong>：不要假设队友知道你的历史上下文。清楚写清目标、范围、输入/输出。</li>
+<li><strong>任务粒度适中</strong>：能在 15–40 分钟内完成并交付。</li>
+<li><strong>避免同文件编辑</strong>：同一文件交给一个队友，减少合并冲突。</li>
+<li><strong>定期 check-in</strong>：每 15–20 分钟主动询问进展，避免跑偏太久。</li>
+<li><strong>先做“研究/评审”试水</strong>：最容易看到并行价值。</li>
+<li><strong>任务列表清晰</strong>：拆成可验收的子任务，完成后立刻标记。</li>
+<li><strong>用角色命名</strong>：如 <code>frontend</code>, <code>backend</code>, <code>test</code>, <code>review</code>，便于协作。</li>
+</ol>
+<h2 id="当前已知限制（避免误踩）">当前已知限制（避免误踩）</h2>
+<ul>
+<li><strong>会话恢复不支持</strong>：<code>/resume</code> 或 <code>/rewind</code> 不会恢复队友。</li>
+<li><strong>任务状态偶尔延迟</strong>：完成了但未标记，需手动更新或提醒。</li>
+<li><strong>一个会话只能有一个团队</strong>：不能创建多个团队或转移 lead。</li>
+<li><strong>Split-pane 有终端限制</strong>：仅支持 tmux 或 iTerm2。</li>
+</ul>
+<h2 id="Key-Takeaways">Key Takeaways</h2>
+<ul>
+<li>Agent Teams 适合<strong>并行协作</strong>，不适合顺序强依赖任务。</li>
+<li><strong>清晰的角色与任务拆解</strong>是效率与成本的关键。</li>
+<li>Delegate mode 可以让 lead 专注管理，不再自己动手。</li>
+</ul>
+
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="content-fade"></div>
+                                            
+                                    </div>
+                                    
+                                        <div class="post-content-full leading-relaxed post-hidden"
+                                            id="full-0">
+                                            <div class="post-content" data-content-type="full">
+                                                <p><img src="https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg" alt="Agent Teams 封面图"></p>
+<p><strong>OpenClaw 社区先做到了多会话协作，Anthropic 直接把它做成了官方功能。</strong> 这不是一个小更新，而是 Claude Code 的工作方式从“单兵作战”升级为“团队协作”。这篇文章带你快速上手 Agent Teams：什么时候值得用、怎么开、怎么配、怎么管、哪里会踩坑。</p>
+<h2 id="先说结论：这不是“更强的-Sub-agent”，而是“真正的团队”">先说结论：这不是“更强的 Sub-agent”，而是“真正的团队”</h2>
+<p>以前你只有一个会话，所有事情顺序完成：先研究、再改代码、再写测试。Agent Teams 出现后，<strong>一个 lead 负责拆解任务，多个 teammate 并行协作</strong>，还能互相交流、共享任务列表。</p>
+<p>更直观的对比：</p>
+<ul>
+<li><strong>Sub-agents</strong>：像派一个助理去拿答案，回来报告。</li>
+<li><strong>Agent Teams</strong>：像把一群专家放进同一个项目里协作。</li>
+</ul>
+<p>如果任务需要互相沟通、互相校验，Agent Teams 才真正发挥价值。</p>
+<h2 id="什么时候该用？什么时候是过度设计？">什么时候该用？什么时候是过度设计？</h2>
+<p><strong>适合用的场景</strong>（并行能带来明显收益）：</p>
+<ul>
+<li><strong>研究/评审</strong>：不同队友分别看代码、查资料、提风险点。</li>
+<li><strong>跨层开发</strong>：一个队友做前端，一个队友做后端，一个队友写测试。</li>
+<li><strong>调试</strong>：多条假设并行验证，避免单一路径走歪。</li>
+</ul>
+<p><strong>不适合用的场景</strong>：</p>
+<ul>
+<li>强顺序依赖（第二步必须等第一步完成）。</li>
+<li>同文件高频编辑（容易覆盖冲突）。</li>
+<li>很小的任务（协调成本比收益更高）。</li>
+</ul>
+<p>一句话：<strong>能拆成独立任务的，用团队；必须串行的，用单人或 sub-agent。</strong></p>
+<h2 id="如何启用-Agent-Teams（30-秒完成）">如何启用 Agent Teams（30 秒完成）</h2>
+<p>Agent Teams 目前是实验功能，默认关闭。你有两种方式开启：</p>
+<p><strong>方式 1：修改 <code>settings.json</code></strong>（推荐，持久化）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>方式 2：环境变量</strong>（临时）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+<p>启用后，Claude Code 会识别团队指令。官方文档可参考：<br>
+<a href="https://code.claude.com/docs/en/agent-teams">Agent Teams 文档</a></p>
+<h2 id="启动团队：最重要的是“清晰的角色分工”">启动团队：最重要的是“清晰的角色分工”</h2>
+<p>你不需要特殊语法，只要给 lead 一个清晰任务和分工提示。</p>
+<p>示例（高质量提示）：</p>
+<blockquote>
+<p>我在设计一个 CLI 工具，扫描代码里的 TODO 并生成报告。创建一个 agent team：</p>
+<ul>
+<li>teammate A：从用户体验角度给出功能优先级</li>
+<li>teammate B：提出技术架构与实现路径</li>
+<li>teammate C：以“反对者”视角挑出风险与替代方案</li>
+</ul>
+</blockquote>
+<p>好的 prompt = <strong>明确角色 + 独立任务 + 预期输出</strong>。这一步越清楚，成本越低。</p>
+<h2 id="运行中如何控制团队">运行中如何控制团队</h2>
+<p>当团队跑起来后，必须知道 3 个关键操作：</p>
+<ol>
+<li><strong>直接和任意队友对话</strong></li>
+</ol>
+<ul>
+<li>In-process 模式：<code>Shift + 上/下</code> 切换队友</li>
+<li>Split-pane 模式：点击对应 pane（需要 tmux 或 iTerm2）</li>
+</ul>
+<ol start="2">
+<li><strong>Delegate mode（防止 lead 抢活）</strong><br>
+有时候 lead 会“忍不住自己干”。开启 delegate mode 后，lead 只能协调：分配任务、发消息、管理列表。</li>
+</ol>
+<ul>
+<li>切换快捷键：<code>Shift + Tab</code></li>
+</ul>
+<ol start="3">
+<li><strong>任务分配与回收</strong></li>
+</ol>
+<ul>
+<li>可由 lead 指派，也可被队友自动领取</li>
+<li>队友完成后建议主动“汇报 + 标记完成”</li>
+</ul>
+<h2 id="Agent-Teams-vs-Sub-agents：如何选？">Agent Teams vs Sub-agents：如何选？</h2>
+<p><strong>决策问题就一个：是否需要队友之间的沟通？</strong></p>
+<ul>
+<li>不需要互相沟通，只要结果 → <strong>Sub-agents</strong>（便宜、快、适合单点任务）</li>
+<li>需要协作、互相对齐 → <strong>Agent Teams</strong>（贵、但能处理复杂系统）</li>
+</ul>
+<p><strong>成本提醒</strong>：Agent Teams 可能是 sub-agent 成本的数倍，请在“收益明显”时使用。</p>
+<h2 id="最佳实践：少走弯路的-7-条经验">最佳实践：少走弯路的 7 条经验</h2>
+<ol>
+<li><strong>Spawn prompt 要细</strong>：不要假设队友知道你的历史上下文。清楚写清目标、范围、输入/输出。</li>
+<li><strong>任务粒度适中</strong>：能在 15–40 分钟内完成并交付。</li>
+<li><strong>避免同文件编辑</strong>：同一文件交给一个队友，减少合并冲突。</li>
+<li><strong>定期 check-in</strong>：每 15–20 分钟主动询问进展，避免跑偏太久。</li>
+<li><strong>先做“研究/评审”试水</strong>：最容易看到并行价值。</li>
+<li><strong>任务列表清晰</strong>：拆成可验收的子任务，完成后立刻标记。</li>
+<li><strong>用角色命名</strong>：如 <code>frontend</code>, <code>backend</code>, <code>test</code>, <code>review</code>，便于协作。</li>
+</ol>
+<h2 id="当前已知限制（避免误踩）">当前已知限制（避免误踩）</h2>
+<ul>
+<li><strong>会话恢复不支持</strong>：<code>/resume</code> 或 <code>/rewind</code> 不会恢复队友。</li>
+<li><strong>任务状态偶尔延迟</strong>：完成了但未标记，需手动更新或提醒。</li>
+<li><strong>一个会话只能有一个团队</strong>：不能创建多个团队或转移 lead。</li>
+<li><strong>Split-pane 有终端限制</strong>：仅支持 tmux 或 iTerm2。</li>
+</ul>
+<h2 id="Key-Takeaways">Key Takeaways</h2>
+<ul>
+<li>Agent Teams 适合<strong>并行协作</strong>，不适合顺序强依赖任务。</li>
+<li><strong>清晰的角色与任务拆解</strong>是效率与成本的关键。</li>
+<li>Delegate mode 可以让 lead 专注管理，不再自己动手。</li>
+</ul>
+
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                                
+
+                                    <div
+                                        class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                                        <div class="flex items-center space-x-4">
+                                            <time datetime="2026-02-07T06:30:00.000Z" class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                                                    2026-02-07
+                                            </time>
+
+                                            
+                                                <div class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                                                        
+                                                            <a href="/categories/%E5%B7%A5%E5%85%B7/"
+                                                                class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                                工具
+                                                            </a>
+                                                            
+                                                </div>
+                                                
+                                        </div>
+
+                                        
+                                            <button
+                                                class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
+                                                data-index="0" id="btn-0">
+                                                <span class="expand-text">显示更多</span>
+                                                <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                            </button>
+                                            
+                                    </div>
+                    </div>
+                </div>
+            </article>
+            
+            <article class="surface-panel rounded-lg p-6">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
                             <a href="/2026/02/07/2026-02-07-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
                                 class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 2026-02-07 科技圈新闻汇总
@@ -265,7 +531,7 @@
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-0">
+                                        id="preview-1">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <hr>
@@ -393,7 +659,7 @@
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-0">
+                                            id="full-1">
                                             <div class="post-content" data-content-type="full">
                                                 <hr>
 <h2 id="📋-文章速览">📋 文章速览</h2>
@@ -542,7 +808,7 @@
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="0" id="btn-0">
+                                                data-index="1" id="btn-1">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -569,7 +835,7 @@
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-1">
+                                        id="preview-2">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
@@ -660,7 +926,7 @@
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-1">
+                                            id="full-2">
                                             <div class="post-content" data-content-type="full">
                                                 <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
 <blockquote>
@@ -772,7 +1038,7 @@
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="1" id="btn-1">
+                                                data-index="2" id="btn-2">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -799,7 +1065,7 @@
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-2">
+                                        id="preview-3">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <h2 id="AI-与机器学习">AI 与机器学习</h2>
@@ -903,7 +1169,7 @@
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-2">
+                                            id="full-3">
                                             <div class="post-content" data-content-type="full">
                                                 <h2 id="AI-与机器学习">AI 与机器学习</h2>
 <h3 id="1-电子书基金会免费编程书籍">1. 电子书基金会免费编程书籍</h3>
@@ -1028,7 +1294,7 @@
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="2" id="btn-2">
+                                                data-index="3" id="btn-3">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -1055,7 +1321,7 @@
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-3">
+                                        id="preview-4">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <h2 id="AI-与机器学习">AI 与机器学习</h2>
@@ -1206,7 +1472,7 @@
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-3">
+                                            id="full-4">
                                             <div class="post-content" data-content-type="full">
                                                 <h2 id="AI-与机器学习">AI 与机器学习</h2>
 <h3 id="1-all-MiniLM-L6-v2-句子嵌入模型">1. all-MiniLM-L6-v2 句子嵌入模型</h3>
@@ -1378,7 +1644,7 @@
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="3" id="btn-3">
+                                                data-index="4" id="btn-4">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -1405,7 +1671,7 @@
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-4">
+                                        id="preview-5">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <h2 id="一、Cursor">一、Cursor</h2>
@@ -1797,7 +2063,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-4">
+                                            id="full-5">
                                             <div class="post-content" data-content-type="full">
                                                 <h2 id="一、Cursor">一、Cursor</h2>
 <p><a href="https://cursor.com/cn/docs/agent/overview">Cursor 官方文档</a></p>
@@ -2210,7 +2476,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="4" id="btn-4">
+                                                data-index="5" id="btn-5">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -2237,7 +2503,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-5">
+                                        id="preview-6">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <h2 id="AI-与机器学习">AI 与机器学习</h2>
@@ -2330,7 +2596,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-5">
+                                            id="full-6">
                                             <div class="post-content" data-content-type="full">
                                                 <h2 id="AI-与机器学习">AI 与机器学习</h2>
 <h3 id="Google-研究：智能体系统的扩展科学">Google 研究：智能体系统的扩展科学</h3>
@@ -2444,7 +2710,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="5" id="btn-5">
+                                                data-index="6" id="btn-6">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -2471,7 +2737,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-6">
+                                        id="preview-7">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <p>今日科技圈精彩纷呈，从 AI 内容治理到复古游戏开发，从编程语言讨论到操作系统安全，让我们一起来看看今天值得关注的技术新闻。</p>
@@ -2600,7 +2866,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-6">
+                                            id="full-7">
                                             <div class="post-content" data-content-type="full">
                                                 <p>今日科技圈精彩纷呈，从 AI 内容治理到复古游戏开发，从编程语言讨论到操作系统安全，让我们一起来看看今天值得关注的技术新闻。</p>
 <hr>
@@ -2750,7 +3016,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="6" id="btn-6">
+                                                data-index="7" id="btn-7">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -2777,7 +3043,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-7">
+                                        id="preview-8">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <h2 id="🤖-AI-与机器学习">🤖 AI 与机器学习</h2>
@@ -2877,7 +3143,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-7">
+                                            id="full-8">
                                             <div class="post-content" data-content-type="full">
                                                 <h2 id="🤖-AI-与机器学习">🤖 AI 与机器学习</h2>
 <h3 id="Moonshot-AI-发布-Kimi-K2-5-技术报告">Moonshot AI 发布 Kimi K2.5 技术报告</h3>
@@ -2998,7 +3264,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="7" id="btn-7">
+                                                data-index="8" id="btn-8">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -3025,7 +3291,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-8">
+                                        id="preview-9">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <h2 id="背景">背景</h2>
@@ -3124,7 +3390,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-8">
+                                            id="full-9">
                                             <div class="post-content" data-content-type="full">
                                                 <h2 id="背景">背景</h2>
 <p>每天浏览 Hacker News、GitHub Trending、技术博客获取科技资讯既耗时又容易遗漏。<strong>Tech News Skill</strong> 把「抓取 → 翻译 → 分类 → 生成」这条流水线自动化，让你每天几分钟内就能产出当天的科技新闻汇总。</p>
@@ -3235,282 +3501,6 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
                                                             <a href="/categories/%E6%95%99%E7%A8%8B/"
                                                                 class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                                                 教程
-                                                            </a>
-                                                            
-                                                </div>
-                                                
-                                        </div>
-
-                                        
-                                            <button
-                                                class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="8" id="btn-8">
-                                                <span class="expand-text">显示更多</span>
-                                                <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                    </svg>
-                                            </button>
-                                            
-                                    </div>
-                    </div>
-                </div>
-            </article>
-            
-            <article class="surface-panel rounded-lg p-6">
-                <div class="flex flex-col">
-                    <div class="flex-1">
-                        <h3 class="text-xl font-semibold mb-3">
-                            <a href="/2026/01/30/2026-01-30-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
-                                class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                2026-01-30 科技圈新闻汇总
-                            </a>
-                        </h3>
-
-                        
-
-                            
-                                <div class="post-content-container mb-4">
-                                    <div class="post-content-preview leading-relaxed"
-                                        id="preview-9">
-                                        <div class="post-content-preview-wrapper">
-                                            <div class="post-content" data-content-type="preview">
-                                                <h2 id="AI-与机器学习">AI 与机器学习</h2>
-<h3 id="Google-Project-Genie：实时生成无限交互世界">Google Project Genie：实时生成无限交互世界</h3>
-<p>Google 正式向美国 AI Ultra 订阅用户推出 <strong>Project Genie</strong> —— 一款实验性的世界模型原型。这项技术基于 Genie 3 模型，能够实时生成可交互的虚拟环境。</p>
-<p>与传统 3D 场景不同，Project Genie 会在你移动和交互时<strong>实时生成前方路径</strong>，模拟物理效果和动态世界。用户可以通过文本提示或图片来创建环境，并实时探索、修改这些世界。</p>
-<blockquote>
-<p><em>世界模型（World Model）模拟环境动态，预测环境如何演变以及行为如何影响环境。这是通往 AGI 的重要一步。</em></p>
-</blockquote>
-<p>这一技术突破意味着 AI 不仅能理解和生成静态内容，还能创造<strong>动态的、可交互的虚拟体验</strong>。对于游戏开发、虚拟现实和教育领域都有深远影响。</p>
-<p>📎 <a href="https://blog.google/innovation-and-ai/models-and-research/google-deepmind/project-genie/">原文链接</a></p>
-<h3 id="Claude-Code-性能追踪器发现模型退化问题">Claude Code 性能追踪器发现模型退化问题</h3>
-<p>Marginlab 发布的 Claude Code 日常基准测试显示，Claude Code（使用 Opus 4.5 模型）在过去 30 天内出现了<strong>统计显著的性能下降</strong>。</p>
-<p>关键数据：</p>
-<ul>
-<li><strong>基线通过率</strong>：58%</li>
-<li><strong>今日通过率</strong>：50%（基于 50 次评估）</li>
-<li><strong>7 天平均</strong>：53%</li>
-<li><strong>30 天平均</strong>：54%</li>
-</ul>
-<p>这一发现引发了对大模型长期稳定性监控的讨论。随着 AI 编程助手的普及，建立持续的性能追踪机制变得越来越重要。</p>
-<p>📎 <a href="https://marginlab.ai/trackers/claude-code/">性能追踪器</a></p>
-<h3 id="Vercel：AGENTS-md-在-Agent-评估中超越-Skills">Vercel：<a href="http://AGENTS.md">AGENTS.md</a> 在 Agent 评估中超越 Skills</h3>
-<p>Vercel 发布博客文章称，在其 Agent 评估中，<strong><a href="http://AGENTS.md">AGENTS.md</a> 方法的表现优于传统的 Skills 方法</strong>。这一发现可能改变 AI Agent 的工作方式。</p>
-<p>传统的 Skills 系统需要预定义的工具和接口，而 <a href="http://AGENTS.md">AGENTS.md</a> 采用更灵活的基于文档的指令方式，让 Agent 能够更好地理解和执行任务。</p>
-<p>📎 <a href="https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals">原文链接</a></p>
-<hr>
-<h2 id="开发工具与开源项目">开发工具与开源项目</h2>
-<h3 id="Niri：滚动式窗口管理器的新选择">Niri：滚动式窗口管理器的新选择</h3>
-<p><strong>Niri</strong> 是一个新兴的 Wayland 窗口管理器，专为滚动式窗口布局设计。它正在成为 PaperWM 的有力替代品，过去六个月内 GitHub Star 数翻倍增长。</p>
-<p>滚动式窗口管理器的核心理念：</p>
-<ul>
-<li>窗口以幻灯片形式水平排列</li>
-<li>通过快捷键流畅切换</li>
-<li>兼顾键盘效率和鼠标可用性</li>
-<li>比传统平铺窗口管理器更直观</li>
-</ul>
-<p>Niri 采用 Rust 编写，基于 Wayland 合成器，为喜欢自定义的用户提供了轻量级的选择。</p>
-<p>📎 <a href="https://github.com/YaLTeR/niri">GitHub 仓库</a></p>
-<h3 id="Grid-Space：免费的浏览器端-3D-打印-CNC-工具">Grid.Space：免费的浏览器端 3D 打印/CNC 工具</h3>
-<p>Grid.Space 推出了一款<strong>完全免费、本地优先、浏览器端</strong>的 3D 打印/CNC/激光切割切片工具，专为教育场景设计。</p>
-<p>核心亮点：</p>
-<ul>
-<li>✓ <strong>零门槛</strong>：无需安装软件、购买许可证或注册账户</li>
-<li>✓ <strong>隐私保护</strong>：所有数据处理在本地完成，不上传云端</li>
-<li>✓ <strong>全平台支持</strong>：Chromebook、平板、老旧电脑都能运行</li>
-<li>✓ <strong>离线可用</strong>：首次加载后可离线使用</li>
-<li>✓ <strong>真实技能</strong>：行业标准的工作流程，技能可直接迁移到专业工具</li>
-</ul>
-<p>对于学校、创客空间、图书馆和家庭用户来说，这是一个极佳的数字制造入门工具。</p>
-<p>📎 <a href="https://grid.space/stem/">项目官网</a></p>
-<h3 id="Flameshot：强大的开源截图工具">Flameshot：强大的开源截图工具</h3>
-<p>Flameshot 是一款功能强大且易用的截图软件，近期在 Hacker News 上再次受到关注。</p>
-<p>主要特性：</p>
-<ul>
-<li>可自定义外观</li>
-<li>应用内截图编辑</li>
-<li>DBus 接口支持</li>
-<li>支持上传到 Imgur</li>
-<li>丰富的命令行选项</li>
-</ul>
-<p>📎 <a href="https://github.com/flameshot-org/flameshot">GitHub 仓库</a></p>
-<h3 id="AgentMail：为-AI-Agent-提供专属邮箱">AgentMail：为 AI Agent 提供专属邮箱</h3>
-<p>YC S25 孵化项目 <strong>AgentMail</strong> 推出了一个有趣的 API 服务：为 AI Agent 提供专属的电子邮件收件箱。</p>
-<p>这一服务解决了 AI Agent 在自动化流程中处理邮件的痛点，让 Agent 能够像人类一样收发邮件、处理附件，实现更自然的工作流集成。</p>
-<p>📎 <a href="https://news.ycombinator.com/item?id=46812608">Launch HN 讨论</a></p>
-<hr>
-<h2 id="游戏与怀旧科技">游戏与怀旧科技</h2>
-<h3 id="PS2-静态重编译项目：让经典游戏原生运行">PS2 静态重编译项目：让经典游戏原生运行</h3>
-<p>开源社区正在开发 <strong>PS2Recomp</strong> —— 一款 PlayStation 2 静态重编译器和运行时工具。这项技术可以将 PS2 游戏从原有的 Emotion Engine（MIPS R5900 架构）转换为现代 PC 原生代码。</p>
-<p>相比模拟器，重编译的优势在于：</p>
-<ul>
-<li><strong>更高性能</strong>：低端硬件也能流畅运行</li>
-<li><strong>原生分辨率</strong>：无需模拟即可支持高分辨率</li>
-<li><strong>物理稳定性</strong>：避免模拟器常见的物理/碰撞检测问题</li>
-<li><strong>修改潜力</strong>：支持解锁帧率、高清纹理包等增强功能</li>
-</ul>
-<p>这意味着未来我们可能看到《合金装备2》《GT赛车》《战神》《铁拳4》等经典 PS2 游戏的 PC 原生版本！</p>
-<p>📎 <a href="https://github.com/ran-j/PS2Recomp">GitHub 项目</a></p>
-<hr>
-<h2 id="基础设施与行业动态">基础设施与行业动态</h2>
-<h3 id="RAM-短缺正在扼杀小型-VPS-主机？">RAM 短缺正在扼杀小型 VPS 主机？</h3>
-<p>AI 热潮导致 DRAM 制造商将重心转向 HBM（高带宽内存），普通消费者和小企业使用的 DRAM 供应紧张，价格飙升。</p>
-<p>一位小型 VPS 主机商透露，原本 $2500 的服务器现在涨到 $5000，其中仅 RAM 就占 $2500。这让人联想到 2000 年代小型 ISP 被大电信公司挤压出局的历史。</p>
-<blockquote>
-<p><em>如果我们继续不惜一切代价专注于 AI，小型 VPS 托管业务可能会像 2000 年代小型 ISP 那样消亡。</em></p>
-</blockquote>
-<p>对于依赖 affordable VPS 的开发者和初创公司来说，这可能意味着更高的成本和更少的选择。</p>
-<p>📎 <a href="https://www.fourplex.net/2026/01/29/is-the-ram-shortage-killing-small-vps-hosts/">原文链接</a></p>
-<h3 id="Waymo-无人出租车在小学附近撞倒儿童">Waymo 无人出租车在小学附近撞倒儿童</h3>
-<p>据 TechCrunch 报道，一辆 Waymo 无人出租车在圣莫尼卡一所小学附近撞倒了一名儿童。这是自动驾驶安全性的又一次严峻考验。</p>
-<p>该事件引发了 619 条 Hacker News 评论，讨论集中在自动驾驶技术的安全性、测试标准以及监管政策等方面。</p>
-<p>📎 <a href="https://techcrunch.com/2026/01/29/waymo-robotaxi-hits-a-child-near-an-elementary-school-in-santa-monica/">原文链接</a></p>
-<hr>
-<h2 id="趣闻与杂谈">趣闻与杂谈</h2>
-<h3 id="WiFi-只在下雨时才工作（2024）">WiFi 只在下雨时才工作（2024）</h3>
-<p>一篇 2024 年的技术博客近期在 Hacker News 上重新走红。作者分享了一个奇怪的网络故障：WiFi 信号只有在下雨时才能正常工作。</p>
-<p>经过排查，发现是由于**干接缝（dry joint）**导致的焊接问题——雨水渗入后改善了导电性。这是一个经典的硬件故障诊断案例，提醒我们有时候最奇怪的症状可能有最简单的解释。</p>
-<p>📎 <a href="https://predr.ag/blog/wifi-only-works-when-its-raining/">原文链接</a></p>
-<h3 id="许多人口数据都是假的">许多人口数据都是假的</h3>
-<p>一篇热文《A lot of population numbers are fake》引发了广泛讨论。文章揭示了各国人口统计数据中存在的各种问题，从统计方法到政治干预，提醒我们对官方数据保持批判性思维。</p>
-<p>📎 <a href="https://davidoks.blog/p/a-lot-of-population-numbers-are-fake">原文链接</a></p>
-<hr>
-<p><em>本文汇总自 Hacker News、Google Blog、TechCrunch 等社区信息源，每日更新，涵盖 AI 应用、游戏技术、开发工具及科技行业动态。</em></p>
-
-                                            </div>
-                                        </div>
-                                        
-                                            <div class="content-fade"></div>
-                                            
-                                    </div>
-                                    
-                                        <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-9">
-                                            <div class="post-content" data-content-type="full">
-                                                <h2 id="AI-与机器学习">AI 与机器学习</h2>
-<h3 id="Google-Project-Genie：实时生成无限交互世界">Google Project Genie：实时生成无限交互世界</h3>
-<p>Google 正式向美国 AI Ultra 订阅用户推出 <strong>Project Genie</strong> —— 一款实验性的世界模型原型。这项技术基于 Genie 3 模型，能够实时生成可交互的虚拟环境。</p>
-<p>与传统 3D 场景不同，Project Genie 会在你移动和交互时<strong>实时生成前方路径</strong>，模拟物理效果和动态世界。用户可以通过文本提示或图片来创建环境，并实时探索、修改这些世界。</p>
-<blockquote>
-<p><em>世界模型（World Model）模拟环境动态，预测环境如何演变以及行为如何影响环境。这是通往 AGI 的重要一步。</em></p>
-</blockquote>
-<p>这一技术突破意味着 AI 不仅能理解和生成静态内容，还能创造<strong>动态的、可交互的虚拟体验</strong>。对于游戏开发、虚拟现实和教育领域都有深远影响。</p>
-<p>📎 <a href="https://blog.google/innovation-and-ai/models-and-research/google-deepmind/project-genie/">原文链接</a></p>
-<h3 id="Claude-Code-性能追踪器发现模型退化问题">Claude Code 性能追踪器发现模型退化问题</h3>
-<p>Marginlab 发布的 Claude Code 日常基准测试显示，Claude Code（使用 Opus 4.5 模型）在过去 30 天内出现了<strong>统计显著的性能下降</strong>。</p>
-<p>关键数据：</p>
-<ul>
-<li><strong>基线通过率</strong>：58%</li>
-<li><strong>今日通过率</strong>：50%（基于 50 次评估）</li>
-<li><strong>7 天平均</strong>：53%</li>
-<li><strong>30 天平均</strong>：54%</li>
-</ul>
-<p>这一发现引发了对大模型长期稳定性监控的讨论。随着 AI 编程助手的普及，建立持续的性能追踪机制变得越来越重要。</p>
-<p>📎 <a href="https://marginlab.ai/trackers/claude-code/">性能追踪器</a></p>
-<h3 id="Vercel：AGENTS-md-在-Agent-评估中超越-Skills">Vercel：<a href="http://AGENTS.md">AGENTS.md</a> 在 Agent 评估中超越 Skills</h3>
-<p>Vercel 发布博客文章称，在其 Agent 评估中，<strong><a href="http://AGENTS.md">AGENTS.md</a> 方法的表现优于传统的 Skills 方法</strong>。这一发现可能改变 AI Agent 的工作方式。</p>
-<p>传统的 Skills 系统需要预定义的工具和接口，而 <a href="http://AGENTS.md">AGENTS.md</a> 采用更灵活的基于文档的指令方式，让 Agent 能够更好地理解和执行任务。</p>
-<p>📎 <a href="https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals">原文链接</a></p>
-<hr>
-<h2 id="开发工具与开源项目">开发工具与开源项目</h2>
-<h3 id="Niri：滚动式窗口管理器的新选择">Niri：滚动式窗口管理器的新选择</h3>
-<p><strong>Niri</strong> 是一个新兴的 Wayland 窗口管理器，专为滚动式窗口布局设计。它正在成为 PaperWM 的有力替代品，过去六个月内 GitHub Star 数翻倍增长。</p>
-<p>滚动式窗口管理器的核心理念：</p>
-<ul>
-<li>窗口以幻灯片形式水平排列</li>
-<li>通过快捷键流畅切换</li>
-<li>兼顾键盘效率和鼠标可用性</li>
-<li>比传统平铺窗口管理器更直观</li>
-</ul>
-<p>Niri 采用 Rust 编写，基于 Wayland 合成器，为喜欢自定义的用户提供了轻量级的选择。</p>
-<p>📎 <a href="https://github.com/YaLTeR/niri">GitHub 仓库</a></p>
-<h3 id="Grid-Space：免费的浏览器端-3D-打印-CNC-工具">Grid.Space：免费的浏览器端 3D 打印/CNC 工具</h3>
-<p>Grid.Space 推出了一款<strong>完全免费、本地优先、浏览器端</strong>的 3D 打印/CNC/激光切割切片工具，专为教育场景设计。</p>
-<p>核心亮点：</p>
-<ul>
-<li>✓ <strong>零门槛</strong>：无需安装软件、购买许可证或注册账户</li>
-<li>✓ <strong>隐私保护</strong>：所有数据处理在本地完成，不上传云端</li>
-<li>✓ <strong>全平台支持</strong>：Chromebook、平板、老旧电脑都能运行</li>
-<li>✓ <strong>离线可用</strong>：首次加载后可离线使用</li>
-<li>✓ <strong>真实技能</strong>：行业标准的工作流程，技能可直接迁移到专业工具</li>
-</ul>
-<p>对于学校、创客空间、图书馆和家庭用户来说，这是一个极佳的数字制造入门工具。</p>
-<p>📎 <a href="https://grid.space/stem/">项目官网</a></p>
-<h3 id="Flameshot：强大的开源截图工具">Flameshot：强大的开源截图工具</h3>
-<p>Flameshot 是一款功能强大且易用的截图软件，近期在 Hacker News 上再次受到关注。</p>
-<p>主要特性：</p>
-<ul>
-<li>可自定义外观</li>
-<li>应用内截图编辑</li>
-<li>DBus 接口支持</li>
-<li>支持上传到 Imgur</li>
-<li>丰富的命令行选项</li>
-</ul>
-<p>📎 <a href="https://github.com/flameshot-org/flameshot">GitHub 仓库</a></p>
-<h3 id="AgentMail：为-AI-Agent-提供专属邮箱">AgentMail：为 AI Agent 提供专属邮箱</h3>
-<p>YC S25 孵化项目 <strong>AgentMail</strong> 推出了一个有趣的 API 服务：为 AI Agent 提供专属的电子邮件收件箱。</p>
-<p>这一服务解决了 AI Agent 在自动化流程中处理邮件的痛点，让 Agent 能够像人类一样收发邮件、处理附件，实现更自然的工作流集成。</p>
-<p>📎 <a href="https://news.ycombinator.com/item?id=46812608">Launch HN 讨论</a></p>
-<hr>
-<h2 id="游戏与怀旧科技">游戏与怀旧科技</h2>
-<h3 id="PS2-静态重编译项目：让经典游戏原生运行">PS2 静态重编译项目：让经典游戏原生运行</h3>
-<p>开源社区正在开发 <strong>PS2Recomp</strong> —— 一款 PlayStation 2 静态重编译器和运行时工具。这项技术可以将 PS2 游戏从原有的 Emotion Engine（MIPS R5900 架构）转换为现代 PC 原生代码。</p>
-<p>相比模拟器，重编译的优势在于：</p>
-<ul>
-<li><strong>更高性能</strong>：低端硬件也能流畅运行</li>
-<li><strong>原生分辨率</strong>：无需模拟即可支持高分辨率</li>
-<li><strong>物理稳定性</strong>：避免模拟器常见的物理/碰撞检测问题</li>
-<li><strong>修改潜力</strong>：支持解锁帧率、高清纹理包等增强功能</li>
-</ul>
-<p>这意味着未来我们可能看到《合金装备2》《GT赛车》《战神》《铁拳4》等经典 PS2 游戏的 PC 原生版本！</p>
-<p>📎 <a href="https://github.com/ran-j/PS2Recomp">GitHub 项目</a></p>
-<hr>
-<h2 id="基础设施与行业动态">基础设施与行业动态</h2>
-<h3 id="RAM-短缺正在扼杀小型-VPS-主机？">RAM 短缺正在扼杀小型 VPS 主机？</h3>
-<p>AI 热潮导致 DRAM 制造商将重心转向 HBM（高带宽内存），普通消费者和小企业使用的 DRAM 供应紧张，价格飙升。</p>
-<p>一位小型 VPS 主机商透露，原本 $2500 的服务器现在涨到 $5000，其中仅 RAM 就占 $2500。这让人联想到 2000 年代小型 ISP 被大电信公司挤压出局的历史。</p>
-<blockquote>
-<p><em>如果我们继续不惜一切代价专注于 AI，小型 VPS 托管业务可能会像 2000 年代小型 ISP 那样消亡。</em></p>
-</blockquote>
-<p>对于依赖 affordable VPS 的开发者和初创公司来说，这可能意味着更高的成本和更少的选择。</p>
-<p>📎 <a href="https://www.fourplex.net/2026/01/29/is-the-ram-shortage-killing-small-vps-hosts/">原文链接</a></p>
-<h3 id="Waymo-无人出租车在小学附近撞倒儿童">Waymo 无人出租车在小学附近撞倒儿童</h3>
-<p>据 TechCrunch 报道，一辆 Waymo 无人出租车在圣莫尼卡一所小学附近撞倒了一名儿童。这是自动驾驶安全性的又一次严峻考验。</p>
-<p>该事件引发了 619 条 Hacker News 评论，讨论集中在自动驾驶技术的安全性、测试标准以及监管政策等方面。</p>
-<p>📎 <a href="https://techcrunch.com/2026/01/29/waymo-robotaxi-hits-a-child-near-an-elementary-school-in-santa-monica/">原文链接</a></p>
-<hr>
-<h2 id="趣闻与杂谈">趣闻与杂谈</h2>
-<h3 id="WiFi-只在下雨时才工作（2024）">WiFi 只在下雨时才工作（2024）</h3>
-<p>一篇 2024 年的技术博客近期在 Hacker News 上重新走红。作者分享了一个奇怪的网络故障：WiFi 信号只有在下雨时才能正常工作。</p>
-<p>经过排查，发现是由于**干接缝（dry joint）**导致的焊接问题——雨水渗入后改善了导电性。这是一个经典的硬件故障诊断案例，提醒我们有时候最奇怪的症状可能有最简单的解释。</p>
-<p>📎 <a href="https://predr.ag/blog/wifi-only-works-when-its-raining/">原文链接</a></p>
-<h3 id="许多人口数据都是假的">许多人口数据都是假的</h3>
-<p>一篇热文《A lot of population numbers are fake》引发了广泛讨论。文章揭示了各国人口统计数据中存在的各种问题，从统计方法到政治干预，提醒我们对官方数据保持批判性思维。</p>
-<p>📎 <a href="https://davidoks.blog/p/a-lot-of-population-numbers-are-fake">原文链接</a></p>
-<hr>
-<p><em>本文汇总自 Hacker News、Google Blog、TechCrunch 等社区信息源，每日更新，涵盖 AI 应用、游戏技术、开发工具及科技行业动态。</em></p>
-
-                                            </div>
-                                        </div>
-                                        
-                                </div>
-                                
-
-                                    <div
-                                        class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                                        <div class="flex items-center space-x-4">
-                                            <time datetime="2026-01-30T05:15:00.000Z" class="flex items-center">
-                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
-                                                    2026-01-30
-                                            </time>
-
-                                            
-                                                <div class="flex items-center space-x-2">
-                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
-                                                        
-                                                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"
-                                                                class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                                                                技术新闻
                                                             </a>
                                                             
                                                 </div>
@@ -3680,6 +3670,16 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 			<ul class="space-y-2">
 				
 					<li>
+						<a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							Claude Code Agent Teams 上手指南：启用、协作与最佳实践
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							02-07
+						</time>
+					</li>
+					
+					<li>
 						<a href="/2026/02/07/2026-02-07-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
 						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 							2026-02-07 科技圈新闻汇总
@@ -3719,16 +3719,6 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 						</time>
 					</li>
 					
-					<li>
-						<a href="/2026/02/02/AI%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/"
-						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-							AI工具使用心得
-						</a>
-						<time class="text-xs text-gray-400 dark:text-gray-500">
-							02-02
-						</time>
-					</li>
-					
 			</ul>
 		</div>
 		
@@ -3748,7 +3738,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 									工具
 								</span>
 								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-									2
+									3
 								</span>
 							</a>
 							
@@ -3803,11 +3793,19 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 											</span>
 									</a>
 									
+									<a href="/tags/Agent-Teams/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Agent Teams
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
 									<a href="/tags/Claude-Code/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										Claude Code
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
-												1
+												2
 											</span>
 									</a>
 									
@@ -3838,6 +3836,14 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 									<a href="/tags/Minimax/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										Minimax
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/OpenClaw/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										OpenClaw
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
 												1
 											</span>
@@ -3875,6 +3881,14 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 											</span>
 									</a>
 									
+									<a href="/tags/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										多智能体
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
 									<a href="/tags/%E5%AD%98%E5%82%A8/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										存储
@@ -3887,7 +3901,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										工具
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
-												2
+												3
 											</span>
 									</a>
 									
@@ -3973,7 +3987,7 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 												2026年02月
 											</span>
 											<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-												7
+												8
 											</span>
 										</a>
 										

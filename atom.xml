@@ -6,7 +6,7 @@
   <link href="https://foundra.me/atom.xml" rel="self"/>
   
   <link href="https://foundra.me/"/>
-  <updated>2026-02-07T02:45:52.682Z</updated>
+  <updated>2026-02-07T08:16:50.863Z</updated>
   <id>https://foundra.me/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Claude Code Agent Teams 上手指南：启用、协作与最佳实践</title>
+    <link href="https://foundra.me/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"/>
+    <id>https://foundra.me/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/</id>
+    <published>2026-02-07T06:30:00.000Z</published>
+    <updated>2026-02-07T08:16:50.863Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg&quot; alt=&quot;Agent Teams 封面图&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OpenClaw 社区先做到了多会话协作，Ant</summary>
+      
+    
+    
+    
+    <category term="工具" scheme="https://foundra.me/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="Claude Code" scheme="https://foundra.me/tags/Claude-Code/"/>
+    
+    <category term="工具" scheme="https://foundra.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+    <category term="Agent Teams" scheme="https://foundra.me/tags/Agent-Teams/"/>
+    
+    <category term="多智能体" scheme="https://foundra.me/tags/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/"/>
+    
+    <category term="OpenClaw" scheme="https://foundra.me/tags/OpenClaw/"/>
+    
+  </entry>
   
   <entry>
     <title>2026-02-07 科技圈新闻汇总</title>
