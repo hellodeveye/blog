@@ -24,7 +24,8 @@
     "hexo-renderer-ejs": "^0.3.1",
     "hexo-renderer-markdown-it": "^7.1.1",
     "hexo-renderer-stylus": "^0.3.3",
-    "hexo-server": "^0.3.1"
+    "hexo-server": "^0.3.1",
+    "shiki": "^3.22.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",

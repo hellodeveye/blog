@@ -73,10 +73,13 @@ document.addEventListener('DOMContentLoaded', function() {
         mermaid.style.opacity = '1';
      });
 
-    // 初始化所有代码块 - 处理Hexo的figure.highlight结构
-    document.querySelectorAll('figure.highlight').forEach(function(figure, index) {
-        // 获取语言信息
-        const language = getLanguageFromClass(figure.className) || 'text';
+    // 初始化所有代码块 - 同时处理Hexo highlight与Shiki结构
+    document.querySelectorAll('figure.highlight, pre.shiki').forEach(function(sourceElement, index) {
+        const blockData = getCodeBlockData(sourceElement);
+        if (!blockData) return;
+
+        const { language, lines, lineHtmls, lineNumbers: sourceLineNumbers } = blockData;
+
         // 创建代码块容器
         const codeContainer = document.createElement('div');
         codeContainer.className = 'modern-code-block';
@@ -114,38 +117,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const codeContent = document.createElement('div');
         codeContent.className = 'code-content';
         
-        // 处理代码内容 - 从Hexo的table结构中提取
-        const codeLineElements = figure.querySelectorAll('td.code .line');
-        const lineNumberElements = figure.querySelectorAll('td.gutter .line');
-        
-        const lines = Array.from(codeLineElements).map(line => line.textContent || '');
-        const originalLineNumbers = Array.from(lineNumberElements).map(line => line.textContent || '');
+        // 处理代码内容
         const codeText = lines.join('\n');
         
         // 创建行号和代码行
-        const lineNumbers = document.createElement('div');
-        lineNumbers.className = 'line-numbers';
+        const lineNumbersEl = document.createElement('div');
+        lineNumbersEl.className = 'line-numbers';
         
         const codeLinesContainer = document.createElement('div');
         codeLinesContainer.className = 'code-lines';
         
-        // 直接使用Hexo原始的行号和代码行一一对应
+        // 直接使用原始行号和代码行一一对应
         lines.forEach((line, index) => {
-            // 使用原始行号
             const lineNumber = document.createElement('div');
             lineNumber.className = 'line-number';
-            lineNumber.textContent = originalLineNumbers[index] || (index + 1);
-            lineNumbers.appendChild(lineNumber);
+            lineNumber.textContent = sourceLineNumbers[index] || (index + 1);
+            lineNumbersEl.appendChild(lineNumber);
             
             // 代码行
             const codeLine = document.createElement('div');
             codeLine.className = 'code-line';
-            // 确保空行也显示为一个空格以保持行高
-            codeLine.textContent = line === '' ? ' ' : line;
+            const lineHtml = lineHtmls[index] || '';
+            // 保留原始语法高亮token结构，空行用nbsp占位
+            codeLine.innerHTML = lineHtml.trim() === '' ? '&nbsp;' : lineHtml;
             codeLinesContainer.appendChild(codeLine);
         });
         
-        codeContent.appendChild(lineNumbers);
+        codeContent.appendChild(lineNumbersEl);
         codeContent.appendChild(codeLinesContainer);
         
         // 组装代码块
@@ -153,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         codeContainer.appendChild(codeContent);
         
         // 替换原始代码块
-        figure.parentNode.replaceChild(codeContainer, figure);
+        sourceElement.parentNode.replaceChild(codeContainer, sourceElement);
         
         // 显示转换后的代码块，防止闪烁
         setTimeout(() => {
@@ -189,36 +187,22 @@ document.addEventListener('DOMContentLoaded', function() {
         wrapBtn.addEventListener('click', function() {
             isWrapped = !isWrapped;
             const allCodeLines = codeContainer.querySelectorAll('.code-line');
-            const isDarkMode = document.documentElement.classList.contains('dark');
             const wrapText = wrapBtn.querySelector('span');
             
             if (isWrapped) {
                 allCodeLines.forEach(line => {
                     line.style.whiteSpace = 'pre-wrap';
                     line.style.wordBreak = 'break-word';
-                    // 自动换行时使用最小高度而不是固定高度
-                    line.style.height = 'auto';
-                    line.style.minHeight = '1.4em';
                 });
                 codeLines.style.overflowX = 'visible';
-                // 根据主题设置激活状态背景色
-                if (isDarkMode) {
-                    wrapBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-                } else {
-                    wrapBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.08)';
-                }
                 wrapBtn.classList.add('active');
                 wrapText.textContent = '取消自动换行';
             } else {
                 allCodeLines.forEach(line => {
                     line.style.whiteSpace = 'pre';
                     line.style.wordBreak = 'normal';
-                    // 恢复固定行高
-                    line.style.height = '1.4em';
-                    line.style.minHeight = '';
                 });
                 codeLines.style.overflowX = 'auto';
-                wrapBtn.style.backgroundColor = 'transparent';
                 wrapBtn.classList.remove('active');
                 wrapText.textContent = '自动换行';
             }
@@ -251,6 +235,62 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hexo使用 highlight 后跟语言名称的格式
         const match = className.match(/highlight\s+(\w+)/);
         return match ? match[1] : null;
+    }
+
+    function getLanguageFromShikiBlock(pre) {
+        if (!pre) return null;
+        const dataLanguage = pre.getAttribute('data-language');
+        if (dataLanguage) return dataLanguage;
+
+        const code = pre.querySelector('code');
+        if (!code || !code.className) return null;
+        const match = code.className.match(/language-([\w+-]+)/);
+        return match ? match[1] : null;
+    }
+
+    function getCodeBlockData(sourceElement) {
+        if (!sourceElement) return null;
+
+        if (sourceElement.matches('figure.highlight')) {
+            const language = getLanguageFromClass(sourceElement.className) || 'text';
+            const codeLineElements = sourceElement.querySelectorAll('td.code .line');
+            const lineNumberElements = sourceElement.querySelectorAll('td.gutter .line');
+            const lines = Array.from(codeLineElements).map(line => line.textContent || '');
+            const lineHtmls = Array.from(codeLineElements).map(line => line.innerHTML || '');
+            const lineNumbers = Array.from(lineNumberElements).map(line => line.textContent || '');
+            return { language, lines, lineHtmls, lineNumbers };
+        }
+
+        if (sourceElement.matches('pre.shiki')) {
+            const language = getLanguageFromShikiBlock(sourceElement) || 'text';
+            const codeLineElements = sourceElement.querySelectorAll('code > span.line');
+
+            if (!codeLineElements.length) {
+                const code = sourceElement.querySelector('code');
+                if (!code) return null;
+                const rawText = code.textContent || '';
+                const lines = rawText.split('\n');
+                const lineHtmls = lines.map(line => line === '' ? '' : escapeHtml(line));
+                const lineNumbers = lines.map((_, index) => String(index + 1));
+                return { language, lines, lineHtmls, lineNumbers };
+            }
+
+            const lines = Array.from(codeLineElements).map(line => line.textContent || '');
+            const lineHtmls = Array.from(codeLineElements).map(line => line.innerHTML || '');
+            const lineNumbers = lines.map((_, index) => String(index + 1));
+            return { language, lines, lineHtmls, lineNumbers };
+        }
+
+        return null;
+    }
+
+    function escapeHtml(value) {
+        return value
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
     
     function getLanguageDisplay(lang) {

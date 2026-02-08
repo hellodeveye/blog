@@ -744,6 +744,24 @@ blockquote {
   border-color: var(--theme-border);
 }
 
+/* Logo 颜色差异样式 */
+
+.logo-title .logo-foundra {
+  color: #1a1a1a;
+}
+
+.logo-title .logo-lab {
+  color: rgb(198, 99, 69);
+}
+
+.dark .logo-title .logo-foundra {
+  color: #f9fafb;
+}
+
+.dark .logo-title .logo-lab {
+  color: rgb(198, 99, 69);
+}
+
 .content-fade {
   position: absolute;
   bottom: 0;
@@ -1132,6 +1150,54 @@ figure.highlight {
   background: rgba(20, 20, 19, 0.04);
 }
 
+/* 语法高亮（仅token颜色，不改容器背景） */
+
+.post-content .code-line .comment {
+  color: #8f8a7f;
+  font-style: italic;
+}
+
+.post-content .code-line .string {
+  color: #a16f3f;
+}
+
+.post-content .code-line .number,
+  .post-content .code-line .literal,
+  .post-content .code-line .symbol {
+  color: #8f5eab;
+}
+
+.post-content .code-line .keyword,
+  .post-content .code-line .built_in,
+  .post-content .code-line .type,
+  .post-content .code-line .meta {
+  color: #5f63c4;
+}
+
+.post-content .code-line .attr,
+  .post-content .code-line .attribute,
+  .post-content .code-line .selector-tag,
+  .post-content .code-line .selector-class {
+  color: #1f7a8a;
+}
+
+.post-content .code-line .title,
+  .post-content .code-line .function,
+  .post-content .code-line .section {
+  color: #3759aa;
+}
+
+.post-content .code-line .punctuation,
+  .post-content .code-line .operator,
+  .post-content .code-line .bullet {
+  color: #7b7467;
+}
+
+.post-content .code-line .strong {
+  color: #2f2d29;
+  font-weight: 700;
+}
+
 /* 移动端适配 */
 
 @media (max-width: 768px) {
@@ -1296,6 +1362,54 @@ figure.highlight {
 .dark .post-content .code-line:hover {
   /* Dark模式：深色悬停效果 */
   background: rgba(250, 249, 245, 0.06);
+}
+
+.dark .post-content .code-line .comment {
+  color: #8b867c;
+}
+
+.dark .post-content .code-line .string {
+  color: #d2a572;
+}
+
+.dark .post-content .code-line .number,
+  .dark .post-content .code-line .literal,
+  .dark .post-content .code-line .symbol {
+  color: #c99fff;
+}
+
+.dark .post-content .code-line .keyword,
+  .dark .post-content .code-line .built_in,
+  .dark .post-content .code-line .type,
+  .dark .post-content .code-line .meta {
+  color: #a6b1ff;
+}
+
+.dark .post-content .code-line .attr,
+  .dark .post-content .code-line .attribute,
+  .dark .post-content .code-line .selector-tag,
+  .dark .post-content .code-line .selector-class {
+  color: #7fd8e3;
+}
+
+.dark .post-content .code-line .title,
+  .dark .post-content .code-line .function,
+  .dark .post-content .code-line .section {
+  color: #b8c6ff;
+}
+
+.dark .post-content .code-line .punctuation,
+  .dark .post-content .code-line .operator,
+  .dark .post-content .code-line .bullet {
+  color: #b9b3a7;
+}
+
+.dark .post-content .code-line .strong {
+  color: #f6f4ef;
+}
+
+.dark .post-content .code-line span[style*="--shiki-dark"] {
+  color: var(--shiki-dark) !important;
 }
 
 .post-content img {
@@ -2795,23 +2909,4 @@ figure.highlight {
 :is(:where(.dark) .dark\:hover\:text-white:hover) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-
-
-/* Logo 颜色差异样式 */
-.logo-title .logo-foundra {
-  color: #1a1a1a;
-}
-
-.logo-title .logo-lab {
-  color: rgb(198, 99, 69);
-}
-
-.dark .logo-title .logo-foundra {
-  color: #f9fafb;
-}
-
-.dark .logo-title .logo-lab {
-  color: rgb(198, 99, 69);
 }
