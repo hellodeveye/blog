@@ -646,14 +646,36 @@
 <h2 id="安装步骤">安装步骤</h2>
 <h3 id="步骤一：下载-Skill">步骤一：下载 Skill</h3>
 <p>R2 Upload Skill 托管在 ClawdHub，通过以下地址下载：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://auth.clawdhub.com/api/v1/download?slug=r2-upload</span><br></pre></td></tr></table></figure>
+<pre><code>https://auth.clawdhub.com/api/v1/download?slug=r2-upload
+</code></pre>
 <p>下载后会得到一个 zip 文件。</p>
 <h3 id="步骤二：解压并安装到全局">步骤二：解压并安装到全局</h3>
 <p>将 Skill 安装到 Clawdbot 全局技能目录：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压</span></span><br><span class="line">unzip r2-upload.zip -d /tmp/r2-upload-extract</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装到全局 skills 目录</span></span><br><span class="line"><span class="built_in">cp</span> -r /tmp/r2-upload-extract ~/.clawdbot/skills/r2-upload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills/r2-upload</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 解压</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">unzip</span><span style="color:#0A3069;--shiki-dark:#CE9178"> r2-upload.zip</span><span style="color:#0550AE;--shiki-dark:#569CD6"> -d</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/r2-upload-extract</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 安装到全局 skills 目录</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">cp</span><span style="color:#0550AE;--shiki-dark:#569CD6"> -r</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/r2-upload-extract</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.clawdbot/skills/r2-upload</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 安装依赖</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#DCDCAA">cd</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.clawdbot/skills/r2-upload</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npm</span><span style="color:#0A3069;--shiki-dark:#CE9178"> install</span></span>
+<span class="line"></span></code></pre>
 <h3 id="步骤三：配置-R2-凭证">步骤三：配置 R2 凭证</h3>
 <p>创建配置文件 <code>~/.r2-upload.yml</code>：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># R2 Upload Configuration</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default:</span> <span class="string">your-bucket-name</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">your-bucket-name:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="attr">access_key_id:</span> <span class="string">YOUR_ACCESS_KEY_ID</span></span><br><span class="line">    <span class="attr">secret_access_key:</span> <span class="string">YOUR_SECRET_ACCESS_KEY</span></span><br><span class="line">    <span class="attr">bucket_name:</span> <span class="string">your-bucket-name</span></span><br><span class="line">    <span class="attr">public_url:</span> <span class="string">https://your-custom-domain.com</span></span><br><span class="line">    <span class="attr">region:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># R2 Upload Configuration</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">your-bucket-name</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">buckets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  your-bucket-name</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    access_key_id</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">YOUR_ACCESS_KEY_ID</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    secret_access_key</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">YOUR_SECRET_ACCESS_KEY</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    bucket_name</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">your-bucket-name</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    public_url</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://your-custom-domain.com</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    region</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">auto</span></span>
+<span class="line"></span></code></pre>
 <p><strong>配置说明：</strong></p>
 <table>
 <thead>
@@ -691,13 +713,16 @@
 </table>
 <h3 id="步骤四：重启-Clawdbot">步骤四：重启 Clawdbot</h3>
 <p>使 Skill 生效：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">clawdbot</span><span style="color:#0A3069;--shiki-dark:#CE9178"> gateway</span><span style="color:#0A3069;--shiki-dark:#CE9178"> restart</span></span>
+<span class="line"></span></code></pre>
 <h2 id="使用方法">使用方法</h2>
 <h3 id="通过-Clawdbot-对话">通过 Clawdbot 对话</h3>
 <p>在 Clawdbot 对话中直接使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传这张图片到 R2</span><br></pre></td></tr></table></figure>
+<pre><code>上传这张图片到 R2
+</code></pre>
 <p>或指定参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传 /path/to/file.jpg 到 R2，有效期 24 小时</span><br></pre></td></tr></table></figure>
+<pre><code>上传 /path/to/file.jpg 到 R2，有效期 24 小时
+</code></pre>
 <h3 id="可用工具">可用工具</h3>
 <p>R2 Upload Skill 提供以下工具：</p>
 <table>
@@ -727,7 +752,23 @@
 </tbody>
 </table>
 <h3 id="上传示例">上传示例</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">r2-upload /path/to/file.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定自定义路径</span></span><br><span class="line">r2-upload /path/to/file.pdf --key uploads/2026/report.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 Bucket</span></span><br><span class="line">r2-upload /path/to/file.pdf --bucket my-bucket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义有效期（默认 5 分钟）</span></span><br><span class="line">r2-upload /path/to/file.pdf --expires 24h</span><br><span class="line">r2-upload /path/to/file.pdf --expires 1d</span><br><span class="line">r2-upload /path/to/file.png --expires 300  <span class="comment"># 秒</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公开链接（无需签名）</span></span><br><span class="line">r2-upload /path/to/file.png --public</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 上传文件</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 指定自定义路径</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --key</span><span style="color:#0A3069;--shiki-dark:#CE9178"> uploads/2026/report.pdf</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 指定 Bucket</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --bucket</span><span style="color:#0A3069;--shiki-dark:#CE9178"> my-bucket</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 自定义有效期（默认 5 分钟）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0A3069;--shiki-dark:#CE9178"> 24h</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0A3069;--shiki-dark:#CE9178"> 1d</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.png</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 300</span><span style="color:#6E7781;--shiki-dark:#6A9955">  # 秒</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 生成公开链接（无需签名）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.png</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --public</span></span>
+<span class="line"></span></code></pre>
 <h2 id="R2-配置详解">R2 配置详解</h2>
 <h3 id="获取-R2-Endpoint">获取 R2 Endpoint</h3>
 <ol>
@@ -764,14 +805,28 @@
 </ol>
 <h3 id="Q-如何修改默认有效期？">Q: 如何修改默认有效期？</h3>
 <p>在配置文件或环境变量中设置：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ~/.r2-upload.yml</span></span><br><span class="line"><span class="attr">default_expires:</span> <span class="number">3600</span>  <span class="comment"># 1 小时</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># ~/.r2-upload.yml</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default_expires</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">3600</span><span style="color:#6E7781;--shiki-dark:#6A9955">  # 1 小时</span></span>
+<span class="line"></span></code></pre>
 <p>或使用环境变量：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> R2_DEFAULT_EXPIRES=3600</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> R2_DEFAULT_EXPIRES</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#0550AE;--shiki-dark:#B5CEA8">3600</span></span>
+<span class="line"></span></code></pre>
 <h3 id="Q-可以上传到多个-Bucket-吗？">Q: 可以上传到多个 Bucket 吗？</h3>
 <p>可以，在配置文件中定义多个 Bucket：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">default:</span> <span class="string">blog</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://blog.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br><span class="line">    </span><br><span class="line">  <span class="attr">assets:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://assets.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">blog</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">buckets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  blog</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://blog.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955">    # ... 其他配置</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">    </span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  assets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://assets.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955">    # ... 其他配置</span></span>
+<span class="line"></span></code></pre>
 <p>上传时指定 Bucket：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传图片到 assets bucket</span><br></pre></td></tr></table></figure>
+<pre><code>上传图片到 assets bucket
+</code></pre>
 <h2 id="总结">总结</h2>
 <p>通过以上步骤，你已经成功为 Clawdbot 安装了 R2 Upload Skill。现在可以轻松上传文件并生成分享链接了。</p>
 <p>相比传统的文件上传方式，R2 + Clawdbot 的组合具有以下优势：</p>

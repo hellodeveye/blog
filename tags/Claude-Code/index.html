@@ -295,9 +295,15 @@
 <h2 id="如何启用-Agent-Teams（30-秒完成）">如何启用 Agent Teams（30 秒完成）</h2>
 <p>Agent Teams 目前是实验功能，默认关闭。你有两种方式开启：</p>
 <p><strong>方式 1：修改 <code>settings.json</code></strong>（推荐，持久化）</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<pre data-language="json" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">{</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">  "env"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"1"</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">  }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">}</span></span>
+<span class="line"></span></code></pre>
 <p><strong>方式 2：环境变量</strong>（临时）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#0550AE;--shiki-dark:#B5CEA8">1</span></span>
+<span class="line"></span></code></pre>
 <p>启用后，Claude Code 会识别团队指令。官方文档可参考：<br>
 <a href="https://code.claude.com/docs/en/agent-teams">Agent Teams 文档</a></p>
 <h2 id="启动团队：最重要的是“清晰的角色分工”">启动团队：最重要的是“清晰的角色分工”</h2>
@@ -403,9 +409,15 @@
 <h2 id="如何启用-Agent-Teams（30-秒完成）">如何启用 Agent Teams（30 秒完成）</h2>
 <p>Agent Teams 目前是实验功能，默认关闭。你有两种方式开启：</p>
 <p><strong>方式 1：修改 <code>settings.json</code></strong>（推荐，持久化）</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<pre data-language="json" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">{</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">  "env"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"1"</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">  }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">}</span></span>
+<span class="line"></span></code></pre>
 <p><strong>方式 2：环境变量</strong>（临时）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#0550AE;--shiki-dark:#B5CEA8">1</span></span>
+<span class="line"></span></code></pre>
 <p>启用后，Claude Code 会识别团队指令。官方文档可参考：<br>
 <a href="https://code.claude.com/docs/en/agent-teams">Agent Teams 文档</a></p>
 <h2 id="启动团队：最重要的是“清晰的角色分工”">启动团队：最重要的是“清晰的角色分工”</h2>
@@ -875,6 +887,16 @@
 			<ul class="space-y-2">
 				
 					<li>
+						<a href="/2026/02/08/2026-02-08-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							2026-02-08 科技圈新闻汇总
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							02-08
+						</time>
+					</li>
+					
+					<li>
 						<a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
 						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 							Claude Code Agent Teams 上手指南：启用、协作与最佳实践
@@ -911,16 +933,6 @@
 						</a>
 						<time class="text-xs text-gray-400 dark:text-gray-500">
 							02-06
-						</time>
-					</li>
-					
-					<li>
-						<a href="/2026/02/05/2026-02-05-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
-						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-							2026-02-05 科技圈新闻汇总
-						</a>
-						<time class="text-xs text-gray-400 dark:text-gray-500">
-							02-05
 						</time>
 					</li>
 					
@@ -973,7 +985,7 @@
 									科技新闻
 								</span>
 								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-									1
+									2
 								</span>
 							</a>
 							
@@ -1162,7 +1174,7 @@
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										科技新闻
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
-												8
+												9
 											</span>
 									</a>
 									
@@ -1192,7 +1204,7 @@
 												2026年02月
 											</span>
 											<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-												8
+												9
 											</span>
 										</a>
 										

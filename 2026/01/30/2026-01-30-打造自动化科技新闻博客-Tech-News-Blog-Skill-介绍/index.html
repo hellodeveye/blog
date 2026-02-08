@@ -668,7 +668,8 @@
 </tbody>
 </table>
 <h2 id="工作流程">工作流程</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown</span><br></pre></td></tr></table></figure>
+<pre><code>抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown
+</code></pre>
 <h2 id="前置条件">前置条件</h2>
 <ul>
 <li>Python 3.8+ (<code>python3</code>)</li>
@@ -676,12 +677,25 @@
 <li>可选图片上传：<code>~/.r2-upload.yml</code> 或 <code>R2_UPLOAD_CONFIG</code></li>
 </ul>
 <p>示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MINIMAX_API_KEY=your_key</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line"><span class="built_in">export</span> OPENAI_API_KEY=your_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如需图片上传</span></span><br><span class="line"><span class="built_in">export</span> R2_UPLOAD_CONFIG=~/.r2-upload.yml</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> MINIMAX_API_KEY</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">your_key</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 或</span></span>
+<span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> OPENAI_API_KEY</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">your_key</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 如需图片上传</span></span>
+<span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> R2_UPLOAD_CONFIG</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=~</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">/.</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">r2-upload</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">.</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">yml</span></span>
+<span class="line"></span></code></pre>
 <h2 id="快速开始">快速开始</h2>
 <p>假设 skill 安装目录为 <code>~/.agents/skills/tech-news</code>（以实际路径为准）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TECH_NEWS_DIR=~/.agents/skills/tech-news</span><br><span class="line">DATE=$(<span class="built_in">date</span> +%F)</span><br><span class="line"></span><br><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py \</span><br><span class="line">  --<span class="built_in">date</span> <span class="variable">$DATE</span> \</span><br><span class="line">  --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#9CDCFE">TECH_NEWS_DIR</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#0A3069;--shiki-dark:#CE9178">~/.agents/skills/tech-news</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#9CDCFE">DATE</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">$(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">python3</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $TECH_NEWS_DIR</span><span style="color:#0A3069;--shiki-dark:#CE9178">/scripts/generate.py</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#569CD6">  --date</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $DATE</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#569CD6">  --save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">$DATE</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <p>如果你不需要图片：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py --<span class="built_in">date</span> <span class="variable">$DATE</span> --no-images --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">python3</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $TECH_NEWS_DIR</span><span style="color:#0A3069;--shiki-dark:#CE9178">/scripts/generate.py</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --date</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $DATE</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --no-images</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">$DATE</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <h2 id="常用参数">常用参数</h2>
 <ul>
 <li><code>--sources &lt;list&gt;</code>：指定新闻源（默认 8 个）</li>
@@ -693,10 +707,24 @@
 </ul>
 <h2 id="文章格式">文章格式</h2>
 <p>默认输出结构（节选）：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 📰 YYYY-MM-DD 科技早报</span></span><br><span class="line"></span><br><span class="line"><span class="quote">&gt; 📊 <span class="strong">**今日导读**</span></span></span><br><span class="line"><span class="quote">&gt; 精选 10 条科技新闻</span></span><br><span class="line"><span class="quote">&gt; 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)</span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 📋 文章速览</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**AI 与机器学习**</span>：3 篇</span><br><span class="line"><span class="bullet">1.</span> ...</span><br></pre></td></tr></table></figure>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"># 📰 YYYY-MM-DD 科技早报</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 📊 </span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">**今日导读**</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 精选 10 条科技新闻</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#D4D4D4;--shiki-dark-font-weight:inherit">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 📋 文章速览</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">**AI 与机器学习**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">：3 篇</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">1.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> ...</span></span>
+<span class="line"></span></code></pre>
 <h2 id="自动化方案">自动化方案</h2>
 <h3 id="1-Cron（本地定时）">1. Cron（本地定时）</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 9 * * * \</span><br><span class="line">  python3 ~/.agents/skills/tech-news/scripts/generate.py --<span class="built_in">date</span> $(<span class="built_in">date</span> +%F) --save /tmp/tech-news-$(<span class="built_in">date</span> +%F).md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">0</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 9</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0A3069;--shiki-dark:#CE9178">  python3</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.agents/skills/tech-news/scripts/generate.py</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --date</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> $(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">) </span><span style="color:#0550AE;--shiki-dark:#569CD6">--save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">$(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">)</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <p>生成后即可用于发布或二次编辑（可用脚本自动处理）。</p>
 <h3 id="2-GitHub-Actions">2. GitHub Actions</h3>
 <p>把 <code>generate.py</code> 放到 workflow 中，定时生成并提交到仓库。</p>
@@ -709,7 +737,14 @@
 <h2 id="Skill-源码与目录结构">Skill 源码与目录结构</h2>
 <p>Tech News Skill 本地结构如下：</p>
 <p><a href="https://github.com/foundralab/my-skills/tree/main/tech-news">GitHub 仓库</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tech-news/</span><br><span class="line">├── SKILL.md</span><br><span class="line">├── scripts/</span><br><span class="line">│   ├── generate.py</span><br><span class="line">│   ├── fetch_news.py</span><br><span class="line">│   └── llm_translate.py</span><br><span class="line">└── references/</span><br></pre></td></tr></table></figure>
+<pre><code>tech-news/
+├── SKILL.md
+├── scripts/
+│   ├── generate.py
+│   ├── fetch_news.py
+│   └── llm_translate.py
+└── references/
+</code></pre>
 <p>如果你想改来源、分类或输出格式，直接修改 <code>generate.py</code> 即可。</p>
 <hr>
 <p><em>让科技新闻聚合变得简单高效！</em></p>

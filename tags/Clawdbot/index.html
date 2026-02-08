@@ -310,7 +310,8 @@
 </tbody>
 </table>
 <h2 id="工作流程">工作流程</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown</span><br></pre></td></tr></table></figure>
+<pre><code>抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown
+</code></pre>
 <h2 id="前置条件">前置条件</h2>
 <ul>
 <li>Python 3.8+ (<code>python3</code>)</li>
@@ -318,12 +319,25 @@
 <li>可选图片上传：<code>~/.r2-upload.yml</code> 或 <code>R2_UPLOAD_CONFIG</code></li>
 </ul>
 <p>示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MINIMAX_API_KEY=your_key</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line"><span class="built_in">export</span> OPENAI_API_KEY=your_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如需图片上传</span></span><br><span class="line"><span class="built_in">export</span> R2_UPLOAD_CONFIG=~/.r2-upload.yml</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> MINIMAX_API_KEY</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">your_key</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 或</span></span>
+<span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> OPENAI_API_KEY</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">your_key</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 如需图片上传</span></span>
+<span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> R2_UPLOAD_CONFIG</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=~</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">/.</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">r2-upload</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">.</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">yml</span></span>
+<span class="line"></span></code></pre>
 <h2 id="快速开始">快速开始</h2>
 <p>假设 skill 安装目录为 <code>~/.agents/skills/tech-news</code>（以实际路径为准）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TECH_NEWS_DIR=~/.agents/skills/tech-news</span><br><span class="line">DATE=$(<span class="built_in">date</span> +%F)</span><br><span class="line"></span><br><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py \</span><br><span class="line">  --<span class="built_in">date</span> <span class="variable">$DATE</span> \</span><br><span class="line">  --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#9CDCFE">TECH_NEWS_DIR</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#0A3069;--shiki-dark:#CE9178">~/.agents/skills/tech-news</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#9CDCFE">DATE</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">$(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">python3</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $TECH_NEWS_DIR</span><span style="color:#0A3069;--shiki-dark:#CE9178">/scripts/generate.py</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#569CD6">  --date</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $DATE</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#569CD6">  --save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">$DATE</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <p>如果你不需要图片：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py --<span class="built_in">date</span> <span class="variable">$DATE</span> --no-images --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">python3</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $TECH_NEWS_DIR</span><span style="color:#0A3069;--shiki-dark:#CE9178">/scripts/generate.py</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --date</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $DATE</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --no-images</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">$DATE</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <h2 id="常用参数">常用参数</h2>
 <ul>
 <li><code>--sources &lt;list&gt;</code>：指定新闻源（默认 8 个）</li>
@@ -335,10 +349,24 @@
 </ul>
 <h2 id="文章格式">文章格式</h2>
 <p>默认输出结构（节选）：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 📰 YYYY-MM-DD 科技早报</span></span><br><span class="line"></span><br><span class="line"><span class="quote">&gt; 📊 <span class="strong">**今日导读**</span></span></span><br><span class="line"><span class="quote">&gt; 精选 10 条科技新闻</span></span><br><span class="line"><span class="quote">&gt; 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)</span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 📋 文章速览</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**AI 与机器学习**</span>：3 篇</span><br><span class="line"><span class="bullet">1.</span> ...</span><br></pre></td></tr></table></figure>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"># 📰 YYYY-MM-DD 科技早报</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 📊 </span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">**今日导读**</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 精选 10 条科技新闻</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#D4D4D4;--shiki-dark-font-weight:inherit">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 📋 文章速览</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">**AI 与机器学习**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">：3 篇</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">1.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> ...</span></span>
+<span class="line"></span></code></pre>
 <h2 id="自动化方案">自动化方案</h2>
 <h3 id="1-Cron（本地定时）">1. Cron（本地定时）</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 9 * * * \</span><br><span class="line">  python3 ~/.agents/skills/tech-news/scripts/generate.py --<span class="built_in">date</span> $(<span class="built_in">date</span> +%F) --save /tmp/tech-news-$(<span class="built_in">date</span> +%F).md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">0</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 9</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0A3069;--shiki-dark:#CE9178">  python3</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.agents/skills/tech-news/scripts/generate.py</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --date</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> $(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">) </span><span style="color:#0550AE;--shiki-dark:#569CD6">--save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">$(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">)</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <p>生成后即可用于发布或二次编辑（可用脚本自动处理）。</p>
 <h3 id="2-GitHub-Actions">2. GitHub Actions</h3>
 <p>把 <code>generate.py</code> 放到 workflow 中，定时生成并提交到仓库。</p>
@@ -351,7 +379,14 @@
 <h2 id="Skill-源码与目录结构">Skill 源码与目录结构</h2>
 <p>Tech News Skill 本地结构如下：</p>
 <p><a href="https://github.com/foundralab/my-skills/tree/main/tech-news">GitHub 仓库</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tech-news/</span><br><span class="line">├── SKILL.md</span><br><span class="line">├── scripts/</span><br><span class="line">│   ├── generate.py</span><br><span class="line">│   ├── fetch_news.py</span><br><span class="line">│   └── llm_translate.py</span><br><span class="line">└── references/</span><br></pre></td></tr></table></figure>
+<pre><code>tech-news/
+├── SKILL.md
+├── scripts/
+│   ├── generate.py
+│   ├── fetch_news.py
+│   └── llm_translate.py
+└── references/
+</code></pre>
 <p>如果你想改来源、分类或输出格式，直接修改 <code>generate.py</code> 即可。</p>
 <hr>
 <p><em>让科技新闻聚合变得简单高效！</em></p>
@@ -408,7 +443,8 @@
 </tbody>
 </table>
 <h2 id="工作流程">工作流程</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown</span><br></pre></td></tr></table></figure>
+<pre><code>抓取多源 → 去重 → 平衡筛选 → 翻译摘要 → (可选)处理配图 → 生成Markdown
+</code></pre>
 <h2 id="前置条件">前置条件</h2>
 <ul>
 <li>Python 3.8+ (<code>python3</code>)</li>
@@ -416,12 +452,25 @@
 <li>可选图片上传：<code>~/.r2-upload.yml</code> 或 <code>R2_UPLOAD_CONFIG</code></li>
 </ul>
 <p>示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MINIMAX_API_KEY=your_key</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line"><span class="built_in">export</span> OPENAI_API_KEY=your_key</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如需图片上传</span></span><br><span class="line"><span class="built_in">export</span> R2_UPLOAD_CONFIG=~/.r2-upload.yml</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> MINIMAX_API_KEY</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">your_key</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 或</span></span>
+<span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> OPENAI_API_KEY</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">your_key</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 如需图片上传</span></span>
+<span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> R2_UPLOAD_CONFIG</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=~</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">/.</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">r2-upload</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">.</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">yml</span></span>
+<span class="line"></span></code></pre>
 <h2 id="快速开始">快速开始</h2>
 <p>假设 skill 安装目录为 <code>~/.agents/skills/tech-news</code>（以实际路径为准）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TECH_NEWS_DIR=~/.agents/skills/tech-news</span><br><span class="line">DATE=$(<span class="built_in">date</span> +%F)</span><br><span class="line"></span><br><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py \</span><br><span class="line">  --<span class="built_in">date</span> <span class="variable">$DATE</span> \</span><br><span class="line">  --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#9CDCFE">TECH_NEWS_DIR</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#0A3069;--shiki-dark:#CE9178">~/.agents/skills/tech-news</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#9CDCFE">DATE</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">$(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">python3</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $TECH_NEWS_DIR</span><span style="color:#0A3069;--shiki-dark:#CE9178">/scripts/generate.py</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#569CD6">  --date</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $DATE</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#569CD6">  --save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">$DATE</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <p>如果你不需要图片：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 <span class="variable">$TECH_NEWS_DIR</span>/scripts/generate.py --<span class="built_in">date</span> <span class="variable">$DATE</span> --no-images --save /tmp/tech-news-<span class="variable">$DATE</span>.md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">python3</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $TECH_NEWS_DIR</span><span style="color:#0A3069;--shiki-dark:#CE9178">/scripts/generate.py</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --date</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> $DATE</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --no-images</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#9CDCFE">$DATE</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <h2 id="常用参数">常用参数</h2>
 <ul>
 <li><code>--sources &lt;list&gt;</code>：指定新闻源（默认 8 个）</li>
@@ -433,10 +482,24 @@
 </ul>
 <h2 id="文章格式">文章格式</h2>
 <p>默认输出结构（节选）：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 📰 YYYY-MM-DD 科技早报</span></span><br><span class="line"></span><br><span class="line"><span class="quote">&gt; 📊 <span class="strong">**今日导读**</span></span></span><br><span class="line"><span class="quote">&gt; 精选 10 条科技新闻</span></span><br><span class="line"><span class="quote">&gt; 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)</span></span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## 📋 文章速览</span></span><br><span class="line"></span><br><span class="line"><span class="strong">**AI 与机器学习**</span>：3 篇</span><br><span class="line"><span class="bullet">1.</span> ...</span><br></pre></td></tr></table></figure>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"># 📰 YYYY-MM-DD 科技早报</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 📊 </span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">**今日导读**</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 精选 10 条科技新闻</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#6A9955">></span><span style="color:#116329;--shiki-dark:#D4D4D4"> 来源：Hacker News(4) | GitHub Trending(3) | Lobsters(3)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#D4D4D4;--shiki-dark-font-weight:inherit">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 📋 文章速览</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">**AI 与机器学习**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">：3 篇</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">1.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> ...</span></span>
+<span class="line"></span></code></pre>
 <h2 id="自动化方案">自动化方案</h2>
 <h3 id="1-Cron（本地定时）">1. Cron（本地定时）</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 9 * * * \</span><br><span class="line">  python3 ~/.agents/skills/tech-news/scripts/generate.py --<span class="built_in">date</span> $(<span class="built_in">date</span> +%F) --save /tmp/tech-news-$(<span class="built_in">date</span> +%F).md</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">0</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 9</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#0550AE;--shiki-dark:#569CD6"> *</span><span style="color:#CF222E;--shiki-dark:#D7BA7D"> \</span></span>
+<span class="line"><span style="color:#0A3069;--shiki-dark:#CE9178">  python3</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.agents/skills/tech-news/scripts/generate.py</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --date</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> $(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">) </span><span style="color:#0550AE;--shiki-dark:#569CD6">--save</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/tech-news-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">$(</span><span style="color:#953800;--shiki-dark:#DCDCAA">date</span><span style="color:#0A3069;--shiki-dark:#CE9178"> +%F</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">)</span><span style="color:#0A3069;--shiki-dark:#CE9178">.md</span></span>
+<span class="line"></span></code></pre>
 <p>生成后即可用于发布或二次编辑（可用脚本自动处理）。</p>
 <h3 id="2-GitHub-Actions">2. GitHub Actions</h3>
 <p>把 <code>generate.py</code> 放到 workflow 中，定时生成并提交到仓库。</p>
@@ -449,7 +512,14 @@
 <h2 id="Skill-源码与目录结构">Skill 源码与目录结构</h2>
 <p>Tech News Skill 本地结构如下：</p>
 <p><a href="https://github.com/foundralab/my-skills/tree/main/tech-news">GitHub 仓库</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tech-news/</span><br><span class="line">├── SKILL.md</span><br><span class="line">├── scripts/</span><br><span class="line">│   ├── generate.py</span><br><span class="line">│   ├── fetch_news.py</span><br><span class="line">│   └── llm_translate.py</span><br><span class="line">└── references/</span><br></pre></td></tr></table></figure>
+<pre><code>tech-news/
+├── SKILL.md
+├── scripts/
+│   ├── generate.py
+│   ├── fetch_news.py
+│   └── llm_translate.py
+└── references/
+</code></pre>
 <p>如果你想改来源、分类或输出格式，直接修改 <code>generate.py</code> 即可。</p>
 <hr>
 <p><em>让科技新闻聚合变得简单高效！</em></p>
@@ -534,14 +604,36 @@
 <h2 id="安装步骤">安装步骤</h2>
 <h3 id="步骤一：下载-Skill">步骤一：下载 Skill</h3>
 <p>R2 Upload Skill 托管在 ClawdHub，通过以下地址下载：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://auth.clawdhub.com/api/v1/download?slug=r2-upload</span><br></pre></td></tr></table></figure>
+<pre><code>https://auth.clawdhub.com/api/v1/download?slug=r2-upload
+</code></pre>
 <p>下载后会得到一个 zip 文件。</p>
 <h3 id="步骤二：解压并安装到全局">步骤二：解压并安装到全局</h3>
 <p>将 Skill 安装到 Clawdbot 全局技能目录：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压</span></span><br><span class="line">unzip r2-upload.zip -d /tmp/r2-upload-extract</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装到全局 skills 目录</span></span><br><span class="line"><span class="built_in">cp</span> -r /tmp/r2-upload-extract ~/.clawdbot/skills/r2-upload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills/r2-upload</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 解压</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">unzip</span><span style="color:#0A3069;--shiki-dark:#CE9178"> r2-upload.zip</span><span style="color:#0550AE;--shiki-dark:#569CD6"> -d</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/r2-upload-extract</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 安装到全局 skills 目录</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">cp</span><span style="color:#0550AE;--shiki-dark:#569CD6"> -r</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/r2-upload-extract</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.clawdbot/skills/r2-upload</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 安装依赖</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#DCDCAA">cd</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.clawdbot/skills/r2-upload</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npm</span><span style="color:#0A3069;--shiki-dark:#CE9178"> install</span></span>
+<span class="line"></span></code></pre>
 <h3 id="步骤三：配置-R2-凭证">步骤三：配置 R2 凭证</h3>
 <p>创建配置文件 <code>~/.r2-upload.yml</code>：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># R2 Upload Configuration</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default:</span> <span class="string">your-bucket-name</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">your-bucket-name:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="attr">access_key_id:</span> <span class="string">YOUR_ACCESS_KEY_ID</span></span><br><span class="line">    <span class="attr">secret_access_key:</span> <span class="string">YOUR_SECRET_ACCESS_KEY</span></span><br><span class="line">    <span class="attr">bucket_name:</span> <span class="string">your-bucket-name</span></span><br><span class="line">    <span class="attr">public_url:</span> <span class="string">https://your-custom-domain.com</span></span><br><span class="line">    <span class="attr">region:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># R2 Upload Configuration</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">your-bucket-name</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">buckets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  your-bucket-name</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    access_key_id</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">YOUR_ACCESS_KEY_ID</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    secret_access_key</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">YOUR_SECRET_ACCESS_KEY</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    bucket_name</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">your-bucket-name</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    public_url</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://your-custom-domain.com</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    region</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">auto</span></span>
+<span class="line"></span></code></pre>
 <p><strong>配置说明：</strong></p>
 <table>
 <thead>
@@ -579,13 +671,16 @@
 </table>
 <h3 id="步骤四：重启-Clawdbot">步骤四：重启 Clawdbot</h3>
 <p>使 Skill 生效：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">clawdbot</span><span style="color:#0A3069;--shiki-dark:#CE9178"> gateway</span><span style="color:#0A3069;--shiki-dark:#CE9178"> restart</span></span>
+<span class="line"></span></code></pre>
 <h2 id="使用方法">使用方法</h2>
 <h3 id="通过-Clawdbot-对话">通过 Clawdbot 对话</h3>
 <p>在 Clawdbot 对话中直接使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传这张图片到 R2</span><br></pre></td></tr></table></figure>
+<pre><code>上传这张图片到 R2
+</code></pre>
 <p>或指定参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传 /path/to/file.jpg 到 R2，有效期 24 小时</span><br></pre></td></tr></table></figure>
+<pre><code>上传 /path/to/file.jpg 到 R2，有效期 24 小时
+</code></pre>
 <h3 id="可用工具">可用工具</h3>
 <p>R2 Upload Skill 提供以下工具：</p>
 <table>
@@ -615,7 +710,23 @@
 </tbody>
 </table>
 <h3 id="上传示例">上传示例</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">r2-upload /path/to/file.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定自定义路径</span></span><br><span class="line">r2-upload /path/to/file.pdf --key uploads/2026/report.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 Bucket</span></span><br><span class="line">r2-upload /path/to/file.pdf --bucket my-bucket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义有效期（默认 5 分钟）</span></span><br><span class="line">r2-upload /path/to/file.pdf --expires 24h</span><br><span class="line">r2-upload /path/to/file.pdf --expires 1d</span><br><span class="line">r2-upload /path/to/file.png --expires 300  <span class="comment"># 秒</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公开链接（无需签名）</span></span><br><span class="line">r2-upload /path/to/file.png --public</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 上传文件</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 指定自定义路径</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --key</span><span style="color:#0A3069;--shiki-dark:#CE9178"> uploads/2026/report.pdf</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 指定 Bucket</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --bucket</span><span style="color:#0A3069;--shiki-dark:#CE9178"> my-bucket</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 自定义有效期（默认 5 分钟）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0A3069;--shiki-dark:#CE9178"> 24h</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0A3069;--shiki-dark:#CE9178"> 1d</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.png</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 300</span><span style="color:#6E7781;--shiki-dark:#6A9955">  # 秒</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 生成公开链接（无需签名）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.png</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --public</span></span>
+<span class="line"></span></code></pre>
 <h2 id="R2-配置详解">R2 配置详解</h2>
 <h3 id="获取-R2-Endpoint">获取 R2 Endpoint</h3>
 <ol>
@@ -652,14 +763,28 @@
 </ol>
 <h3 id="Q-如何修改默认有效期？">Q: 如何修改默认有效期？</h3>
 <p>在配置文件或环境变量中设置：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ~/.r2-upload.yml</span></span><br><span class="line"><span class="attr">default_expires:</span> <span class="number">3600</span>  <span class="comment"># 1 小时</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># ~/.r2-upload.yml</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default_expires</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">3600</span><span style="color:#6E7781;--shiki-dark:#6A9955">  # 1 小时</span></span>
+<span class="line"></span></code></pre>
 <p>或使用环境变量：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> R2_DEFAULT_EXPIRES=3600</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> R2_DEFAULT_EXPIRES</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#0550AE;--shiki-dark:#B5CEA8">3600</span></span>
+<span class="line"></span></code></pre>
 <h3 id="Q-可以上传到多个-Bucket-吗？">Q: 可以上传到多个 Bucket 吗？</h3>
 <p>可以，在配置文件中定义多个 Bucket：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">default:</span> <span class="string">blog</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://blog.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br><span class="line">    </span><br><span class="line">  <span class="attr">assets:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://assets.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">blog</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">buckets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  blog</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://blog.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955">    # ... 其他配置</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">    </span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  assets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://assets.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955">    # ... 其他配置</span></span>
+<span class="line"></span></code></pre>
 <p>上传时指定 Bucket：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传图片到 assets bucket</span><br></pre></td></tr></table></figure>
+<pre><code>上传图片到 assets bucket
+</code></pre>
 <h2 id="总结">总结</h2>
 <p>通过以上步骤，你已经成功为 Clawdbot 安装了 R2 Upload Skill。现在可以轻松上传文件并生成分享链接了。</p>
 <p>相比传统的文件上传方式，R2 + Clawdbot 的组合具有以下优势：</p>
@@ -710,14 +835,36 @@
 <h2 id="安装步骤">安装步骤</h2>
 <h3 id="步骤一：下载-Skill">步骤一：下载 Skill</h3>
 <p>R2 Upload Skill 托管在 ClawdHub，通过以下地址下载：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://auth.clawdhub.com/api/v1/download?slug=r2-upload</span><br></pre></td></tr></table></figure>
+<pre><code>https://auth.clawdhub.com/api/v1/download?slug=r2-upload
+</code></pre>
 <p>下载后会得到一个 zip 文件。</p>
 <h3 id="步骤二：解压并安装到全局">步骤二：解压并安装到全局</h3>
 <p>将 Skill 安装到 Clawdbot 全局技能目录：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压</span></span><br><span class="line">unzip r2-upload.zip -d /tmp/r2-upload-extract</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装到全局 skills 目录</span></span><br><span class="line"><span class="built_in">cp</span> -r /tmp/r2-upload-extract ~/.clawdbot/skills/r2-upload</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line"><span class="built_in">cd</span> ~/.clawdbot/skills/r2-upload</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 解压</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">unzip</span><span style="color:#0A3069;--shiki-dark:#CE9178"> r2-upload.zip</span><span style="color:#0550AE;--shiki-dark:#569CD6"> -d</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/r2-upload-extract</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 安装到全局 skills 目录</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">cp</span><span style="color:#0550AE;--shiki-dark:#569CD6"> -r</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /tmp/r2-upload-extract</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.clawdbot/skills/r2-upload</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 安装依赖</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-dark:#DCDCAA">cd</span><span style="color:#0A3069;--shiki-dark:#CE9178"> ~/.clawdbot/skills/r2-upload</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npm</span><span style="color:#0A3069;--shiki-dark:#CE9178"> install</span></span>
+<span class="line"></span></code></pre>
 <h3 id="步骤三：配置-R2-凭证">步骤三：配置 R2 凭证</h3>
 <p>创建配置文件 <code>~/.r2-upload.yml</code>：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># R2 Upload Configuration</span></span><br><span class="line"></span><br><span class="line"><span class="attr">default:</span> <span class="string">your-bucket-name</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">your-bucket-name:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="attr">access_key_id:</span> <span class="string">YOUR_ACCESS_KEY_ID</span></span><br><span class="line">    <span class="attr">secret_access_key:</span> <span class="string">YOUR_SECRET_ACCESS_KEY</span></span><br><span class="line">    <span class="attr">bucket_name:</span> <span class="string">your-bucket-name</span></span><br><span class="line">    <span class="attr">public_url:</span> <span class="string">https://your-custom-domain.com</span></span><br><span class="line">    <span class="attr">region:</span> <span class="string">auto</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># R2 Upload Configuration</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">your-bucket-name</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">buckets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  your-bucket-name</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    access_key_id</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">YOUR_ACCESS_KEY_ID</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    secret_access_key</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">YOUR_SECRET_ACCESS_KEY</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    bucket_name</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">your-bucket-name</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    public_url</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://your-custom-domain.com</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    region</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">auto</span></span>
+<span class="line"></span></code></pre>
 <p><strong>配置说明：</strong></p>
 <table>
 <thead>
@@ -755,13 +902,16 @@
 </table>
 <h3 id="步骤四：重启-Clawdbot">步骤四：重启 Clawdbot</h3>
 <p>使 Skill 生效：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">clawdbot</span><span style="color:#0A3069;--shiki-dark:#CE9178"> gateway</span><span style="color:#0A3069;--shiki-dark:#CE9178"> restart</span></span>
+<span class="line"></span></code></pre>
 <h2 id="使用方法">使用方法</h2>
 <h3 id="通过-Clawdbot-对话">通过 Clawdbot 对话</h3>
 <p>在 Clawdbot 对话中直接使用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传这张图片到 R2</span><br></pre></td></tr></table></figure>
+<pre><code>上传这张图片到 R2
+</code></pre>
 <p>或指定参数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传 /path/to/file.jpg 到 R2，有效期 24 小时</span><br></pre></td></tr></table></figure>
+<pre><code>上传 /path/to/file.jpg 到 R2，有效期 24 小时
+</code></pre>
 <h3 id="可用工具">可用工具</h3>
 <p>R2 Upload Skill 提供以下工具：</p>
 <table>
@@ -791,7 +941,23 @@
 </tbody>
 </table>
 <h3 id="上传示例">上传示例</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">r2-upload /path/to/file.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定自定义路径</span></span><br><span class="line">r2-upload /path/to/file.pdf --key uploads/2026/report.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 Bucket</span></span><br><span class="line">r2-upload /path/to/file.pdf --bucket my-bucket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义有效期（默认 5 分钟）</span></span><br><span class="line">r2-upload /path/to/file.pdf --expires 24h</span><br><span class="line">r2-upload /path/to/file.pdf --expires 1d</span><br><span class="line">r2-upload /path/to/file.png --expires 300  <span class="comment"># 秒</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成公开链接（无需签名）</span></span><br><span class="line">r2-upload /path/to/file.png --public</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 上传文件</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 指定自定义路径</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --key</span><span style="color:#0A3069;--shiki-dark:#CE9178"> uploads/2026/report.pdf</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 指定 Bucket</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --bucket</span><span style="color:#0A3069;--shiki-dark:#CE9178"> my-bucket</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 自定义有效期（默认 5 分钟）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0A3069;--shiki-dark:#CE9178"> 24h</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.pdf</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0A3069;--shiki-dark:#CE9178"> 1d</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.png</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --expires</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 300</span><span style="color:#6E7781;--shiki-dark:#6A9955">  # 秒</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># 生成公开链接（无需签名）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">r2-upload</span><span style="color:#0A3069;--shiki-dark:#CE9178"> /path/to/file.png</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --public</span></span>
+<span class="line"></span></code></pre>
 <h2 id="R2-配置详解">R2 配置详解</h2>
 <h3 id="获取-R2-Endpoint">获取 R2 Endpoint</h3>
 <ol>
@@ -828,14 +994,28 @@
 </ol>
 <h3 id="Q-如何修改默认有效期？">Q: 如何修改默认有效期？</h3>
 <p>在配置文件或环境变量中设置：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ~/.r2-upload.yml</span></span><br><span class="line"><span class="attr">default_expires:</span> <span class="number">3600</span>  <span class="comment"># 1 小时</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># ~/.r2-upload.yml</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default_expires</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">3600</span><span style="color:#6E7781;--shiki-dark:#6A9955">  # 1 小时</span></span>
+<span class="line"></span></code></pre>
 <p>或使用环境变量：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> R2_DEFAULT_EXPIRES=3600</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#CF222E;--shiki-dark:#569CD6">export</span><span style="color:#1F2328;--shiki-dark:#9CDCFE"> R2_DEFAULT_EXPIRES</span><span style="color:#CF222E;--shiki-dark:#D4D4D4">=</span><span style="color:#0550AE;--shiki-dark:#B5CEA8">3600</span></span>
+<span class="line"></span></code></pre>
 <h3 id="Q-可以上传到多个-Bucket-吗？">Q: 可以上传到多个 Bucket 吗？</h3>
 <p>可以，在配置文件中定义多个 Bucket：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">default:</span> <span class="string">blog</span></span><br><span class="line"></span><br><span class="line"><span class="attr">buckets:</span></span><br><span class="line">  <span class="attr">blog:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://blog.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br><span class="line">    </span><br><span class="line">  <span class="attr">assets:</span></span><br><span class="line">    <span class="attr">endpoint:</span> <span class="string">https://assets.r2.cloudflarestorage.com</span></span><br><span class="line">    <span class="comment"># ... 其他配置</span></span><br></pre></td></tr></table></figure>
+<pre data-language="yaml" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#116329;--shiki-dark:#569CD6">default</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">blog</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">buckets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  blog</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://blog.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955">    # ... 其他配置</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">    </span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">  assets</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">:</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">    endpoint</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">https://assets.r2.cloudflarestorage.com</span></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955">    # ... 其他配置</span></span>
+<span class="line"></span></code></pre>
 <p>上传时指定 Bucket：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上传图片到 assets bucket</span><br></pre></td></tr></table></figure>
+<pre><code>上传图片到 assets bucket
+</code></pre>
 <h2 id="总结">总结</h2>
 <p>通过以上步骤，你已经成功为 Clawdbot 安装了 R2 Upload Skill。现在可以轻松上传文件并生成分享链接了。</p>
 <p>相比传统的文件上传方式，R2 + Clawdbot 的组合具有以下优势：</p>
@@ -928,10 +1108,76 @@
 <h2 id="配置步骤">配置步骤</h2>
 <h3 id="步骤一：修改-Agent-模型配置">步骤一：修改 Agent 模型配置</h3>
 <p>编辑 <code>~/.clawdbot/agents/main/agent/models.json</code>：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;providers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;minimax&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;baseUrl&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://api.minimaxi.com/anthropic&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;api&quot;</span><span class="punctuation">:</span> <span class="string">&quot;anthropic-messages&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;models&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax-M2.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax M2.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;reasoning&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;text&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;cost&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="number">15</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cacheRead&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cacheWrite&quot;</span><span class="punctuation">:</span> <span class="number">10</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;contextWindow&quot;</span><span class="punctuation">:</span> <span class="number">200000</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;maxTokens&quot;</span><span class="punctuation">:</span> <span class="number">8192</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax-VL-01&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax VL 01&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;reasoning&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="string">&quot;image&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;cost&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="number">15</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cacheRead&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cacheWrite&quot;</span><span class="punctuation">:</span> <span class="number">10</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;contextWindow&quot;</span><span class="punctuation">:</span> <span class="number">200000</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;maxTokens&quot;</span><span class="punctuation">:</span> <span class="number">8192</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;apiKey&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sk-cp-xxx&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<pre data-language="json" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">{</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">  "providers"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">    "minimax"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "baseUrl"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"https://api.minimaxi.com/anthropic"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "api"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"anthropic-messages"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "models"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "id"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax-M2.1"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "name"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax M2.1"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "reasoning"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#569CD6">false</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span><span style="color:#0A3069;--shiki-dark:#CE9178">"text"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">],</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "cost"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">15</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "output"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">60</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cacheRead"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">2</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cacheWrite"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">10</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">          },</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "contextWindow"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">200000</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "maxTokens"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">8192</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        },</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "id"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax-VL-01"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "name"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax VL 01"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "reasoning"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#569CD6">false</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span><span style="color:#0A3069;--shiki-dark:#CE9178">"text"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">, </span><span style="color:#0A3069;--shiki-dark:#CE9178">"image"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">],</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "cost"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">15</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "output"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">60</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cacheRead"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">2</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cacheWrite"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">10</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">          },</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "contextWindow"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">200000</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "maxTokens"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">8192</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">      ],</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "apiKey"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"sk-cp-xxx"</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">    }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">  }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">}</span></span>
+<span class="line"></span></code></pre>
 <h3 id="步骤二：修改全局配置">步骤二：修改全局配置</h3>
 <p>编辑 <code>/root/.clawdbot/clawdbot.json</code>：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;models&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;mode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;merge&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;providers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;minimax&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;baseUrl&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://api.minimaxi.com/anthropic&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;api&quot;</span><span class="punctuation">:</span> <span class="string">&quot;anthropic-messages&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;models&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax-M2.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax M2.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;reasoning&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;text&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cost&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="number">15</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;cacheRead&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;cacheWrite&quot;</span><span class="punctuation">:</span> <span class="number">10</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;contextWindow&quot;</span><span class="punctuation">:</span> <span class="number">200000</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;maxTokens&quot;</span><span class="punctuation">:</span> <span class="number">8192</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<pre data-language="json" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">{</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">  "models"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">    "mode"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"merge"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">    "providers"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "minimax"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">        "baseUrl"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"https://api.minimaxi.com/anthropic"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">        "api"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"anthropic-messages"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">        "models"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">          {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "id"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax-M2.1"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "name"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax M2.1"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "reasoning"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#569CD6">false</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span><span style="color:#0A3069;--shiki-dark:#CE9178">"text"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">],</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cost"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">              "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">15</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">              "output"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">60</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">              "cacheRead"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">2</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">              "cacheWrite"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">10</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">            },</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "contextWindow"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">200000</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "maxTokens"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">8192</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">          }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        ]</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">      }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">    }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">  }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">}</span></span>
+<span class="line"></span></code></pre>
 <h2 id="配置说明">配置说明</h2>
 <table>
 <thead>
@@ -961,9 +1207,11 @@
 </table>
 <h2 id="重启验证">重启验证</h2>
 <p>配置完成后，重启 Clawdbot：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">clawdbot</span><span style="color:#0A3069;--shiki-dark:#CE9178"> gateway</span><span style="color:#0A3069;--shiki-dark:#CE9178"> restart</span></span>
+<span class="line"></span></code></pre>
 <p>然后检查状态：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot status</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">clawdbot</span><span style="color:#0A3069;--shiki-dark:#CE9178"> status</span></span>
+<span class="line"></span></code></pre>
 <h2 id="常见问题">常见问题</h2>
 <h3 id="Q-配置后无法连接？">Q: 配置后无法连接？</h3>
 <p>检查：</p>
@@ -974,7 +1222,8 @@
 </ol>
 <h3 id="Q-如何验证配置生效？">Q: 如何验证配置生效？</h3>
 <p>在 Clawdbot 中执行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/status</span><br></pre></td></tr></table></figure>
+<pre><code>/status
+</code></pre>
 <p>查看当前使用的模型配置。</p>
 <h2 id="参考链接">参考链接</h2>
 <ul>
@@ -1006,10 +1255,76 @@
 <h2 id="配置步骤">配置步骤</h2>
 <h3 id="步骤一：修改-Agent-模型配置">步骤一：修改 Agent 模型配置</h3>
 <p>编辑 <code>~/.clawdbot/agents/main/agent/models.json</code>：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;providers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;minimax&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;baseUrl&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://api.minimaxi.com/anthropic&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;api&quot;</span><span class="punctuation">:</span> <span class="string">&quot;anthropic-messages&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;models&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax-M2.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax M2.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;reasoning&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;text&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;cost&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="number">15</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cacheRead&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cacheWrite&quot;</span><span class="punctuation">:</span> <span class="number">10</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;contextWindow&quot;</span><span class="punctuation">:</span> <span class="number">200000</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;maxTokens&quot;</span><span class="punctuation">:</span> <span class="number">8192</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax-VL-01&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax VL 01&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;reasoning&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;text&quot;</span><span class="punctuation">,</span> <span class="string">&quot;image&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;cost&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="number">15</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cacheRead&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cacheWrite&quot;</span><span class="punctuation">:</span> <span class="number">10</span></span><br><span class="line">          <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;contextWindow&quot;</span><span class="punctuation">:</span> <span class="number">200000</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;maxTokens&quot;</span><span class="punctuation">:</span> <span class="number">8192</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;apiKey&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sk-cp-xxx&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<pre data-language="json" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">{</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">  "providers"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">    "minimax"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "baseUrl"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"https://api.minimaxi.com/anthropic"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "api"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"anthropic-messages"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "models"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "id"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax-M2.1"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "name"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax M2.1"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "reasoning"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#569CD6">false</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span><span style="color:#0A3069;--shiki-dark:#CE9178">"text"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">],</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "cost"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">15</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "output"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">60</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cacheRead"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">2</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cacheWrite"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">10</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">          },</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "contextWindow"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">200000</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "maxTokens"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">8192</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        },</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "id"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax-VL-01"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "name"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax VL 01"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "reasoning"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#569CD6">false</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span><span style="color:#0A3069;--shiki-dark:#CE9178">"text"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">, </span><span style="color:#0A3069;--shiki-dark:#CE9178">"image"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">],</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "cost"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">15</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "output"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">60</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cacheRead"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">2</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cacheWrite"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">10</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">          },</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "contextWindow"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">200000</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">          "maxTokens"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">8192</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">      ],</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "apiKey"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"sk-cp-xxx"</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">    }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">  }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">}</span></span>
+<span class="line"></span></code></pre>
 <h3 id="步骤二：修改全局配置">步骤二：修改全局配置</h3>
 <p>编辑 <code>/root/.clawdbot/clawdbot.json</code>：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;models&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;mode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;merge&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;providers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;minimax&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;baseUrl&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://api.minimaxi.com/anthropic&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;api&quot;</span><span class="punctuation">:</span> <span class="string">&quot;anthropic-messages&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;models&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax-M2.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MiniMax M2.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;reasoning&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;text&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;cost&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">              <span class="attr">&quot;input&quot;</span><span class="punctuation">:</span> <span class="number">15</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;output&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;cacheRead&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">              <span class="attr">&quot;cacheWrite&quot;</span><span class="punctuation">:</span> <span class="number">10</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;contextWindow&quot;</span><span class="punctuation">:</span> <span class="number">200000</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;maxTokens&quot;</span><span class="punctuation">:</span> <span class="number">8192</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<pre data-language="json" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">{</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">  "models"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">    "mode"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"merge"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">    "providers"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">      "minimax"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">        "baseUrl"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"https://api.minimaxi.com/anthropic"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">        "api"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"anthropic-messages"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">        "models"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">          {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "id"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax-M2.1"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "name"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">"MiniMax M2.1"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "reasoning"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#569CD6">false</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: [</span><span style="color:#0A3069;--shiki-dark:#CE9178">"text"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">],</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "cost"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: {</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">              "input"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">15</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">              "output"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">60</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">              "cacheRead"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">2</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">              "cacheWrite"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">10</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">            },</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "contextWindow"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">200000</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">,</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#9CDCFE">            "maxTokens"</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0550AE;--shiki-dark:#B5CEA8">8192</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">          }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">        ]</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">      }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">    }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">  }</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">}</span></span>
+<span class="line"></span></code></pre>
 <h2 id="配置说明">配置说明</h2>
 <table>
 <thead>
@@ -1039,9 +1354,11 @@
 </table>
 <h2 id="重启验证">重启验证</h2>
 <p>配置完成后，重启 Clawdbot：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot gateway restart</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">clawdbot</span><span style="color:#0A3069;--shiki-dark:#CE9178"> gateway</span><span style="color:#0A3069;--shiki-dark:#CE9178"> restart</span></span>
+<span class="line"></span></code></pre>
 <p>然后检查状态：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clawdbot status</span><br></pre></td></tr></table></figure>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">clawdbot</span><span style="color:#0A3069;--shiki-dark:#CE9178"> status</span></span>
+<span class="line"></span></code></pre>
 <h2 id="常见问题">常见问题</h2>
 <h3 id="Q-配置后无法连接？">Q: 配置后无法连接？</h3>
 <p>检查：</p>
@@ -1052,7 +1369,8 @@
 </ol>
 <h3 id="Q-如何验证配置生效？">Q: 如何验证配置生效？</h3>
 <p>在 Clawdbot 中执行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/status</span><br></pre></td></tr></table></figure>
+<pre><code>/status
+</code></pre>
 <p>查看当前使用的模型配置。</p>
 <h2 id="参考链接">参考链接</h2>
 <ul>
@@ -1233,6 +1551,16 @@
 			<ul class="space-y-2">
 				
 					<li>
+						<a href="/2026/02/08/2026-02-08-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							2026-02-08 科技圈新闻汇总
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							02-08
+						</time>
+					</li>
+					
+					<li>
 						<a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
 						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 							Claude Code Agent Teams 上手指南：启用、协作与最佳实践
@@ -1269,16 +1597,6 @@
 						</a>
 						<time class="text-xs text-gray-400 dark:text-gray-500">
 							02-06
-						</time>
-					</li>
-					
-					<li>
-						<a href="/2026/02/05/2026-02-05-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
-						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-							2026-02-05 科技圈新闻汇总
-						</a>
-						<time class="text-xs text-gray-400 dark:text-gray-500">
-							02-05
 						</time>
 					</li>
 					
@@ -1331,7 +1649,7 @@
 									科技新闻
 								</span>
 								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-									1
+									2
 								</span>
 							</a>
 							
@@ -1520,7 +1838,7 @@
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										科技新闻
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
-												8
+												9
 											</span>
 									</a>
 									
@@ -1550,7 +1868,7 @@
 												2026年02月
 											</span>
 											<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-												8
+												9
 											</span>
 										</a>
 										

@@ -692,7 +692,31 @@
 </table>
 <p><strong>项目规则示例（Linus Torvalds 风格）：</strong></p>
 <p>文件：<code>.cursor/rules/codereview.mdc</code></p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line"><span class="section">alwaysApply: true</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line"></span><br><span class="line"><span class="section">## 角色定义</span></span><br><span class="line">你是 Linus Torvalds，Linux 内核创造者和首席架构师。</span><br><span class="line"></span><br><span class="line"><span class="section">## 核心哲学</span></span><br><span class="line"><span class="bullet">1.</span> <span class="strong">**好品味**</span> - 消除边界情况优于增加条件判断</span><br><span class="line"><span class="bullet">2.</span> <span class="strong">**Never break userspace**</span> - 向后兼容性神圣不可侵犯</span><br><span class="line"><span class="bullet">3.</span> <span class="strong">**实用主义**</span> - 解决实际问题，不是假想威胁</span><br><span class="line"><span class="bullet">4.</span> <span class="strong">**简洁执念**</span> - 超过3层缩进就该重构</span><br><span class="line"></span><br><span class="line"><span class="section">## Linus式问题分解（五层分析）</span></span><br><span class="line"><span class="bullet">-</span> <span class="strong">**数据结构**</span>：核心数据是什么？关系如何？</span><br><span class="line"><span class="bullet">-</span> <span class="strong">**特殊情况**</span>：找出 if/else，能否用数据结构消除？</span><br><span class="line"><span class="bullet">-</span> <span class="strong">**复杂度审查**</span>：功能本质是什么？概念能否减半？</span><br><span class="line"><span class="bullet">-</span> <span class="strong">**破坏性分析**</span>：会 break 什么？如何零破坏改进？</span><br><span class="line"><span class="bullet">-</span> <span class="strong">**实用性验证**</span>：生产环境真有问题吗？</span><br><span class="line"></span><br><span class="line"><span class="section">## 代码审查输出</span></span><br><span class="line">【品味评分】🟢 好品味 / 🟡 凑合 / 🔴 垃圾</span><br><span class="line">【致命问题】[直接指出最糟糕的部分]</span><br><span class="line">【改进方向】&quot;把这个特殊情况消除掉&quot;</span><br></pre></td></tr></table></figure>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#D4D4D4;--shiki-dark-font-weight:inherit">---</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">alwaysApply: true</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 角色定义</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">你是 Linus Torvalds，Linux 内核创造者和首席架构师。</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 核心哲学</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">1.</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **好品味**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> - 消除边界情况优于增加条件判断</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">2.</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **Never break userspace**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> - 向后兼容性神圣不可侵犯</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">3.</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **实用主义**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> - 解决实际问题，不是假想威胁</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">4.</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **简洁执念**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> - 超过3层缩进就该重构</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## Linus式问题分解（五层分析）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **数据结构**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">：核心数据是什么？关系如何？</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **特殊情况**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">：找出 if/else，能否用数据结构消除？</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **复杂度审查**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">：功能本质是什么？概念能否减半？</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **破坏性分析**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">：会 break 什么？如何零破坏改进？</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"> **实用性验证**</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">：生产环境真有问题吗？</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 代码审查输出</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">【品味评分】🟢 好品味 / 🟡 凑合 / 🔴 垃圾</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">【致命问题】[</span><span style="color:#0A3069;--shiki-dark:#CE9178">直接指出最糟糕的部分</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">]</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">【改进方向】"把这个特殊情况消除掉"</span></span>
+<span class="line"></span></code></pre>
 <p><strong>最佳实践：</strong></p>
 <ul>
 <li>✅ 规则控制在 500 行以内，大规则拆分</li>
@@ -702,7 +726,37 @@
 </ul>
 <p><strong><a href="http://AGENTS.md">AGENTS.md</a> 示例（简化版）：</strong></p>
 <p>文件：<code>AGENTS.md</code>（项目根目录）</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 灵播资金管理系统 - AI 编码指南</span></span><br><span class="line"></span><br><span class="line"><span class="section">## 项目概述</span></span><br><span class="line">Spring Boot 多模块 Maven 项目，管理会员资金、优惠券、积分、红包等业务。</span><br><span class="line"></span><br><span class="line">技术栈：Java 11, Spring Boot 2.6, MyBatis Plus, 支付宝/微信支付 SDK</span><br><span class="line"></span><br><span class="line"><span class="section">## 项目结构</span></span><br><span class="line">lingbo-funds/</span><br><span class="line">├── api/          # Feign 接口</span><br><span class="line">├── bussiness/    # 业务逻辑（Service）</span><br><span class="line">├── repository/   # 数据访问（DAO/Mapper）</span><br><span class="line">└── web/          # Controller</span><br><span class="line"></span><br><span class="line"><span class="section">## 关键规范</span></span><br><span class="line"></span><br><span class="line"><span class="section">### 命名</span></span><br><span class="line"><span class="bullet">-</span> Controller: <span class="emphasis">*Controller</span></span><br><span class="line"><span class="emphasis">- Service: *</span>Service / <span class="emphasis">*ServiceImpl</span></span><br><span class="line"><span class="emphasis">- DAO: *</span>Dao / <span class="emphasis">*DaoImpl</span></span><br><span class="line"><span class="emphasis">- Mapper: *</span>MapperExt</span><br><span class="line"></span><br><span class="line"><span class="section">### 注解（必须）</span></span><br><span class="line"><span class="bullet">-</span> @Slf4j - 日志</span><br><span class="line"><span class="bullet">-</span> @RequiredArgsConstructor - 构造器注入</span><br><span class="line"><span class="bullet">-</span> @Service / @RestController</span><br><span class="line"></span><br><span class="line"><span class="section">### 日志</span></span><br><span class="line">log.info(&quot;操作: &#123;&#125;, 参数: &#123;&#125;&quot;, operation, params);</span><br><span class="line">// 不要字符串拼接</span><br></pre></td></tr></table></figure>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold"># 灵播资金管理系统 - AI 编码指南</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 项目概述</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">Spring Boot 多模块 Maven 项目，管理会员资金、优惠券、积分、红包等业务。</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">技术栈：Java 11, Spring Boot 2.6, MyBatis Plus, 支付宝/微信支付 SDK</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 项目结构</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">lingbo-funds/</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">├── api/          # Feign 接口</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">├── bussiness/    # 业务逻辑（Service）</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">├── repository/   # 数据访问（DAO/Mapper）</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">└── web/          # Controller</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 关键规范</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">### 命名</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> Controller: *Controller</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> Service: *Service / *ServiceImpl</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> DAO: *Dao / *DaoImpl</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> Mapper: *MapperExt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">### 注解（必须）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> @Slf4j - 日志</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> @RequiredArgsConstructor - 构造器注入</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> @Service / @RestController</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">### 日志</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">log.info("操作: {}, 参数: {}", operation, params);</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">// 不要字符串拼接</span></span>
+<span class="line"></span></code></pre>
 <hr>
 <h2 id="二、Claude-Code-Codex">二、Claude Code / Codex</h2>
 <p><a href="https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview">Claude Code 文档</a> | <a href="https://github.com/openai/codex">Codex 文档</a></p>
@@ -753,12 +807,22 @@
 <p>把常用操作流程封装成 <code>/command-name</code> 一键执行。</p>
 <p><strong>示例：创建合并请求</strong></p>
 <p><code>~/.claude/commands/yunxiao/merge-to-develop.md</code>：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">allowed-tools: Bash(git status:<span class="emphasis">*), MCP(get_current_user)</span></span><br><span class="line"><span class="emphasis">description: 创建代码合并请求到 develop 分支</span></span><br><span class="line"><span class="emphasis">---</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">帮我在 yunxiao 中基于当前分支创建 MR 到 develop</span></span><br></pre></td></tr></table></figure>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#D4D4D4;--shiki-dark-font-weight:inherit">---</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">allowed-tools: Bash(git status:*), MCP(get_current_user)</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">description: 创建代码合并请求到 develop 分支</span></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">帮我在 yunxiao 中基于当前分支创建 MR 到 develop</span></span>
+<span class="line"></span></code></pre>
 <p>使用：<code>/merge-to-develop</code></p>
 <h3 id="2-4-Skills：能力扩展包">2.4 Skills：能力扩展包</h3>
 <p>把特定领域的工具、知识打包成可复用模块。</p>
 <p><strong>目录结构：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">my-skill/</span><br><span class="line">├── SKILL.md          # 核心定义：描述、约束、用法</span><br><span class="line">├── scripts/          # 可执行脚本</span><br><span class="line">└── references/       # 参考资料（schema、文档）</span><br></pre></td></tr></table></figure>
+<pre><code>my-skill/
+├── SKILL.md          # 核心定义：描述、约束、用法
+├── scripts/          # 可执行脚本
+└── references/       # 参考资料（schema、文档）
+</code></pre>
 <p><strong>示例：SQL Expert Skill</strong></p>
 <ul>
 <li><strong><a href="http://SKILL.md">SKILL.md</a></strong>：定义允许查询的表、参数化规范、脱敏规则</li>
@@ -808,9 +872,21 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 <li>持续运行直到目标达成</li>
 </ul>
 <p><strong>典型 Agent 工作流：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">用户目标 → Agent 规划 → 步骤1 → 步骤2 → 步骤3 → 结果验证 → 完成</span><br><span class="line">                ↑         ↓       ↓       ↓</span><br><span class="line">                └──── 遇到异常时调整策略 ──┘</span><br></pre></td></tr></table></figure>
+<pre><code>用户目标 → Agent 规划 → 步骤1 → 步骤2 → 步骤3 → 结果验证 → 完成
+                ↑         ↓       ↓       ↓
+                └──── 遇到异常时调整策略 ──┘
+</code></pre>
 <p><strong>示例：自动化数据分析 Agent</strong></p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">目标：分析本月销售数据并生成报告</span><br><span class="line"></span><br><span class="line">执行过程：</span><br><span class="line"><span class="bullet">1.</span> 连接数据库（调用 SQL Skill）</span><br><span class="line"><span class="bullet">2.</span> 提取销售数据（执行查询脚本）</span><br><span class="line"><span class="bullet">3.</span> 数据清洗和处理（调用 Python Tool）</span><br><span class="line"><span class="bullet">4.</span> 生成图表（调用可视化 Tool）</span><br><span class="line"><span class="bullet">5.</span> 撰写分析报告（LLM 生成）</span><br><span class="line"><span class="bullet">6.</span> 发送邮件（调用邮件 Tool）</span><br></pre></td></tr></table></figure>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">目标：分析本月销售数据并生成报告</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">执行过程：</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">1.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 连接数据库（调用 SQL Skill）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">2.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 提取销售数据（执行查询脚本）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">3.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 数据清洗和处理（调用 Python Tool）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">4.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 生成图表（调用可视化 Tool）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">5.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 撰写分析报告（LLM 生成）</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">6.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 发送邮件（调用邮件 Tool）</span></span>
+<span class="line"></span></code></pre>
 <h3 id="2-6-SubAgent：分而治之的协作模式">2.6 SubAgent：分而治之的协作模式</h3>
 <p><strong>什么是 SubAgent</strong><br>
 当任务过于复杂时，主 Agent 可以创建多个 SubAgent 并行处理子任务，最后整合结果。</p>
@@ -821,7 +897,13 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 <li>批量任务处理（并行加速）</li>
 </ul>
 <p><strong>工作模式：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">主 Agent（协调者）</span><br><span class="line">    ├─ SubAgent A → 处理模块 A → 返回结果</span><br><span class="line">    ├─ SubAgent B → 处理模块 B → 返回结果</span><br><span class="line">    └─ SubAgent C → 处理模块 C → 返回结果</span><br><span class="line">         ↓</span><br><span class="line">    整合所有结果 → 最终输出</span><br></pre></td></tr></table></figure>
+<pre><code>主 Agent（协调者）
+    ├─ SubAgent A → 处理模块 A → 返回结果
+    ├─ SubAgent B → 处理模块 B → 返回结果
+    └─ SubAgent C → 处理模块 C → 返回结果
+         ↓
+    整合所有结果 → 最终输出
+</code></pre>
 <p><strong>能力对比：</strong></p>
 <table>
 <thead>
@@ -901,7 +983,26 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
     F --> B
     E -->|通过| G[代码入库]</pre>
 <p><strong>Spec 包含什么：</strong></p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">## 功能名称</span></span><br><span class="line"></span><br><span class="line"><span class="section">### 输入</span></span><br><span class="line"><span class="bullet">-</span> 参数1：类型，约束条件</span><br><span class="line"><span class="bullet">-</span> 参数2：类型，约束条件</span><br><span class="line"></span><br><span class="line"><span class="section">### 输出</span></span><br><span class="line"><span class="bullet">-</span> 返回值：类型</span><br><span class="line"><span class="bullet">-</span> 错误情况：错误码 + 说明</span><br><span class="line"></span><br><span class="line"><span class="section">### 边界情况</span></span><br><span class="line"><span class="bullet">1.</span> 空输入如何处理</span><br><span class="line"><span class="bullet">2.</span> 超大输入如何处理</span><br><span class="line"><span class="bullet">3.</span> 并发场景如何处理</span><br><span class="line"></span><br><span class="line"><span class="section">### 验收标准</span></span><br><span class="line"><span class="bullet">-</span> [ ] 单元测试覆盖率 &gt; 80%</span><br><span class="line"><span class="bullet">-</span> [ ] 边界情况都有测试用例</span><br><span class="line"><span class="bullet">-</span> [ ] 性能指标满足 XXX</span><br></pre></td></tr></table></figure>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">## 功能名称</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">### 输入</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 参数1：类型，约束条件</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 参数2：类型，约束条件</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">### 输出</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 返回值：类型</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 错误情况：错误码 + 说明</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">### 边界情况</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">1.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 空输入如何处理</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">2.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 超大输入如何处理</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">3.</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> 并发场景如何处理</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">### 验收标准</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> [ ] 单元测试覆盖率 > 80%</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> [ ] 边界情况都有测试用例</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#6796E6">-</span><span style="color:#1F2328;--shiki-dark:#D4D4D4"> [ ] 性能指标满足 XXX</span></span>
+<span class="line"></span></code></pre>
 <h3 id="4-3-两种模式对比">4.3 两种模式对比</h3>
 <table>
 <thead>
@@ -959,7 +1060,22 @@ Agent 是能够自主规划和执行任务的 AI 实体。与单次对话不同�
 <li><strong>权限边界</strong>：细粒度控制谁可以用什么功能</li>
 </ul>
 <h3 id="5-2-核心架构">5.2 核心架构</h3>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">WhatsApp / Telegram / Discord / iMessage (+ plugins)</span><br><span class="line"> │</span><br><span class="line"> ▼</span><br><span class="line">┌───────────────────────────┐</span><br><span class="line">│         Gateway           │  ws://127.0.0.1:18789</span><br><span class="line">│      (single source)      │</span><br><span class="line">│                           │  http://host:18793/__claw__/canvas/</span><br><span class="line">└───────────┬───────────────┘</span><br><span class="line">            │</span><br><span class="line">            ├─ Agent (RPC)</span><br><span class="line">            ├─ CLI (claw …)</span><br><span class="line">            ├─ WebChat UI</span><br><span class="line">            ├─ macOS app</span><br><span class="line">            ├─ iOS/Android node (WebSocket + pairing)</span><br><span class="line">            └─ Cron 定时任务</span><br></pre></td></tr></table></figure>
+<pre><code>WhatsApp / Telegram / Discord / iMessage (+ plugins)
+ │
+ ▼
+┌───────────────────────────┐
+│         Gateway           │  ws://127.0.0.1:18789
+│      (single source)      │
+│                           │  http://host:18793/__claw__/canvas/
+└───────────┬───────────────┘
+            │
+            ├─ Agent (RPC)
+            ├─ CLI (claw …)
+            ├─ WebChat UI
+            ├─ macOS app
+            ├─ iOS/Android node (WebSocket + pairing)
+            └─ Cron 定时任务
+</code></pre>
 <p>架构特点：</p>
 <ul>
 <li><strong>Gateway 为核心</strong>：单一长连接进程管理所有渠道和 WebSocket 控制面</li>
