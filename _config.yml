@@ -80,7 +80,7 @@ theme: hexo-deveye
 # Mermaid 配置 - 懒加载提升首屏速度
 mermaid:
   enable: true
-  version: "11.7.0"
+  version: "11.12.2"
   options:
     theme: default
     startOnLoad: false  # 懒加载

@@ -1656,6 +1656,10 @@ figure.highlight {
   -webkit-line-clamp: 3;
 }
 
+.\!block {
+  display: block !important;
+}
+
 .block {
   display: block;
 }
@@ -2163,6 +2167,38 @@ figure.highlight {
 
 .pb-8 {
   padding-bottom: 2rem;
+}
+
+.pe-1 {
+  padding-inline-end: 0.25rem;
+}
+
+.pe-2 {
+  padding-inline-end: 0.5rem;
+}
+
+.pe-3 {
+  padding-inline-end: 0.75rem;
+}
+
+.pe-4 {
+  padding-inline-end: 1rem;
+}
+
+.pe-5 {
+  padding-inline-end: 1.25rem;
+}
+
+.pe-6 {
+  padding-inline-end: 1.5rem;
+}
+
+.pe-7 {
+  padding-inline-end: 1.75rem;
+}
+
+.pe-8 {
+  padding-inline-end: 2rem;
 }
 
 .pl-10 {
