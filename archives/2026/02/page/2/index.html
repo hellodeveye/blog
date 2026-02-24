@@ -218,174 +218,432 @@
                                 <!-- 主内容区 -->
                                 <div class="main-content flex-1">
                                     <div class="">
-                                        <!-- 关于页面头部 -->
-<!-- <div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-4 -mt-4 mb-8 px-6 py-12 rounded-t-lg">
+                                        <!-- Hero Section -->
+<!-- <div
+    class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 -mx-4 -mt-4 mb-8 px-6 py-8 rounded-t-lg">
     <div class="text-center">
-        <div class="w-24 h-24 bg-primary-600 rounded-full mx-auto mb-6 flex items-center justify-center">
-            <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-            </svg>
-        </div>
         <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            关于我
+            FoundraLab
         </h1>
-        <p class="text-lg text-muted">
-            一个热爱技术的开发者
+        <p class="text-lg text-muted mb-6 max-w-2xl mx-auto">
+            分享技术见解、学习心得和生活感悟
         </p>
+        <div class="flex justify-center space-x-4">
+            <a href="/archives" class="btn btn-primary">
+                浏览文章
+            </a>
+            <a href="/about" class="btn btn-secondary">
+                了解更多
+            </a>
+        </div>
     </div>
 </div> -->
 
-<!-- 个人介绍 -->
-<div class="space-y-8">
-    <!-- 基本信息 -->
-    <section class="surface-panel rounded-lg p-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            你好，我是 Kim！
+<!-- 最新文章列表 -->
+<div class="space-y-6">
+    <!-- <div class="mb-6 flex items-center">
+        <div class="w-1 h-8 bg-primary-600 mr-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center">
+            最新文章
         </h2>
+    </div> -->
 
-        <div class="prose prose-lg prose-gray dark:prose-invert max-w-none">
-            <p class="text-gray-700 dark:text-gray-100 leading-relaxed">
-                我是一名<strong>AI & 后端开发者</strong>，专注于大语言模型应用开发。<br />
-                目前专注：<strong>AI Agent 开发</strong>、<strong>提示词工程</strong>、<strong>RAG</strong> 检索增强生成。<br />
-                同时也热爱 Java 后端开发，对分布式系统、云原生技术有着浓厚的兴趣。<br />
-                在这里，我会记录 AI 应用探索、技术文章和个人心得。
-            </p>
-        </div>
-    </section>
+    <div class="space-y-6">
+        
+            <article class="surface-panel rounded-lg p-6">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2026/02/01/2026-02-01-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
+                                class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                2026-02-01 科技圈新闻汇总
+                            </a>
+                        </h3>
 
-    <!-- 技能专长 -->
-    <section class="surface-panel rounded-lg p-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            技能专长
-        </h2>
+                        
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">AI 开发</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span
-                        class="px-3 py-1 bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 rounded-full text-sm">AI/LLM</span>
-                    <span
-                        class="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm">Prompt Engineering</span>
-                    <span
-                        class="px-3 py-1 bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded-full text-sm">Agent Development</span>
-                    <span
-                        class="px-3 py-1 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-full text-sm">RAG</span>
-                </div>
-            </div>
+                            
+                                <div class="post-content-container mb-4">
+                                    <div class="post-content-preview leading-relaxed"
+                                        id="preview-0">
+                                        <div class="post-content-preview-wrapper">
+                                            <div class="post-content" data-content-type="preview">
+                                                <p>今日科技圈精彩纷呈，从 AI 内容治理到复古游戏开发，从编程语言讨论到操作系统安全，让我们一起来看看今天值得关注的技术新闻。</p>
+<hr>
+<h2 id="🤖-AI-与机器学习">🤖 AI 与机器学习</h2>
+<h3 id="Wiki-Education-发布-AI-编辑-Wikipedia-研究报告">Wiki Education 发布 AI 编辑 Wikipedia 研究报告</h3>
+<p>Wiki Education 发布了一项关于生成式 AI 在 Wikipedia 编辑中使用的深度研究报告。作为负责约 <strong>19% 英文 Wikipedia 新活跃编辑</strong> 的组织，他们的发现令人警醒。</p>
+<p><strong>核心发现：</strong></p>
+<ul>
+<li>在检测出的 178 篇疑似 AI 生成的文章中，<strong>超过三分之二未能通过来源验证</strong></li>
+<li>虽然假引用仅占 7%，但更大的问题是信息看似有真实来源，实际上来源中并不存在该信息</li>
+<li>AI 生成的内容往往包含大量加粗文字或位置不当的列表</li>
+</ul>
+<blockquote>
+<p><strong>Wiki Education 的建议：Wikipedia 编辑永远不应该直接复制粘贴 ChatGPT 等生成式 AI 的输出到文章中。</strong></p>
+</blockquote>
+<p>这一发现对内容平台和知识社区都有重要启示：AI 辅助创作需要严格的事实核查流程。</p>
+<p>📎 <a href="https://wikiedu.org/blog/2026/01/29/generative-ai-and-wikipedia-editing-what-we-learned-in-2025/">原文链接</a></p>
+<h3 id="自动驾驶汽车和无人机对路标提示注入攻击反应令人担忧">自动驾驶汽车和无人机对路标提示注入攻击反应令人担忧</h3>
+<p>《The Register》报道了一项安全研究显示，自动驾驶汽车和无人机对路标上的提示注入攻击表现出惊人的顺从性。研究人员通过在路标上添加特定文字，成功让 AI 系统执行了不应该执行的操作。</p>
+<p>这凸显了 AI 视觉系统在实际部署中面临的新型安全挑战。</p>
+<p>📎 <a href="https://www.theregister.com/2026/01/30/road_sign_hijack_ai/">原文链接</a></p>
+<hr>
+<h2 id="🎮-游戏与怀旧科技">🎮 游戏与怀旧科技</h2>
+<h3 id="为-Nintendo-DS-打造的代码编辑器与-3D-游戏引擎">为 Nintendo DS 打造的代码编辑器与 3D 游戏引擎</h3>
+<p>一位开发者发布了一个令人惊叹的项目：一个完整的 <strong>Nintendo DS 脚本化 3D 游戏引擎</strong>，包含触摸式代码编辑器。</p>
+<p><strong>技术亮点：</strong></p>
+<ul>
+<li>使用 C 语言和 libnds 开发，编译后仅约 <strong>100KB</strong></li>
+<li>在 NDS 上实现 <strong>60 FPS</strong> 的 3D 渲染</li>
+<li>底部触摸屏作为代码编辑器，顶部屏幕进行实时 3D 渲染</li>
+<li>自定义脚本语言支持变量、循环、条件语句</li>
+<li>内置 3D Pong 游戏作为示例</li>
+</ul>
+<p>这个项目的魅力在于它复刻了早期在 TI-82 计算器上编程的体验——一个可以握在手中的完整编程环境。</p>
+<p>📎 <a href="https://crl.io/ds-game-engine/">原文链接</a></p>
+<h3 id="NASA-的-WB-57-飞机在休斯顿迫降">NASA 的 WB-57 飞机在休斯顿迫降</h3>
+<p>Ars Technica 报道，NASA 三架 WB-57 高空研究飞机中的一架在休斯顿发生了机腹着陆事故。WB-57 是 NASA 用于高空大气研究的重要平台，能够飞行到 60,000 英尺以上。</p>
+<p>📎 <a href="https://arstechnica.com/space/2026/01/one-of-nasas-three-wb-57-aircraft-just-did-a-belly-landing-in-houston/">原文链接</a></p>
+<hr>
+<h2 id="🛠️-开发工具与开源">🛠️ 开发工具与开源</h2>
+<h3 id="Swift-是更便捷的-Rust？">Swift 是更便捷的 Rust？</h3>
+<p>一篇引发热议的技术文章探讨了 Swift 和 Rust 两门语言的异同。作者指出：<strong>Swift 和 Rust 拥有几乎相同的功能集</strong>，但采用了截然不同的设计理念。</p>
+<p><strong>核心观点：</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Rust</th>
+<th>Swift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认内存模型</td>
+<td>所有权转移（更快）</td>
+<td>写时复制（更简单）</td>
+</tr>
+<tr>
+<td>学习曲线</td>
+<td>较陡峭</td>
+<td>较平缓</td>
+</tr>
+<tr>
+<td>语法风格</td>
+<td>显式函数式</td>
+<td>类 C 语法包装函数式特性</td>
+</tr>
+</tbody>
+</table>
+<p>Swift 的设计理念是<strong>自上而下</strong>——从高 level 开始，提供深入底层的选项；而 Rust 是<strong>自下而上</strong>——从底层系统语言出发，提供高级抽象的工具。</p>
+<p>作者认为 Swift 是将 Rust 的优秀理念隐藏在 C 风格语法中的典范，例如 Swift 的 <code>switch</code> 语句实际上是一个完整的模式匹配表达式。</p>
+<p>📎 <a href="https://nmn.sh/blog/2023-10-02-swift-is-the-more-convenient-rust">原文链接</a></p>
+<h3 id="开源社区驱动的强化容器镜像-Minimal-发布">开源社区驱动的强化容器镜像 Minimal 发布</h3>
+<p>一个名为 <strong>Minimal</strong> 的新项目发布了社区驱动的强化容器镜像。该项目致力于提供精简、安全的容器基础镜像，减少攻击面。</p>
+<p>📎 <a href="https://github.com/rtvkiz/minimal">GitHub 仓库</a></p>
+<h3 id="CPython-内部原理详解">CPython 内部原理详解</h3>
+<p>一份详尽的 GitHub 项目深入解释了 CPython 的内部实现机制，涵盖解释器架构、内存管理、对象系统等核心概念。对于想要深入理解 Python 运行时的开发者来说是一份宝贵资源。</p>
+<p>📎 <a href="https://github.com/zpoint/CPython-Internals">GitHub 仓库</a></p>
+<h3 id="数据处理性能基准测试：Rust、Go、Swift、Zig、Julia-等语言大比拼">数据处理性能基准测试：Rust、Go、Swift、Zig、Julia 等语言大比拼</h3>
+<p>一个 GitHub 项目提供了多语言数据处理性能基准测试，比较了 Rust、Go、Swift、Zig、Julia 等新兴语言在相关文章生成任务上的表现。</p>
+<p>📎 <a href="https://github.com/zupat/related_post_gen">GitHub 仓库</a></p>
+<hr>
+<h2 id="🏗️-基础设施与行业">🏗️ 基础设施与行业</h2>
+<h3 id="Genode-OS：构建高安全性专用操作系统的工具包">Genode OS：构建高安全性专用操作系统的工具包</h3>
+<p><strong>Genode OS Framework</strong> 是一个用于构建高度安全的专用操作系统的工具包。它基于递归系统结构，每个程序运行在专用的沙箱中，仅获得其特定用途所需的访问权限和资源。</p>
+<p><strong>支持的架构：</strong> x86 (32/64位)、ARM (32/64位)、RISC-V<br>
+<strong>支持的内核：</strong> NOVA、seL4、Fiasco.OC、OKL4、Linux 等<br>
+<strong>特点：</strong> 可将安全关键功能的攻击面比传统操作系统减少数个数量级</p>
+<p>Genode 将 L4 微内核的构建原则与 Unix 哲学相结合，提供了超过 100 个即用型组件。</p>
+<p>📎 <a href="https://genode.org/about/index">官网</a></p>
+<h3 id="运营商可通过移动网络获取用户-GPS-定位信息">运营商可通过移动网络获取用户 GPS 定位信息</h3>
+<p>一篇技术文章揭示了移动运营商可以通过蜂窝网络获取用户精确 GPS 位置的技术细节。这一发现引发了关于位置隐私的新一轮讨论。</p>
+<p>📎 <a href="https://an.dywa.ng/carrier-gnss.html">原文链接</a></p>
+<h3 id="美国调查-WhatsApp-隐私问题">美国调查 WhatsApp 隐私问题</h3>
+<p>彭博社报道，美国政府正在调查有关 WhatsApp 聊天内容可能不够私密的指控。这一消息在隐私保护领域引发关注。</p>
+<p>📎 <a href="https://www.bloomberg.com/news/articles/2026-01-29/us-has-investigated-claims-that-whatsapp-chats-aren-t-private">原文链接</a></p>
+<h3 id="Kimwolf-僵尸网络潜伏在企业与政府网络中">Kimwolf 僵尸网络潜伏在企业与政府网络中</h3>
+<p>Krebs on Security 报道，一个名为 <strong>Kimwolf</strong> 的僵尸网络被发现潜伏在多个企业和政府网络中。这是近期网络安全领域需要关注的重要威胁。</p>
+<p>📎 <a href="https://krebsonsecurity.com/2026/01/kimwolf-botnet-lurking-in-corporate-govt-networks/">原文链接</a></p>
+<h3 id="Noctalia：为-Wayland-打造的极简桌面-Shell">Noctalia：为 Wayland 打造的极简桌面 Shell</h3>
+<p>Noctia 是一个为 Wayland 设计的简洁、极简桌面 Shell，经过精心打造。对于寻求轻量级 Wayland 桌面体验的用户来说是一个新选择。</p>
+<p>📎 <a href="https://github.com/noctalia-dev/noctalia-shell">GitHub 仓库</a></p>
+<hr>
+<h2 id="🎪-趣闻">🎪 趣闻</h2>
+<h3 id="Moltbook：AI-助手的社交网络">Moltbook：AI 助手的社交网络</h3>
+<p>一个名为 <strong>Moltbook</strong> 的&quot;社交网络&quot;项目登上 Hacker News 热榜。这是一个专为 moltbots（包括 Clawdbot 在内的 AI 助手）设计的社交平台，让 AI 助手们可以&quot;社交&quot;。</p>
+<p>这个概念既有趣又引发思考：当 AI 助手们开始有自己的&quot;社交空间&quot;时，人机协作的未来会是怎样的？</p>
+<p>📎 <a href="https://www.moltbook.com/">官网</a></p>
+<hr>
+<h2 id="其他值得关注的动态">其他值得关注的动态</h2>
+<ul>
+<li><strong>芬兰将禁止青少年使用社交媒体</strong> — 芬兰计划结束青少年使用社交媒体的&quot;不受控人体实验&quot;</li>
+<li><strong>科学家 William Foege 去世</strong> — 这位帮助根除天花的科学家享年 89 岁</li>
+<li><strong>ARM SME 矩阵乘法优化指南</strong> — 一篇深入解析 ARM SME（Scalable Matrix Extension）以优化通用矩阵乘法的学术论文</li>
+<li><strong>In Praise of --dry-run</strong> — 关于 dry-run 模式在软件开发中重要性的文章</li>
+</ul>
+<hr>
+<p><em>本文汇总自 Hacker News 等社区信息源，每日更新，涵盖 AI 应用、游戏技术、开发工具及科技行业动态。</em></p>
 
-            <div>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">后端开发</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span
-                        class="px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full text-sm">Java</span>
-                    <span
-                        class="px-3 py-1 bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 rounded-full text-sm">Spring Boot</span>
-                    <span
-                        class="px-3 py-1 bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200 rounded-full text-sm">MySQL</span>
-                    <span
-                        class="px-3 py-1 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-full text-sm">Docker</span>
-                </div>
-            </div>
-        </div>
-    </section>
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="content-fade"></div>
+                                            
+                                    </div>
+                                    
+                                        <div class="post-content-full leading-relaxed post-hidden"
+                                            id="full-0">
+                                            <div class="post-content" data-content-type="full">
+                                                <p>今日科技圈精彩纷呈，从 AI 内容治理到复古游戏开发，从编程语言讨论到操作系统安全，让我们一起来看看今天值得关注的技术新闻。</p>
+<hr>
+<h2 id="🤖-AI-与机器学习">🤖 AI 与机器学习</h2>
+<h3 id="Wiki-Education-发布-AI-编辑-Wikipedia-研究报告">Wiki Education 发布 AI 编辑 Wikipedia 研究报告</h3>
+<p>Wiki Education 发布了一项关于生成式 AI 在 Wikipedia 编辑中使用的深度研究报告。作为负责约 <strong>19% 英文 Wikipedia 新活跃编辑</strong> 的组织，他们的发现令人警醒。</p>
+<p><strong>核心发现：</strong></p>
+<ul>
+<li>在检测出的 178 篇疑似 AI 生成的文章中，<strong>超过三分之二未能通过来源验证</strong></li>
+<li>虽然假引用仅占 7%，但更大的问题是信息看似有真实来源，实际上来源中并不存在该信息</li>
+<li>AI 生成的内容往往包含大量加粗文字或位置不当的列表</li>
+</ul>
+<blockquote>
+<p><strong>Wiki Education 的建议：Wikipedia 编辑永远不应该直接复制粘贴 ChatGPT 等生成式 AI 的输出到文章中。</strong></p>
+</blockquote>
+<p>这一发现对内容平台和知识社区都有重要启示：AI 辅助创作需要严格的事实核查流程。</p>
+<p>📎 <a href="https://wikiedu.org/blog/2026/01/29/generative-ai-and-wikipedia-editing-what-we-learned-in-2025/">原文链接</a></p>
+<h3 id="自动驾驶汽车和无人机对路标提示注入攻击反应令人担忧">自动驾驶汽车和无人机对路标提示注入攻击反应令人担忧</h3>
+<p>《The Register》报道了一项安全研究显示，自动驾驶汽车和无人机对路标上的提示注入攻击表现出惊人的顺从性。研究人员通过在路标上添加特定文字，成功让 AI 系统执行了不应该执行的操作。</p>
+<p>这凸显了 AI 视觉系统在实际部署中面临的新型安全挑战。</p>
+<p>📎 <a href="https://www.theregister.com/2026/01/30/road_sign_hijack_ai/">原文链接</a></p>
+<hr>
+<h2 id="🎮-游戏与怀旧科技">🎮 游戏与怀旧科技</h2>
+<h3 id="为-Nintendo-DS-打造的代码编辑器与-3D-游戏引擎">为 Nintendo DS 打造的代码编辑器与 3D 游戏引擎</h3>
+<p>一位开发者发布了一个令人惊叹的项目：一个完整的 <strong>Nintendo DS 脚本化 3D 游戏引擎</strong>，包含触摸式代码编辑器。</p>
+<p><strong>技术亮点：</strong></p>
+<ul>
+<li>使用 C 语言和 libnds 开发，编译后仅约 <strong>100KB</strong></li>
+<li>在 NDS 上实现 <strong>60 FPS</strong> 的 3D 渲染</li>
+<li>底部触摸屏作为代码编辑器，顶部屏幕进行实时 3D 渲染</li>
+<li>自定义脚本语言支持变量、循环、条件语句</li>
+<li>内置 3D Pong 游戏作为示例</li>
+</ul>
+<p>这个项目的魅力在于它复刻了早期在 TI-82 计算器上编程的体验——一个可以握在手中的完整编程环境。</p>
+<p>📎 <a href="https://crl.io/ds-game-engine/">原文链接</a></p>
+<h3 id="NASA-的-WB-57-飞机在休斯顿迫降">NASA 的 WB-57 飞机在休斯顿迫降</h3>
+<p>Ars Technica 报道，NASA 三架 WB-57 高空研究飞机中的一架在休斯顿发生了机腹着陆事故。WB-57 是 NASA 用于高空大气研究的重要平台，能够飞行到 60,000 英尺以上。</p>
+<p>📎 <a href="https://arstechnica.com/space/2026/01/one-of-nasas-three-wb-57-aircraft-just-did-a-belly-landing-in-houston/">原文链接</a></p>
+<hr>
+<h2 id="🛠️-开发工具与开源">🛠️ 开发工具与开源</h2>
+<h3 id="Swift-是更便捷的-Rust？">Swift 是更便捷的 Rust？</h3>
+<p>一篇引发热议的技术文章探讨了 Swift 和 Rust 两门语言的异同。作者指出：<strong>Swift 和 Rust 拥有几乎相同的功能集</strong>，但采用了截然不同的设计理念。</p>
+<p><strong>核心观点：</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Rust</th>
+<th>Swift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认内存模型</td>
+<td>所有权转移（更快）</td>
+<td>写时复制（更简单）</td>
+</tr>
+<tr>
+<td>学习曲线</td>
+<td>较陡峭</td>
+<td>较平缓</td>
+</tr>
+<tr>
+<td>语法风格</td>
+<td>显式函数式</td>
+<td>类 C 语法包装函数式特性</td>
+</tr>
+</tbody>
+</table>
+<p>Swift 的设计理念是<strong>自上而下</strong>——从高 level 开始，提供深入底层的选项；而 Rust 是<strong>自下而上</strong>——从底层系统语言出发，提供高级抽象的工具。</p>
+<p>作者认为 Swift 是将 Rust 的优秀理念隐藏在 C 风格语法中的典范，例如 Swift 的 <code>switch</code> 语句实际上是一个完整的模式匹配表达式。</p>
+<p>📎 <a href="https://nmn.sh/blog/2023-10-02-swift-is-the-more-convenient-rust">原文链接</a></p>
+<h3 id="开源社区驱动的强化容器镜像-Minimal-发布">开源社区驱动的强化容器镜像 Minimal 发布</h3>
+<p>一个名为 <strong>Minimal</strong> 的新项目发布了社区驱动的强化容器镜像。该项目致力于提供精简、安全的容器基础镜像，减少攻击面。</p>
+<p>📎 <a href="https://github.com/rtvkiz/minimal">GitHub 仓库</a></p>
+<h3 id="CPython-内部原理详解">CPython 内部原理详解</h3>
+<p>一份详尽的 GitHub 项目深入解释了 CPython 的内部实现机制，涵盖解释器架构、内存管理、对象系统等核心概念。对于想要深入理解 Python 运行时的开发者来说是一份宝贵资源。</p>
+<p>📎 <a href="https://github.com/zpoint/CPython-Internals">GitHub 仓库</a></p>
+<h3 id="数据处理性能基准测试：Rust、Go、Swift、Zig、Julia-等语言大比拼">数据处理性能基准测试：Rust、Go、Swift、Zig、Julia 等语言大比拼</h3>
+<p>一个 GitHub 项目提供了多语言数据处理性能基准测试，比较了 Rust、Go、Swift、Zig、Julia 等新兴语言在相关文章生成任务上的表现。</p>
+<p>📎 <a href="https://github.com/zupat/related_post_gen">GitHub 仓库</a></p>
+<hr>
+<h2 id="🏗️-基础设施与行业">🏗️ 基础设施与行业</h2>
+<h3 id="Genode-OS：构建高安全性专用操作系统的工具包">Genode OS：构建高安全性专用操作系统的工具包</h3>
+<p><strong>Genode OS Framework</strong> 是一个用于构建高度安全的专用操作系统的工具包。它基于递归系统结构，每个程序运行在专用的沙箱中，仅获得其特定用途所需的访问权限和资源。</p>
+<p><strong>支持的架构：</strong> x86 (32/64位)、ARM (32/64位)、RISC-V<br>
+<strong>支持的内核：</strong> NOVA、seL4、Fiasco.OC、OKL4、Linux 等<br>
+<strong>特点：</strong> 可将安全关键功能的攻击面比传统操作系统减少数个数量级</p>
+<p>Genode 将 L4 微内核的构建原则与 Unix 哲学相结合，提供了超过 100 个即用型组件。</p>
+<p>📎 <a href="https://genode.org/about/index">官网</a></p>
+<h3 id="运营商可通过移动网络获取用户-GPS-定位信息">运营商可通过移动网络获取用户 GPS 定位信息</h3>
+<p>一篇技术文章揭示了移动运营商可以通过蜂窝网络获取用户精确 GPS 位置的技术细节。这一发现引发了关于位置隐私的新一轮讨论。</p>
+<p>📎 <a href="https://an.dywa.ng/carrier-gnss.html">原文链接</a></p>
+<h3 id="美国调查-WhatsApp-隐私问题">美国调查 WhatsApp 隐私问题</h3>
+<p>彭博社报道，美国政府正在调查有关 WhatsApp 聊天内容可能不够私密的指控。这一消息在隐私保护领域引发关注。</p>
+<p>📎 <a href="https://www.bloomberg.com/news/articles/2026-01-29/us-has-investigated-claims-that-whatsapp-chats-aren-t-private">原文链接</a></p>
+<h3 id="Kimwolf-僵尸网络潜伏在企业与政府网络中">Kimwolf 僵尸网络潜伏在企业与政府网络中</h3>
+<p>Krebs on Security 报道，一个名为 <strong>Kimwolf</strong> 的僵尸网络被发现潜伏在多个企业和政府网络中。这是近期网络安全领域需要关注的重要威胁。</p>
+<p>📎 <a href="https://krebsonsecurity.com/2026/01/kimwolf-botnet-lurking-in-corporate-govt-networks/">原文链接</a></p>
+<h3 id="Noctalia：为-Wayland-打造的极简桌面-Shell">Noctalia：为 Wayland 打造的极简桌面 Shell</h3>
+<p>Noctia 是一个为 Wayland 设计的简洁、极简桌面 Shell，经过精心打造。对于寻求轻量级 Wayland 桌面体验的用户来说是一个新选择。</p>
+<p>📎 <a href="https://github.com/noctalia-dev/noctalia-shell">GitHub 仓库</a></p>
+<hr>
+<h2 id="🎪-趣闻">🎪 趣闻</h2>
+<h3 id="Moltbook：AI-助手的社交网络">Moltbook：AI 助手的社交网络</h3>
+<p>一个名为 <strong>Moltbook</strong> 的&quot;社交网络&quot;项目登上 Hacker News 热榜。这是一个专为 moltbots（包括 Clawdbot 在内的 AI 助手）设计的社交平台，让 AI 助手们可以&quot;社交&quot;。</p>
+<p>这个概念既有趣又引发思考：当 AI 助手们开始有自己的&quot;社交空间&quot;时，人机协作的未来会是怎样的？</p>
+<p>📎 <a href="https://www.moltbook.com/">官网</a></p>
+<hr>
+<h2 id="其他值得关注的动态">其他值得关注的动态</h2>
+<ul>
+<li><strong>芬兰将禁止青少年使用社交媒体</strong> — 芬兰计划结束青少年使用社交媒体的&quot;不受控人体实验&quot;</li>
+<li><strong>科学家 William Foege 去世</strong> — 这位帮助根除天花的科学家享年 89 岁</li>
+<li><strong>ARM SME 矩阵乘法优化指南</strong> — 一篇深入解析 ARM SME（Scalable Matrix Extension）以优化通用矩阵乘法的学术论文</li>
+<li><strong>In Praise of --dry-run</strong> — 关于 dry-run 模式在软件开发中重要性的文章</li>
+</ul>
+<hr>
+<p><em>本文汇总自 Hacker News 等社区信息源，每日更新，涵盖 AI 应用、游戏技术、开发工具及科技行业动态。</em></p>
 
-    <!-- 兴趣爱好 -->
-    <section class="surface-panel rounded-lg p-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            兴趣爱好
-        </h2>
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                                
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="flex items-center p-4 surface-panel rounded-lg">
-                <svg class="w-8 h-8 text-primary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">AI 产品探索</h3>
-                    <p class="text-sm text-muted">LLM 应用实践</p>
-                </div>
-            </div>
+                                    <div
+                                        class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                                        <div class="flex items-center space-x-4">
+                                            <time datetime="2026-02-01T01:30:00.000Z" class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                                                    2026-02-01
+                                            </time>
 
-            <div class="flex items-center p-4 surface-panel rounded-lg">
-                <svg class="w-8 h-8 text-primary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">自动化工作流</h3>
-                    <p class="text-sm text-muted">AI Agent 实践</p>
-                </div>
-            </div>
+                                            
+                                                <div class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                                                        
+                                                            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%96%B0%E9%97%BB/"
+                                                                class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                                技术新闻
+                                                            </a>
+                                                            
+                                                </div>
+                                                
+                                        </div>
 
-            <div class="flex items-center p-4 surface-panel rounded-lg">
-                <svg class="w-8 h-8 text-primary-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">技术分享</h3>
-                    <p class="text-sm text-muted">AI & 后端经验</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 联系方式 -->
-    <section class="surface-panel rounded-lg p-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-            <svg class="w-6 h-6 mr-2 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-            </svg>
-            联系我
-        </h2>
-
-        <div class="text-center">
-            <p class="text-muted mb-6">
-                如果你对我的文章感兴趣，或者想要交流技术问题，欢迎联系我！
-            </p>
-
-            <div class="flex justify-center space-x-4">
-                <a href="mailto:deveye@126.com" class="btn btn-primary flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                        
+                                            <button
+                                                class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
+                                                data-index="0" id="btn-0">
+                                                <span class="expand-text">显示更多</span>
+                                                <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                     </svg>
-                    发送邮件
-                </a>
+                                            </button>
+                                            
+                                    </div>
+                    </div>
+                </div>
+            </article>
+            
+    </div>
 
-                <a href="https://github.com/hellodeveye" class="btn btn-secondary flex items-center" target="_blank">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                    GitHub
-                </a>
+    <!-- 分页 -->
+    
+        <nav class="flex justify-center mt-12">
+            <div class="flex items-center space-x-2">
+                
+                    <a href="/archives/2026/02/"
+                        class="px-4 py-2 surface-panel rounded-lg text-gray-700 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"></path></svg>
+                            上一页
+                    </a>
+                    
+
+                        <span
+                            class="px-4 py-2 bg-primary-600/90 backdrop-blur-sm text-white rounded-lg font-medium shadow-lg shadow-primary-500/30">
+                            2 / 2
+                        </span>
+
+                        
             </div>
-        </div>
-    </section>
+        </nav>
+        
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 绑定"显示更多"按钮事件
+        document.querySelectorAll('.expand-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const index = this.getAttribute('data-index');
+                toggleContent(index);
+            });
+        });
+    });
+
+    function toggleContent(index) {
+        const preview = document.getElementById('preview-' + index);
+        const full = document.getElementById('full-' + index);
+        const btn = document.getElementById('btn-' + index);
+        const expandText = btn.querySelector('.expand-text');
+        const expandIcon = btn.querySelector('.expand-icon');
+
+        if (full.classList.contains('post-hidden')) {
+            // 展开内容
+            preview.classList.add('post-hidden');
+            full.classList.remove('post-hidden');
+            full.classList.add('post-visible');
+            expandText.textContent = '收起';
+            expandIcon.style.transform = 'rotate(180deg)';
+        } else {
+            // 折叠内容
+            preview.classList.remove('post-hidden');
+            full.classList.add('post-hidden');
+            full.classList.remove('post-visible');
+            expandText.textContent = '显示更多';
+            expandIcon.style.transform = 'rotate(0deg)';
+        }
+    }
+</script>
+
+<style>
+    .expand-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .post-content-preview {
+        position: relative;
+    }
+
+    .post-content-preview-wrapper {
+        max-height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .post-hidden {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .post-visible {
+        max-height: none;
+        opacity: 1;
+    }
+</style>
 
                                     </div>
                                 </div>
