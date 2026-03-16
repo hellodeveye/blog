@@ -254,6 +254,914 @@
                 <div class="flex flex-col">
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold mb-3">
+                            <a href="/2026/03/16/2026-03-16-GSD-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-%E4%BB%8E%E5%AE%89%E8%A3%85%E5%88%B0%E5%AE%8C%E6%95%B4%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81/"
+                                class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                GSD 使用指南：面向 Claude Code / Codex 的硬核工作流
+                            </a>
+                        </h3>
+
+                        
+
+                            
+                                <div class="post-content-container mb-4">
+                                    <div class="post-content-preview leading-relaxed"
+                                        id="preview-0">
+                                        <div class="post-content-preview-wrapper">
+                                            <div class="post-content" data-content-type="preview">
+                                                <p><a href="https://github.com/gsd-build/get-shit-done">GSD</a> 不是脚手架，而是一套给 AI 编程工具用的规格驱动工作流。它的目标很明确：把长任务拆成多个短上下文，降低 context rot，让规划、执行、验证都可追踪。</p>
+<h2 id="GSD-解决什么问题">GSD 解决什么问题</h2>
+<p>典型 AI 编程失效路径是：</p>
+<ul>
+<li>一个会话里同时做需求澄清、方案设计、编码、验收</li>
+<li>上下文越滚越大，后半段质量下降</li>
+<li>计划过大，执行不可验证</li>
+<li>写完代码，但没有可靠验收闭环</li>
+</ul>
+<p>GSD 的做法是把流程拆成阶段，并把状态落盘到 <code>.planning/</code>。核心文件包括：</p>
+<ul>
+<li><code>PROJECT.md</code></li>
+<li><code>REQUIREMENTS.md</code></li>
+<li><code>ROADMAP.md</code></li>
+<li><code>STATE.md</code></li>
+<li><code>config.json</code></li>
+<li><code>phases/</code></li>
+</ul>
+<p>适合需要跨会话推进、分阶段交付、保留验收记录的项目。</p>
+<h2 id="支持的运行时">支持的运行时</h2>
+<ul>
+<li>Claude Code</li>
+<li>Codex</li>
+<li>Gemini CLI</li>
+<li>OpenCode</li>
+</ul>
+<p>命令前缀不同：</p>
+<ul>
+<li>Claude Code / Gemini: <code>/gsd:help</code></li>
+<li>OpenCode: <code>/gsd-help</code></li>
+<li>Codex: <code>$gsd-help</code></li>
+</ul>
+<h2 id="安装">安装</h2>
+<p>最简单的方式：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc@latest</span></span>
+<span class="line"></span></code></pre>
+<p>非交互安装：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --claude</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --global</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --codex</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --global</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --gemini</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --global</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --opencode</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --global</span></span>
+<span class="line"></span></code></pre>
+<p>只装当前项目，把 <code>--global</code> 换成 <code>--local</code>。</p>
+<p>安装完成后验证：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># Claude Code / Gemini</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:help</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># OpenCode</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd-help</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># Codex</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#9CDCFE">$gsd</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">-help</span></span>
+<span class="line"></span></code></pre>
+<h2 id="标准工作流">标准工作流</h2>
+<p>完整链路如下：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:new-project</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/clear</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:discuss-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:ui-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:plan-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:execute-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:verify-work</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:ui-review</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"></span></code></pre>
+<p>非前端阶段可跳过 <code>ui-phase</code> 和 <code>ui-review</code>。</p>
+<h3 id="工作流流程图">工作流流程图</h3>
+<pre class="mermaid">flowchart TD
+    A["/gsd:new-project<br/>初始化项目上下文"] --> B["/gsd:discuss-phase N<br/>锁定实现偏好"]
+    B --> C{"是否包含前端/UI?"}
+    C -->|是| D["/gsd:ui-phase N<br/>生成 UI-SPEC"]
+    C -->|否| E["/gsd:plan-phase N<br/>研究 + 规划 + 校验"]
+    D --> E
+    E --> F["/gsd:execute-phase N<br/>按 wave 执行计划"]
+    F --> G["/gsd:verify-work N<br/>人工验收"]
+    G --> H{"验收是否通过?"}
+    H -->|否| I["生成修复计划"]
+    I --> F
+    H -->|是| J{"是否还有下一阶段?"}
+    J -->|是| B
+    J -->|否| K["/gsd:audit-milestone"]
+    K --> L["/gsd:complete-milestone"]</pre>
+<h3 id="核心命令表">核心命令表</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>何时使用</th>
+<th>主要产物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/gsd:new-project</code></td>
+<td>初始化项目上下文、需求和路线图</td>
+<td>新项目开始时</td>
+<td><code>PROJECT.md</code>、<code>REQUIREMENTS.md</code>、<code>ROADMAP.md</code>、<code>STATE.md</code></td>
+</tr>
+<tr>
+<td><code>/gsd:new-project --auto @prd.md</code></td>
+<td>从现有文档自动初始化</td>
+<td>已有 PRD 或需求文档时</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>/gsd:discuss-phase N</code></td>
+<td>锁定当前阶段的实现偏好</td>
+<td>规划前</td>
+<td><code>CONTEXT.md</code></td>
+</tr>
+<tr>
+<td><code>/gsd:ui-phase N</code></td>
+<td>为前端阶段生成设计约束</td>
+<td><code>discuss-phase</code> 之后、<code>plan-phase</code> 之前</td>
+<td><code>UI-SPEC.md</code></td>
+</tr>
+<tr>
+<td><code>/gsd:plan-phase N</code></td>
+<td>研究当前阶段并拆出可执行计划</td>
+<td>执行前</td>
+<td><code>RESEARCH.md</code>、<code>PLAN.md</code>、<code>VALIDATION.md</code></td>
+</tr>
+<tr>
+<td><code>/gsd:execute-phase N</code></td>
+<td>按依赖关系执行全部计划</td>
+<td>计划确认后</td>
+<td><code>SUMMARY.md</code>、<code>VERIFICATION.md</code>、原子提交</td>
+</tr>
+<tr>
+<td><code>/gsd:verify-work N</code></td>
+<td>人工验收并生成修复闭环</td>
+<td>执行完成后</td>
+<td><code>UAT.md</code>、修复计划</td>
+</tr>
+<tr>
+<td><code>/gsd:ui-review N</code></td>
+<td>对已实现 UI 做视觉审查</td>
+<td>前端阶段验收后</td>
+<td><code>UI-REVIEW.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="补充命令表">补充命令表</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/gsd:map-codebase</code></td>
+<td>分析已有代码库结构和约定</td>
+<td>老项目、接手项目、重构前</td>
+</tr>
+<tr>
+<td><code>/gsd:quick</code></td>
+<td>用短流程处理单次任务</td>
+<td>小功能、修 bug、配置修改</td>
+</tr>
+<tr>
+<td><code>/gsd:progress</code></td>
+<td>查看当前阶段和下一步</td>
+<td>会话中途、恢复工作前</td>
+</tr>
+<tr>
+<td><code>/gsd:resume-work</code></td>
+<td>恢复上一次工作上下文</td>
+<td>换会话继续开发</td>
+</tr>
+<tr>
+<td><code>/gsd:pause-work</code></td>
+<td>生成交接上下文</td>
+<td>中途暂停时</td>
+</tr>
+<tr>
+<td><code>/gsd:settings</code></td>
+<td>修改 workflow 和模型配置</td>
+<td>调整成本、质量、自动化强度</td>
+</tr>
+<tr>
+<td><code>/gsd:set-profile &lt;profile&gt;</code></td>
+<td>切换模型策略</td>
+<td>在 <code>quality / balanced / budget</code> 间切换</td>
+</tr>
+<tr>
+<td><code>/gsd:add-phase</code></td>
+<td>在路线图末尾追加阶段</td>
+<td>新增范围时</td>
+</tr>
+<tr>
+<td><code>/gsd:insert-phase N</code></td>
+<td>在中间插入紧急阶段</td>
+<td>中途插单时</td>
+</tr>
+<tr>
+<td><code>/gsd:remove-phase N</code></td>
+<td>删除未来阶段并重排编号</td>
+<td>砍需求时</td>
+</tr>
+<tr>
+<td><code>/gsd:audit-milestone</code></td>
+<td>检查里程碑是否达成完成定义</td>
+<td>发布前</td>
+</tr>
+<tr>
+<td><code>/gsd:complete-milestone</code></td>
+<td>归档里程碑并打 tag</td>
+<td>里程碑收尾时</td>
+</tr>
+</tbody>
+</table>
+<h3 id="阶段职责表">阶段职责表</h3>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>输入重点</th>
+<th>输出重点</th>
+<th>风险点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>new-project</code></td>
+<td>项目目标、范围、技术栈</td>
+<td>项目上下文和路线图</td>
+<td>需求边界不清</td>
+</tr>
+<tr>
+<td><code>discuss-phase</code></td>
+<td>设计偏好、实现边界、非目标</td>
+<td><code>CONTEXT.md</code></td>
+<td>跳过后会出现默认假设</td>
+</tr>
+<tr>
+<td><code>plan-phase</code></td>
+<td>当前阶段目标、上下文、研究结果</td>
+<td>原子化计划文件</td>
+<td>phase 过大导致计划失真</td>
+</tr>
+<tr>
+<td><code>execute-phase</code></td>
+<td>已确认的 plan</td>
+<td>代码、提交、总结</td>
+<td>plan 粒度过大或依赖关系混乱</td>
+</tr>
+<tr>
+<td><code>verify-work</code></td>
+<td>阶段交付结果</td>
+<td><code>UAT.md</code>、修复计划</td>
+<td>只看测试不做人工验收</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Demo-1：新建-Todo-Web-App">Demo 1：新建 Todo Web App</h2>
+<p>目标：</p>
+<ul>
+<li>Next.js + TypeScript + SQLite</li>
+<li>单用户</li>
+<li>支持新增、完成、删除</li>
+</ul>
+<p>执行顺序：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:new-project</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:discuss-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:ui-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:plan-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:execute-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:verify-work</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"></span></code></pre>
+<p><code>new-project</code> 输入示例：</p>
+<pre data-language="text" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span>做一个 Todo Web App。</span></span>
+<span class="line"><span>技术栈是 Next.js + TypeScript + SQLite。</span></span>
+<span class="line"><span>第一版不做登录，只做单用户。</span></span>
+<span class="line"><span>目标是完成增删改查闭环，移动端可用。</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><code>discuss-phase 1</code> 输入示例：</p>
+<pre data-language="text" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span>页面保持高信息密度，不做营销风格设计。</span></span>
+<span class="line"><span>列表项支持快速完成和删除。</span></span>
+<span class="line"><span>空状态必须给明确操作提示。</span></span>
+<span class="line"><span>移动端点击区域要足够大。</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><code>plan-phase 1</code> 之后检查：</p>
+<ul>
+<li>每个 plan 范围足够小</li>
+<li>每个 plan 都有明确 verify 步骤</li>
+</ul>
+<p><code>verify-work 1</code> 检查项：</p>
+<ol>
+<li>新建待办是否成功</li>
+<li>状态切换是否即时生效</li>
+<li>删除是否可恢复或至少行为一致</li>
+<li>刷新后数据是否存在</li>
+<li>移动端交互是否误触</li>
+</ol>
+<h2 id="Demo-2：在现有项目中追加功能">Demo 2：在现有项目中追加功能</h2>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:map-codebase</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:new-project</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:discuss-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:plan-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:execute-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:verify-work</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"></span></code></pre>
+<p><code>map-codebase</code> 会生成：</p>
+<ul>
+<li><code>STACK.md</code></li>
+<li><code>ARCHITECTURE.md</code></li>
+<li><code>STRUCTURE.md</code></li>
+<li><code>CONVENTIONS.md</code></li>
+<li><code>TESTING.md</code></li>
+<li><code>INTEGRATIONS.md</code></li>
+<li><code>CONCERNS.md</code></li>
+</ul>
+<p>后续规划会直接基于现有结构。</p>
+<p>小需求可直接用：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:quick</span></span>
+<span class="line"></span></code></pre>
+<p>例如：</p>
+<pre data-language="text" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span>为博客新增文章搜索页，支持标题和摘要匹配，保持现有站点风格。</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>适用场景：</p>
+<ul>
+<li>小功能</li>
+<li>bug 修复</li>
+<li>配置改动</li>
+<li>一次性维护任务</li>
+</ul>
+<h2 id="最值得先掌握的命令">最值得先掌握的命令</h2>
+<ul>
+<li><code>/gsd:help</code></li>
+<li><code>/gsd:new-project</code></li>
+<li><code>/gsd:discuss-phase</code></li>
+<li><code>/gsd:plan-phase</code></li>
+<li><code>/gsd:execute-phase</code></li>
+<li><code>/gsd:verify-work</code></li>
+<li><code>/gsd:map-codebase</code></li>
+<li><code>/gsd:quick</code></li>
+</ul>
+<h3 id="命令体系思维导图">命令体系思维导图</h3>
+<pre class="mermaid">mindmap
+  root((GSD))
+    初始化
+      /gsd:new-project
+      /gsd:map-codebase
+    阶段推进
+      /gsd:discuss-phase
+      /gsd:ui-phase
+      /gsd:plan-phase
+      /gsd:execute-phase
+      /gsd:verify-work
+      /gsd:ui-review
+    导航恢复
+      /gsd:progress
+      /gsd:resume-work
+      /gsd:pause-work
+    快速任务
+      /gsd:quick
+    路线图调整
+      /gsd:add-phase
+      /gsd:insert-phase
+      /gsd:remove-phase
+    配置
+      /gsd:settings
+      /gsd:set-profile
+    收尾发布
+      /gsd:audit-milestone
+      /gsd:complete-milestone</pre>
+<h2 id="配置建议">配置建议</h2>
+<p>配置文件是 <code>.planning/config.json</code>。</p>
+<h3 id="mode"><code>mode</code></h3>
+<ul>
+<li><code>interactive</code>: 默认，适合大多数项目</li>
+<li><code>yolo</code>: 自动化更强，适合熟练用户</li>
+</ul>
+<h3 id="granularity"><code>granularity</code></h3>
+<ul>
+<li><code>coarse</code></li>
+<li><code>standard</code></li>
+<li><code>fine</code></li>
+</ul>
+<p>阶段越复杂，越适合 <code>fine</code>。</p>
+<h3 id="model-profile"><code>model_profile</code></h3>
+<ul>
+<li><code>quality</code></li>
+<li><code>balanced</code></li>
+<li><code>budget</code></li>
+<li><code>inherit</code></li>
+</ul>
+<p>建议：</p>
+<ul>
+<li>原型期：<code>budget</code></li>
+<li>常规开发：<code>balanced</code></li>
+<li>关键阶段：<code>quality</code></li>
+</ul>
+<h3 id="workflow-开关">workflow 开关</h3>
+<ul>
+<li><code>workflow.research</code></li>
+<li><code>workflow.plan_check</code></li>
+<li><code>workflow.verifier</code></li>
+<li><code>workflow.nyquist_validation</code></li>
+<li><code>workflow.ui_phase</code></li>
+<li><code>workflow.ui_safety_gate</code></li>
+</ul>
+<p>不熟悉领域时，建议保持默认；只做快速原型时再酌情关闭。</p>
+<h2 id="典型误区">典型误区</h2>
+<h3 id="跳过-discuss-phase">跳过 <code>discuss-phase</code></h3>
+<p>常见结果不是功能错误，而是实现风格偏离预期。AI 会用默认判断填满灰区。</p>
+<h3 id="phase-切太大">phase 切太大</h3>
+<p>如果一个阶段同时覆盖数据库、API、前端、权限、测试、部署，plan 往往会失真。GSD 不是拿来吞掉模糊范围的。</p>
+<h3 id="不做-verify-work">不做 <code>verify-work</code></h3>
+<p>测试通过不等于功能完成。尤其是交互、空状态、错误流程、移动端兼容这类问题，必须人工验收。</p>
+<h3 id="老项目不跑-map-codebase">老项目不跑 <code>map-codebase</code></h3>
+<p>这会增加“风格不一致”和“破坏现有结构”的概率。</p>
+<h2 id="结论">结论</h2>
+<p>GSD 的价值在于把 AI 编程从单轮 prompt 提升为阶段化工作流，更适合多阶段任务和持续交付。</p>
+<p>如果你的项目已经开始出现需求拆分、阶段推进、跨会话恢复、验收闭环这些问题，GSD 值得直接上手。</p>
+
+                                            </div>
+                                        </div>
+                                        
+                                            <div class="content-fade"></div>
+                                            
+                                    </div>
+                                    
+                                        <div class="post-content-full leading-relaxed post-hidden"
+                                            id="full-0">
+                                            <div class="post-content" data-content-type="full">
+                                                <p><a href="https://github.com/gsd-build/get-shit-done">GSD</a> 不是脚手架，而是一套给 AI 编程工具用的规格驱动工作流。它的目标很明确：把长任务拆成多个短上下文，降低 context rot，让规划、执行、验证都可追踪。</p>
+<h2 id="GSD-解决什么问题">GSD 解决什么问题</h2>
+<p>典型 AI 编程失效路径是：</p>
+<ul>
+<li>一个会话里同时做需求澄清、方案设计、编码、验收</li>
+<li>上下文越滚越大，后半段质量下降</li>
+<li>计划过大，执行不可验证</li>
+<li>写完代码，但没有可靠验收闭环</li>
+</ul>
+<p>GSD 的做法是把流程拆成阶段，并把状态落盘到 <code>.planning/</code>。核心文件包括：</p>
+<ul>
+<li><code>PROJECT.md</code></li>
+<li><code>REQUIREMENTS.md</code></li>
+<li><code>ROADMAP.md</code></li>
+<li><code>STATE.md</code></li>
+<li><code>config.json</code></li>
+<li><code>phases/</code></li>
+</ul>
+<p>适合需要跨会话推进、分阶段交付、保留验收记录的项目。</p>
+<h2 id="支持的运行时">支持的运行时</h2>
+<ul>
+<li>Claude Code</li>
+<li>Codex</li>
+<li>Gemini CLI</li>
+<li>OpenCode</li>
+</ul>
+<p>命令前缀不同：</p>
+<ul>
+<li>Claude Code / Gemini: <code>/gsd:help</code></li>
+<li>OpenCode: <code>/gsd-help</code></li>
+<li>Codex: <code>$gsd-help</code></li>
+</ul>
+<h2 id="安装">安装</h2>
+<p>最简单的方式：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc@latest</span></span>
+<span class="line"></span></code></pre>
+<p>非交互安装：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --claude</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --global</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --codex</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --global</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --gemini</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --global</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">npx</span><span style="color:#0A3069;--shiki-dark:#CE9178"> get-shit-done-cc</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --opencode</span><span style="color:#0550AE;--shiki-dark:#569CD6"> --global</span></span>
+<span class="line"></span></code></pre>
+<p>只装当前项目，把 <code>--global</code> 换成 <code>--local</code>。</p>
+<p>安装完成后验证：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># Claude Code / Gemini</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:help</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># OpenCode</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd-help</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6E7781;--shiki-dark:#6A9955"># Codex</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#9CDCFE">$gsd</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">-help</span></span>
+<span class="line"></span></code></pre>
+<h2 id="标准工作流">标准工作流</h2>
+<p>完整链路如下：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:new-project</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/clear</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:discuss-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:ui-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:plan-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:execute-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:verify-work</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:ui-review</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"></span></code></pre>
+<p>非前端阶段可跳过 <code>ui-phase</code> 和 <code>ui-review</code>。</p>
+<h3 id="工作流流程图">工作流流程图</h3>
+<pre class="mermaid">flowchart TD
+    A["/gsd:new-project<br/>初始化项目上下文"] --> B["/gsd:discuss-phase N<br/>锁定实现偏好"]
+    B --> C{"是否包含前端/UI?"}
+    C -->|是| D["/gsd:ui-phase N<br/>生成 UI-SPEC"]
+    C -->|否| E["/gsd:plan-phase N<br/>研究 + 规划 + 校验"]
+    D --> E
+    E --> F["/gsd:execute-phase N<br/>按 wave 执行计划"]
+    F --> G["/gsd:verify-work N<br/>人工验收"]
+    G --> H{"验收是否通过?"}
+    H -->|否| I["生成修复计划"]
+    I --> F
+    H -->|是| J{"是否还有下一阶段?"}
+    J -->|是| B
+    J -->|否| K["/gsd:audit-milestone"]
+    K --> L["/gsd:complete-milestone"]</pre>
+<h3 id="核心命令表">核心命令表</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>何时使用</th>
+<th>主要产物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/gsd:new-project</code></td>
+<td>初始化项目上下文、需求和路线图</td>
+<td>新项目开始时</td>
+<td><code>PROJECT.md</code>、<code>REQUIREMENTS.md</code>、<code>ROADMAP.md</code>、<code>STATE.md</code></td>
+</tr>
+<tr>
+<td><code>/gsd:new-project --auto @prd.md</code></td>
+<td>从现有文档自动初始化</td>
+<td>已有 PRD 或需求文档时</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>/gsd:discuss-phase N</code></td>
+<td>锁定当前阶段的实现偏好</td>
+<td>规划前</td>
+<td><code>CONTEXT.md</code></td>
+</tr>
+<tr>
+<td><code>/gsd:ui-phase N</code></td>
+<td>为前端阶段生成设计约束</td>
+<td><code>discuss-phase</code> 之后、<code>plan-phase</code> 之前</td>
+<td><code>UI-SPEC.md</code></td>
+</tr>
+<tr>
+<td><code>/gsd:plan-phase N</code></td>
+<td>研究当前阶段并拆出可执行计划</td>
+<td>执行前</td>
+<td><code>RESEARCH.md</code>、<code>PLAN.md</code>、<code>VALIDATION.md</code></td>
+</tr>
+<tr>
+<td><code>/gsd:execute-phase N</code></td>
+<td>按依赖关系执行全部计划</td>
+<td>计划确认后</td>
+<td><code>SUMMARY.md</code>、<code>VERIFICATION.md</code>、原子提交</td>
+</tr>
+<tr>
+<td><code>/gsd:verify-work N</code></td>
+<td>人工验收并生成修复闭环</td>
+<td>执行完成后</td>
+<td><code>UAT.md</code>、修复计划</td>
+</tr>
+<tr>
+<td><code>/gsd:ui-review N</code></td>
+<td>对已实现 UI 做视觉审查</td>
+<td>前端阶段验收后</td>
+<td><code>UI-REVIEW.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="补充命令表">补充命令表</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/gsd:map-codebase</code></td>
+<td>分析已有代码库结构和约定</td>
+<td>老项目、接手项目、重构前</td>
+</tr>
+<tr>
+<td><code>/gsd:quick</code></td>
+<td>用短流程处理单次任务</td>
+<td>小功能、修 bug、配置修改</td>
+</tr>
+<tr>
+<td><code>/gsd:progress</code></td>
+<td>查看当前阶段和下一步</td>
+<td>会话中途、恢复工作前</td>
+</tr>
+<tr>
+<td><code>/gsd:resume-work</code></td>
+<td>恢复上一次工作上下文</td>
+<td>换会话继续开发</td>
+</tr>
+<tr>
+<td><code>/gsd:pause-work</code></td>
+<td>生成交接上下文</td>
+<td>中途暂停时</td>
+</tr>
+<tr>
+<td><code>/gsd:settings</code></td>
+<td>修改 workflow 和模型配置</td>
+<td>调整成本、质量、自动化强度</td>
+</tr>
+<tr>
+<td><code>/gsd:set-profile &lt;profile&gt;</code></td>
+<td>切换模型策略</td>
+<td>在 <code>quality / balanced / budget</code> 间切换</td>
+</tr>
+<tr>
+<td><code>/gsd:add-phase</code></td>
+<td>在路线图末尾追加阶段</td>
+<td>新增范围时</td>
+</tr>
+<tr>
+<td><code>/gsd:insert-phase N</code></td>
+<td>在中间插入紧急阶段</td>
+<td>中途插单时</td>
+</tr>
+<tr>
+<td><code>/gsd:remove-phase N</code></td>
+<td>删除未来阶段并重排编号</td>
+<td>砍需求时</td>
+</tr>
+<tr>
+<td><code>/gsd:audit-milestone</code></td>
+<td>检查里程碑是否达成完成定义</td>
+<td>发布前</td>
+</tr>
+<tr>
+<td><code>/gsd:complete-milestone</code></td>
+<td>归档里程碑并打 tag</td>
+<td>里程碑收尾时</td>
+</tr>
+</tbody>
+</table>
+<h3 id="阶段职责表">阶段职责表</h3>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>输入重点</th>
+<th>输出重点</th>
+<th>风险点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>new-project</code></td>
+<td>项目目标、范围、技术栈</td>
+<td>项目上下文和路线图</td>
+<td>需求边界不清</td>
+</tr>
+<tr>
+<td><code>discuss-phase</code></td>
+<td>设计偏好、实现边界、非目标</td>
+<td><code>CONTEXT.md</code></td>
+<td>跳过后会出现默认假设</td>
+</tr>
+<tr>
+<td><code>plan-phase</code></td>
+<td>当前阶段目标、上下文、研究结果</td>
+<td>原子化计划文件</td>
+<td>phase 过大导致计划失真</td>
+</tr>
+<tr>
+<td><code>execute-phase</code></td>
+<td>已确认的 plan</td>
+<td>代码、提交、总结</td>
+<td>plan 粒度过大或依赖关系混乱</td>
+</tr>
+<tr>
+<td><code>verify-work</code></td>
+<td>阶段交付结果</td>
+<td><code>UAT.md</code>、修复计划</td>
+<td>只看测试不做人工验收</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Demo-1：新建-Todo-Web-App">Demo 1：新建 Todo Web App</h2>
+<p>目标：</p>
+<ul>
+<li>Next.js + TypeScript + SQLite</li>
+<li>单用户</li>
+<li>支持新增、完成、删除</li>
+</ul>
+<p>执行顺序：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:new-project</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:discuss-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:ui-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:plan-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:execute-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:verify-work</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"></span></code></pre>
+<p><code>new-project</code> 输入示例：</p>
+<pre data-language="text" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span>做一个 Todo Web App。</span></span>
+<span class="line"><span>技术栈是 Next.js + TypeScript + SQLite。</span></span>
+<span class="line"><span>第一版不做登录，只做单用户。</span></span>
+<span class="line"><span>目标是完成增删改查闭环，移动端可用。</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><code>discuss-phase 1</code> 输入示例：</p>
+<pre data-language="text" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span>页面保持高信息密度，不做营销风格设计。</span></span>
+<span class="line"><span>列表项支持快速完成和删除。</span></span>
+<span class="line"><span>空状态必须给明确操作提示。</span></span>
+<span class="line"><span>移动端点击区域要足够大。</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><code>plan-phase 1</code> 之后检查：</p>
+<ul>
+<li>每个 plan 范围足够小</li>
+<li>每个 plan 都有明确 verify 步骤</li>
+</ul>
+<p><code>verify-work 1</code> 检查项：</p>
+<ol>
+<li>新建待办是否成功</li>
+<li>状态切换是否即时生效</li>
+<li>删除是否可恢复或至少行为一致</li>
+<li>刷新后数据是否存在</li>
+<li>移动端交互是否误触</li>
+</ol>
+<h2 id="Demo-2：在现有项目中追加功能">Demo 2：在现有项目中追加功能</h2>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:map-codebase</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:new-project</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:discuss-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:plan-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:execute-phase</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:verify-work</span><span style="color:#0550AE;--shiki-dark:#B5CEA8"> 1</span></span>
+<span class="line"></span></code></pre>
+<p><code>map-codebase</code> 会生成：</p>
+<ul>
+<li><code>STACK.md</code></li>
+<li><code>ARCHITECTURE.md</code></li>
+<li><code>STRUCTURE.md</code></li>
+<li><code>CONVENTIONS.md</code></li>
+<li><code>TESTING.md</code></li>
+<li><code>INTEGRATIONS.md</code></li>
+<li><code>CONCERNS.md</code></li>
+</ul>
+<p>后续规划会直接基于现有结构。</p>
+<p>小需求可直接用：</p>
+<pre data-language="bash" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#953800;--shiki-dark:#DCDCAA">/gsd:quick</span></span>
+<span class="line"></span></code></pre>
+<p>例如：</p>
+<pre data-language="text" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span>为博客新增文章搜索页，支持标题和摘要匹配，保持现有站点风格。</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>适用场景：</p>
+<ul>
+<li>小功能</li>
+<li>bug 修复</li>
+<li>配置改动</li>
+<li>一次性维护任务</li>
+</ul>
+<h2 id="最值得先掌握的命令">最值得先掌握的命令</h2>
+<ul>
+<li><code>/gsd:help</code></li>
+<li><code>/gsd:new-project</code></li>
+<li><code>/gsd:discuss-phase</code></li>
+<li><code>/gsd:plan-phase</code></li>
+<li><code>/gsd:execute-phase</code></li>
+<li><code>/gsd:verify-work</code></li>
+<li><code>/gsd:map-codebase</code></li>
+<li><code>/gsd:quick</code></li>
+</ul>
+<h3 id="命令体系思维导图">命令体系思维导图</h3>
+<pre class="mermaid">mindmap
+  root((GSD))
+    初始化
+      /gsd:new-project
+      /gsd:map-codebase
+    阶段推进
+      /gsd:discuss-phase
+      /gsd:ui-phase
+      /gsd:plan-phase
+      /gsd:execute-phase
+      /gsd:verify-work
+      /gsd:ui-review
+    导航恢复
+      /gsd:progress
+      /gsd:resume-work
+      /gsd:pause-work
+    快速任务
+      /gsd:quick
+    路线图调整
+      /gsd:add-phase
+      /gsd:insert-phase
+      /gsd:remove-phase
+    配置
+      /gsd:settings
+      /gsd:set-profile
+    收尾发布
+      /gsd:audit-milestone
+      /gsd:complete-milestone</pre>
+<h2 id="配置建议">配置建议</h2>
+<p>配置文件是 <code>.planning/config.json</code>。</p>
+<h3 id="mode"><code>mode</code></h3>
+<ul>
+<li><code>interactive</code>: 默认，适合大多数项目</li>
+<li><code>yolo</code>: 自动化更强，适合熟练用户</li>
+</ul>
+<h3 id="granularity"><code>granularity</code></h3>
+<ul>
+<li><code>coarse</code></li>
+<li><code>standard</code></li>
+<li><code>fine</code></li>
+</ul>
+<p>阶段越复杂，越适合 <code>fine</code>。</p>
+<h3 id="model-profile"><code>model_profile</code></h3>
+<ul>
+<li><code>quality</code></li>
+<li><code>balanced</code></li>
+<li><code>budget</code></li>
+<li><code>inherit</code></li>
+</ul>
+<p>建议：</p>
+<ul>
+<li>原型期：<code>budget</code></li>
+<li>常规开发：<code>balanced</code></li>
+<li>关键阶段：<code>quality</code></li>
+</ul>
+<h3 id="workflow-开关">workflow 开关</h3>
+<ul>
+<li><code>workflow.research</code></li>
+<li><code>workflow.plan_check</code></li>
+<li><code>workflow.verifier</code></li>
+<li><code>workflow.nyquist_validation</code></li>
+<li><code>workflow.ui_phase</code></li>
+<li><code>workflow.ui_safety_gate</code></li>
+</ul>
+<p>不熟悉领域时，建议保持默认；只做快速原型时再酌情关闭。</p>
+<h2 id="典型误区">典型误区</h2>
+<h3 id="跳过-discuss-phase">跳过 <code>discuss-phase</code></h3>
+<p>常见结果不是功能错误，而是实现风格偏离预期。AI 会用默认判断填满灰区。</p>
+<h3 id="phase-切太大">phase 切太大</h3>
+<p>如果一个阶段同时覆盖数据库、API、前端、权限、测试、部署，plan 往往会失真。GSD 不是拿来吞掉模糊范围的。</p>
+<h3 id="不做-verify-work">不做 <code>verify-work</code></h3>
+<p>测试通过不等于功能完成。尤其是交互、空状态、错误流程、移动端兼容这类问题，必须人工验收。</p>
+<h3 id="老项目不跑-map-codebase">老项目不跑 <code>map-codebase</code></h3>
+<p>这会增加“风格不一致”和“破坏现有结构”的概率。</p>
+<h2 id="结论">结论</h2>
+<p>GSD 的价值在于把 AI 编程从单轮 prompt 提升为阶段化工作流，更适合多阶段任务和持续交付。</p>
+<p>如果你的项目已经开始出现需求拆分、阶段推进、跨会话恢复、验收闭环这些问题，GSD 值得直接上手。</p>
+
+                                            </div>
+                                        </div>
+                                        
+                                </div>
+                                
+
+                                    <div
+                                        class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                                        <div class="flex items-center space-x-4">
+                                            <time datetime="2026-03-16T02:30:00.000Z" class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path></svg>
+                                                    2026-03-16
+                                            </time>
+
+                                            
+                                                <div class="flex items-center space-x-2">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h.008v.008H6V6Z"></path></svg>
+                                                        
+                                                            <a href="/categories/%E6%95%99%E7%A8%8B/"
+                                                                class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                                教程
+                                                            </a>
+                                                            
+                                                </div>
+                                                
+                                        </div>
+
+                                        
+                                            <button
+                                                class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
+                                                data-index="0" id="btn-0">
+                                                <span class="expand-text">显示更多</span>
+                                                <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                                            </button>
+                                            
+                                    </div>
+                    </div>
+                </div>
+            </article>
+            
+            <article class="surface-panel rounded-lg p-6">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold mb-3">
                             <a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
                                 class="text-gray-900 dark:text-gray-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                 Claude Code Agent Teams 上手指南：启用、协作与最佳实践
@@ -265,7 +1173,7 @@
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-0">
+                                        id="preview-1">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <p><img src="https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg" alt="Agent Teams 封面图"></p>
@@ -380,7 +1288,7 @@
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-0">
+                                            id="full-1">
                                             <div class="post-content" data-content-type="full">
                                                 <p><img src="https://oss.foundra.me/images/2026/02/07/agent-teams-cover.jpeg" alt="Agent Teams 封面图"></p>
 <p><strong>OpenClaw 社区先做到了多会话协作，Anthropic 直接把它做成了官方功能。</strong> 这不是一个小更新，而是 Claude Code 的工作方式从“单兵作战”升级为“团队协作”。这篇文章带你快速上手 Agent Teams：什么时候值得用、怎么开、怎么配、怎么管、哪里会踩坑。</p>
@@ -516,7 +1424,7 @@
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="0" id="btn-0">
+                                                data-index="1" id="btn-1">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -543,7 +1451,7 @@
                             
                                 <div class="post-content-container mb-4">
                                     <div class="post-content-preview leading-relaxed"
-                                        id="preview-1">
+                                        id="preview-2">
                                         <div class="post-content-preview-wrapper">
                                             <div class="post-content" data-content-type="preview">
                                                 <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
@@ -634,7 +1542,7 @@
                                     </div>
                                     
                                         <div class="post-content-full leading-relaxed post-hidden"
-                                            id="full-1">
+                                            id="full-2">
                                             <div class="post-content" data-content-type="full">
                                                 <p><img src="https://oss.foundra.me/images/2026/02/06/claude-code-tips/cover.png" alt="Claude Code Tips Cover"></p>
 <blockquote>
@@ -746,7 +1654,7 @@
                                         
                                             <button
                                                 class="expand-btn flex text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium items-center transition-colors text-sm"
-                                                data-index="1" id="btn-1">
+                                                data-index="2" id="btn-2">
                                                 <span class="expand-text">显示更多</span>
                                                 <svg class="w-4 h-4 ml-1 expand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -887,6 +1795,16 @@
 			<ul class="space-y-2">
 				
 					<li>
+						<a href="/2026/03/16/2026-03-16-GSD-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97-%E4%BB%8E%E5%AE%89%E8%A3%85%E5%88%B0%E5%AE%8C%E6%95%B4%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81/"
+						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
+							GSD 使用指南：面向 Claude Code / Codex 的硬核工作流
+						</a>
+						<time class="text-xs text-gray-400 dark:text-gray-500">
+							03-16
+						</time>
+					</li>
+					
+					<li>
 						<a href="/2026/02/24/2026-02-24-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
 						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 							2026-02-24 科技圈新闻汇总
@@ -920,16 +1838,6 @@
 						<a href="/2026/02/07/2026-02-07-claude-code-agent-teams-%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"
 						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
 							Claude Code Agent Teams 上手指南：启用、协作与最佳实践
-						</a>
-						<time class="text-xs text-gray-400 dark:text-gray-500">
-							02-07
-						</time>
-					</li>
-					
-					<li>
-						<a href="/2026/02/07/2026-02-07-%E7%A7%91%E6%8A%80%E5%9C%88%E6%96%B0%E9%97%BB%E6%B1%87%E6%80%BB/"
-						class="block text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors line-clamp-2">
-							2026-02-07 科技圈新闻汇总
 						</a>
 						<time class="text-xs text-gray-400 dark:text-gray-500">
 							02-07
@@ -975,7 +1883,7 @@
 									教程
 								</span>
 								<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
-									3
+									4
 								</span>
 							</a>
 							
@@ -1010,6 +1918,14 @@
 											</span>
 									</a>
 									
+									<a href="/tags/AI-%E7%BC%96%E7%A8%8B/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										AI 编程
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
 									<a href="/tags/Agent-Teams/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										Agent Teams
@@ -1022,7 +1938,7 @@
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										Claude Code
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
-												2
+												3
 											</span>
 									</a>
 									
@@ -1037,6 +1953,22 @@
 									<a href="/tags/Cloudflare/"
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										Cloudflare
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/Codex/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										Codex
+											<span class="ml-1 text-primary-600 dark:text-primary-300">
+												1
+											</span>
+									</a>
+									
+									<a href="/tags/GSD/"
+										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
+										GSD
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
 												1
 											</span>
@@ -1150,7 +2082,7 @@
 										class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors">
 										教程
 											<span class="ml-1 text-primary-600 dark:text-primary-300">
-												1
+												2
 											</span>
 									</a>
 									
@@ -1198,6 +2130,16 @@
 								</h4>
 								<div class="space-y-1">
 									
+										<a href="/archives/2026/03/"
+								class="flex items-center justify-between text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
+											<span>
+												2026年03月
+											</span>
+											<span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+												1
+											</span>
+										</a>
+										
 										<a href="/archives/2026/02/"
 								class="flex items-center justify-between text-sm text-muted hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">
 											<span>

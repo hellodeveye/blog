@@ -807,10 +807,10 @@
 <p>把常用操作流程封装成 <code>/command-name</code> 一键执行。</p>
 <p><strong>示例：创建合并请求</strong></p>
 <p><code>~/.claude/commands/yunxiao/merge-to-develop.md</code>：</p>
-<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#D4D4D4;--shiki-dark-font-weight:inherit">---</span></span>
-<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">allowed-tools: Bash(git status:*), MCP(get_current_user)</span></span>
-<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">description: 创建代码合并请求到 develop 分支</span></span>
-<span class="line"><span style="color:#0550AE;--shiki-light-font-weight:bold;--shiki-dark:#569CD6;--shiki-dark-font-weight:bold">---</span></span>
+<pre data-language="markdown" class="shiki shiki-themes github-light-default dark-plus" style="background-color:#ffffff;--shiki-dark-bg:#1E1E1E;color:#1f2328;--shiki-dark:#D4D4D4" tabindex="0"><code><span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">---</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">allowed-tools</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">Bash(git status:*), MCP(get_current_user)</span></span>
+<span class="line"><span style="color:#116329;--shiki-dark:#569CD6">description</span><span style="color:#1F2328;--shiki-dark:#D4D4D4">: </span><span style="color:#0A3069;--shiki-dark:#CE9178">创建代码合并请求到 develop 分支</span></span>
+<span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">---</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#1F2328;--shiki-dark:#D4D4D4">帮我在 yunxiao 中基于当前分支创建 MR 到 develop</span></span>
 <span class="line"></span></code></pre>
