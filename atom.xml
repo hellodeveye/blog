@@ -6,7 +6,7 @@
   <link href="https://foundra.me/atom.xml" rel="self"/>
   
   <link href="https://foundra.me/"/>
-  <updated>2026-03-16T03:20:29.585Z</updated>
+  <updated>2026-03-18T03:43:12.879Z</updated>
   <id>https://foundra.me/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>给 Claude Code 配一个好看的 tmux 状态栏</title>
+    <link href="https://foundra.me/2026/03/18/%E7%BB%99-Claude-Code-%E9%85%8D%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%9C%8B%E7%9A%84-tmux-%E7%8A%B6%E6%80%81%E6%A0%8F/"/>
+    <id>https://foundra.me/2026/03/18/%E7%BB%99-Claude-Code-%E9%85%8D%E4%B8%80%E4%B8%AA%E5%A5%BD%E7%9C%8B%E7%9A%84-tmux-%E7%8A%B6%E6%80%81%E6%A0%8F/</id>
+    <published>2026-03-17T16:00:00.000Z</published>
+    <updated>2026-03-18T03:43:12.879Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;用 Claude Code 写代码的时候，总觉得底部空空的，缺点什么。看到别人的终端底部有 Git 分支、文件变更、模型名，一整条信息栏，既实用又好看。研究了一下，其实就是 tmux 状态栏，配置不复杂，记录一下完整过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://oss.foundra.me/2026/03/18/tmux-statusbar.png&quot; alt=&quot;tmux 状态栏效果&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="开发工具" scheme="https://foundra.me/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="Claude Code" scheme="https://foundra.me/tags/Claude-Code/"/>
+    
+    <category term="tmux" scheme="https://foundra.me/tags/tmux/"/>
+    
+    <category term="Ghostty" scheme="https://foundra.me/tags/Ghostty/"/>
+    
+    <category term="终端美化" scheme="https://foundra.me/tags/%E7%BB%88%E7%AB%AF%E7%BE%8E%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title>GSD 使用指南：面向 Claude Code / Codex 的硬核工作流</title>
@@ -141,13 +167,13 @@
     
     <category term="Claude Code" scheme="https://foundra.me/tags/Claude-Code/"/>
     
-    <category term="工具" scheme="https://foundra.me/tags/%E5%B7%A5%E5%85%B7/"/>
-    
     <category term="Agent Teams" scheme="https://foundra.me/tags/Agent-Teams/"/>
     
     <category term="多智能体" scheme="https://foundra.me/tags/%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93/"/>
     
     <category term="OpenClaw" scheme="https://foundra.me/tags/OpenClaw/"/>
+    
+    <category term="工具" scheme="https://foundra.me/tags/%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
@@ -260,9 +286,9 @@
     
     <category term="AI" scheme="https://foundra.me/tags/AI/"/>
     
-    <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
     <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
+    <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
     <category term="机器学习" scheme="https://foundra.me/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
@@ -316,11 +342,11 @@
     
     <category term="AI" scheme="https://foundra.me/tags/AI/"/>
     
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
     <category term="游戏" scheme="https://foundra.me/tags/%E6%B8%B8%E6%88%8F/"/>
     
     <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
-    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
     
   </entry>
   
@@ -347,11 +373,11 @@
     
     <category term="AI" scheme="https://foundra.me/tags/AI/"/>
     
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
     <category term="游戏" scheme="https://foundra.me/tags/%E6%B8%B8%E6%88%8F/"/>
     
     <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
-    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
     
   </entry>
   
@@ -377,11 +403,11 @@
     
     <category term="AI" scheme="https://foundra.me/tags/AI/"/>
     
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
     <category term="游戏" scheme="https://foundra.me/tags/%E6%B8%B8%E6%88%8F/"/>
     
     <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
-    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
     
   </entry>
   
@@ -438,11 +464,11 @@
     
     <category term="AI" scheme="https://foundra.me/tags/AI/"/>
     
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
+    
     <category term="游戏" scheme="https://foundra.me/tags/%E6%B8%B8%E6%88%8F/"/>
     
     <category term="开发工具" scheme="https://foundra.me/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
-    
-    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
     
   </entry>
   
@@ -499,9 +525,9 @@
     
     <category term="AI" scheme="https://foundra.me/tags/AI/"/>
     
-    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
-    
     <category term="Kubernetes" scheme="https://foundra.me/tags/Kubernetes/"/>
+    
+    <category term="科技新闻" scheme="https://foundra.me/tags/%E7%A7%91%E6%8A%80%E6%96%B0%E9%97%BB/"/>
     
   </entry>
   
@@ -525,9 +551,9 @@
     <category term="教程" scheme="https://foundra.me/categories/%E6%95%99%E7%A8%8B/"/>
     
     
-    <category term="Clawdbot" scheme="https://foundra.me/tags/Clawdbot/"/>
-    
     <category term="AI" scheme="https://foundra.me/tags/AI/"/>
+    
+    <category term="Clawdbot" scheme="https://foundra.me/tags/Clawdbot/"/>
     
     <category term="Minimax" scheme="https://foundra.me/tags/Minimax/"/>
     
